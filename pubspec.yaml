@@ -180,6 +180,15 @@ flutter:
     - family: poppinsExtraBold
       fonts:
         - asset: assets/fonts/Poppins-ExtraBold.ttf
+    - family: poppinsLight
+      fonts:
+        - asset: assets/fonts/Poppins-Light.ttf
+    - family: poppinsMedium
+      fonts:
+        - asset: assets/fonts/Poppins-Medium.ttf
+    - family: poppinsRegular
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf

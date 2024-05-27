@@ -27,13 +27,10 @@ import '../../helper/custombtn.dart';
 import '../../helper/custombtn_new.dart';
 import '../../helper/getText.dart';
 import '../../utils/color_constant.dart';
-import '../../utils/screensize.dart';
-import '../../utils/size_config.dart';
 import '../../utils/stringConstants.dart';
 import '../../utils/toast.dart';
 import 'ImgView.dart';
 import 'controller/category_details_controller.dart';
-import 'model/reviewModel.dart';
 
 class CategoryDetailScreen extends GetView<CategoryDetailController> {
   const CategoryDetailScreen({key});
@@ -45,410 +42,256 @@ class CategoryDetailScreen extends GetView<CategoryDetailController> {
             .withOpacity(1.0);
     return Scaffold(
         backgroundColor: Colors.white,
-        body: Container(
-          height: MediaQuery.of(context).size.height,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Obx(() => GestureDetector(
-                      onTap: () {
-                        Get.to(ImgView(controller.photosList),
-                            transition: Transition.cupertino);
-                      },
-                      child: CachedNetworkImage(
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Obx(() => GestureDetector(
+                    onTap: () {
+                      // Get.to(ImgView(controller.photosList,0),
+                      //     transition: Transition.cupertino);
+                    },
+                    child: CachedNetworkImage(
+                      fit: BoxFit.cover,
+                      width: MediaQuery.of(context).size.width,
+                      height: 250,
+                      imageUrl: controller.image.value.toString(),
+                      errorWidget: (context, url, error) => Image.network(
+                        "https://raysensenbach.com/wp-content/uploads/2013/04/default.jpg",
                         fit: BoxFit.cover,
-                        width: MediaQuery.of(context).size.width,
                         height: 250,
-                        imageUrl: controller.image.value.toString(),
-                        errorWidget: (context, url, error) => Image.network(
-                          "https://raysensenbach.com/wp-content/uploads/2013/04/default.jpg",
-                          fit: BoxFit.cover,
-                          height: 250,
-                          width: MediaQuery.of(context).size.width,
-                        ),
+                        width: MediaQuery.of(context).size.width,
                       ),
-                    )),
-                /*Padding(
-                padding: const EdgeInsets.only(top: 30),
-                child: SizedBox(
-                    height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.width,
-                    child: Column(
-                      children: [
-                        Positioned(
-                            child: Obx(() => GestureDetector(
-                                  onTap: () {
-                                    Get.to(ImgView(controller.photosList),
-                                        transition: Transition.cupertino);
-                                  },
-                                  child: CachedNetworkImage(
+                    ),
+                  )),
+              /*Padding(
+              padding: const EdgeInsets.only(top: 30),
+              child: SizedBox(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  child: Column(
+                    children: [
+                      Positioned(
+                          child: Obx(() => GestureDetector(
+                                onTap: () {
+                                  Get.to(ImgView(controller.photosList),
+                                      transition: Transition.cupertino);
+                                },
+                                child: CachedNetworkImage(
+                                  fit: BoxFit.cover,
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 200,
+                                  imageUrl:
+                                      controller.image.value.toString(),
+                                  errorWidget: (context, url, error) =>
+                                      Image.network(
+                                    "https://raysensenbach.com/wp-content/uploads/2013/04/default.jpg",
                                     fit: BoxFit.cover,
-                                    width: MediaQuery.of(context).size.width,
                                     height: 200,
-                                    imageUrl:
-                                        controller.image.value.toString(),
-                                    errorWidget: (context, url, error) =>
-                                        Image.network(
-                                      "https://raysensenbach.com/wp-content/uploads/2013/04/default.jpg",
-                                      fit: BoxFit.cover,
-                                      height: 200,
-                                      width:
-                                          MediaQuery.of(context).size.width,
-                                    ),
+                                    width:
+                                        MediaQuery.of(context).size.width,
                                   ),
-                                ))),
+                                ),
+                              ))),
 
-                        */ /* */ /* */ /*Image.network(
-                                  controller.image.value.toString(),
-                                ))*/ /* */ /*),*/ /*
-                        Positioned(
-                          top: 192,
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height,
-                            child: Card(
-                              margin: EdgeInsets.zero,
-                              elevation: 3,
-                              shadowColor: Colors.black87,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                //set border radius more than 50% of height and width to make circle
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.only(top: 10, bottom: 0),
-                                child: Obx(
-                                  () => Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            left: 10, right: 10, top: 10),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width,
-                                              padding: new EdgeInsets.only(
-                                                  right: 13.0),
-                                              child: Text(
-                                                controller.name.value
-                                                    .toString(),
-                                                overflow:
-                                                    TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                  fontSize: 19.0,
-                                                  letterSpacing: 0.6,
-                                                  fontFamily: interSemiBold,
-                                                  color: ColorConstant
-                                                      .blackColorDark,
-                                                  fontWeight:
-                                                      FontWeight.w600,
-                                                ),
+                      */ /* */ /* */ /*Image.network(
+                                controller.image.value.toString(),
+                              ))*/ /* */ /*),*/ /*
+                      Positioned(
+                        top: 192,
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height,
+                          child: Card(
+                            margin: EdgeInsets.zero,
+                            elevation: 3,
+                            shadowColor: Colors.black87,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              //set border radius more than 50% of height and width to make circle
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.only(top: 10, bottom: 0),
+                              child: Obx(
+                                () => Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 10, right: 10, top: 10),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            padding: new EdgeInsets.only(
+                                                right: 13.0),
+                                            child: Text(
+                                              controller.name.value
+                                                  .toString(),
+                                              overflow:
+                                                  TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                fontSize: 19.0,
+                                                letterSpacing: 0.6,
+                                                fontFamily: interSemiBold,
+                                                color: ColorConstant
+                                                    .blackColorDark,
+                                                fontWeight:
+                                                    FontWeight.w600,
                                               ),
                                             ),
-                                            const SizedBox(
-                                              height: 0,
-                                            ),
-                                            Obx(
-                                                () =>
-                                                    controller.subCategory
-                                                                .length !=
-                                                            0
-                                                        ? Column(
-                                                            children: [
-                                                              const SizedBox(
-                                                                height: 5,
-                                                              ),
-                                                              Container(
-                                                                width: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width,
-                                                                child: ListView
-                                                                    .builder(
-                                                                  padding:
-                                                                      EdgeInsets
-                                                                          .zero,
-                                                                  physics:
-                                                                      const NeverScrollableScrollPhysics(),
-                                                                  shrinkWrap:
-                                                                      true,
-                                                                  scrollDirection:
-                                                                      Axis.vertical,
-                                                                  itemCount: controller
-                                                                      .subCategory
-                                                                      .length,
-                                                                  itemBuilder:
-                                                                      (context,
-                                                                          index) {
-                                                                    var model =
-                                                                        controller.subCategory[index];
-                                                                    return GestureDetector(
-                                                                      onTap:
-                                                                          () {},
-                                                                      child:
-                                                                          Container(
-                                                                        padding:
-                                                                            const EdgeInsets.symmetric(
-                                                                          horizontal: 1,
-                                                                        ),
-                                                                        child: getText(
-                                                                            title: "* " + model.subCategoryName.toString(),
-                                                                            size: 12,
-                                                                            fontFamily: interMedium,
-                                                                            lineHeight: 1.8,
-                                                                            color: ColorConstant.greyColor,
-                                                                            fontWeight: FontWeight.w500),
+                                          ),
+                                          const SizedBox(
+                                            height: 0,
+                                          ),
+                                          Obx(
+                                              () =>
+                                                  controller.subCategory
+                                                              .length !=
+                                                          0
+                                                      ? Column(
+                                                          children: [
+                                                            const SizedBox(
+                                                              height: 5,
+                                                            ),
+                                                            Container(
+                                                              width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width,
+                                                              child: ListView
+                                                                  .builder(
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .zero,
+                                                                physics:
+                                                                    const NeverScrollableScrollPhysics(),
+                                                                shrinkWrap:
+                                                                    true,
+                                                                scrollDirection:
+                                                                    Axis.vertical,
+                                                                itemCount: controller
+                                                                    .subCategory
+                                                                    .length,
+                                                                itemBuilder:
+                                                                    (context,
+                                                                        index) {
+                                                                  var model =
+                                                                      controller.subCategory[index];
+                                                                  return GestureDetector(
+                                                                    onTap:
+                                                                        () {},
+                                                                    child:
+                                                                        Container(
+                                                                      padding:
+                                                                          const EdgeInsets.symmetric(
+                                                                        horizontal: 1,
                                                                       ),
-                                                                    );
-                                                                  },
-                                                                ),
+                                                                      child: getText(
+                                                                          title: "* " + model.subCategoryName.toString(),
+                                                                          size: 12,
+                                                                          fontFamily: interMedium,
+                                                                          lineHeight: 1.8,
+                                                                          color: ColorConstant.greyColor,
+                                                                          fontWeight: FontWeight.w500),
+                                                                    ),
+                                                                  );
+                                                                },
                                                               ),
-                                                            ],
-                                                          )
-                                                        : SizedBox()),
-                                            const SizedBox(
-                                              height: 10,
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    controller.status
-                                                                .value ==
-                                                            "1"
-                                                        ? Text(
-                                                            "Open Now",
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                            style:
-                                                                TextStyle(
-                                                              fontSize: 13,
-                                                              fontFamily:
-                                                                  interMedium,
-                                                              color: ColorConstant
-                                                                  .greenColor,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
                                                             ),
-                                                          )
-                                                        : Text(
-                                                            "Close Now",
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                            style:
-                                                                TextStyle(
-                                                              fontSize: 14,
-                                                              fontFamily:
-                                                                  interMedium,
-                                                              letterSpacing:
-                                                                  0.6,
-                                                              color: ColorConstant
-                                                                  .greenColor,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                            ),
-                                                          ),
-                                                    Text(
-                                                      "",
-                                                      overflow: TextOverflow
-                                                          .ellipsis,
-                                                      style: new TextStyle(
-                                                        fontSize: 14.0,
-                                                        letterSpacing: 0.6,
-                                                        fontFamily:
-                                                            interMedium,
-                                                        color: ColorConstant
-                                                            .blackLight,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      controller.location.value != "" &&
-                                              controller.location.value !=
-                                                  ""
-                                          */ /* controller.location.value
-                                                  .toString() !=
-                                              "null"*/ /*
-                                          ? Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: 6, right: 10),
-                                              child: Column(
+                                                          ],
+                                                        )
+                                                      : SizedBox()),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment
+                                                    .spaceBetween,
+                                            children: [
+                                              Row(
                                                 children: [
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                top: 3),
-                                                        child: Image.asset(
-                                                          width: 20,
-                                                          height: 20,
-                                                          AppImages
-                                                              .location,
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        width: 2,
-                                                      ),
-                                                      Container(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width -
-                                                            50,
-                                                        padding:
-                                                            new EdgeInsets
-                                                                .only(
-                                                                right:
-                                                                    13.0),
-                                                        child: Text(
-                                                          softWrap: true,
-                                                          controller
-                                                              .location
-                                                              .value
-                                                              .toString(),
-                                                          // overflow: TextOverflow.ellipsis,
-                                                          style: TextStyle(
-                                                            fontSize: 12.0,
-                                                            fontFamily:
-                                                                interMedium,
-                                                            color: ColorConstant
-                                                                .greyColor,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w600,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                ],
-                                              ),
-                                            )
-                                          : SizedBox(),
-                                      controller.distance.value
-                                                  .toString() !=
-                                              ""
-                                          ? Padding(
-                                              padding:
-                                                  const EdgeInsets.only(
-                                                      left: 10, top: 2),
-                                              child: Column(
-                                                children: [
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Image.asset(
-                                                        width: 15,
-                                                        color: ColorConstant
-                                                            .greyColor,
-                                                        height: 15,
-                                                        AppImages.distance,
-                                                      ),
-                                                      SizedBox(
-                                                        width: 3,
-                                                      ),
-                                                      Container(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            1.2,
-                                                        padding:
-                                                            new EdgeInsets
-                                                                .only(
-                                                                right:
-                                                                    13.0),
-                                                        child: new Text(
-                                                          " " +
-                                                              controller
-                                                                  .distance
-                                                                  .toString() +
-                                                              " km",
+                                                  controller.status
+                                                              .value ==
+                                                          "1"
+                                                      ? Text(
+                                                          "Open Now",
                                                           overflow:
                                                               TextOverflow
                                                                   .ellipsis,
                                                           style:
-                                                              new TextStyle(
-                                                            fontSize: 13.0,
+                                                              TextStyle(
+                                                            fontSize: 13,
                                                             fontFamily:
                                                                 interMedium,
                                                             color: ColorConstant
-                                                                .greyColor,
+                                                                .greenColor,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500,
+                                                          ),
+                                                        )
+                                                      : Text(
+                                                          "Close Now",
+                                                          overflow:
+                                                              TextOverflow
+                                                                  .ellipsis,
+                                                          style:
+                                                              TextStyle(
+                                                            fontSize: 14,
+                                                            fontFamily:
+                                                                interMedium,
+                                                            letterSpacing:
+                                                                0.6,
+                                                            color: ColorConstant
+                                                                .greenColor,
                                                             fontWeight:
                                                                 FontWeight
                                                                     .w500,
                                                           ),
                                                         ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                  SizedBox(
-                                                    height: 15,
+                                                  Text(
+                                                    "",
+                                                    overflow: TextOverflow
+                                                        .ellipsis,
+                                                    style: new TextStyle(
+                                                      fontSize: 14.0,
+                                                      letterSpacing: 0.6,
+                                                      fontFamily:
+                                                          interMedium,
+                                                      color: ColorConstant
+                                                          .blackLight,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
                                                   ),
                                                 ],
                                               ),
-                                            )
-                                          : SizedBox(),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            left: 10, right: 10, bottom: 1),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            GestureDetector(
-                                              onTap: () {
-                                                Get.toNamed(
-                                                    AppRoutes
-                                                        .helpSupportScreen,
-                                                    arguments: [
-                                                      'detail',
-                                                      controller
-                                                          .expertise.value
-                                                    ]);
-                                              },
-                                              child: SizedBox(
-                                                width:
-                                                    MediaQuery.of(context)
-                                                        .size
-                                                        .width,
-                                                child: Column(
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    controller.location.value != "" &&
+                                            controller.location.value !=
+                                                ""
+                                        */ /* controller.location.value
+                                                .toString() !=
+                                            "null"*/ /*
+                                        ? Padding(
+                                            padding: EdgeInsets.only(
+                                                left: 6, right: 10),
+                                            child: Column(
+                                              children: [
+                                                Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment
                                                           .start,
@@ -456,10 +299,203 @@ class CategoryDetailScreen extends GetView<CategoryDetailController> {
                                                       CrossAxisAlignment
                                                           .start,
                                                   children: [
-                                                    getText(
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsets.only(
+                                                              top: 3),
+                                                      child: Image.asset(
+                                                        width: 20,
+                                                        height: 20,
+                                                        AppImages
+                                                            .location,
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 2,
+                                                    ),
+                                                    Container(
+                                                      width: MediaQuery.of(
+                                                                  context)
+                                                              .size
+                                                              .width -
+                                                          50,
+                                                      padding:
+                                                          new EdgeInsets
+                                                              .only(
+                                                              right:
+                                                                  13.0),
+                                                      child: Text(
+                                                        softWrap: true,
+                                                        controller
+                                                            .location
+                                                            .value
+                                                            .toString(),
+                                                        // overflow: TextOverflow.ellipsis,
+                                                        style: TextStyle(
+                                                          fontSize: 12.0,
+                                                          fontFamily:
+                                                              interMedium,
+                                                          color: ColorConstant
+                                                              .greyColor,
+                                                          fontWeight:
+                                                              FontWeight
+                                                                  .w600,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                const SizedBox(
+                                                  height: 10,
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        : SizedBox(),
+                                    controller.distance.value
+                                                .toString() !=
+                                            ""
+                                        ? Padding(
+                                            padding:
+                                                const EdgeInsets.only(
+                                                    left: 10, top: 2),
+                                            child: Column(
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .start,
+                                                  children: [
+                                                    Image.asset(
+                                                      width: 15,
+                                                      color: ColorConstant
+                                                          .greyColor,
+                                                      height: 15,
+                                                      AppImages.distance,
+                                                    ),
+                                                    SizedBox(
+                                                      width: 3,
+                                                    ),
+                                                    Container(
+                                                      width: MediaQuery.of(
+                                                                  context)
+                                                              .size
+                                                              .width /
+                                                          1.2,
+                                                      padding:
+                                                          new EdgeInsets
+                                                              .only(
+                                                              right:
+                                                                  13.0),
+                                                      child: new Text(
+                                                        " " +
+                                                            controller
+                                                                .distance
+                                                                .toString() +
+                                                            " km",
+                                                        overflow:
+                                                            TextOverflow
+                                                                .ellipsis,
+                                                        style:
+                                                            new TextStyle(
+                                                          fontSize: 13.0,
+                                                          fontFamily:
+                                                              interMedium,
+                                                          color: ColorConstant
+                                                              .greyColor,
+                                                          fontWeight:
+                                                              FontWeight
+                                                                  .w500,
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: 15,
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        : SizedBox(),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 10, right: 10, bottom: 1),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () {
+                                              Get.toNamed(
+                                                  AppRoutes
+                                                      .helpSupportScreen,
+                                                  arguments: [
+                                                    'detail',
+                                                    controller
+                                                        .expertise.value
+                                                  ]);
+                                            },
+                                            child: SizedBox(
+                                              width:
+                                                  MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment
+                                                        .start,
+                                                children: [
+                                                  getText(
+                                                      title:
+                                                          "Kodago Card",
+                                                      size: 14,
+                                                      fontFamily:
+                                                          interSemiBold,
+                                                      color: ColorConstant
+                                                          .blackColorDark,
+                                                      fontWeight:
+                                                          FontWeight
+                                                              .w600),
+                                                  SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  getText(
+                                                      title: controller
+                                                          .kodagoCard
+                                                          .value,
+                                                      size: 12,
+                                                      fontFamily:
+                                                          interRegular,
+                                                      color: ColorConstant
+                                                          .kodagoCardUi,
+                                                      fontWeight:
+                                                          FontWeight
+                                                              .w400),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          controller.spacialOffer
+                                                      .length !=
+                                                  0
+                                              ? Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment
+                                                          .start,
+                                                  children: [
+                                                    const getText(
                                                         title:
-                                                            "Kodago Card",
-                                                        size: 14,
+                                                            "Special offers",
+                                                        size: 15,
                                                         fontFamily:
                                                             interSemiBold,
                                                         color: ColorConstant
@@ -468,839 +504,798 @@ class CategoryDetailScreen extends GetView<CategoryDetailController> {
                                                             FontWeight
                                                                 .w600),
                                                     SizedBox(
-                                                      height: 5,
+                                                      height: 15,
                                                     ),
-                                                    getText(
-                                                        title: controller
-                                                            .kodagoCard
-                                                            .value,
-                                                        size: 12,
-                                                        fontFamily:
-                                                            interRegular,
-                                                        color: ColorConstant
-                                                            .kodagoCardUi,
-                                                        fontWeight:
-                                                            FontWeight
-                                                                .w400),
+                                                    specialOffers(context)
                                                   ],
+                                                )
+                                              : SizedBox(),
+                                          const SizedBox(
+                                            height: 0,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 0, right: 0, bottom: 5),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            padding:
+                                                const EdgeInsets.only(
+                                                    top: 2, bottom: 0),
+                                            child: Row(
+                                              children: [
+                                                Expanded(
+                                                  child: Obx(
+                                                    () => GestureDetector(
+                                                      onTap: () {
+                                                        controller
+                                                            .selectedTabValue
+                                                            .value = 0;
+                                                      },
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: getText(
+                                                            title:
+                                                                "About Us",
+                                                            size: 13,
+                                                            fontFamily:
+                                                                interMedium,
+                                                            color: controller
+                                                                        .selectedTabValue
+                                                                        .value ==
+                                                                    0
+                                                                ? ColorConstant
+                                                                    .onBoardingBack
+                                                                : ColorConstant
+                                                                    .qrViewText,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w600),
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            controller.spacialOffer
-                                                        .length !=
-                                                    0
-                                                ? Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      const getText(
-                                                          title:
-                                                              "Special offers",
-                                                          size: 15,
-                                                          fontFamily:
-                                                              interSemiBold,
-                                                          color: ColorConstant
-                                                              .blackColorDark,
-                                                          fontWeight:
-                                                              FontWeight
-                                                                  .w600),
-                                                      SizedBox(
-                                                        height: 15,
+                                                Expanded(
+                                                  child: Obx(
+                                                    () => GestureDetector(
+                                                      onTap: () {
+                                                        controller
+                                                            .selectedTabValue
+                                                            .value = 1;
+                                                      },
+                                                      child: Column(
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(
+                                                                    8.0),
+                                                            child: getText(
+                                                                title:
+                                                                    "Menu",
+                                                                size: 13,
+                                                                fontFamily:
+                                                                    interMedium,
+                                                                color: controller.selectedTabValue.value == 1
+                                                                    ? ColorConstant
+                                                                        .onBoardingBack
+                                                                    : ColorConstant
+                                                                        .qrViewText,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
+                                                          ),
+                                                        ],
                                                       ),
-                                                      specialOffers(context)
-                                                    ],
-                                                  )
-                                                : SizedBox(),
-                                            const SizedBox(
-                                              height: 0,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  child: Obx(
+                                                    () => GestureDetector(
+                                                      onTap: () {
+                                                        controller
+                                                            .selectedTabValue
+                                                            .value = 2;
+                                                      },
+                                                      child: Column(
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(
+                                                                    8.0),
+                                                            child: getText(
+                                                                title:
+                                                                    "Review",
+                                                                size: 13,
+                                                                fontFamily:
+                                                                    interMedium,
+                                                                color: controller.selectedTabValue.value == 2
+                                                                    ? ColorConstant
+                                                                        .onBoardingBack
+                                                                    : ColorConstant
+                                                                        .qrViewText,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  child: Obx(
+                                                    () => GestureDetector(
+                                                      onTap: () {
+                                                        controller
+                                                            .selectedTabValue
+                                                            .value = 3;
+                                                      },
+                                                      child: Column(
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(
+                                                                    8.0),
+                                                            child: getText(
+                                                                title:
+                                                                    "Photos",
+                                                                size: 13,
+                                                                fontFamily:
+                                                                    interMedium,
+                                                                color: controller.selectedTabValue.value == 3
+                                                                    ? ColorConstant
+                                                                        .onBoardingBack
+                                                                    : ColorConstant
+                                                                        .qrViewText,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
-                                      Padding(
+                                    ),
+                                    Container(
+                                      height: 1,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10)),
+                                          color: Colors.black12),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Container(
+                                        height: MediaQuery.of(context)
+                                            .size
+                                            .height,
                                         padding: const EdgeInsets.only(
-                                            left: 0, right: 0, bottom: 5),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              padding:
-                                                  const EdgeInsets.only(
-                                                      top: 2, bottom: 0),
-                                              child: Row(
-                                                children: [
-                                                  Expanded(
-                                                    child: Obx(
-                                                      () => GestureDetector(
-                                                        onTap: () {
-                                                          controller
-                                                              .selectedTabValue
-                                                              .value = 0;
-                                                        },
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(8.0),
-                                                          child: getText(
-                                                              title:
-                                                                  "About Us",
-                                                              size: 13,
-                                                              fontFamily:
-                                                                  interMedium,
-                                                              color: controller
-                                                                          .selectedTabValue
-                                                                          .value ==
-                                                                      0
-                                                                  ? ColorConstant
-                                                                      .onBoardingBack
-                                                                  : ColorConstant
-                                                                      .qrViewText,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Expanded(
-                                                    child: Obx(
-                                                      () => GestureDetector(
-                                                        onTap: () {
-                                                          controller
-                                                              .selectedTabValue
-                                                              .value = 1;
-                                                        },
-                                                        child: Column(
-                                                          children: [
-                                                            Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .all(
-                                                                      8.0),
-                                                              child: getText(
-                                                                  title:
-                                                                      "Menu",
-                                                                  size: 13,
-                                                                  fontFamily:
-                                                                      interMedium,
-                                                                  color: controller.selectedTabValue.value == 1
-                                                                      ? ColorConstant
-                                                                          .onBoardingBack
-                                                                      : ColorConstant
-                                                                          .qrViewText,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Expanded(
-                                                    child: Obx(
-                                                      () => GestureDetector(
-                                                        onTap: () {
-                                                          controller
-                                                              .selectedTabValue
-                                                              .value = 2;
-                                                        },
-                                                        child: Column(
-                                                          children: [
-                                                            Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .all(
-                                                                      8.0),
-                                                              child: getText(
-                                                                  title:
-                                                                      "Review",
-                                                                  size: 13,
-                                                                  fontFamily:
-                                                                      interMedium,
-                                                                  color: controller.selectedTabValue.value == 2
-                                                                      ? ColorConstant
-                                                                          .onBoardingBack
-                                                                      : ColorConstant
-                                                                          .qrViewText,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Expanded(
-                                                    child: Obx(
-                                                      () => GestureDetector(
-                                                        onTap: () {
-                                                          controller
-                                                              .selectedTabValue
-                                                              .value = 3;
-                                                        },
-                                                        child: Column(
-                                                          children: [
-                                                            Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .all(
-                                                                      8.0),
-                                                              child: getText(
-                                                                  title:
-                                                                      "Photos",
-                                                                  size: 13,
-                                                                  fontFamily:
-                                                                      interMedium,
-                                                                  color: controller.selectedTabValue.value == 3
-                                                                      ? ColorConstant
-                                                                          .onBoardingBack
-                                                                      : ColorConstant
-                                                                          .qrViewText,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Container(
-                                        height: 1,
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10)),
-                                            color: Colors.black12),
-                                      ),
-                                      SizedBox(
-                                        height: 8,
-                                      ),
-                                      Container(
-                                          height: MediaQuery.of(context)
-                                              .size
-                                              .height,
-                                          padding: const EdgeInsets.only(
-                                              left: 2, right: 4),
-                                          child: tabViewData(context)),
-                                    ],
-                                  ),
+                                            left: 2, right: 4),
+                                        child: tabViewData(context)),
+                                  ],
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ],
-                    )),
-              ),*/
-                Card(
-                  margin: EdgeInsets.zero,
-                  elevation: 3,
-                  shadowColor: Colors.black87,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(0),
-                    //set border radius more than 50% of height and width to make circle
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 10, bottom: 0),
-                    child: Obx(
-                      () => Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding:
-                                EdgeInsets.only(left: 10, right: 10, top: 10),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                /*Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  padding: new EdgeInsets.only(right: 13.0),
-                                  child: Text(
-                                    controller.name.value.toString(),
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      fontSize: 19.0,
-                                      letterSpacing: 0.6,
-                                      fontFamily: interSemiBold,
-                                      color: ColorConstant.blackColorDark,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ),*/
-                                Container(
-                                  width: MediaQuery.of(context).size.width/1,
-                                  padding: new EdgeInsets.only(
-                                      right: 12.0),
-                                  child: Text(
-                                    softWrap: true,
-                                    controller.name.value.toString(),
-                                    style: new TextStyle(
-                                      fontSize: 19.0,
-                                      letterSpacing: 0.6,
-                                      fontFamily: interSemiBold,
-                                      color: ColorConstant.blackColorDark,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                      ),
+                    ],
+                  )),
+            ),*/
+              Card(
+                margin: EdgeInsets.zero,
+                // elevation: 3,
+                elevation: 0,
+                // shadowColor: Colors.black87,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(0),
+                  //set border radius more than 50% of height and width to make circle
+                ),
+                child: Padding(
+                  padding:const EdgeInsets.only(top: 10, bottom: 0),
+                  child: Obx(
+                    () => Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding:
+                             const EdgeInsets.only(left: 10, right: 10, top: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              /*Container(
+                                width: MediaQuery.of(context).size.width,
+                                padding: new EdgeInsets.only(right: 13.0),
+                                child: Text(
+                                  controller.name.value.toString(),
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 19.0,
+                                    letterSpacing: 0.6,
+                                    fontFamily: interSemiBold,
+                                    color: ColorConstant.blackColorDark,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
-                                const SizedBox(
-                                  height: 0,
+                              ),*/
+                              Container(
+                                width: MediaQuery.of(context).size.width/1,
+                                padding: new EdgeInsets.only(
+                                    right: 12.0),
+                                child: Text(
+                                  softWrap: true,
+                                  controller.name.value.toString(),
+                                  style: new TextStyle(
+                                    fontSize: 19.0,
+                                    letterSpacing: 0.6,
+                                    fontFamily: interSemiBold,
+                                    color: ColorConstant.blackColorDark,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
-                                Obx(() => controller.subCategory.length != 0
-                                    ? Column(
-                                        children: [
-                                          const SizedBox(
-                                            height: 5,
-                                          ),
-                                          Container(
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            child: ListView.builder(
-                                              padding: EdgeInsets.zero,
-                                              physics:
-                                                  const NeverScrollableScrollPhysics(),
-                                              shrinkWrap: true,
-                                              scrollDirection: Axis.vertical,
-                                              itemCount:
-                                                  controller.subCategory.length,
-                                              itemBuilder: (context, index) {
-                                                var model = controller
-                                                    .subCategory[index];
-                                                return GestureDetector(
-                                                  onTap: () {},
-                                                  child: Container(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                      horizontal: 1,
-                                                    ),
-                                                    child: getText(
-                                                        title: "* " +
-                                                            model
-                                                                .subCategoryName
-                                                                .toString(),
-                                                        size: 12,
-                                                        fontFamily: interMedium,
-                                                        lineHeight: 1.8,
-                                                        color: ColorConstant
-                                                            .greyColor,
-                                                        fontWeight:
-                                                            FontWeight.w500),
-                                                  ),
-                                                );
-                                              },
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                    : SizedBox()),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                controller.status.value != "" ?
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
+                              ),
+                              const SizedBox(
+                                height: 0,
+                              ),
+                              Obx(() => controller.subCategory.length != 0
+                                  ? Column(
                                       children: [
-                                        controller.status.value == "1"
-                                            ? Text(
-                                                "Open Now",
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                  fontSize: 13,
-                                                  fontFamily: interMedium,
-                                                  color:
-                                                      ColorConstant.greenColor,
-                                                  fontWeight: FontWeight.w500,
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Container(
+                                          width: MediaQuery.of(context)
+                                              .size
+                                              .width,
+                                          child: ListView.builder(
+                                            padding: EdgeInsets.zero,
+                                            physics:
+                                                const NeverScrollableScrollPhysics(),
+                                            shrinkWrap: true,
+                                            scrollDirection: Axis.vertical,
+                                            itemCount:
+                                                controller.subCategory.length,
+                                            itemBuilder: (context, index) {
+                                              var model = controller
+                                                  .subCategory[index];
+                                              return GestureDetector(
+                                                onTap: () {},
+                                                child: Container(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                    horizontal: 1,
+                                                  ),
+                                                  child: getText(
+                                                      title: "* " +
+                                                          model
+                                                              .subCategoryName
+                                                              .toString(),
+                                                      size: 12,
+                                                      fontFamily: interMedium,
+                                                      lineHeight: 1.8,
+                                                      color: ColorConstant
+                                                          .greyColor,
+                                                      fontWeight:
+                                                          FontWeight.w500),
                                                 ),
-                                              )
-                                            : Text(
-                                                "Close Now",
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontFamily: interMedium,
-                                                  letterSpacing: 0.6,
-                                                  color:
-                                                      ColorConstant.greenColor,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                              ),
-                                        Text(
-                                          "",
-                                          overflow: TextOverflow.ellipsis,
-                                          style: new TextStyle(
-                                            fontSize: 14.0,
-                                            letterSpacing: 0.6,
-                                            fontFamily: interMedium,
-                                            color: ColorConstant.blackLight,
-                                            fontWeight: FontWeight.w500,
+                                              );
+                                            },
                                           ),
                                         ),
                                       ],
-                                    ),
-                                  ],
-                                ):SizedBox(),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          controller.location.value != "" && controller.location.value != ""
-                              ? Padding(
-                                  padding: EdgeInsets.only(left: 6, right: 10),
-                                  child: Column(
+                                    )
+                                  : SizedBox()),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              controller.status.value != "" ?
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
                                     children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Padding(
-                                            padding: EdgeInsets.only(top: 3),
-                                            child: Image.asset(
-                                              width: 20,
-                                              height: 20,
-                                              AppImages.location,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 2,
-                                          ),
-                                          Container(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width -
-                                                50,
-                                            padding: new EdgeInsets.only(
-                                                right: 13.0),
-                                            child: Text(
-                                              softWrap: true,
-                                              controller.location.value
-                                                  .toString(),
-                                              // overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                fontSize: 12.0,
-                                                fontFamily: interMedium,
-                                                color: ColorConstant.greyColor,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              : SizedBox(),
-                          controller.distance.value.toString() != ""
-                              ? Padding(
-                                  padding:
-                                      const EdgeInsets.only(left: 10, top: 2),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Image.asset(
-                                            width: 15,
-                                            color: ColorConstant.greyColor,
-                                            height: 15,
-                                            AppImages.distance,
-                                          ),
-                                          SizedBox(
-                                            width: 3,
-                                          ),
-                                          Container(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                1.2,
-                                            padding: new EdgeInsets.only(
-                                                right: 13.0),
-                                            child: new Text(
-                                              " " +
-                                                  controller.distance
-                                                      .toString() +
-                                                  " km",
+                                      controller.status.value == "1"
+                                          ? Text(
+                                              "Open Now",
                                               overflow: TextOverflow.ellipsis,
-                                              style: new TextStyle(
-                                                fontSize: 13.0,
+                                              style: TextStyle(
+                                                fontSize: 13,
                                                 fontFamily: interMedium,
-                                                color: ColorConstant.greyColor,
+                                                color:
+                                                    ColorConstant.greenColor,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            )
+                                          : Text(
+                                              "Close Now",
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                fontFamily: interMedium,
+                                                letterSpacing: 0.6,
+                                                color:
+                                                    ColorConstant.greenColor,
                                                 fontWeight: FontWeight.w500,
                                               ),
                                             ),
-                                          )
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 15,
+                                      Text(
+                                        "",
+                                        overflow: TextOverflow.ellipsis,
+                                        style: new TextStyle(
+                                          fontSize: 14.0,
+                                          letterSpacing: 0.6,
+                                          fontFamily: interMedium,
+                                          color: ColorConstant.blackLight,
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                       ),
                                     ],
                                   ),
-                                )
-                              : SizedBox(),
-                          controller.kodagoCard.value != "" ?Padding(
-                            padding:
-                                EdgeInsets.only(left: 10, right: 10, bottom: 1),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    Get.toNamed(AppRoutes.helpSupportScreen,
-                                        arguments: [
-                                          'detail',
-                                          controller.kodagoCard.value
-                                        ]);
-                                  },
-                                  child: SizedBox(
-                                    width: MediaQuery.of(context).size.width,
-                                    child: Column(
+                                ],
+                              ):SizedBox(),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        controller.location.value != "" && controller.location.value != ""
+                            ? Padding(
+                                padding: EdgeInsets.only(left: 6, right: 10),
+                                child: Column(
+                                  children: [
+                                    Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        getText(
-                                            title: "Kodago Card",
-                                            size: 14,
-                                            fontFamily: interSemiBold,
-                                            color: ColorConstant.blackColorDark,
-                                            fontWeight: FontWeight.w600),
-                                        SizedBox(
-                                          height: 5,
+                                        Padding(
+                                          padding: EdgeInsets.only(top: 3),
+                                          child: Image.asset(
+                                            width: 20,
+                                            height: 20,
+                                            AppImages.location,
+                                          ),
                                         ),
-                                        getText(
-                                            title: controller.kodagoCard.value,
-                                            size: 12,
-                                            fontFamily: interRegular,
-                                            color: ColorConstant.kodagoCardUi,
-                                            fontWeight: FontWeight.w400),
+                                        SizedBox(
+                                          width: 2,
+                                        ),
+                                        Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width -
+                                              50,
+                                          padding: new EdgeInsets.only(
+                                              right: 13.0),
+                                          child: Text(
+                                            softWrap: true,
+                                            controller.location.value
+                                                .toString(),
+                                            // overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              fontSize: 12.0,
+                                              fontFamily: interMedium,
+                                              color: ColorConstant.greyColor,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ),
                                       ],
                                     ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : SizedBox(),
+                        controller.distance.value.toString() != ""
+                            ? Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 10, top: 2),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Image.asset(
+                                          width: 15,
+                                          color: ColorConstant.greyColor,
+                                          height: 15,
+                                          AppImages.distance,
+                                        ),
+                                        SizedBox(
+                                          width: 3,
+                                        ),
+                                        Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              1.2,
+                                          padding: new EdgeInsets.only(
+                                              right: 13.0),
+                                          child: new Text(
+                                            " " +
+                                                controller.distance
+                                                    .toString() +
+                                                " km",
+                                            overflow: TextOverflow.ellipsis,
+                                            style: new TextStyle(
+                                              fontSize: 13.0,
+                                              fontFamily: interMedium,
+                                              color: ColorConstant.greyColor,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 15,
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : SizedBox(),
+                        controller.kodagoCard.value != "" ?Padding(
+                          padding:
+                              EdgeInsets.only(left: 10, right: 10, bottom: 1),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Get.toNamed(AppRoutes.helpSupportScreen,
+                                      arguments: [
+                                        'detail',
+                                        controller.kodagoCard.value
+                                      ]);
+                                },
+                                child: SizedBox(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      getText(
+                                          title: "Kodago Card",
+                                          size: 14,
+                                          fontFamily: interSemiBold,
+                                          color: ColorConstant.blackColorDark,
+                                          fontWeight: FontWeight.w600),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      getText(
+                                          title: controller.kodagoCard.value,
+                                          size: 12,
+                                          fontFamily: interRegular,
+                                          color: ColorConstant.darkBlueColor,
+                                          fontWeight: FontWeight.w400),
+                                    ],
                                   ),
                                 ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                controller.spacialOffer.length != 0
-                                    ? Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          const getText(
-                                              title: "Special offers",
-                                              size: 15,
-                                              fontFamily: interSemiBold,
-                                              color:
-                                                  ColorConstant.blackColorDark,
-                                              fontWeight: FontWeight.w600),
-                                          SizedBox(
-                                            height: 15,
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              controller.spacialOffer.length != 0
+                                  ? Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const getText(
+                                            title: "Special offers",
+                                            size: 15,
+                                            fontFamily: interSemiBold,
+                                            color:
+                                                ColorConstant.blackColorDark,
+                                            fontWeight: FontWeight.w600),
+                                        SizedBox(
+                                          height: 15,
+                                        ),
+                                        specialOffers(context)
+                                      ],
+                                    )
+                                  : SizedBox(),
+                              const SizedBox(
+                                height: 0,
+                              ),
+                            ],
+                          ),
+                        ):SizedBox(),
+                        SizedBox(
+                          height: 40,
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 5, right: 5, bottom: 5),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.only(
+                                      top: 2, bottom: 0),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: Obx(
+                                          () => GestureDetector(
+                                            onTap: () {
+                                              controller
+                                                  .selectedTabValue.value = 0;
+                                            },
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: getText(
+                                                  title: "About Us",
+                                                  size: 14,
+                                                  fontFamily: interMedium,
+                                                  color: controller
+                                                              .selectedTabValue
+                                                              .value ==
+                                                          0
+                                                      ? ColorConstant
+                                                          .onBoardingBack
+                                                      : ColorConstant
+                                                          .qrViewText,
+                                                  fontWeight:
+                                                      FontWeight.w600),
+                                            ),
                                           ),
-                                          specialOffers(context)
-                                        ],
-                                      )
-                                    : SizedBox(),
-                                const SizedBox(
-                                  height: 0,
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Obx(
+                                          () => GestureDetector(
+                                            onTap: () {
+                                              controller
+                                                  .selectedTabValue.value = 1;
+                                            },
+                                            child: Column(
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(
+                                                          8.0),
+                                                  child: getText(
+                                                      title: "Menu",
+                                                      size: 14,
+                                                      fontFamily: interMedium,
+                                                      color: controller
+                                                                  .selectedTabValue
+                                                                  .value ==
+                                                              1
+                                                          ? ColorConstant
+                                                              .onBoardingBack
+                                                          : ColorConstant
+                                                              .qrViewText,
+                                                      fontWeight:
+                                                          FontWeight.w600),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Obx(
+                                          () => GestureDetector(
+                                            onTap: () {
+                                              controller
+                                                  .selectedTabValue.value = 2;
+                                            },
+                                            child: Column(
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(
+                                                          8.0),
+                                                  child: getText(
+                                                      title: "Review",
+                                                      size: 14,
+                                                      fontFamily: interMedium,
+                                                      color: controller
+                                                                  .selectedTabValue
+                                                                  .value ==
+                                                              2
+                                                          ? ColorConstant
+                                                              .onBoardingBack
+                                                          : ColorConstant
+                                                              .qrViewText,
+                                                      fontWeight:
+                                                          FontWeight.w600),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Obx(
+                                          () => GestureDetector(
+                                            onTap: () {
+                                              controller
+                                                  .selectedTabValue.value = 3;
+                                            },
+                                            child: Column(
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(
+                                                          8.0),
+                                                  child: getText(
+                                                      title: "Photos",
+                                                      size: 14,
+                                                      fontFamily: interMedium,
+                                                      color: controller
+                                                                  .selectedTabValue
+                                                                  .value ==
+                                                              3
+                                                          ? ColorConstant
+                                                              .onBoardingBack
+                                                          : ColorConstant
+                                                              .qrViewText,
+                                                      fontWeight:
+                                                          FontWeight.w600),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
-                          ):SizedBox(),
-                          SizedBox(
+                          ),
+                        ),
+                        Container(
+                          height: 1,
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              color: Colors.black12),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Column(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  left: 10, right: 10, bottom: 15),
+                              child: tabViewData(context),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              /*  Align(
+              alignment: Alignment.bottomCenter,
+              child: Card(
+                margin: EdgeInsets.zero,
+                elevation: 0,
+                child: Container(
+                  color: Colors.white,
+                  width: MediaQuery.of(context).size.width,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        left: 10, right: 10, top: 8, bottom: 0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                            child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              elevation: 0.0,
+                              backgroundColor: ColorConstant.onBoardingBack,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              )),
+                          onPressed: () {
+                            var phoneNumber =
+                                controller.mobile.value.toString();
+                            controller.status == 1.toString()
+                                ? _makePhoneCall(phoneNumber)
+                                : showToast("Expert is not Available");
+                          },
+                          child: Container(
                             height: 40,
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 5, right: 5, bottom: 5),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.only(
-                                        top: 2, bottom: 0),
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          child: Obx(
-                                            () => GestureDetector(
-                                              onTap: () {
-                                                controller
-                                                    .selectedTabValue.value = 0;
-                                              },
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: getText(
-                                                    title: "About Us",
-                                                    size: 14,
-                                                    fontFamily: interMedium,
-                                                    color: controller
-                                                                .selectedTabValue
-                                                                .value ==
-                                                            0
-                                                        ? ColorConstant
-                                                            .onBoardingBack
-                                                        : ColorConstant
-                                                            .qrViewText,
-                                                    fontWeight:
-                                                        FontWeight.w600),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Obx(
-                                            () => GestureDetector(
-                                              onTap: () {
-                                                controller
-                                                    .selectedTabValue.value = 1;
-                                              },
-                                              child: Column(
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: getText(
-                                                        title: "Menu",
-                                                        size: 14,
-                                                        fontFamily: interMedium,
-                                                        color: controller
-                                                                    .selectedTabValue
-                                                                    .value ==
-                                                                1
-                                                            ? ColorConstant
-                                                                .onBoardingBack
-                                                            : ColorConstant
-                                                                .qrViewText,
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Obx(
-                                            () => GestureDetector(
-                                              onTap: () {
-                                                controller
-                                                    .selectedTabValue.value = 2;
-                                              },
-                                              child: Column(
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: getText(
-                                                        title: "Review",
-                                                        size: 14,
-                                                        fontFamily: interMedium,
-                                                        color: controller
-                                                                    .selectedTabValue
-                                                                    .value ==
-                                                                2
-                                                            ? ColorConstant
-                                                                .onBoardingBack
-                                                            : ColorConstant
-                                                                .qrViewText,
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Obx(
-                                            () => GestureDetector(
-                                              onTap: () {
-                                                controller
-                                                    .selectedTabValue.value = 3;
-                                              },
-                                              child: Column(
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: getText(
-                                                        title: "Photos",
-                                                        size: 14,
-                                                        fontFamily: interMedium,
-                                                        color: controller
-                                                                    .selectedTabValue
-                                                                    .value ==
-                                                                3
-                                                            ? ColorConstant
-                                                                .onBoardingBack
-                                                            : ColorConstant
-                                                                .qrViewText,
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
+                            alignment: Alignment.center,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  width: 15,
+                                  height: 15,
+                                  AppImages.callDetails,
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                getText(
+                                    title: "Call Now",
+                                    size: 13,
+                                    fontFamily: interSemiBold,
+                                    color: ColorConstant.white,
+                                    fontWeight: FontWeight.w500),
+                              ],
                             ),
                           ),
-                          Container(
-                            height: 1,
-                            decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                color: Colors.black12),
+                        )),
+                        const SizedBox(
+                          width: 35,
+                        ),
+                        Expanded(
+                            child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              elevation: 0.0,
+                              backgroundColor: ColorConstant.onBoardingBack,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              )),
+                          onPressed: () {
+                            showToast("Coming Soon");
+                          },
+                          child: Container(
+                            height: 40,
+                            alignment: Alignment.center,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  width: 15,
+                                  height: 15,
+                                  AppImages.messageDetails,
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                getText(
+                                    title: "Chat",
+                                    size: 13,
+                                    fontFamily: interSemiBold,
+                                    color: ColorConstant.white,
+                                    fontWeight: FontWeight.w600),
+                              ],
+                            ),
                           ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          Column(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    left: 10, right: 10, bottom: 15),
-                                child: tabViewData(context),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
+                        )),
+                      ],
                     ),
                   ),
                 ),
-                /*  Align(
-                alignment: Alignment.bottomCenter,
-                child: Card(
-                  margin: EdgeInsets.zero,
-                  elevation: 0,
-                  child: Container(
-                    color: Colors.white,
-                    width: MediaQuery.of(context).size.width,
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 10, right: 10, top: 8, bottom: 0),
-                      child: Row(
-                        children: [
-                          Expanded(
-                              child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                elevation: 0.0,
-                                backgroundColor: ColorConstant.onBoardingBack,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5),
-                                )),
-                            onPressed: () {
-                              var phoneNumber =
-                                  controller.mobile.value.toString();
-                              controller.status == 1.toString()
-                                  ? _makePhoneCall(phoneNumber)
-                                  : showToast("Expert is not Available");
-                            },
-                            child: Container(
-                              height: 40,
-                              alignment: Alignment.center,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset(
-                                    width: 15,
-                                    height: 15,
-                                    AppImages.callDetails,
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  getText(
-                                      title: "Call Now",
-                                      size: 13,
-                                      fontFamily: interSemiBold,
-                                      color: ColorConstant.white,
-                                      fontWeight: FontWeight.w500),
-                                ],
-                              ),
-                            ),
-                          )),
-                          const SizedBox(
-                            width: 35,
-                          ),
-                          Expanded(
-                              child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                elevation: 0.0,
-                                backgroundColor: ColorConstant.onBoardingBack,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5),
-                                )),
-                            onPressed: () {
-                              showToast("Coming Soon");
-                            },
-                            child: Container(
-                              height: 40,
-                              alignment: Alignment.center,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset(
-                                    width: 15,
-                                    height: 15,
-                                    AppImages.messageDetails,
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  getText(
-                                      title: "Chat",
-                                      size: 13,
-                                      fontFamily: interSemiBold,
-                                      color: ColorConstant.white,
-                                      fontWeight: FontWeight.w600),
-                                ],
-                              ),
-                            ),
-                          )),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              )*/
-              ],
-            ),
+              ),
+            )*/
+            ],
           ),
         ),
         bottomNavigationBar: Container(
@@ -1479,51 +1474,61 @@ class CategoryDetailScreen extends GetView<CategoryDetailController> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              getText(
-                                  lineHeight: 1.6,
-                                  title: "You Rated",
-                                  size: 14,
-                                  fontFamily: interSemiBold,
-                                  color: ColorConstant.blackColor,
-                                  fontWeight: FontWeight.w600),
-                              SizedBox(
-                                height: 3,
+                              GestureDetector(
+                                onTap:(){
+                                  controller.myRating.value.isEmpty?
+                                  ratingUi(context):
+                                  showToast('Already reviewed');
+                                },
+                                child: SizedBox(
+                                  height:25,
+                                  child: getText(
+                                      lineHeight: 1.6,
+                                      title: "Write a review",
+                                      size: 14,
+                                      fontFamily: interSemiBold,
+                                      color: ColorConstant.blackColor,
+                                      fontWeight: FontWeight.w600),
+                                ),
                               ),
-                              Obx(
-                                () => GestureDetector(
-                                    onTap: () {
-                                      /*controller.myRating.value!="null"?showToast("Review Already Submited"):
-                                    ratingUi(context);*/
-                                      controller.myRating.value.isEmpty?
-                                      ratingUi(context):null;
-                                    },
-                                    child: RatingBar.builder(
-                                      initialRating: controller.myRating.value != ""
-                                          ? double.parse(controller
-                                              .myRating.value
-                                              .toString())
-                                          : 0.0,
-                                      minRating: 0,
-                                      ignoreGestures: true,
-                                      direction: Axis.horizontal,
-                                      allowHalfRating: false,
-                                      itemCount: 5,
-                                      itemSize: 20,
-                                      itemPadding: EdgeInsets.symmetric(
-                                          horizontal: 0.0),
-                                      itemBuilder: (context, _) => Icon(
-                                        Icons.star,
-                                        color: Colors.amber,
-                                      ),
-                                      onRatingUpdate: (rating) {
-                                        print(rating);
-                                      },
-                                    )),
-                              ),
+                             // const SizedBox(
+                             //    height: 3,
+                             //  ),
+                             //  Obx(
+                             //    () => GestureDetector(
+                             //        onTap: () {
+                             //          /*controller.myRating.value!="null"?showToast("Review Already Submited"):
+                             //        ratingUi(context);*/
+                             //          controller.myRating.value.isEmpty?
+                             //          ratingUi(context):null;
+                             //        },
+                             //        child: RatingBar.builder(
+                             //          initialRating: controller.myRating.value != ""
+                             //              ? double.parse(controller
+                             //                  .myRating.value
+                             //                  .toString())
+                             //              : 0.0,
+                             //          minRating: 0,
+                             //          ignoreGestures: true,
+                             //          direction: Axis.horizontal,
+                             //          allowHalfRating: false,
+                             //          itemCount: 5,
+                             //          itemSize: 20,
+                             //          itemPadding: EdgeInsets.symmetric(
+                             //              horizontal: 0.0),
+                             //          itemBuilder: (context, _) => Icon(
+                             //            Icons.star,
+                             //            color: Colors.amber,
+                             //          ),
+                             //          onRatingUpdate: (rating) {
+                             //            print(rating);
+                             //          },
+                             //        )),
+                             //  ),
                             ],
                           ),
                         ),
-                        SizedBox(
+                       const SizedBox(
                           height: 10,
                         ),
                         Container(
@@ -1540,7 +1545,7 @@ class CategoryDetailScreen extends GetView<CategoryDetailController> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  getText(
+                                const  getText(
                                       lineHeight: 1.6,
                                       title: "Reviews & Ratings",
                                       size: 14,
@@ -1554,7 +1559,7 @@ class CategoryDetailScreen extends GetView<CategoryDetailController> {
                                         () => Row(
                                       children: [
                                         Container(
-                                          decoration: BoxDecoration(
+                                          decoration:const BoxDecoration(
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(5)),
                                             color: ColorConstant.greenReview,
@@ -1566,8 +1571,12 @@ class CategoryDetailScreen extends GetView<CategoryDetailController> {
                                                 top: 12,
                                                 bottom: 12),
                                             child: getText(
-                                                title: controller.avg_rating.value
-                                                    .toString(),
+                                                title:
+                                                controller.avg_rating.value.isEmpty?'0.0':
+                                                controller.avg_rating.value.toString().contains('.')?
+                                                controller.avg_rating.value.toString():"${controller.avg_rating.value.toString()}.0",
+                                                // controller.avg_rating.value
+                                                //     .toString(),
                                                 size: 15,
                                                 fontFamily: interMedium,
                                                 color: ColorConstant.white,
@@ -1732,7 +1741,7 @@ class CategoryDetailScreen extends GetView<CategoryDetailController> {
                                         top: 0, left: 3, right: 5),
                                     child: GestureDetector(
                                       onTap: () {
-                                        Get.to(ImgView(controller.photosList),
+                                        Get.to(ImgView(controller.photosList,index),
                                             transition: Transition.cupertino);
                                         // _showImageDialog(context,  ApiUrls.offerImageBase  + model.banner);
                                       },
@@ -1780,7 +1789,7 @@ class CategoryDetailScreen extends GetView<CategoryDetailController> {
             fontWeight: FontWeight.w500,
           ),
         ),
-        SizedBox(
+      const  SizedBox(
           height: 0,
         ),
         ListView.builder(
@@ -1794,11 +1803,12 @@ class CategoryDetailScreen extends GetView<CategoryDetailController> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Image.asset(
-                      width: 18,
-                      height: 18,
-                      AppImages.menuImg,
-                    ),
+                    Icon(Icons.circle,color: ColorConstant.appColor,size: 10,),
+                    // Image.asset(
+                    //   width: 18,
+                    //   height: 18,
+                    //   AppImages.menuImg,
+                    // ),
                     const SizedBox(
                       width: 5,
                     ),
@@ -1813,12 +1823,10 @@ class CategoryDetailScreen extends GetView<CategoryDetailController> {
                         fontWeight: FontWeight.w500,
                       ),
                     ),*/
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width/1.8,
+                    Expanded(
                       child: Text(
                         controller.getPriceList[index]['data'][i]['item_name'],
                         //  priceListModel['Bridal/Groom Packages'][0]['item_name'].toString(),
-
                         style: const TextStyle(
                           fontSize: 12.0,
                           fontFamily: interMedium,
@@ -1827,7 +1835,10 @@ class CategoryDetailScreen extends GetView<CategoryDetailController> {
                         ),
                       ),
                     ),
-                    const Spacer(),
+                    // const Spacer(),
+                    const SizedBox(
+                      width: 5,
+                    ),
                     Container(
                       padding: const EdgeInsets.only(right: 10.0),
                       child: Text(
@@ -1893,7 +1904,7 @@ class CategoryDetailScreen extends GetView<CategoryDetailController> {
                       Text(
                         formattedDateTime.toString(),
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
+                        style:const TextStyle(
                           fontSize: 11.0,
                           fontFamily: interMedium,
                           color: ColorConstant.qrViewText,
@@ -1945,12 +1956,16 @@ class CategoryDetailScreen extends GetView<CategoryDetailController> {
                         child: Row(
                           children: [
                             getText(
-                                title:  model.rating+".0",
+                                title:
+                                model.rating==null?'0.0':
+                                model.rating.toString().contains('.')?
+                                model.rating.toString():"${model.rating.toString()}.0"
+                                ,
                                 size: 12,
                                 fontFamily: interMedium,
                                 color: ColorConstant.white,
                                 fontWeight: FontWeight.w500),
-                            SizedBox(
+                          const  SizedBox(
                               width: 2,
                             ),
                             Image.asset(

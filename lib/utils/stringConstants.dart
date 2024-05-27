@@ -17,6 +17,9 @@ const String interExtraLight = 'interExtraLight';
 const String interSemiBold = 'interSemiBold';
 const String interExtraBold = 'interExtraBold';
 const String interBold = 'interBold';
+const String poppinsLight = 'poppinsLight';
+const String poppinsMedium = 'poppinsMedium';
+const String poppinsRegular = 'poppinsRegular';
 
 // type Screen
 const String typeTitle = "Choose your role";

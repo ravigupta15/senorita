@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:senorita/UserApp/BottomMenuScreen/dashboard_screen/controller/dashboard_controller.dart';
 import '../../../ScreenRoutes/routes.dart';
 import '../../../helper/appbar.dart';
 import '../../../helper/appimage.dart';
@@ -21,167 +22,147 @@ class Wallet extends GetWidget<WalletController> {
 
   @override
   Widget build(BuildContext context) {
-
-    return WillPopScope(
-      onWillPop: () async
-      {
-        Get.toNamed(AppRoutes.dashboardScreen,);
-        return true;
-      },
-      child: Scaffold(
-        appBar: appBar(context, "Wallet", () {
-          Get.back();
-        }),
-        backgroundColor: ColorConstant.screenBack.withOpacity(0.4),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-           /* Padding(
-              padding: const EdgeInsets.only(left: 15,right: 15,top: 10),
-              child: SizedBox(
-                height: 100,
-                child: Card(
-                  margin: EdgeInsets.zero,
-                  elevation: 5,
-                  color: ColorConstant.walletCard,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                    //set border radius more than 50% of height and width to make circle
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        getText(
-                            title: "Total Pay Amount",
-                            size: 13,
-                            fontFamily: interMedium,
-                            letterSpacing: 0.8,
-                            color: ColorConstant.blackColor,
-                            fontWeight: FontWeight.w500),
-                        SizedBox(height: 4,),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 0),
-                              child: Center(
-                                child: getText(
-                                    title: "₹ 5,000",
-                                    size: 22,
-                                    fontFamily: interSemiBold,
-                                    color: ColorConstant.blackColor,
-                                    fontWeight: FontWeight.w700),
-                              ),
-                            ),
-                            Spacer(),
-                            GestureDetector(
-                              behavior: HitTestBehavior.opaque,
-                              onTap: ()
-                              {
-                                Get.toNamed(AppRoutes.qrCodeScreen);
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 4),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: ColorConstant.onBoardingBack,
-                                      borderRadius: BorderRadius.all(Radius.circular(50)),
-                                      border: Border.all(color: ColorConstant.onBoardingBack)
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 12,right: 12,top: 8,bottom: 8),
-                                    child: getText(
-                                        title: "Pay Now",
-                                        size: 12,
-                                        fontFamily: interMedium,
-                                        color: ColorConstant.white,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-
-                      ],
-                    ),
-                  ),
-                ),
+    return Scaffold(
+      appBar: appBar(context, "Wallet",
+              isShowLeading: Get.find<DashboardController>().selectedIndex==2?false:true,
+              () {
+        Get.back();
+      }),
+      backgroundColor: ColorConstant.white,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 15,right: 15,top: 10),
+            child: Container(
+              decoration: BoxDecoration(
+                color: ColorConstant.walletCard,
+                borderRadius:const BorderRadius.all(Radius.circular(12)),
+                boxShadow: [
+                  BoxShadow(
+                    offset:const Offset(0, 3),
+                    color: ColorConstant.black3333.withOpacity(.2),
+                    blurRadius: 14
+                  )
+                ]
               ),
-            ),
-
-            SizedBox(height: 30,),
-
-            Expanded(
-              child: SizedBox(
-                child: Card(
-                  margin: EdgeInsets.zero,
-                  elevation: 2,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20))
-                    //set border radius more than 50% of height and width to make circle
-                  ),
-                  child: Column(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 20,left: 12,right: 12,bottom: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: 16,),
-                      Center(
-                        child: getText(
-                            title: "Recent Transaction",
-                            size: 16,
-                            letterSpacing: 0.4,
-                            fontFamily: interSemiBold,
-                            color: ColorConstant.blackColor,
-                            fontWeight: FontWeight.w500),
-                      ),
-                      SizedBox(height: 25,),
-                      Expanded(
-                        child: ListView.builder(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.vertical,
-                            itemCount: 10,
-                            itemBuilder: (BuildContext context, int index) {
-
-                              return GestureDetector(
-                                  behavior: HitTestBehavior.opaque,
-                                  onTap: () {
-                                  },
-                                  child: walletTransaction(context));
-                            }),
+                      getText(
+                          title: "Total available points",
+                          size: 13,
+                          fontFamily: interMedium,
+                          letterSpacing: 0.8,
+                          color: ColorConstant.blackColor,
+                          fontWeight: FontWeight.w500),
+                      const SizedBox(height: 4,),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 0),
+                        child: Center(
+                          child: getText(
+                              title: "₹ 5,000",
+                              size: 22,
+                              fontFamily: interSemiBold,
+                              color: ColorConstant.blackColor,
+                              fontWeight: FontWeight.w700),
+                        ),
                       ),
                     ],
                   ),
+                    GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: ()
+                      {
+                        Get.toNamed(AppRoutes.qrCodeScreen);
+                      },
+                      child: Image.asset(AppImages.qrExpert,height: 44,width: 44,)
+                    ),
+                  ],
                 ),
               ),
-            )*/
+            ),
+          ),
 
+          const SizedBox(height: 30,),
 
-
-            Container(
+          Expanded(
+            child: Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 0, right: 0),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10.0),
-                  child: Image.asset(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height/2,
-                    fit: BoxFit.cover,
-                    AppImages.comingSoon,
-                  ),
+                color: ColorConstant.white,
+                borderRadius:const BorderRadius.only(
+                  topLeft: Radius.circular(16),
+                  topRight: Radius.circular(16)
                 ),
+                boxShadow: [
+                  BoxShadow(
+                    offset:const Offset(0, -2),
+                    color: ColorConstant.black3333.withOpacity(.2),
+                    blurRadius: 10
+                  )
+                ]
               ),
-            )
+              child: Column(
+                children: [
+                 const SizedBox(height: 24,),
+                  Center(
+                    child: getText(
+                        title: "Recent Transaction",
+                        size: 14,
+                        fontFamily: poppinsMedium,
+                        color: ColorConstant.blackColor,
+                        fontWeight: FontWeight.w400),
+                  ),
+                 const SizedBox(height: 25,),
+                  Expanded(
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        itemCount: 10,
+                        itemBuilder: (BuildContext context, int index) {
+
+                          return GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              onTap: () {
+                              },
+                              child: walletTransaction(context));
+                        }),
+                  ),
+                ],
+              ),
+            ),
+          )
+
+
+
+          // Container(
+          //   decoration: BoxDecoration(
+          //     borderRadius: BorderRadius.circular(10.0),
+          //   ),
+          //   child: Padding(
+          //     padding: const EdgeInsets.only(left: 0, right: 0),
+          //     child: ClipRRect(
+          //       borderRadius: BorderRadius.circular(10.0),
+          //       child: Image.asset(
+          //         width: MediaQuery.of(context).size.width,
+          //         height: MediaQuery.of(context).size.height/2,
+          //         fit: BoxFit.cover,
+          //         AppImages.comingSoon,
+          //       ),
+          //     ),
+          //   ),
+          // )
+          //
 
 
 
 
-
-          ],
-        ),
+        ],
       ),
     );
   }
@@ -204,44 +185,40 @@ class Wallet extends GetWidget<WalletController> {
                     width: 20,
                     height: 20,
                     AppImages.transaction,),
-                  SizedBox(width: 10,),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        getText(
-                            title: "Paid to Senoritaapp",
-                            size: 15,
-                            fontFamily: interMedium,
-                            color: ColorConstant.blackColorDark,
-                            fontWeight: FontWeight.w500),
+                const  SizedBox(width: 10,),
+               const Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    getText(
+                        title: "Paid to Senoritaapp",
+                        size: 14,
+                        fontFamily: poppinsMedium,
+                        color: ColorConstant.blackColorDark,
+                        fontWeight: FontWeight.w400),
 
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 5,),
-
-                  Spacer(),
-                  getText(
+                  ],
+                ),
+                const  SizedBox(height: 5,),
+                 const Spacer(),
+                 const getText(
                       title: "₹ 25,000",
                       size: 14,
-                      fontFamily: interMedium,
+                      fontFamily: poppinsMedium,
                       color: ColorConstant.blackColorDark,
-                      fontWeight: FontWeight.w500),
+                      fontWeight: FontWeight.w400),
                 ],),
-              SizedBox(height: 5,),
-              Padding(
-                padding: const EdgeInsets.only(left: 29),
+             const SizedBox(height: 2,),
+             const Padding(
+                padding:  EdgeInsets.only(left: 29),
                 child: getText(
                     title: "28 July, 05:32",
-                    size: 14,
-                    fontFamily: interLight,
+                    size: 12,
+                    fontFamily: poppinsMedium,
                     color: ColorConstant.blackLight,
                     fontWeight: FontWeight.w500),
               ),
-              SizedBox(height: 10,),
+            const  SizedBox(height: 10,),
               Container(
                 width: MediaQuery.of(context).size.width-15,
                 color: ColorConstant.dividerColor,

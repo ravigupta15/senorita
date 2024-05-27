@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
+import 'package:photo_view/photo_view_gallery.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:get/get.dart';
 
@@ -12,12 +13,20 @@ import 'indication.dart';
 
 class ImgView extends StatefulWidget {
   final List imgList;
-  const ImgView(this.imgList, {super.key});
+  final int index;
+  const ImgView(this.imgList, this.index, {super.key});
   @override
   State<ImgView> createState() => _ImgViewState();
 }
 class _ImgViewState extends State<ImgView> {
   int index = 0;
+
+  @override
+  void initState() {
+    index= widget.index;
+
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,29 +59,24 @@ class _ImgViewState extends State<ImgView> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Expanded(
-              child: PageView.builder(
-                  itemCount: widget.imgList.length,
-                  onPageChanged: (val) {
-                    index = val;
-                    setState(() {});
-                  },
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 10, left: 10,bottom: 10),
-                      child: GestureDetector(
-                        onTap: () {
-
-                        },
-                        child: PhotoView(
-                          minScale: PhotoViewComputedScale.contained * 0.5,
-                          disableGestures: true,
-                          backgroundDecoration: const BoxDecoration(color: Colors.transparent,),
-                          imageProvider: NetworkImage(ApiUrls.offerImageBase + widget.imgList[index].banner.toString()
-                          ),
-                        ),
-                      ),
-                    );
-                  }),
+              child:    PhotoViewGallery.builder(
+                scrollPhysics: const BouncingScrollPhysics(),
+                builder: (BuildContext context, int index) {
+                  return PhotoViewGalleryPageOptions(
+                    imageProvider: NetworkImage(ApiUrls.offerImageBase + widget.imgList[index].banner.toString()),
+                    initialScale: PhotoViewComputedScale.contained * .97,
+                    minScale: PhotoViewComputedScale.contained*.9,
+                  );
+                },
+                itemCount: widget.imgList.length,
+                backgroundDecoration:const BoxDecoration(color: Colors.transparent),
+                pageController:  PageController(initialPage: widget.index,viewportFraction: 1),
+                onPageChanged: (val){
+                  index = val;
+                  setState(() {
+                  });
+                },
+              )
             ),
             Row(
                 mainAxisAlignment: MainAxisAlignment.center,

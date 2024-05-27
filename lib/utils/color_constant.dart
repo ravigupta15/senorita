@@ -57,7 +57,7 @@ class ColorConstant {
   static const dividerColor = Color.fromRGBO(232, 232, 232, 1);
   static const darkGray = Color.fromRGBO(81, 81, 81, 1);
 
-  static const blackLight = Color(0xff616161);
+  static const  blackLight = Color(0xff616161);
   static const black3333 = Color(0xff333333);
 
 
@@ -94,7 +94,7 @@ class ColorConstant {
   static const successful = Color(0xff1DF48C);
 
   ///Kodago Card
-  static const kodagoCardUi = Color(0xff3F74CF);
+  static const darkBlueColor = Color(0xff3F74CF);
 
 
 

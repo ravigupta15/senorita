@@ -55,8 +55,8 @@ class OffersScreen extends GetView<OffersController> {
                       const SizedBox(
                         height: 20,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 22),
+                    const  Padding(
+                        padding: EdgeInsets.only(left: 22),
                         child: getText(
                             title:
                                 "Please select categories and get best offer",

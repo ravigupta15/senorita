@@ -26,6 +26,7 @@ class ApiConstants {
       var streamedResponse = await request.send();
       var response = await http.Response.fromStream(streamedResponse);
       if (kDebugMode) {}
+      log(response.body);
       final dataAll = json.decode(response.body);
       if (response.statusCode == 200) {
         return dataAll;

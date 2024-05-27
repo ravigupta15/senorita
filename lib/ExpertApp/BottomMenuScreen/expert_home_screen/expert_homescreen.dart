@@ -172,7 +172,7 @@ class ExpertHomeScreen extends GetView<ExpertDashboardController> {
                                                     size: 13,
                                                     fontFamily: interRegular,
                                                     color: ColorConstant
-                                                        .kodagoCardUi,
+                                                        .darkBlueColor,
                                                     fontWeight:
                                                         FontWeight.w500),
                                               ],

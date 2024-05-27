@@ -6,12 +6,13 @@ import '../utils/stringConstants.dart';
 import 'appimage.dart';
 import 'getText.dart';
 
-AppBar appBar(BuildContext context, String title, Function() onTap) {
+AppBar appBar(BuildContext context, String title, Function() onTap,{isShowLeading =true}) {
   return AppBar(
     backgroundColor: Colors.transparent,
     elevation: 0,
+    scrolledUnderElevation: 0.0,
     leadingWidth: 28,
-    leading: Padding(
+    leading:isShowLeading? Padding(
       padding: const EdgeInsets.only(left: 10),
       child: Container(
           height: 25,
@@ -24,7 +25,7 @@ AppBar appBar(BuildContext context, String title, Function() onTap) {
                 height: 25,
                 width: 25,
               ))),
-    ),
+    ):Container(),
     title: getText(
         title: title,
         size: 17,

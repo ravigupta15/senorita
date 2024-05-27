@@ -7,8 +7,10 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'package:senorita/ExpertApp/expert_registration_screen/models/category_model.dart';
 import 'package:senorita/UserApp/BottomMenuScreen/all_category_screen/all_category_screen.dart';
 import 'package:senorita/UserApp/BottomMenuScreen/all_category_screen/controller/all_category_controller.dart';
+import 'package:senorita/UserApp/BottomMenuScreen/wallet_screen/wallet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../CommonScreens/loginScreen/loginScreen.dart';
 import '../../../../ScreenRoutes/routes.dart';
@@ -16,6 +18,7 @@ import '../../../../api_config/ApiConstant.dart';
 import '../../../../api_config/Api_Url.dart';
 import '../../../../utils/showcircledialogbox.dart';
 import '../../home_screen/homescreen.dart';
+import '../../home_screen/model/home_category_model.dart';
 import '../../home_screen/model/home_model.dart';
 import '../../offers_screen/controller/offers_controller.dart';
 import '../../offers_screen/offers_screen.dart';
@@ -29,6 +32,7 @@ class DashboardController extends GetxController {
  final AllCategoryController categoryListController = Get.put(AllCategoryController());
  final ProfileController profileController = Get.put(ProfileController());
 
+ var categoryModel = HomeCategoryModel().obs;
 
 
  ///Dashboard Screen
@@ -108,7 +112,8 @@ class DashboardController extends GetxController {
   final screens=[
     HomeScreen(),
     OffersScreen(),
-    AllCategoryScreen(),
+    Wallet(),
+    // AllCategoryScreen(),
     Profile(),
   ];
 
@@ -222,19 +227,19 @@ class DashboardController extends GetxController {
              placemark[0].country.toString();
      city.value=placemark[0].locality.toString();
      state.value=placemark[0].administrativeArea.toString();
-     allHomeScreenApiFunction(currentLat.value.toString(),currentLong.value.toString());
+     allHomeScreenApiFunction(currentLat.value.toString(),currentLong.value.toString(),'',true);
     // _mapController.moveCamera(CameraUpdate.newLatLng(initialposition));
    }
  }
 
-  allHomeScreenApiFunction(lat,long) async {
+  allHomeScreenApiFunction(lat,long, String searchValue, bool isShowLoad) async {
     page.value=1;
     isLoading.value = true;
-    showCircleProgressDialog(Get.context!);
-    var headers = {'Authorization': 'Bearer' + token};
+    isShowLoad? showCircleProgressDialog(Get.context!):false;
+    var headers = {'Authorization': 'Bearer $token'};
     var request = http.MultipartRequest('POST', Uri.parse(ApiUrls.homeScreen));
     request.fields.addAll({
-      'search': "",
+      'search': searchValue,
       'lat':lat.toString(),
       'lng': long.toString(),
       'type':"load"
@@ -243,19 +248,18 @@ class DashboardController extends GetxController {
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse).timeout(const Duration(seconds: 60));
     log(response.body);
-    Get.back();
+    isShowLoad? Get.back():null;
 
     allExpertList.clear();
     if (response.statusCode == 200) {
       log(response.body);
-      final result = jsonDecode(response.body) as Map<String, dynamic>;
+      final result = json.decode(response.body);
       if (result['success'] == true && result['success'] != null) {
         for (int i = 0; i < result['data'].length; i++) {
-          bannerList.value =result['data']['getFeatureOffer'];
-          offerBaseUrl.value=result['data']['offer_base_url'];
-
+          bannerList.value =result['data']['getFeatureOffer']??[];
+          offerBaseUrl.value=result['data']['offer_base_url']??'';
           allExpertList.value=result['data']['topRatedListing'];
-          listing_base_url.value=result['data']['listing_base_url'];
+          listing_base_url.value=result['data']['listing_base_url']??[];
           isLoading.value = false;
         }
       }
@@ -304,22 +308,26 @@ class DashboardController extends GetxController {
     }
   }
   categoryApiFunction() async {
-    categoryList.clear();
+    // categoryList.clear();
     isCategoryLoading.value=true;
-    final response = await ApiConstants.getWithToken(url: ApiUrls.expertCategoriesApiUrl, useAuthToken: true);
-
+    var body = {
+      'category':'1'
+    };
+    final response = await ApiConstants.post(url: ApiUrls.expertSubCategoriesApiUrl,body: body);
+    // categoryModel.value = null;
     if (response != null && response['success'] == true) {
       isCategoryLoading.value =false;
       if (response['data'] != null) {
-        for (int i = 0; i < response['data'].length; i++) {
+        categoryModel.value = HomeCategoryModel.fromJson(response);
+        // for (int i = 0; i < response['data'].length; i++) {
           print(response['data'],);
-          PopularCategoryModel model = PopularCategoryModel(
-              response['data'][i]['imageUrl'].toString(),
-              response['data'][i]['name'].toString(),
-              response['data'][i]['id'].toString());
-          categoryList.add(model);
-        }
-
+          // PopularCategoryModel model = PopularCategoryModel(
+          //     response['data'][i]['imageUrl'].toString(),
+          //     response['data'][i]['name'].toString(),
+          //     response['data'][i]['id'].toString());
+          // categoryList.add(model);
+        // }
+      //
       }
     }
   }

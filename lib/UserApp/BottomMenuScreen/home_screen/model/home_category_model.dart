@@ -1,12 +1,12 @@
-class CategoryModel {
+class HomeCategoryModel {
   dynamic success;
   List<Data>? data;
   dynamic baseUrl;
   dynamic message;
 
-  CategoryModel({this.success, this.data, this.baseUrl, this.message});
+  HomeCategoryModel({this.success, this.data, this.baseUrl, this.message});
 
-  CategoryModel.fromJson(Map<String, dynamic> json) {
+  HomeCategoryModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     if (json['data'] != null) {
       data = <Data>[];

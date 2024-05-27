@@ -116,7 +116,7 @@ class DashboardScreen extends GetView<DashboardController> {
         bottomNavigationBar:
         Obx(()=>
            Container(
-             padding: EdgeInsets.only(bottom: 4,left: 5,right: 5,top: 2),
+             padding:const EdgeInsets.only(bottom: 4,left: 5,right: 5,top: 2),
              color:  ColorConstant.homeBackground,
              child: ClipRRect(
                borderRadius: const BorderRadius.only(
@@ -134,7 +134,7 @@ class DashboardScreen extends GetView<DashboardController> {
                 showSelectedLabels: true,
                 showUnselectedLabels: true,
 
-                selectedLabelStyle: TextStyle(
+                selectedLabelStyle:const TextStyle(
                     fontSize: 12,
                     fontFamily: interRegular,
                     color: ColorConstant.onBoardingBack,
@@ -153,7 +153,7 @@ class DashboardScreen extends GetView<DashboardController> {
                   controller.changeIndex(index);
                 },
                 currentIndex: controller.selectedIndex.value,
-                items: [
+                items:const [
                   BottomNavigationBarItem(icon: Padding(
                     padding: const EdgeInsets.only(top: 5),
                     child: Icon(Icons.home_filled,),
@@ -167,36 +167,36 @@ class DashboardScreen extends GetView<DashboardController> {
 
                   ),
                   BottomNavigationBarItem(icon: Padding(
-                    padding: const EdgeInsets.only(top: 5,bottom: 4),
+                    padding:  EdgeInsets.only(top: 5,bottom: 4),
                     child: Image(image: AssetImage(AppImages.offer),height: 18,width: 18,color: Colors.white,),
                   ),
                       label: "Offers",
                     activeIcon: Padding(
-                      padding: const EdgeInsets.only(top: 5,bottom: 4),
+                      padding:  EdgeInsets.only(top: 5,bottom: 4),
                       child: Image(image: AssetImage(AppImages.offer),height: 18,width: 18,color: ColorConstant.onBoardingBack),
                     ),
 
 
                   ),
                   BottomNavigationBarItem(icon:Padding(
-                    padding: const EdgeInsets.only(top: 5,bottom: 4),
-                    child: Image(image: AssetImage(AppImages.categoryBar),height: 18,width: 18,color: Colors.white,),
+                    padding:  EdgeInsets.only(top: 5,bottom: 4),
+                    child: Image(image: AssetImage(AppImages.walletIcon),height: 18,width: 18,color: Colors.white,),
                   ),
-                      label: "Categories",
+                      label: "Wallet",
                     activeIcon: Padding(
-                      padding: const EdgeInsets.only(top: 5,bottom: 4),
-                      child: Image(image: AssetImage(AppImages.categoryBar),height: 18,width: 18,color: ColorConstant.onBoardingBack),
+                      padding:  EdgeInsets.only(top: 5,bottom: 4),
+                      child: Image(image: AssetImage(AppImages.walletIcon),height: 18,width: 18,color: ColorConstant.onBoardingBack),
                     ),
 
 
                   ),
                   BottomNavigationBarItem(icon:Padding(
-                    padding: const EdgeInsets.only(top: 5,bottom: 4),
+                    padding:  EdgeInsets.only(top: 5,bottom: 4),
                     child: Image(image: AssetImage(AppImages.profile),height: 18,width: 18,color: Colors.white,),
                   ),
                       label: "Profile",
                       activeIcon:Padding(
-                        padding: const EdgeInsets.only(top: 5,bottom: 4),
+                        padding:  EdgeInsets.only(top: 5,bottom: 4),
                         child: Image(image: AssetImage(AppImages.profile),height: 18,width: 18,color: ColorConstant.onBoardingBack),
                       ),
                   ),

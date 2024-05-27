@@ -7,7 +7,7 @@ import 'dart:convert';
 
 
 class CategoryModel {
-  int id;
+  dynamic id;
   dynamic parentCategoryId;
   String name;
   String appImage;
