@@ -717,8 +717,8 @@ class HomeScreen extends GetView<DashboardController> {
         ),
           const SizedBox(height: 15,),
           controller.categoryModel.value!=null&&controller.categoryModel.value!.data!=null?SingleChildScrollView(
-              child: Container(
-                height: 100,
+              child: SizedBox(
+                height: 116,
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   padding:const EdgeInsets.only(left: 10,right: 10),
@@ -732,7 +732,7 @@ class HomeScreen extends GetView<DashboardController> {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 6,right: 6),
                             child: Container(
-                              height:85,
+                              height:100,
                               width: 90,
                               decoration: BoxDecoration(
                                   color: ColorConstant.white,
