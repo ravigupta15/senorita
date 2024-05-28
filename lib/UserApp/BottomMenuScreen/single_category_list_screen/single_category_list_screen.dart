@@ -15,6 +15,7 @@ import '../../../helper/appimage.dart';
 import '../../../helper/getText.dart';
 import '../../../utils/color_constant.dart';
 import '../../../utils/format_rating.dart';
+import '../../../utils/my_sperator.dart';
 import '../../../utils/size_config.dart';
 import '../../../utils/stringConstants.dart';
 import '../home_screen/model/home_model.dart';
@@ -255,432 +256,398 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
             )
           ]
       ),
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 13),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle, color: ColorConstant.white,
+        padding: const EdgeInsets.only(bottom: 13),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle, color: ColorConstant.white,
 
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.only(topRight: Radius.circular(8),topLeft: Radius.circular(8)),
-                      child: /*Image.network(
-                        model.imageUrl.toString(),
-                        *//* "https://dealsdekho.com/wp-content/uploads/2023/01/Nykaa-Upcoming-Sales.png",*//*
-                        height: 295,
-                        fit: BoxFit.cover,
-                        width: MediaQuery.of(context).size.width,
-                      ),*/
-                      /*CachedNetworkImage(
-                        height: 295,
-                        fit: BoxFit.cover,
-                        width: MediaQuery.of(context).size.width,
-                        imageUrl: model.imageUrl.toString(),
-                        errorWidget: (context, url, error) =>Image.network(
-                          "https://raysensenbach.com/wp-content/uploads/2013/04/default.jpg",
-                          height: 295,
-                          fit: BoxFit.cover,
-                          width: MediaQuery.of(context).size.width,
-                        ),
-                      ),*/
-                      CachedNetworkImage(
-                        height: 200,
-                        fit: BoxFit.fill,
-                        width: MediaQuery.of(context).size.width,
-                        imageUrl: model.imageUrl.toString(),
-                        errorWidget: (context, url, error) =>
-                            Image.network(
-                              "https://raysensenbach.com/wp-content/uploads/2013/04/default.jpg",
-                              height: 250,
-                              fit: BoxFit.fill,
-                              width: MediaQuery.of(context).size.width,
-                            ),
-                      ),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(topRight: Radius.circular(8),topLeft: Radius.circular(8)),
+                    child:
+                    CachedNetworkImage(
+                      height: 200,
+                      fit: BoxFit.fill,
+                      width: MediaQuery.of(context).size.width,
+                      imageUrl: model.imageUrl.toString(),
+                      errorWidget: (context, url, error) =>
+                          Image.network(
+                            "https://raysensenbach.com/wp-content/uploads/2013/04/default.jpg",
+                            height: 250,
+                            fit: BoxFit.fill,
+                            width: MediaQuery.of(context).size.width,
+                          ),
                     ),
                   ),
-                ],
-              ),
-              const SizedBox(
-                width: 10,
-              ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              width: 10,
+            ),
 
-              Padding(
-                padding: const EdgeInsets.only(left: 2,right: 2),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 11,right: 12,top: 8,bottom: 8),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width / 2,
-                                padding: new EdgeInsets.only(right: 13.0),
-                                child: new Text(
+                          Flexible(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
                                   model.userName,
+                                  maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
-                                  style:  new TextStyle(
-                                    fontSize: 14.0,
-                                    letterSpacing: 0,
+                                  style: const TextStyle(
+                                    fontSize: 17,
                                     fontFamily: interSemiBold,
                                     color: ColorConstant.blackColorDark,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                    color: ColorConstant.greenStar,
-                                    borderRadius:const BorderRadius.all(
-                                        Radius.circular(5)),
-                                    border: Border.all(
-                                        color: ColorConstant.greenStar)),
-                                padding:const EdgeInsets.only(left: 5,right: 4,top: 3,bottom: 4),
-                                child: Row(
-                                  children: [
-                                    getText(
-                                        title:
-                                        model.avg_rating==null?'0.0':
-                                        model.avg_rating.toString().contains('.')?
-                                        model.avg_rating.toString():"${model.avg_rating.toString()}.0",
-                                // model.avg_rating==null?"0.0":
-                                //         "${model.avg_rating.toString()}.0",
-                                        size: 13,
-                                        fontFamily: interMedium,
-                                        color: ColorConstant.white,
-                                        fontWeight: FontWeight.w500),
-                                  const  SizedBox(
-                                      width: 2,
-                                    ),
-                                    Image.asset(
-                                      width: 10,
-                                      height: 10,
-                                      color: ColorConstant.white,
-                                      AppImages.rating,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 2,
-                          ),
-                          getText(
-                              title: model.categoryName.toString(),
-                              size: 12,
-                              fontFamily: interMedium,
-
-                              color: ColorConstant.blackLight,
-                              fontWeight: FontWeight.w400),
-
-                          SizedBox(
-                            height: 1,
-                          ),
-                        ],
-                      ),
-                    ),
-                    model.address!=null && model.address!="null"?
-                    Padding(
-                      padding: const EdgeInsets.only(left: 5),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Image.asset(
-                                width: 18,
-                                height: 18,
-                                AppImages.location,
-                              ),
-                              SizedBox(width: 3,),
-
-                              Container(
-                                width: MediaQuery.of(context).size.width / 1.2,
-                                padding: new EdgeInsets.only(right: 13.0),
-                                child: new Text(
-                                  model.address.toString(),
-                                  overflow: TextOverflow.ellipsis,
-                                  style: new TextStyle(
-                                    fontSize: 12.0,
-                                    fontFamily: interMedium,
-                                    color: ColorConstant.greyColor,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                        ],
-                      ),
-                    ):SizedBox(),
-
-                    model.lat!=null &&   model.lat!="null"?
-                    Padding(
-                      padding: const EdgeInsets.only(left: 5,top: 0),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Image.asset(
-                                width: 13,
-                                color: ColorConstant.greyColor,
-                                height: 13,
-                                AppImages.distance,
-                              ),
-                              SizedBox(
-                                width: 3,
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width / 1.2,
-                                padding: const EdgeInsets.only(right: 13.0),
-                                child:  Text(" "+
-                                    model.distance.toString()+" Km",
-                                  overflow: TextOverflow.ellipsis,
-                                  style:  TextStyle(
-                                    fontSize: 13.0,
-                                    fontFamily: interMedium,
-                                    color: ColorConstant.greyColor,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                         /* SizedBox(
-                            height: 10,
-                          ),*/
-                        ],
-                      ),
-                    ):SizedBox(),
-
-
-                   /* Padding(
-                      padding: const EdgeInsets.only(left: 10,right: 10),
-                      child: Image.asset(
-                        width: MediaQuery.of(context).size.width,
-                        color: ColorConstant.checkBox,
-
-                        AppImages.dotLine,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10,top: 6,right: 5),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              const Text(
-                                "Exp. ",
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 14.0,
-                                  letterSpacing: 0.6,
-                                  fontFamily: interMedium,
-                                  color: ColorConstant.onBoardingBack,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                "- ${model.experience} year",
-                                *//* "4",*//*
-                                overflow: TextOverflow.ellipsis,
-                                style: new TextStyle(
-                                  fontSize: 14.0,
-                                  letterSpacing: 0.6,
-                                  fontFamily: interMedium,
-                                  color: ColorConstant.blackLight,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
-                          ),
-
-                          int.parse(model.offer_count) > 0?
-                          Row(
-                            children: [
-                              Image.asset(
-                                width: 17,
-                                height: 17,
-                                AppImages.specialOffer,
-                              ),
-                              const SizedBox(width: 5,),
-                              const Text("Special offer",
-                                overflow: TextOverflow.ellipsis,
-                                style:  TextStyle(
-                                  fontSize: 14.0,
-                                  letterSpacing: 0.6,
-                                  fontFamily: interMedium,
-                                  color: ColorConstant.blueColorOffer,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
-                          ):SizedBox(),
-                        ],
-                      ),
-                    ),*/
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-
-  expertCardData(BuildContext context, model) {
-    return GestureDetector(
-      onTap: () {
-        var userId = model.userId.toString();
-        var expertId = model.expertId.toString();
-        Get.toNamed( AppRoutes.categoryDetailsScreen,
-            arguments: ['login', userId.toString(), expertId.toString()]);
-      },
-      child: Padding(
-        padding: const EdgeInsets.only(
-          top: 0,
-          left: 10,
-          right: 10,
-        ),
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          child: Container(
-            decoration: BoxDecoration(
-                color: ColorConstant.white,
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                      offset:const Offset(0, -2),
-                      color: ColorConstant.blackColor.withOpacity(.2),
-                      blurRadius: 10
-                  )
-                ]
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  left: 8, right: 15, top: 15, bottom: 15),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle, color: ColorConstant.white),
-                    child: CircleAvatar(
-                      backgroundImage: NetworkImage(model.imageUrl),
-                      radius: 24,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                /* getText(
-                                    title: model.userName,
-                                    size: 14,
-                                    fontFamily: celiaMedium,
-                                    color: ColorConstant.blackColor,
-                                    fontWeight: FontWeight.w500),*/
-                                new Container(
-                                  width: MediaQuery.of(context).size.width / 2,
-                                  padding: new EdgeInsets.only(right: 13.0),
-                                  child: new Text(
-                                    model.userName,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: new TextStyle(
-                                      fontSize: 14.0,
-                                      fontFamily: celiaMedium,
-                                      color: ColorConstant.blackColor,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
+                                const SizedBox(height: 3,),
                                 getText(
-                                    title: "Experience " +
-                                        model.experience.toString() +
-                                        " Years",
+                                    title: model.subCat!=null&&model.subCat.isNotEmpty?
+                                    model.subCat.map((subCat)=>subCat['name']).join(', '):"",
                                     size: 13,
-                                    fontFamily: celiaRegular,
-                                    color: ColorConstant.homeExp,
-                                    fontWeight: FontWeight.w400),
-                                getText(
-                                    title: model.categoryName.toString(),
-                                    size: 13,
-                                    fontFamily: celiaRegular,
-                                    color: ColorConstant.homeExp,
-                                    fontWeight: FontWeight.w400),
+                                    fontFamily: interMedium,
+                                    color: ColorConstant.blackLight,
+                                    fontWeight: FontWeight.w500)
+                                ,
                               ],
                             ),
-                            /* Spacer(),
-                            model.offer_count > 0.toString()
-                                ? Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(50),
-                                        color: const Color(0xffE9FCF0)),
-                                    height: 55,
-                                    width: 55,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10)),
-                                        child: Image.asset(
-                                          height: 55,
-                                          width: 55,
-                                          AppImages.offerNew,
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                : SizedBox(),*/
-                          ],
-                        ),
-                        SizedBox(
-                          height: 2,
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
+                          ),
+
+                          Container(
+                            decoration:const BoxDecoration(
+                              color: ColorConstant.greenStar,
+                              borderRadius: BorderRadius.all(
+                                  Radius.circular(4)),),
+                            padding:const EdgeInsets.only(left: 5,right: 4,top: 3,bottom: 4),
+                            child: Row(
+                              children: [
+                                getText(
+                                    title:
+                                    model.avg_rating==null?'0.0':
+                                    model.avg_rating.toString().contains('.')?
+                                    model.avg_rating.toString():"${model.avg_rating.toString()}.0",
+                                    size: 13,
+                                    fontFamily: interMedium,
+                                    color: ColorConstant.white,
+                                    fontWeight: FontWeight.w500),
+                                const SizedBox(
+                                  width: 2,
+                                ),
+                                Image.asset(
+                                  width: 10,
+                                  height: 10,
+                                  color: ColorConstant.white,
+                                  AppImages.rating,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 2,
+                      ),
+                    ],
+                  ),
+                ),
+                model.address!=null && model.address!="null"?
+                Padding(
+                  padding: const EdgeInsets.only(left: 11,right: 12),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Image.asset(
+                            width: 18,
+                            height: 18,
+                            AppImages.location,
+                          ),
+                          SizedBox(
+                            width: 3,
+                          ),
+                          Flexible(
+                            child: Text(
+                              model.address.toString(),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              style: const TextStyle(
+                                fontSize: 13.0,
+                                fontFamily: interMedium,
+                                color: ColorConstant.blackLight,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      const  SizedBox(
+                        height: 12,
+                      ),
+                    ],
+                  ),
+                )
+                    :SizedBox(),
+
+                model.lat!=null &&   model.lat!="null"?
+                Padding(
+                  padding: const EdgeInsets.only(left: 11 ,right: 12, top: 2),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Image.asset(
+                            width: 13,
+                            height: 13,
+                            AppImages.distance,
+                          ),
+                          const SizedBox(
+                            width: 3,
+                          ),
+                          Flexible(
+                            child:  Text(
+                              " " + model.distance.toString() + " Km",
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              style: const TextStyle(
+                                fontSize: 13.0,
+                                fontFamily: interMedium,
+                                color: ColorConstant.blackLight,
+                                fontWeight: FontWeight.w500,
+                              ),),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                )
+                    :SizedBox(),
+
+                const Padding(
+                  padding:  EdgeInsets.only(left: 11, right: 12,top: 10),
+                  child: MySeparator(color: Color(0xffD6D5D5)),
+                ),
+                Padding(
+                  padding:
+                  const EdgeInsets.only(left: 11, top: 11, right: 12),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          const Text(
+                            "Exp. ",
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              fontFamily: interMedium,
+                              color: ColorConstant.pointBg,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          Text(
+                            "- ${model.experience} year",
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 14.0,
+                              fontFamily: interMedium,
+                              color: ColorConstant.blackLight,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),int.parse(model.offer_count) > 0
+                          ?
+                      Row(
+                        children: [
+                          Image.asset(
+                            width: 17,
+                            height: 17,
+                            AppImages.specialOffer,
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          const Text(
+                            "Special offer",
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              fontFamily: interMedium,
+                              color: ColorConstant.darkBlueColor,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      )
+                          : SizedBox(),
+                    ],
+                  ),
+                ),
+              ],
+            )
+          ],
         ),
       ),
     );
   }
- }
+
+
+  // expertCardData(BuildContext context, model) {
+  //   return GestureDetector(
+  //     onTap: () {
+  //       var userId = model.userId.toString();
+  //       var expertId = model.expertId.toString();
+  //       Get.toNamed( AppRoutes.categoryDetailsScreen,
+  //           arguments: ['login', userId.toString(), expertId.toString()]);
+  //     },
+  //     child: Padding(
+  //       padding: const EdgeInsets.only(
+  //         top: 0,
+  //         left: 10,
+  //         right: 10,
+  //       ),
+  //       child: SizedBox(
+  //         width: MediaQuery.of(context).size.width,
+  //         child: Container(
+  //           decoration: BoxDecoration(
+  //               color: ColorConstant.white,
+  //               borderRadius: BorderRadius.circular(10),
+  //               boxShadow: [
+  //                 BoxShadow(
+  //                     offset:const Offset(0, -2),
+  //                     color: ColorConstant.blackColor.withOpacity(.2),
+  //                     blurRadius: 10
+  //                 )
+  //               ]
+  //           ),
+  //           child: Padding(
+  //             padding: const EdgeInsets.only(
+  //                 left: 8, right: 15, top: 15, bottom: 15),
+  //             child: Row(
+  //               crossAxisAlignment: CrossAxisAlignment.center,
+  //               children: [
+  //                 Container(
+  //                   alignment: Alignment.center,
+  //                   decoration: BoxDecoration(
+  //                       shape: BoxShape.circle, color: ColorConstant.white),
+  //                   child: CircleAvatar(
+  //                     backgroundImage: NetworkImage(model.imageUrl),
+  //                     radius: 24,
+  //                   ),
+  //                 ),
+  //                 const SizedBox(
+  //                   width: 10,
+  //                 ),
+  //                 Expanded(
+  //                   child: Column(
+  //                     crossAxisAlignment: CrossAxisAlignment.start,
+  //                     children: [
+  //                       Row(
+  //                         mainAxisAlignment: MainAxisAlignment.start,
+  //                         crossAxisAlignment: CrossAxisAlignment.center,
+  //                         children: [
+  //                           Column(
+  //                             mainAxisAlignment: MainAxisAlignment.start,
+  //                             crossAxisAlignment: CrossAxisAlignment.start,
+  //                             children: [
+  //                               /* getText(
+  //                                   title: model.userName,
+  //                                   size: 14,
+  //                                   fontFamily: celiaMedium,
+  //                                   color: ColorConstant.blackColor,
+  //                                   fontWeight: FontWeight.w500),*/
+  //                               new Container(
+  //                                 width: MediaQuery.of(context).size.width / 2,
+  //                                 padding: new EdgeInsets.only(right: 13.0),
+  //                                 child: new Text(
+  //                                   model.userName,
+  //                                   overflow: TextOverflow.ellipsis,
+  //                                   style: new TextStyle(
+  //                                     fontSize: 14.0,
+  //                                     fontFamily: celiaMedium,
+  //                                     color: ColorConstant.blackColor,
+  //                                     fontWeight: FontWeight.w500,
+  //                                   ),
+  //                                 ),
+  //                               ),
+  //                               getText(
+  //                                   title: "Experience " +
+  //                                       model.experience.toString() +
+  //                                       " Years",
+  //                                   size: 13,
+  //                                   fontFamily: celiaRegular,
+  //                                   color: ColorConstant.homeExp,
+  //                                   fontWeight: FontWeight.w400),
+  //                               getText(
+  //                                   title: model.categoryName.toString(),
+  //                                   size: 13,
+  //                                   fontFamily: celiaRegular,
+  //                                   color: ColorConstant.homeExp,
+  //                                   fontWeight: FontWeight.w400),
+  //                             ],
+  //                           ),
+  //                           /* Spacer(),
+  //                           model.offer_count > 0.toString()
+  //                               ? Container(
+  //                                   decoration: BoxDecoration(
+  //                                       borderRadius: BorderRadius.circular(50),
+  //                                       color: const Color(0xffE9FCF0)),
+  //                                   height: 55,
+  //                                   width: 55,
+  //                                   child: Padding(
+  //                                     padding: const EdgeInsets.all(5.0),
+  //                                     child: ClipRRect(
+  //                                       borderRadius: BorderRadius.all(
+  //                                           Radius.circular(10)),
+  //                                       child: Image.asset(
+  //                                         height: 55,
+  //                                         width: 55,
+  //                                         AppImages.offerNew,
+  //                                       ),
+  //                                     ),
+  //                                   ),
+  //                                 )
+  //                               : SizedBox(),*/
+  //                         ],
+  //                       ),
+  //                       SizedBox(
+  //                         height: 2,
+  //                       ),
+  //                     ],
+  //                   ),
+  //                 )
+  //               ],
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
+
+}
 /*final startPointPrice=20.0.obs;
    final endPointPrice=10.0.obs;*/

@@ -26,6 +26,7 @@ class ApiUrls {
   static const String expertSubCategoriesPriceApiUrl = "${apiBaseUrlTesting}selected_sub_category_list";
   static const String expertAddMultipleItemApiUrl = "${apiBaseUrlTesting}add_multiple_items";
   static const String homeScreenDetails = "${apiBaseUrlTesting}expert-detail";
+  static const String transactionUrl  = '${apiBaseUrlTesting}getUserPointTansctions';
 
   ///Expert Api Url
   static const String registerExpert = "${apiBaseUrlTesting}create-expert";

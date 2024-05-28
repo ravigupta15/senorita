@@ -136,12 +136,13 @@ class MenuPriceList extends GetWidget<MenuPriceListController> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  Icon(Icons.circle,color: ColorConstant.appColor,size: 10,),
 
-                  Image.asset(
-                    width: 18,
-                    height: 18,
-                    AppImages.menuImg,
-                  ),
+                  // Image.asset(
+                  //   width: 18,
+                  //   height: 18,
+                  //   AppImages.menuImg,
+                  // ),
                   const SizedBox(
                     width: 5,
                   ),

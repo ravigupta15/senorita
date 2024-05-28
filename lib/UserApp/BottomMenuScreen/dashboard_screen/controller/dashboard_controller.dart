@@ -181,8 +181,10 @@ class DashboardController extends GetxController {
     super.dispose();
   }
 
-  void getUserLocation() async {
-   if (!(await Geolocator.isLocationServiceEnabled())) {
+  void getUserLocation() async {  
+   SharedPreferences prefs = await SharedPreferences.getInstance();
+  allHomeScreenApiFunction(prefs.getString('lat').toString(),prefs.getString('long').toString(),'',true);
+    if (!(await Geolocator.isLocationServiceEnabled())) {
      activegps.value = false;
    } else {
      activegps.value = true;
@@ -212,11 +214,8 @@ class DashboardController extends GetxController {
 
      currentLat.value = position.latitude;
      currentLong.value = position.longitude;
-     SharedPreferences prefs = await SharedPreferences.getInstance();
      prefs.setString('lat', position.latitude.toString());
      prefs.setString('long', position.longitude.toString());
-     print("cuttentlatitudeDashboard"+position.latitude.toString());
-     print("cuttentlongitudeDashboard"+position.longitude.toString());
      subLocality.value = placemark[0].subLocality.toString();
      address.value =
          placemark[0].street.toString()+","+
@@ -227,7 +226,7 @@ class DashboardController extends GetxController {
              placemark[0].country.toString();
      city.value=placemark[0].locality.toString();
      state.value=placemark[0].administrativeArea.toString();
-     allHomeScreenApiFunction(currentLat.value.toString(),currentLong.value.toString(),'',true);
+     allHomeScreenApiFunction(currentLat.value.toString(),currentLong.value.toString(),'',false);
     // _mapController.moveCamera(CameraUpdate.newLatLng(initialposition));
    }
  }
@@ -259,7 +258,7 @@ class DashboardController extends GetxController {
           bannerList.value =result['data']['getFeatureOffer']??[];
           offerBaseUrl.value=result['data']['offer_base_url']??'';
           allExpertList.value=result['data']['topRatedListing'];
-          listing_base_url.value=result['data']['listing_base_url']??[];
+          listing_base_url.value=result['data']['listing_base_url']??'';
           isLoading.value = false;
         }
       }

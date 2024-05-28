@@ -95,6 +95,7 @@ class AppImages {
   static const rating  = 'assets/images/rating.png';
   static const dotLine  = 'assets/images/dot_line.png';
   static const specialOffer  = 'assets/images/special_offer.png';
+  static String filterIcon  = "$iconPath/fitter.png";
   static const transaction  = 'assets/icons/transaction.png';
   static const distance  = 'assets/images/distance.png';
   static const noDataFound  = 'assets/images/no_data_found.png';

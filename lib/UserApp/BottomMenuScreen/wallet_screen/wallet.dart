@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:senorita/UserApp/BottomMenuScreen/dashboard_screen/controller/dashboard_controller.dart';
+import 'package:senorita/UserApp/BottomMenuScreen/profile_screen/controller/profile_controller.dart';
 import '../../../ScreenRoutes/routes.dart';
 import '../../../helper/appbar.dart';
 import '../../../helper/appimage.dart';
@@ -22,6 +23,7 @@ class Wallet extends GetWidget<WalletController> {
 
   @override
   Widget build(BuildContext context) {
+    final profileController = Get.put(ProfileController());
     return Scaffold(
       appBar: appBar(context, "Wallet",
               isShowLeading: Get.find<DashboardController>().selectedIndex==2?false:true,
@@ -66,7 +68,7 @@ class Wallet extends GetWidget<WalletController> {
                         padding: const EdgeInsets.only(top: 0),
                         child: Center(
                           child: getText(
-                              title: "₹ 5,000",
+                              title: "₹ ${profileController.walletAmount.value}",
                               size: 22,
                               fontFamily: interSemiBold,
                               color: ColorConstant.blackColor,

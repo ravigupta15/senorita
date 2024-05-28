@@ -24,17 +24,7 @@ class WalletController extends GetxController {
     SizeConfig().init();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     id=prefs.getString("id").toString();
-    profileApiFunction();
     super.onInit();
   }
 
-  profileApiFunction() async {
-    final response = await ApiConstants.getWithToken(url: ApiUrls.getProfile+"/"+id, useAuthToken: true);
-    if (response != null && response['success'] == true) {
-      print(response['data']);
-      name.value=response['data']['name'].toString() ?? "";
-      email.value=response['data']['email'].toString() ?? "";
-      mobile.value=response['data']['mobile'].toString() ?? "";
-    }
-  }
 }

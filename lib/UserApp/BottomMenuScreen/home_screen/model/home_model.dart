@@ -12,6 +12,7 @@ class OnlineExpertModel {
   dynamic userId;
   dynamic mobile;
   dynamic categoryName;
+  dynamic subCat;
   dynamic offer_count;
   dynamic expertId;
   dynamic address;
@@ -30,6 +31,7 @@ class OnlineExpertModel {
       this.userId,
       this.mobile,
       this.categoryName,
+      this.subCat,
       this.offer_count,
       this.expertId,
       this.address,
