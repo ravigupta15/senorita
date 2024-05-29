@@ -9,6 +9,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../api_config/Api_Url.dart';
 
 class SearchSalonController extends GetxController{
+  final searchController = TextEditingController();
+  final showPrefix = false.obs;
   final searchList = [].obs;
   final imgBaseUrl = ''.obs;
   final lat = ''.obs;

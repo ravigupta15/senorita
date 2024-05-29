@@ -129,7 +129,7 @@ class OffersController extends GetxController {
             result['data'][i]['experience'],
             result['data'][i]['status'],
             result['data'][i]['image_url'],
-            result['data'][i]['user']['name'],
+            result['data'][i]['user']!=null?result['data'][i]['user']['name']:'',
             result['data'][i]['category_id'],
             result['data'][i]['user']['id'],
             result['data'][i]['user']['mobile'],

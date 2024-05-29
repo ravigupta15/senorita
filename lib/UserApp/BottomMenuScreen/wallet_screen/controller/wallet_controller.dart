@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,14 +18,42 @@ class WalletController extends GetxController {
   final name="".obs;
   final email="".obs;
   final mobile="".obs;
-  String id="";// Initialize with your desired upper value
+  final id="".obs;// Initialize with your desired upper value
 
   @override
   Future<void> onInit() async {
     SizeConfig().init();
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    id=prefs.getString("id").toString();
+    id.value=prefs.getString("id").toString();
     super.onInit();
+  }
+
+  callApiFunction()async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // isLoading.value = true;
+    var headers = {'Authorization': 'Bearer ${prefs.getString("token").toString()}'};
+    var request = http.MultipartRequest('POST', Uri.parse(ApiUrls.transactionUrl));
+    request.fields.addAll({
+      'user_id':'1',
+      'type':'reward'
+    });
+    request.headers.addAll(headers);
+    var streamedResponse = await request.send();
+
+    var response = await http.Response.fromStream(streamedResponse).timeout(const Duration(seconds: 60));
+    log(response.body);
+    // Get.back();
+    // allOffersList.clear();
+    if (response.statusCode == 200) {
+      final result = jsonDecode(response.body) as Map<String, dynamic>;
+      if (result['success'] == true && result['success'] != null) {
+      }
+    }
+    else
+    {
+      Get.back();
+    }
+
   }
 
 }

@@ -269,7 +269,7 @@ class HomeScreen extends GetView<DashboardController> {
                     child: GestureDetector(
                       onTap: (){
                         print('object');
-                        controller.categoryApiFunction();
+                        // controller.categoryApiFunction();
                       },
                       child: Padding(
                         padding: const EdgeInsets.only(top: 7),
@@ -408,13 +408,13 @@ class HomeScreen extends GetView<DashboardController> {
                                     )
                                   ]
                               ),
-                              padding: EdgeInsets.only(left: 5,right: 5),
+                              padding:const EdgeInsets.only(left: 5,right: 5),
                               alignment: Alignment.center,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   NetworkImageHelper(img:"${controller.categoryModel.value!.baseUrl}/${controller.categoryModel.value!.data![index].iconImage}",
-                                    width: 35.0,height: 35.0,
+                                    width: 40.0,height: 40.0,
                                   ),
                                   const SizedBox(height: 5,),
                                   Text(controller.categoryModel.value!.data![index].name??'',

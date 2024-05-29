@@ -5,7 +5,9 @@ import '../utils/color_constant.dart';
 import '../utils/stringConstants.dart';
 import 'appimage.dart';
 
-searchBar({required bool readOnly, Function()?onTap,ValueChanged<String>? onChanged}) {
+searchBar({required bool readOnly,bool showPrefix = false,
+  TextEditingController? controller,
+  Function()?clearSearchTap, Function()?onTap,ValueChanged<String>? onChanged}) {
   return Container(
     height: 49,
     margin:const EdgeInsets.only(left: 15,right: 15,top: 10),
@@ -19,6 +21,7 @@ searchBar({required bool readOnly, Function()?onTap,ValueChanged<String>? onChan
     alignment: Alignment.center,
     child: TextFormField(
       readOnly: readOnly,
+      controller: controller,
       autofocus: true,
       style: TextStyle(
           color: ColorConstant.blackColor,
@@ -36,6 +39,15 @@ searchBar({required bool readOnly, Function()?onTap,ValueChanged<String>? onChan
               width: 20,
             ),
           ),
+          suffixIcon:showPrefix? GestureDetector(
+            onTap: clearSearchTap,
+            child: Container(
+              alignment: Alignment.center,
+              height: 15,
+              width: 15,
+              child:const Icon(Icons.clear,size: 20,)
+            ),
+          ):Container(height: 0,width: 0,),
           hintText: 'Search on senoritaapp...',
           hintStyle:const TextStyle(
               color: ColorConstant.qrViewText,
