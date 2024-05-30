@@ -10,10 +10,10 @@ searchBar({required bool readOnly,bool showPrefix = false,
   Function()?clearSearchTap, Function()?onTap,ValueChanged<String>? onChanged}) {
   return Container(
     height: 49,
-    margin:const EdgeInsets.only(left: 15,right: 15,top: 10),
+    // margin:const EdgeInsets.only(left: 15,right: 15,),
     width: double.infinity,
     decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(50),
+        borderRadius: BorderRadius.circular(10),
         border: Border.all(
             color: ColorConstant.addPriceListText
         )

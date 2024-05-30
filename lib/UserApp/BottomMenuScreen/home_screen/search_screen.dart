@@ -24,7 +24,7 @@ class SearchScreen extends GetView<SearchSalonController>{
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Obx(() => searchBar(readOnly: false,
+          Obx(() =>Padding(padding:const EdgeInsets.only(left: 15,right: 15,top: 10),child:  searchBar(readOnly: false,
             showPrefix: controller.showPrefix.value,
             clearSearchTap: (){
               controller.showPrefix.value=false;
@@ -36,16 +36,16 @@ class SearchScreen extends GetView<SearchSalonController>{
             onChanged: (val){
               if(val.isEmpty){
                 controller.isSearch.value = true;
-              controller.showPrefix.value=false;
-              controller.searchList.clear();
-            }
-            else{
+                controller.showPrefix.value=false;
+                controller.searchList.clear();
+              }
+              else{
                 controller.allHomeScreenApiFunction(val);
-              controller.showPrefix.value=true;
+                controller.showPrefix.value=true;
                 controller.isSearch.value = false;
-            }
+              }
             },
-          ),),
+          ),)),
           ScreenSize.height(5),
           Expanded(child: Obx(()=>
           controller.isSearch.value?

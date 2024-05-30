@@ -63,7 +63,7 @@ class AppImages {
   static const noData  = 'assets/icons/no_data.png';
   static const notificationHome  = 'assets/images/notification_home.png';
   static const homeLocationIcon = 'assets/icons/home_location.png';
-
+  static const clockIcon = 'assets/icons/clock.png';
 
   ///Payment
   static const fitter  = 'assets/icons/fitter.png';
@@ -97,8 +97,11 @@ class AppImages {
   static const specialOffer  = 'assets/images/special_offer.png';
   static String filterIcon  = "$iconPath/fitter.png";
   static const transaction  = 'assets/icons/transaction.png';
+  static const transcationIcon1 = 'assets/icons/paid_transcation_icon1.png';
+  static const transcationIcon2 = 'assets/icons/paid_transcation_icon2.png';
   static const distance  = 'assets/images/distance.png';
   static const noDataFound  = 'assets/images/no_data_found.png';
+
 
 
   ///Category Details

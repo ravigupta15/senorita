@@ -144,14 +144,14 @@ class AppPages {
         page: () =>  DashboardScreen(),
         binding: DashboardBinding(),
         
-        transitionDuration:  Duration(milliseconds: 50),
+        transitionDuration: const Duration(milliseconds: 50),
         transition: Transition.rightToLeft),
 
     GetPage(
         name: AppRoutes.searchScreen,
         page: () =>  SearchScreen(),
         binding: SearchBinding(),
-        transition: Transition.rightToLeft),
+        transition: Transition.cupertino),
 
 
     GetPage(

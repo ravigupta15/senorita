@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:senorita/utils/theme.dart';
+import 'package:senorita/utils/utils.dart';
 import 'ScreenRoutes/apppages.dart';
 import 'ScreenRoutes/routes.dart';
 import 'api_config/dependency_injection.dart';
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
       },
       child:  GetMaterialApp(
         title: 'Senorita',
+        navigatorKey: navigatorKey,
         theme: lightThemeData(context),
         scrollBehavior: const ScrollBehavior(),
         darkTheme: darkThemeData(context),

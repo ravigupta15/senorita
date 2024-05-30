@@ -7,6 +7,6 @@ class DashboardBinding extends Bindings {
   void dependencies() {
     Get.put(DashboardController());
     Get.put(DashboardController());
-    Get.lazyPut(() => WalletController());
+    Get.put( WalletController());
   }
 }

@@ -28,6 +28,8 @@ class CategoryDetailController extends GetxController  {
   final email = "".obs;
   final distance = "".obs;
   final myRating = "".obs;
+  final salonLat = ''.obs;
+  final salonLng = ''.obs;
   final avg_rating = "".obs;
   final review_count = "".obs;
 
@@ -188,16 +190,21 @@ class CategoryDetailController extends GetxController  {
       if (result['success'] == true && result['success'] != null) {
         getPriceListApiFunction(categoryId.value.toString());
         getUserReviewApiFunction();
-        name.value=result['data']['user']['name'] ?? "";
+        name.value=result['data']['user']!=null?result['data']['user']['name'] ?? "":"";
         status.value=result['data']['status'] ?? "";
         experience.value=result['data']['experience'] ?? "";
-        location.value=result['data']['user']['address']??"";
+        location.value=result['data']['user']!=null?result['data']['user']['address']??"":"";
         kodagoCard.value=result['data']['kodago_card_url']??"";
         bio.value=result['data']['about']?? "";
         image.value=result['data']['image_url'] ?? "";
-        location.value=result['data']['user']['address']??"";
-        mobile.value=result['data']['user']['mobile']??"";
-        distance.value=result['data']['user']['distance']??"";
+        location.value=result['data']['user']!=null?result['data']['user']['address']??"":"";
+        mobile.value=result['data']['user']!=null? result['data']['user']['mobile']??"":"";
+        distance.value=result['data']['user']!=null?result['data']['user']['distance']??"":"";
+        salonLat.value = result['data']['user']!=null&&result['data']['user']['lat']!=null?
+        result['data']['user']['lat']:"";
+        salonLng.value = result['data']['user']!=null&&result['data']['user']['lng']!=null?
+        result['data']['user']['lng']:"";
+
         myRating.value =  result['data']['my_rating'] ?? "";
         averageRating.value=result['data']['avg_rating']?? "";
       //  showToast(result['data']['my_rating'].toString());
@@ -208,7 +215,6 @@ class CategoryDetailController extends GetxController  {
         review_count.value =  result['data']['review_count'] ?? "";
 
       //  showToast(result['data']['my_rating'].toString());
-
 
         spacialOffer.value =result['data']['offers'];
         offersUrl.value=result['offer_base_url'];

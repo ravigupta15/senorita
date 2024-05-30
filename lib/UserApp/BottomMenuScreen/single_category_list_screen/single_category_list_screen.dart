@@ -9,10 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:senorita/UserApp/BottomMenuScreen/home_screen/shimmer/all_expert_shimmer.dart';
 import 'package:senorita/UserApp/BottomMenuScreen/home_screen/shimmer/popular_category_shimmer.dart';
 import 'package:senorita/UserApp/BottomMenuScreen/single_category_list_screen/controller/single_category_list_controller.dart';
+import 'package:senorita/utils/screensize.dart';
 import '../../../ScreenRoutes/routes.dart';
 import '../../../helper/appbar.dart';
 import '../../../helper/appimage.dart';
 import '../../../helper/getText.dart';
+import '../../../helper/searchbar.dart';
 import '../../../utils/color_constant.dart';
 import '../../../utils/format_rating.dart';
 import '../../../utils/my_sperator.dart';
@@ -54,9 +56,33 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
           },
           child: Column(
             children: [
-               Expanded(
+              Padding(
+                padding: const EdgeInsets.only(left: 15,right: 15,top: 10),
+                child: Row(
+                  children: [
+                    Expanded(child: searchBar(readOnly: true, onTap: (){
+                      Get.toNamed(AppRoutes.searchScreen);
+                    })),
+                    ScreenSize.width(10),
+                    Container(
+                      height: 49,
+                      width: 49,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                              color: Color(0xffD9D9D9)
+                          )
+                      ),
+                      alignment: Alignment.center,
+                      child: Image.asset(AppImages.filterIcon,height: 20,width:20,color: Color(0xff767676),),
+                    )
+                  ],
+                ),
+              ),
+              ScreenSize.height(5),
+              Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.only(bottom: 55),
+                    padding: const EdgeInsets.only(),
                     child: Container(
                         color: ColorConstant.white,
                         child:    Obx(
@@ -72,10 +98,10 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
                                   separatorBuilder: (context,sp){
                                 return const SizedBox(height: 23,);
                               },
-                                  padding:const EdgeInsets.only(left: 15,right: 14),
+                                  padding:const EdgeInsets.only(left: 15,right: 14,top: 15,bottom: 30),
                                   shrinkWrap: true,
                                   itemCount: controller.allCategoryList.length,
-                                  physics: ScrollPhysics(),
+                                  physics:const ScrollPhysics(),
                                   itemBuilder: (BuildContext context, int index) {
                                     var model = controller.allCategoryList[index];
 
@@ -99,7 +125,6 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
                   ),
                 ),
               const SizedBox(height: 15,),
-
                controller.isLoadMoreRunning.value == true
                     ? const Padding(
                     padding: EdgeInsets.only(bottom: 30),
@@ -114,123 +139,123 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
           ),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.all(0.0),
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: 55,
-          child: Column(
-            children: [
-              Divider(
-                height: 2,
-                 thickness: 1,
-                color: ColorConstant.drawerEmail,
-
-              ),
-              Card(
-                margin: EdgeInsets.zero,
-                child: Container(
-                  height: 53,
-                  child: SizedBox(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        GestureDetector(
-                          onTap: ()
-                          {
-                            controller.shortBySheet(context);
-                          },
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                height: 15,
-                                width: 15,
-                                AppImages.shortBy,
-                                fit: BoxFit.contain,
-                              ),
-                              const SizedBox(width: 15,),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  getText(
-                                      title: "Sort by",
-                                      size: 13,
-                                      fontFamily: interMedium,
-                                      letterSpacing: 0.2,
-                                      color: ColorConstant.blackColor,
-                                      fontWeight: FontWeight.w600),
-                                  SizedBox(height: 3,),
-                                  const getText(
-                                      title: "Popularity",
-                                      size: 11,
-                                      letterSpacing: 0.2,
-                                      fontFamily: interRegular,
-                                      color: ColorConstant.qrViewText,
-                                      fontWeight: FontWeight.w400),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          height: 30,
-                          width: 1,
-                          color: ColorConstant.dot,
-                        ),
-                        Row(
-                          children: [
-                            Image.asset(
-                              height: 15,
-                              width: 15,
-                              AppImages.filterBy,
-                              fit: BoxFit.contain,
-                            ),
-
-                            const SizedBox(width: 15,),
-                            GestureDetector(
-                              onTap: ()
-                              {
-                                controller.filterSheet(context);
-                              },
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  getText(
-                                      title: "Filter",
-                                      size: 13,
-                                      fontFamily: interMedium,
-                                      letterSpacing: 0.2,
-                                      color: ColorConstant.blackColor,
-                                      fontWeight: FontWeight.w600),
-                                  SizedBox(height: 3,),
-                                  getText(
-                                      title: "Apply filter",
-                                      size: 11,
-                                      letterSpacing: 0.2,
-                                      fontFamily: interRegular,
-                                      color: ColorConstant.qrViewText,
-                                      fontWeight: FontWeight.w400),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-
-
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-
-            ],
-          )
-        ),
-      ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // floatingActionButton: Padding(
+      //   padding: const EdgeInsets.all(0.0),
+      //   child: Container(
+      //     width: MediaQuery.of(context).size.width,
+      //     height: 55,
+      //     child: Column(
+      //       children: [
+      //         Divider(
+      //           height: 2,
+      //            thickness: 1,
+      //           color: ColorConstant.drawerEmail,
+      //
+      //         ),
+      //         Card(
+      //           margin: EdgeInsets.zero,
+      //           child: Container(
+      //             height: 53,
+      //             child: SizedBox(
+      //               child: Row(
+      //                 crossAxisAlignment: CrossAxisAlignment.center,
+      //                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      //                 children: [
+      //                   GestureDetector(
+      //                     onTap: ()
+      //                     {
+      //                       controller.shortBySheet(context);
+      //                     },
+      //                     child: Row(
+      //                       children: [
+      //                         Image.asset(
+      //                           height: 15,
+      //                           width: 15,
+      //                           AppImages.shortBy,
+      //                           fit: BoxFit.contain,
+      //                         ),
+      //                         const SizedBox(width: 15,),
+      //                         Column(
+      //                           mainAxisAlignment: MainAxisAlignment.center,
+      //                           crossAxisAlignment: CrossAxisAlignment.start,
+      //                           children: [
+      //                             getText(
+      //                                 title: "Sort by",
+      //                                 size: 13,
+      //                                 fontFamily: interMedium,
+      //                                 letterSpacing: 0.2,
+      //                                 color: ColorConstant.blackColor,
+      //                                 fontWeight: FontWeight.w600),
+      //                             SizedBox(height: 3,),
+      //                             const getText(
+      //                                 title: "Popularity",
+      //                                 size: 11,
+      //                                 letterSpacing: 0.2,
+      //                                 fontFamily: interRegular,
+      //                                 color: ColorConstant.qrViewText,
+      //                                 fontWeight: FontWeight.w400),
+      //                           ],
+      //                         ),
+      //                       ],
+      //                     ),
+      //                   ),
+      //                   Container(
+      //                     height: 30,
+      //                     width: 1,
+      //                     color: ColorConstant.dot,
+      //                   ),
+      //                   Row(
+      //                     children: [
+      //                       Image.asset(
+      //                         height: 15,
+      //                         width: 15,
+      //                         AppImages.filterBy,
+      //                         fit: BoxFit.contain,
+      //                       ),
+      //
+      //                       const SizedBox(width: 15,),
+      //                       GestureDetector(
+      //                         onTap: ()
+      //                         {
+      //                           controller.filterSheet(context);
+      //                         },
+      //                         child: Column(
+      //                           mainAxisAlignment: MainAxisAlignment.center,
+      //                           crossAxisAlignment: CrossAxisAlignment.start,
+      //                           children: [
+      //                             getText(
+      //                                 title: "Filter",
+      //                                 size: 13,
+      //                                 fontFamily: interMedium,
+      //                                 letterSpacing: 0.2,
+      //                                 color: ColorConstant.blackColor,
+      //                                 fontWeight: FontWeight.w600),
+      //                             SizedBox(height: 3,),
+      //                             getText(
+      //                                 title: "Apply filter",
+      //                                 size: 11,
+      //                                 letterSpacing: 0.2,
+      //                                 fontFamily: interRegular,
+      //                                 color: ColorConstant.qrViewText,
+      //                                 fontWeight: FontWeight.w400),
+      //                           ],
+      //                         ),
+      //                       ),
+      //                     ],
+      //                   ),
+      //
+      //
+      //                 ],
+      //               ),
+      //             ),
+      //           ),
+      //         ),
+      //
+      //       ],
+      //     )
+      //   ),
+      // ),
     );
   }
 

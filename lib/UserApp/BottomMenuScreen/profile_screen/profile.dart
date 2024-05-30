@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:senorita/UserApp/BottomMenuScreen/dashboard_screen/controller/dashboard_controller.dart';
+import 'package:senorita/utils/utils.dart';
 import '../../../ScreenRoutes/routes.dart';
 import '../../../helper/appimage.dart';
 import '../../../helper/custombtn.dart';
@@ -74,355 +75,80 @@ class Profile extends GetWidget<ProfileController> {
                   ),
                 ],
               ),
-              SizedBox(
+             const SizedBox(
                 height: 25,
               ),
-              Container(
+              SizedBox(
                 height: MediaQuery.of(context).size.height / 1,
-                child: Card(
-                  margin: EdgeInsets.zero,
-                  elevation: 2,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20))
-                      //set border radius more than 50% of height and width to make circle
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: ColorConstant.white,
+                      borderRadius:const BorderRadius.only(
+                        topRight: Radius.circular(10),topLeft: Radius.circular(16)
                       ),
+                      boxShadow: [
+                        BoxShadow(
+                            offset:const Offset(0, 3),
+                            color: ColorConstant.black3333.withOpacity(.2),
+                            blurRadius: 14
+                        )
+                      ]
+                  ),
                   child: Column(
                     children: [
-                      GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        onTap: () {
-                          Get.toNamed(AppRoutes.editProfile)?.then((value) {
-                            controller.onInit();
-                          });
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 12, right: 12, top: 10),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 5),
-                                        child: Center(
-                                          child: Image.asset(
-                                            height: 28,
-                                            width: 28,
-                                            AppImages.profileUsers,
-                                            fit: BoxFit.contain,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 5),
-                                        child: Center(
-                                          child: getText(
-                                              title: "Personal Information",
-                                              size: 13,
-                                              fontFamily: interSemiBold,
-                                              color: ColorConstant.blackColor,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 5),
-                                    child: Center(
-                                      child: Image.asset(
-                                        height: 20,
-                                        width: 20,
-                                        AppImages.arrow,
-                                        fit: BoxFit.contain,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width - 30,
-                                color: ColorConstant.dividerColor,
-                                height: 1,
-                              ),
-                            ],
-                          ),
-                        ),
+                      profileTypesWidget(title: 'Personal Information', img: AppImages.profileUsers, onTap: () {
+                        Get.toNamed(AppRoutes.editProfile)?.then((value) {
+                          controller.onInit();
+                        });
+                      },),
+                      const SizedBox(
+                        height: 15,
                       ),
-                      GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        onTap: () {
-                          Get.toNamed(AppRoutes.walletScreen);
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 12, right: 12, top: 15),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 5),
-                                        child: Center(
-                                          child: Image.asset(
-                                            height: 28,
-                                            width: 28,
-                                            AppImages.profileWallet,
-                                            fit: BoxFit.contain,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 5),
-                                        child: Center(
-                                          child: getText(
-                                              title: "Wallet",
-                                              size: 13,
-                                              fontFamily: interSemiBold,
-                                              color: ColorConstant.blackColor,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 5),
-                                    child: Center(
-                                      child: Image.asset(
-                                        height: 20,
-                                        width: 20,
-                                        AppImages.arrow,
-                                        fit: BoxFit.contain,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width - 30,
-                                color: ColorConstant.dividerColor,
-                                height: 1,
-                              ),
-                            ],
-                          ),
-                        ),
+                      Container(
+                        width: MediaQuery.of(navigatorKey.currentContext!).size.width - 30,
+                        color: ColorConstant.dividerColor,
+                        height: 1,
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          Get.toNamed(AppRoutes.helpSupportScreen,
-                              arguments: ['termsCondition', ""]);
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 12, right: 12, top: 15),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 5),
-                                        child: Center(
-                                          child: Image.asset(
-                                            height: 28,
-                                            width: 28,
-                                            AppImages.profileTerms,
-                                            fit: BoxFit.contain,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 5),
-                                        child: Center(
-                                          child: getText(
-                                              title: "Terms & Condition",
-                                              size: 13,
-                                              fontFamily: interSemiBold,
-                                              color: ColorConstant.blackColor,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 5),
-                                    child: Center(
-                                      child: Image.asset(
-                                        height: 20,
-                                        width: 20,
-                                        AppImages.arrow,
-                                        fit: BoxFit.contain,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width - 30,
-                                color: ColorConstant.dividerColor,
-                                height: 1,
-                              ),
-                            ],
-                          ),
-                        ),
+                      profileTypesWidget(title: 'Wallet', img: AppImages.profileWallet, onTap: () {
+                        Get.toNamed(AppRoutes.walletScreen);
+                      },),
+                      const SizedBox(
+                        height: 15,
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          Get.toNamed(AppRoutes.helpSupportScreen,
-                              arguments: ['helpSupport', ""]);
-                        },
-                        child: Padding(
-                          padding:
-                              const EdgeInsets.only(left: 12, right: 12, top: 15),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 5),
-                                        child: Center(
-                                          child: Image.asset(
-                                            height: 28,
-                                            width: 28,
-                                            AppImages.profileHelp,
-                                            fit: BoxFit.contain,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 5),
-                                        child: Center(
-                                          child: getText(
-                                              title: "Help & Support",
-                                              size: 13,
-                                              fontFamily: interSemiBold,
-                                              color: ColorConstant.blackColor,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 5),
-                                    child: Center(
-                                      child: Image.asset(
-                                        height: 20,
-                                        width: 20,
-                                        AppImages.arrow,
-                                        fit: BoxFit.contain,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width - 30,
-                                color: ColorConstant.dividerColor,
-                                height: 1,
-                              ),
-                            ],
-                          ),
-                        ),
+                      Container(
+                        width: MediaQuery.of(navigatorKey.currentContext!).size.width - 30,
+                        color: ColorConstant.dividerColor,
+                        height: 1,
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          userLogoutDialogBox(context, dashboardController);
-                          // userLogoutDialogBox(context, dashboardController);
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 12, right: 12, top: 15),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 5),
-                                        child: Center(
-                                          child: Image.asset(
-                                            height: 28,
-                                            width: 28,
-                                            AppImages.profileLogout,
-                                            fit: BoxFit.contain,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 5),
-                                        child: Center(
-                                          child: getText(
-                                              title: "Logout",
-                                              size: 13,
-                                              fontFamily: interSemiBold,
-                                              color: ColorConstant.blackColor,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 5),
-                                    child: Center(
-                                      child: Image.asset(
-                                        height: 20,
-                                        width: 20,
-                                        AppImages.arrow,
-                                        fit: BoxFit.contain,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
+
+                      profileTypesWidget(title: 'Terms & Condition', img: AppImages.profileTerms, onTap: () {
+                        Get.toNamed(AppRoutes.helpSupportScreen,
+                            arguments: ['termsCondition', ""]);
+                      },),
+                      const SizedBox(
+                        height: 15,
                       ),
+                      Container(
+                        width: MediaQuery.of(navigatorKey.currentContext!).size.width - 30,
+                        color: ColorConstant.dividerColor,
+                        height: 1,
+                      ),
+
+                      profileTypesWidget(title: 'Help & Support', img: AppImages.profileHelp, onTap: () {
+                        Get.toNamed(AppRoutes.helpSupportScreen,
+                            arguments: ['helpSupport', ""]);
+                      },),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Container(
+                        width: MediaQuery.of(navigatorKey.currentContext!).size.width - 30,
+                        color: ColorConstant.dividerColor,
+                        height: 1,
+                      ),
+                      profileTypesWidget(title: 'Logout', img: AppImages.profileLogout, onTap: () {
+                        userLogoutDialogBox(context, dashboardController);
+                      },)
                     ],
                   ),
                 ),
@@ -434,11 +160,67 @@ class Profile extends GetWidget<ProfileController> {
     );
   }
 
+  profileTypesWidget({required String title,required String img, required Function()onTap}){
+    return GestureDetector(
+      onTap: onTap,
+      child: Padding(
+        padding:
+        const EdgeInsets.only(left: 12, right: 12, top: 15),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 5),
+                  child: Center(
+                    child: Image.asset(
+                      height: 28,
+                      width: 28,
+                      img,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ),
+              const  SizedBox(
+                  width: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 5),
+                  child: Center(
+                    child: getText(
+                        title: title,
+                        size: 14,
+                        fontFamily: interMedium,
+                        color: ColorConstant.blackColor,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 5),
+              child: Center(
+                child: Image.asset(
+                  height: 20,
+                  width: 20,
+                  AppImages.arrow,
+                  fit: BoxFit.contain,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   void userLogoutDialogBox(
     BuildContext context,
     DashboardController dashboardController,
   ) {
     showGeneralDialog(
+
         barrierColor: Colors.black.withOpacity(0.5),
         transitionBuilder: (context, a1, a2, widget) {
           return Transform.scale(
@@ -446,7 +228,9 @@ class Profile extends GetWidget<ProfileController> {
             child: Opacity(
               opacity: a1.value,
               child: AlertDialog(
+                backgroundColor: ColorConstant.white,
                 shape: OutlineInputBorder(
+                  borderSide: BorderSide(color: ColorConstant.white),
                     borderRadius: BorderRadius.circular(16.0)),
                 content: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -458,12 +242,12 @@ class Profile extends GetWidget<ProfileController> {
                           fontFamily: celiaRegular,
                           color: ColorConstant.blackColor,
                           fontWeight: FontWeight.w600),
-                      ScreenSize.height(10),
-                      getText(
+                      ScreenSize.height(15),
+                     const getText(
                           title: 'Are you sure want to logout?',
                           size: 13,
                           fontFamily: celiaRegular,
-                          color: ColorConstant.greyColor,
+                          color: ColorConstant.black3333,
                           fontWeight: FontWeight.w400),
                       ScreenSize.height(30),
                       Row(

@@ -2,6 +2,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:senorita/UserApp/BottomMenuScreen/wallet_screen/controller/wallet_controller.dart';
 import '../../../helper/appimage.dart';
 import '../../../utils/color_constant.dart';
 import '../../../utils/stringConstants.dart';
@@ -151,7 +152,7 @@ class DashboardScreen extends GetView<DashboardController> {
 
                 onTap: (index){
                   controller.changeIndex(index);
-                },
+                 },
                 currentIndex: controller.selectedIndex.value,
                 items:const [
                   BottomNavigationBarItem(icon: Padding(

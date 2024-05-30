@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:senorita/UserApp/BottomMenuScreen/home_screen/shimmer/all_expert_shimmer.dart';
 import 'package:senorita/helper/network_image_helper.dart';
+import 'package:senorita/utils/screensize.dart';
 import 'package:senorita/widget/no_data_found.dart';
 import 'package:senorita/widget/view_salon_widget.dart';
 import '../../../ScreenRoutes/routes.dart';
@@ -16,6 +17,7 @@ import '../../../utils/color_constant.dart';
 import '../../../utils/format_rating.dart';
 import '../../../utils/my_sperator.dart';
 import '../../../utils/stringConstants.dart';
+import '../../../widget/banner_indicator.dart';
 import '../dashboard_screen/controller/dashboard_controller.dart';
 
 class HomeScreen extends GetView<DashboardController> {
@@ -50,9 +52,11 @@ class HomeScreen extends GetView<DashboardController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                searchBar(readOnly: true, onTap: (){
-                  Get.toNamed(AppRoutes.searchScreen);
-                  }),
+               Padding(padding:const EdgeInsets.only(left: 15,right: 15,top: 10),
+               child:  searchBar(readOnly: true, onTap: (){
+                 Get.toNamed(AppRoutes.searchScreen);
+               }),
+               ),
                 //Slider
                 Obx(()=>
                 controller.bannerList.isNotEmpty?
@@ -60,12 +64,12 @@ class HomeScreen extends GetView<DashboardController> {
                     padding:
                     const EdgeInsets.only(left: 5, right: 5, top: 10),
                     child: Obx(
-                          () => controller.isLoading.value
+                          () => controller.isLoading.value&&controller.bannerList.isEmpty
                           ? homeScreenShimmer()
                           : SizedBox(
                         child: RefreshIndicator(
                             onRefresh: () {
-                              homeScreenShimmer();
+                              // homeScreenShimmer();
                               return controller
                                   .allHomeScreenApiFunction(
                                   controller.currentLat.value
@@ -104,8 +108,10 @@ class HomeScreen extends GetView<DashboardController> {
                               options: CarouselOptions(
                                 height: 150.0,
                                 enlargeCenterPage: true,
-                                autoPlay: true,
+                                autoPlay:controller.bannerList.length>1? true:false,
                                 aspectRatio: 16/9,
+                                scrollPhysics:controller.bannerList.length>1?const ScrollPhysics():
+                                const NeverScrollableScrollPhysics(),
                                 autoPlayCurve:
                                 Curves.fastOutSlowIn,
                                 enableInfiniteScroll: true,
@@ -116,6 +122,17 @@ class HomeScreen extends GetView<DashboardController> {
                             )),
                       ),
                     )):const SizedBox(),
+                ),
+                Obx(()=>controller.bannerList.length>1? Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: List.generate(controller.bannerList.length, (index) {
+                          return controller.bannerIndex.value == index
+                              ? bannerIndicator(true)
+                              : bannerIndicator(false);
+                        })),
+                ):Container(),
                 ),
                 //All Expertise
 

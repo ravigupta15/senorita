@@ -58,7 +58,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
           hintText: widget.hintText,
           prefixIcon: widget.prefix,
           labelText: widget.labelText,
-
           labelStyle: TextStyle(
                fontSize: 13,
               fontFamily: interRegular,
@@ -93,7 +92,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
               borderRadius: BorderRadius.circular(10)),
         ),
         style: TextStyle(
-            fontSize: 13.0
+            fontSize: 14.0,
+          color: ColorConstant.blackColor,
+          fontWeight: FontWeight.w400
         ),
       ),
     );

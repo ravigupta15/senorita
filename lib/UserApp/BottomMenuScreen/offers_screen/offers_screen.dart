@@ -4,10 +4,13 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:senorita/UserApp/BottomMenuScreen/offers_screen/controller/offers_controller.dart';
 import 'package:senorita/UserApp/category_details_screen/controller/category_details_controller.dart';
+import 'package:senorita/helper/appbar.dart';
+import 'package:senorita/utils/screensize.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../ScreenRoutes/routes.dart';
 import '../../../helper/appimage.dart';
 import '../../../helper/getText.dart';
+import '../../../helper/searchbar.dart';
 import '../../../utils/color_constant.dart';
 import '../../../utils/my_sperator.dart';
 import '../../../utils/size_config.dart';
@@ -21,35 +24,7 @@ class OffersScreen extends GetView<OffersController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorConstant.white,
-      appBar: AppBar(
-        backgroundColor: ColorConstant.white,
-        scrolledUnderElevation: 0.0,elevation: 0,
-        automaticallyImplyLeading: false,
-        title: getText(
-            title: "Special Offer",
-            size: 18,
-            textAlign: TextAlign.center,
-            letterSpacing: 0.5,
-            fontFamily: interSemiBold,
-            color: ColorConstant.blackColor,
-            fontWeight: FontWeight.w600),
-        centerTitle: true,
-        actions: [
-          Container(
-            margin:const EdgeInsets.only(right: 20),
-            height: 32,
-            width: 35,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(6),
-              border: Border.all(
-                color: Color(0xffD9D9D9)
-              )
-            ),
-            alignment: Alignment.center,
-            child: Image.asset(AppImages.filterIcon,height: 17,width:17,color: Color(0xff767676),),
-          )
-        ],
-      ),
+      appBar: appBar(context, 'Special Offer', () => null,isShowLeading: false),
       body: RefreshIndicator(
         onRefresh: () => controller.allOffersApiFunction(2),
         child: NotificationListener<ScrollNotification>(
@@ -70,7 +45,31 @@ class OffersScreen extends GetView<OffersController> {
             () => Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                    //   const SizedBox(
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15,right: 15,top: 10),
+                        child: Row(
+                          children: [
+                            Expanded(child: searchBar(readOnly: true, onTap: (){
+                              Get.toNamed(AppRoutes.searchScreen);
+                            })),
+                            ScreenSize.width(10),
+                            Container(
+                              height: 49,
+                              width: 49,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(
+                                      color: Color(0xffD9D9D9)
+                                  )
+                              ),
+                              alignment: Alignment.center,
+                              child: Image.asset(AppImages.filterIcon,height: 20,width:20,color: Color(0xff767676),),
+                            )
+                          ],
+                        ),
+                      ),
+                      ScreenSize.height(5),
+                      //   const SizedBox(
                     //     height: 20,
                     //   ),
                     // const  Padding(
@@ -227,7 +226,7 @@ class OffersScreen extends GetView<OffersController> {
                                                   return const SizedBox(height: 23,);
                                                 },
                                                 shrinkWrap: true,
-                                                padding:const EdgeInsets.only(left: 15,right: 14),
+                                                padding:const EdgeInsets.only(left: 15,right: 14,top: 15),
                                                 itemCount: controller
                                                     .allOffersList.length,
                                                 physics:const ScrollPhysics(),

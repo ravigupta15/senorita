@@ -24,6 +24,7 @@ import '../../offers_screen/controller/offers_controller.dart';
 import '../../offers_screen/offers_screen.dart';
 import '../../profile_screen/controller/profile_controller.dart';
 import '../../profile_screen/profile.dart';
+import '../../wallet_screen/controller/wallet_controller.dart';
 
 class DashboardController extends GetxController {
 
@@ -131,6 +132,10 @@ class DashboardController extends GetxController {
     {
       Get.find<OffersController>().onInit();
     }
+    else if(selectedIndex.value==2){
+       Get.find<WalletController>().onInit();
+
+     }
 
 
 
@@ -153,6 +158,7 @@ class DashboardController extends GetxController {
 
 
  ///Home Screen Data
+final bannerIndex =0.obs;
  final bannerList = [].obs;
  final offerBaseUrl = "".obs;
  final listing_base_url = "".obs;
@@ -248,7 +254,6 @@ class DashboardController extends GetxController {
     var response = await http.Response.fromStream(streamedResponse).timeout(const Duration(seconds: 60));
     log(response.body);
     isShowLoad? Get.back():null;
-
     allExpertList.clear();
     if (response.statusCode == 200) {
       log(response.body);
