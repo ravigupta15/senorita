@@ -7,6 +7,8 @@ import 'package:senorita/ExpertApp/BottomMenuScreen/expert_edit_profile_screen/b
 import 'package:senorita/ExpertApp/BottomMenuScreen/expert_edit_profile_screen/expert_edit_profile_screen.dart';
 import 'package:senorita/ExpertApp/BottomMenuScreen/expert_wallet_screen/binding/expert_wallet_binding.dart';
 import 'package:senorita/ExpertApp/BottomMenuScreen/expert_wallet_screen/expert_wallet.dart';
+import 'package:senorita/ExpertApp/BottomMenuScreen/offers/add_offer_screen.dart';
+import 'package:senorita/ExpertApp/BottomMenuScreen/offers/binding/add_offer_binding.dart';
 import 'package:senorita/ExpertApp/expert_registration_screen/googleMap/googleMapScreen.dart';
 import 'package:senorita/ExpertApp/expert_registration_screen/googleMapAnimation/binding/googleMapAnimationBinding.dart';
 import 'package:senorita/ExpertApp/expert_registration_screen/googleMapAnimation/googleMapAnimation.dart';
@@ -17,6 +19,7 @@ import 'package:senorita/UserApp/BottomMenuScreen/editProfile/editProfile_screen
 import 'package:senorita/UserApp/BottomMenuScreen/home_screen/binding/search_binding.dart';
 import 'package:senorita/UserApp/BottomMenuScreen/home_screen/search_screen.dart';
 import 'package:senorita/UserApp/BottomMenuScreen/payment_screen/binding/payment_binding.dart';
+import 'package:senorita/UserApp/BottomMenuScreen/refer_earn/referearn_binidng.dart';
 import 'package:senorita/UserApp/BottomMenuScreen/report_screen/binding/report_binding.dart';
 import 'package:senorita/UserApp/BottomMenuScreen/report_screen/report_screen.dart';
 import 'package:senorita/UserApp/BottomMenuScreen/wallet_screen/binding/wallet_binding.dart';
@@ -31,8 +34,6 @@ import '../CommonScreens/select_createAccount_screen/binding/createAccount_type.
 import '../CommonScreens/select_createAccount_screen/select_createAccount_screen.dart';
 import '../CommonScreens/splashScreen/binding/splash_binding.dart';
 import '../CommonScreens/splashScreen/splash_screen.dart';
-import '../ExpertApp/BottomMenuScreen/addOffers/addOffersScreen.dart';
-import '../ExpertApp/BottomMenuScreen/addOffers/binding/addOffersBinding.dart';
 import '../ExpertApp/BottomMenuScreen/addPriceList/AddPriceListScreen.dart';
 import '../ExpertApp/BottomMenuScreen/addPriceList/binding/priceListbinding.dart';
 import '../ExpertApp/BottomMenuScreen/expert_dashboard_screen/binding/dashboard_binding.dart';
@@ -62,6 +63,7 @@ import '../UserApp/BottomMenuScreen/profile_screen/binding/profile_binding.dart'
 import '../UserApp/BottomMenuScreen/profile_screen/profile.dart';
 import '../UserApp/BottomMenuScreen/qr_screen_expert/QrCodeScreen.dart';
 import '../UserApp/BottomMenuScreen/qr_screen_expert/binding/qrCode_binding.dart';
+import '../UserApp/BottomMenuScreen/refer_earn/referearn_screen.dart';
 import '../UserApp/BottomMenuScreen/single_category_list_screen/binding/single_category_list_binding.dart';
 import '../UserApp/BottomMenuScreen/single_category_list_screen/model/single_category_list_model.dart';
 import '../UserApp/BottomMenuScreen/single_category_list_screen/single_category_list_screen.dart';
@@ -309,29 +311,35 @@ class AppPages {
         binding: ExpertQrCodeBinding(),
         
         transitionDuration:  Duration(milliseconds: 50),
-        transition: Transition.rightToLeft),
+        transition: Transition.cupertino),
+
+
+    GetPage(
+        name: AppRoutes.referEarnScreen,
+        page: () =>  ReferEarnScreen(),
+        binding: ReferEarnBinding(),
+
+        transitionDuration:  Duration(milliseconds: 50),
+        transition: Transition.cupertino),
 
     GetPage(
         name: AppRoutes.expertEditProfileScreen,
         page: () =>  ExpertEditProfileScreen(),
         binding: ExpertEditProfileBinding(),
-        
         transitionDuration:  Duration(milliseconds: 50),
         transition: Transition.rightToLeft),
 
     GetPage(
-        name: AppRoutes.expertEditProfileScreen,
-        page: () =>   AddOfferScreen(),
+        name: AppRoutes.addOfferScreen,
+        page: () => AddOfferScreen(),
         binding: AddOfferBinding(),
-        
-        transitionDuration:  Duration(milliseconds: 50),
-        transition: Transition.rightToLeft),
+        transition: Transition.cupertino),
 
     GetPage(
         name: AppRoutes.expertWalletScreen,
         page: () =>   ExpertWalletScreen(),
         binding: ExpertWalletBinding(),
-        
+
         transitionDuration:  Duration(milliseconds: 50),
         transition: Transition.rightToLeft),
 

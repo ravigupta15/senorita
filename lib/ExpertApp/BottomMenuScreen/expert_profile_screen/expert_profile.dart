@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:senorita/ExpertApp/BottomMenuScreen/menu_priceList/controller/menuPriceListcontroller.dart';
+import 'package:senorita/api_config/Api_Url.dart';
 import '../../../ScreenRoutes/routes.dart';
 import '../../../UserApp/BottomMenuScreen/dashboard_screen/controller/dashboard_controller.dart';
 import '../../../helper/appbar.dart';
@@ -21,27 +22,12 @@ class ExpertProfile extends GetWidget<ExpertProfileController> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        SystemNavigator.pop();
         return true;
       },
       child: Scaffold(
-        appBar: /*appBar(context, "Profile", () {
-          Get.back();
-        }),*/
-        AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leadingWidth: 30,
-          title: getText(
-              title: "Profile",
-              size: 17,
-              fontFamily: interSemiBold,
-              letterSpacing: 0.7,
-              color: ColorConstant.blackColor,
-              fontWeight: FontWeight.w400),
-          centerTitle: true,
-        ),
-
+        appBar: appBar(context, "Profile",isShowLeading: false, () {
+          // Get.back();
+        }),
         //backgroundColor: ColorConstant.screenBack.withOpacity(0.4),
         body: SingleChildScrollView(
 
@@ -75,7 +61,7 @@ class ExpertProfile extends GetWidget<ExpertProfileController> {
               Container(
                 height: 190,
                 width: 190,
-                decoration: new BoxDecoration(
+                decoration:  BoxDecoration(
                     borderRadius: BorderRadius.circular(24.0),
                     image: DecorationImage(
                       image: AssetImage(
@@ -86,44 +72,33 @@ class ExpertProfile extends GetWidget<ExpertProfileController> {
                 child: Center(
                   child: Container(
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(100)),
+                        borderRadius:const BorderRadius.all(Radius.circular(100)),
                         border: Border.all(
                           width: 5,
                           color: Colors.black26.withOpacity(0.04),
                         )),
-                    child: /*ClipOval(
-                      child: Image.asset(
-                        height: 100,
-                        width: 100,
-                        AppImages.photoTwo,
-                        fit: BoxFit.cover,
-                      ),
-                    ),*/
+                    child:
                         Obx(()=>
-                          controller.profile.value.isEmpty
-                              ? ClipOval(
-                                  child: Image.asset(
-                                    height: 100,
-                                    width: 100,
-                                    AppImages.photoTwo,
-                                    fit: BoxFit.cover,
-                                  ),
+                        controller.model.value!=null&&controller.model.value.data!=null&&controller.model.value.data!.user!=null&&controller.model.value.data!.user!.profilePicture!=null
+                            ?ClipOval(
+                          child: CachedNetworkImage(
+                            height: 100,
+                            width: 100,
+                            fit: BoxFit.cover,
+                            imageUrl:ApiUrls.imgBaseUrl+controller.model.value.data!.user!.profilePicture,
+                            placeholder: (context, url) => const CircularProgressIndicator(),
+                            errorWidget: (context, url, error) =>const  Icon(Icons.person),
+                          ),
+                        ):
+                         ClipOval(
+                           child: Image.asset(
+                             height: 100,
+                             width: 100,
+                             AppImages.photoTwo,
+                             fit: BoxFit.cover,
+                           ),
                                 )
-                              : ClipOval(
-                                  child: CachedNetworkImage(
-                                    height: 100,
-                                    width: 100,
-                                    fit: BoxFit.cover,
-                                    imageUrl: controller.profile.value.toString(),
-                                    placeholder: (context, url) => new CircularProgressIndicator(),
-                                    errorWidget: (context, url, error) => new Icon(Icons.person),
-                                   /* height: 100,
-                                    width: 100,
-                                    controller.profile.value.toString(),
-                                    fit: BoxFit.cover,*/
-                                  ),
-                                ),
-                        ),
+                             ),
                   ),
                 ),
               ),
@@ -133,7 +108,8 @@ class ExpertProfile extends GetWidget<ExpertProfileController> {
               Obx(
                 () => Center(
                   child: getText(
-                      title: controller.name.value.toString(),
+                      title:controller.model.value!=null&&controller.model.value.data!=null&&controller.model.value.data!.user!=null?
+                      controller.model.value.data!.user!.name:"",
                       size: 18,
                       fontFamily: interSemiBold,
                       color: ColorConstant.blackColor,
@@ -146,7 +122,8 @@ class ExpertProfile extends GetWidget<ExpertProfileController> {
               Obx(
                 () => Center(
                   child: getText(
-                      title: controller.mobile.value.toString(),
+                      title: controller.model.value!=null&&controller.model.value.data!=null&&controller.model.value.data!.user!=null?
+                      controller.model.value.data!.user!.mobile:"",
                       size: 13,
                       fontFamily: interRegular,
                       color: ColorConstant.greyColor,
@@ -169,20 +146,28 @@ class ExpertProfile extends GetWidget<ExpertProfileController> {
 
     return SizedBox(
       height: MediaQuery.of(context).size.height/2,
-      child: Card(
-        margin: EdgeInsets.zero,
-        elevation: 2,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20), topRight: Radius.circular(20))
-            //set border radius more than 50% of height and width to make circle
+      child: Container(
+        decoration: BoxDecoration(
+            color: ColorConstant.white,
+            borderRadius:const BorderRadius.only(
+                topRight: Radius.circular(16),topLeft: Radius.circular(16)
             ),
+            boxShadow: [
+              BoxShadow(
+                  offset:const Offset(0, 3),
+                  color: ColorConstant.black3333.withOpacity(.2),
+                  blurRadius: 14
+              )
+            ]
+        ),
         child: Column(
           children: [
             GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () {
-                Get.toNamed(AppRoutes.expertEditProfileScreen);
+                Get.toNamed(AppRoutes.expertEditProfileScreen)?.then((value){
+                  controller.profileApiFunction();
+                });
               },
               child: Padding(
                 padding: const EdgeInsets.only(left: 12, right: 12, top: 10),
@@ -204,7 +189,7 @@ class ExpertProfile extends GetWidget<ExpertProfileController> {
                                 ),
                               ),
                             ),
-                            SizedBox(
+                           const SizedBox(
                               width: 10,
                             ),
                             Padding(
@@ -299,7 +284,7 @@ class ExpertProfile extends GetWidget<ExpertProfileController> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                   const SizedBox(
                       height: 15,
                     ),
                     Container(
@@ -315,9 +300,8 @@ class ExpertProfile extends GetWidget<ExpertProfileController> {
               behavior: HitTestBehavior.opaque,
               onTap: () {
                 final menuPriceController = Get.put(MenuPriceListController());
-                menuPriceController.expertId.value = controller.expertId.value;
+                menuPriceController.expertId.value = controller.model.value!=null&&controller.model.value!.data!=null&&controller.model.value!.data!.user!=null? controller.model.value!.data!.user!.id.toString():"";
                 Get.toNamed(AppRoutes.menuPriceList);
-                print(controller.expertId.value);
                 menuPriceController.onInit();
               },
               child: Padding(

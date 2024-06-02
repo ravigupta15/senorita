@@ -27,7 +27,7 @@ class PaymentScreen extends GetView<PaymentController> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: appBar(context, () {
+      appBar: appBar(context, '', () {
         Get.back();
       }),
       body: Obx(
@@ -56,11 +56,11 @@ class PaymentScreen extends GetView<PaymentController> {
                         onTap: () {
                           if (controller.amountController.text.isEmpty) {
                             Fluttertoast.showToast(
-                                msg: "Please Enter Some Amount",
+                                msg: "Please Enter Some Coins",
                                 toastLength: Toast.LENGTH_SHORT,
                                 gravity: ToastGravity.CENTER,
                                 timeInSecForIosWeb: 1,
-                                textColor: Colors.black,
+                                textColor: Colors.white,
                                 fontSize: 16.0);
                           } else if (int.parse(
                                   controller.amountController.text) <
@@ -73,88 +73,8 @@ class PaymentScreen extends GetView<PaymentController> {
                                 textColor: Colors.black,
                                 fontSize: 16.0);
                           } else {
-                            controller.resetValues();
-                            showGeneralDialog(
-                                barrierColor: Colors.black.withOpacity(0.5),
-                                transitionBuilder: (context, a1, a2, widget) {
-                                  return Transform.scale(
-                                    scale: 1.2,
-                                    child: Opacity(
-                                      opacity: a1.value,
-                                      child: AlertDialog(
-                                        contentPadding: EdgeInsets.zero,
-                                        shape: OutlineInputBorder(
-                                          borderSide: BorderSide(color: Colors.transparent),
-                                            borderRadius: BorderRadius.circular(16.0)
-
-                                        ),
-                                        content: Container(
-                                          /*decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(Radius.circular(15)),
-                                            image: DecorationImage(
-                                              image: AssetImage(AppImages.successBack,),
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),*/
-                                          height: 250,
-                                          child: Column(
-                                              mainAxisSize: MainAxisSize.max,
-                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                SizedBox(height: 50,),
-                                                Align(
-                                                  alignment: Alignment.center,
-                                                  child:  Image.asset(
-                                                    height: 110,
-                                                    width: 110,
-                                                    AppImages.successPayment,
-                                                    fit: BoxFit.contain,
-                                                  ),
-                                                ),
-
-
-
-                                                Spacer(),
-                                                GestureDetector(
-                                                  behavior: HitTestBehavior.opaque,
-                                                  onTap: ()
-                                                  {
-                                                     Get.toNamed(AppRoutes.walletScreen);
-                                                  },
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                      color:  ColorConstant.successful,
-                                                      borderRadius: BorderRadius.only(
-                                                        bottomRight: Radius.circular(15),
-                                                        bottomLeft: Radius.circular(15),)
-                                                    ),
-                                                    alignment: Alignment.center,
-                                                    height: 55,
-                                                    child:  getText(
-                                                        title:"Payment Successful",
-                                                        size: 15,
-                                                        letterSpacing: 0.9,
-                                                        fontFamily: interSemiBold,
-                                                        color: ColorConstant.white,
-                                                        fontWeight: FontWeight.w600),
-                                                  ),
-                                                ),
-
-                                              ]),
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                },
-                                transitionDuration: const Duration(milliseconds: 200),
-                                barrierDismissible: true,
-                                barrierLabel: '',
-                                context: context,
-                                pageBuilder: (context, animation1, animation2) {
-                                  return Container();
-                                });
-                          }
+                           controller.callPaymentApiFunction();
+                            }
                         }),
                   ),
                 ],
@@ -204,19 +124,19 @@ class PaymentScreen extends GetView<PaymentController> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Expanded(
-                              flex: 1,
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 2),
-                                child: Icon(
-                                  Icons.currency_rupee_rounded,
-                                  color: ColorConstant.blackColor,
-                                  size: 17,
-                                ),
-                              )),
-                          const SizedBox(
-                            width: 5,
-                          ),
+                          // Expanded(
+                          //     flex: 1,
+                          //     child: Padding(
+                          //       padding: const EdgeInsets.only(top: 2),
+                          //       child: Icon(
+                          //         Icons.currency_rupee_rounded,
+                          //         color: ColorConstant.blackColor,
+                          //         size: 17,
+                          //       ),
+                          //     )),
+                          // const SizedBox(
+                          //   width: 5,
+                          // ),
                           Expanded(
                             flex: 15,
                             child: TextFormField(
@@ -237,7 +157,7 @@ class PaymentScreen extends GetView<PaymentController> {
                                   hintStyle: TextStyle(
                                       color: ColorConstant.hintColor,
                                       fontSize: 14),
-                                  hintText: "Enter amount here"),
+                                  hintText: "Enter coins here"),
                               style: TextStyle(
                                   color: ColorConstant.blackColor,
                                   fontSize: 18.0),
@@ -313,7 +233,7 @@ class PaymentScreen extends GetView<PaymentController> {
                           padding: const EdgeInsets.only(top: 10, bottom: 10),
                           child: Center(
                             child: getText(
-                                title: '₹50',
+                                title: '50',
                                 size: 14,
                                 fontFamily: interRegular,
                                 color: controller.selectedAmount.value == 1
@@ -350,7 +270,7 @@ class PaymentScreen extends GetView<PaymentController> {
                           padding: const EdgeInsets.only(top: 10, bottom: 10),
                           child: Center(
                             child: getText(
-                                title: '₹100',
+                                title: '100',
                                 size: 14,
                                 fontFamily: interRegular,
                                 color: controller.selectedAmount.value == 2
@@ -387,7 +307,7 @@ class PaymentScreen extends GetView<PaymentController> {
                           padding: const EdgeInsets.only(top: 10, bottom: 10),
                           child: Center(
                             child: getText(
-                                title: ' ₹150',
+                                title: ' 150',
                                 size: 14,
                                 fontFamily: interRegular,
                                 color: controller.selectedAmount.value == 3
@@ -408,81 +328,6 @@ class PaymentScreen extends GetView<PaymentController> {
           ],
         ),
       ),
-    );
-  }
-
-  AppBar appBar(BuildContext context, Function() onTap) {
-    return AppBar(
-      backgroundColor: ColorConstant.white,
-      elevation: 0,
-      leadingWidth: 30,
-      automaticallyImplyLeading: false,
-      actions: [
-        SizedBox(
-          width: MediaQuery.of(context).size.width,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 15, right: 12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Image.asset(
-                      height: 20,
-                      width: 20,
-                      AppImages.backIcon,
-                      fit: BoxFit.contain,
-                    ),
-                    SizedBox(
-                      width: 15,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 5),
-                      child: Center(
-                        child: Image.asset(
-                          height: 40,
-                          width: 40,
-                          AppImages.userIcon,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 15,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 5),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          getText(
-                              title: "Glamour Haven",
-                              size: 16,
-                              fontFamily: interSemiBold,
-                              letterSpacing: 0.4,
-                              color: ColorConstant.blackColor,
-                              fontWeight: FontWeight.w500),
-                          SizedBox(
-                            height: 3,
-                          ),
-                          getText(
-                              title: "7023494966",
-                              size: 12,
-                              fontFamily: interLight,
-                              color: ColorConstant.blackColor,
-                              fontWeight: FontWeight.w600),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        )
-      ],
-      centerTitle: true,
     );
   }
 }

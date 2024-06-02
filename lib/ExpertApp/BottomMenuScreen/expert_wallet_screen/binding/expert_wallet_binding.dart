@@ -5,6 +5,7 @@ import '../controller/expert_wallet_controller.dart';
 class ExpertWalletBinding extends Bindings {
   @override
   void dependencies() {
-    Get.put(ExpertWalletController());
+    Get.lazyPut(() => ExpertWalletController());
+    // Get.put(ExpertWalletController());
   }
 }

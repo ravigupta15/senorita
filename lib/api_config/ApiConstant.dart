@@ -91,7 +91,8 @@ class ApiConstants {
       final dataAll = json.decode(response.body);
       if (response.statusCode == 200) {
         return dataAll;
-      } else {
+      }
+      else {
         if (dataAll['message'] == 'Fail to authenticate token.') {
           prefs.clear();
           Get.offAllNamed(AppRoutes.loginScreen);

@@ -72,7 +72,7 @@ class UserRegistrationScreen extends GetWidget<UserRegistrationController> {
                             ),
 
                           ),
-                          SizedBox(height: 10,),
+                         const SizedBox(height: 10,),
                           Padding(
                             padding: const EdgeInsets.all(3.0),
                             child: CustomTextField(
@@ -81,7 +81,7 @@ class UserRegistrationScreen extends GetWidget<UserRegistrationController> {
                               auto: AutovalidateMode.onUserInteraction,
                               textInputAction: TextInputAction.next,
                               inputFormatters: [
-                                new LengthLimitingTextInputFormatter(10),
+                                 LengthLimitingTextInputFormatter(10),
                               ],
                               textInputType: TextInputType.number,
                               controller: controller.numberController,
@@ -95,7 +95,7 @@ class UserRegistrationScreen extends GetWidget<UserRegistrationController> {
                               },
                             ),
                           ),
-                          SizedBox(height: 10,),
+                          const SizedBox(height: 10,),
                           Padding(
                             padding: const EdgeInsets.all(3.0),
                             child: CustomTextField(
@@ -113,7 +113,25 @@ class UserRegistrationScreen extends GetWidget<UserRegistrationController> {
                               },
                             ),
                           ),
+                          const SizedBox(height: 10,),
+                          Padding(
+                            padding: const EdgeInsets.all(3.0),
+                            child: CustomTextField(
+                              hintText: "",
+                              labelText: referralText,
+                              textInputType: TextInputType.text,
+                              textInputAction: TextInputAction.done,
+                              // auto: AutovalidateMode.onUserInteraction,
+                              controller: controller.referralController,
+                              // validator: (value) {
+                              //   if (value == null || value == "") {
+                              //     return "Please enter Full Name";
+                              //   }
+                              //   return null;
+                              // },
+                            ),
 
+                          ),
 
                         ],
                       ),
@@ -126,18 +144,17 @@ class UserRegistrationScreen extends GetWidget<UserRegistrationController> {
                           child: Transform.scale(
                             scale: 1.1,
                             child: Checkbox(
-
                               value:controller.checkBoxValue.value,
                               checkColor: ColorConstant.whiteColor,
                               activeColor: ColorConstant.onBoardingBack,
 
-                              side: BorderSide(
+                              side:const BorderSide(
                                 color: ColorConstant.checkBox, //your desire colour here
                                 width: 1,
                               ),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(2,),
-                                  side: BorderSide(color: Colors.deepPurple)
+                                  side:const BorderSide(color: Colors.deepPurple)
                               ),
                               onChanged: (bool? value) {
                                 controller.checkBoxValue.value = value!;

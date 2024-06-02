@@ -45,7 +45,7 @@ class SingleCategoryListController extends GetxController {
   final isLoadMoreRunning = false.obs;
   ScrollController? paginationController;
   final perPage = 10.obs;
-  final isLoading= false.obs;
+  final isLoading = false.obs;
   String token = "";
 
   final filterPrice = [
@@ -100,8 +100,8 @@ class SingleCategoryListController extends GetxController {
     token = prefs.getString("token").toString();
     latitude.value = prefs.getString("lat").toString();
     longitude.value = prefs.getString("long").toString();
-    print("cuttentlatitudeOffer"+latitude.value.toString());
-    print("cuttentlongitudeOffer"+longitude.value.toString());
+    print("cuttentlatitudeOffer" + latitude.value.toString());
+    print("cuttentlongitudeOffer" + longitude.value.toString());
     allCategoryApiFunction(categoryId.toString());
     getShortByListApiFunction();
     super.onInit();
@@ -500,7 +500,6 @@ class SingleCategoryListController extends GetxController {
                                         title: filterPrice[index].toString(),
                                         size: 12,
                                         fontFamily: interMedium,
-
                                         color: ColorConstant.blackColor,
                                         fontWeight: FontWeight.w500),
                                   ],
@@ -561,7 +560,6 @@ class SingleCategoryListController extends GetxController {
                                                   .toString(),
                                               size: 13,
                                               fontFamily: interMedium,
-
                                               color: ColorConstant.blackColor,
                                               fontWeight: FontWeight.w500),
                                         ],
@@ -661,25 +659,26 @@ class SingleCategoryListController extends GetxController {
   }
 
   allCategoryApiFunction(String categoryId) async {
-    page.value=1;
-   // showCircleProgressDialog(Get.context!);
+    page.value = 1;
+    // showCircleProgressDialog(Get.context!);
     isLoading.value = true;
     var headers = {'Authorization': 'Bearer' + token};
     var request = http.MultipartRequest('POST', Uri.parse(ApiUrls.getExperts));
 
     request.fields.addAll({
       'page_numbar': page.value.toString(),
-      'has_offer':"2",
-      'lat':latitude.value.toString(),
-      'lng':longitude.value.toString(),
+      'has_offer': "2",
+      'lat': latitude.value.toString(),
+      'lng': longitude.value.toString(),
       'category_id': categoryId.toString()
     });
     request.headers.addAll(headers);
     var streamedResponse = await request.send();
 
-    var response = await http.Response.fromStream(streamedResponse).timeout(const Duration(seconds: 60));
+    var response = await http.Response.fromStream(streamedResponse)
+        .timeout(const Duration(seconds: 60));
     log(response.body);
-  //  Get.back();
+    //  Get.back();
     isLoading.value = false;
     allCategoryList.clear();
     if (response.statusCode == 200) {
@@ -690,48 +689,66 @@ class SingleCategoryListController extends GetxController {
             result['data'][i]['experience'],
             result['data'][i]['status'],
             result['data'][i]['image_url'],
-            result['data'][i]['user']!=null? result['data'][i]['user']['name']:"",
+            result['data'][i]['user'] != null
+                ? result['data'][i]['user']['name']
+                : "",
             result['data'][i]['category_id'],
-            result['data'][i]['user']!=null?result['data'][i]['user']['id']:"",
-            result['data'][i]['user']!=null?result['data'][i]['user']['mobile']:"",
-            result['data'][i]['category']!=null?result['data'][i]['category']['name']:"",
-            result['data'][i]['expert_subcats']??[],
+            result['data'][i]['user'] != null
+                ? result['data'][i]['user']['id']
+                : "",
+            result['data'][i]['user'] != null
+                ? result['data'][i]['user']['mobile']
+                : "",
+            result['data'][i]['category'] != null
+                ? result['data'][i]['category']['name']
+                : "",
+            result['data'][i]['expert_subcats'] ?? [],
             result['data'][i]['offer_count'].toString(),
             result['data'][i]['id'],
-            result['data'][i]['user']!=null?result['data'][i]['user']['address']:"",
-            result['data'][i]['user']!=null?result['data'][i]['user']['distance']:"",
-            result['data'][i]['user']!=null?result['data'][i]['user']['lat']:'',
-            result['data'][i]['user']!=null?result['data'][i]['user']['lng']:"",
+            result['data'][i]['user'] != null
+                ? result['data'][i]['user']['address']
+                : "",
+            result['data'][i]['user'] != null
+                ? result['data'][i]['user']['distance']
+                : "",
+            result['data'][i]['user'] != null
+                ? result['data'][i]['user']['lat']
+                : '',
+            result['data'][i]['user'] != null
+                ? result['data'][i]['user']['lng']
+                : "",
             result['data'][i]['avg_rating'],
+            result['data'][i]['user'] != null
+                ? result['data'][i]['user']['profile_picture']
+                : "",
+              result['data'][i]['offers']
           );
           isLoading.value = false;
           allCategoryList.add(model);
         }
-        count.value=result['total_count'];
+        count.value = result['total_count'];
       }
-    }
-    else
-    {
+    } else {
       Get.back();
     }
   }
 
   allCategoryPaginationApiFunction(String categoryId) async {
-    if(isLoadMoreRunning.value==false){
+    if (isLoadMoreRunning.value == false) {
       if (hasNextPage.value == true &&
           isFirstLoadRunning.value == false &&
-          isLoadMoreRunning.value == false
-      ) {
-        if (count.value>allCategoryList.length) {
+          isLoadMoreRunning.value == false) {
+        if (count.value > allCategoryList.length) {
           ++page.value;
           isLoadMoreRunning.value = true;
           var headers = {'Authorization': 'Bearer' + token};
-          var request = http.MultipartRequest('POST', Uri.parse(ApiUrls.getExperts));
+          var request =
+              http.MultipartRequest('POST', Uri.parse(ApiUrls.getExperts));
           request.fields.addAll({
             'page_numbar': page.value.toString(),
-            'has_offer':"2",
-            'lat':latitude.value.toString(),
-            'lng':longitude.value.toString(),
+            'has_offer': "2",
+            'lat': latitude.value.toString(),
+            'lng': longitude.value.toString(),
             'category_id': categoryId.toString()
           });
           request.headers.addAll(headers);
@@ -742,29 +759,50 @@ class SingleCategoryListController extends GetxController {
             if (result['success'] == true && result['success'] != null) {
               for (int i = 0; i < result['data'].length; i++) {
                 OnlineExpertModel model = OnlineExpertModel(
-                  result['data'][i]['experience']!=null?result['data'][i]['experience']:"",
+                  result['data'][i]['experience'] != null
+                      ? result['data'][i]['experience']
+                      : "",
                   result['data'][i]['status'],
                   result['data'][i]['image_url'],
-                  result['data'][i]['user']!=null?result['data'][i]['user']['name']:"",
+                  result['data'][i]['user'] != null
+                      ? result['data'][i]['user']['name']
+                      : "",
                   result['data'][i]['category_id'],
                   result['data'][i]['user']['id'],
-                  result['data'][i]['user']!=null? result['data'][i]['user']['mobile']:"",
-                  result['data'][i]['category']!=null?result['data'][i]['category']['name']:"",
-                  result['data'][i]['expert_subcats']??[],
+                  result['data'][i]['user'] != null
+                      ? result['data'][i]['user']['mobile']
+                      : "",
+                  result['data'][i]['category'] != null
+                      ? result['data'][i]['category']['name']
+                      : "",
+                  result['data'][i]['expert_subcats'] ?? [],
                   result['data'][i]['offer_count'],
                   result['data'][i]['id'],
-                  result['data'][i]['user']!=null? result['data'][i]['user']['address']:"",
-                  result['data'][i]['user']!=null?result['data'][i]['user']['distance']:"",
-                  result['data'][i]['user']!=null?result['data'][i]['user']['lat']:"",
-                  result['data'][i]['user']!=null?result['data'][i]['user']['lng']:"",
+                  result['data'][i]['user'] != null
+                      ? result['data'][i]['user']['address']
+                      : "",
+                  result['data'][i]['user'] != null
+                      ? result['data'][i]['user']['distance']
+                      : "",
+                  result['data'][i]['user'] != null
+                      ? result['data'][i]['user']['lat']
+                      : "",
+                  result['data'][i]['user'] != null
+                      ? result['data'][i]['user']['lng']
+                      : "",
                   result['data'][i]['avg_rating'],
+                  result['data'][i]['user'] != null
+                      ? result['data'][i]['user']['profile_picture']
+                      : "",
+                    result['data'][i]['offers']
                 );
                 allCategoryList.add(model);
               }
-              isLoadMoreRunning.value=false;
+              isLoadMoreRunning.value = false;
             }
           }
         }
-      }}
+      }
+    }
   }
 }

@@ -25,7 +25,6 @@ class Profile extends GetWidget<ProfileController> {
 
     return WillPopScope(
       onWillPop: () async {
-        SystemNavigator.pop();
         return true;
       },
       child: Scaffold(
@@ -36,7 +35,7 @@ class Profile extends GetWidget<ProfileController> {
             children: [
               Column(
                 children: [
-                  SizedBox(
+                 const SizedBox(
                     height: 55,
                   ),
                   Center(
@@ -60,7 +59,7 @@ class Profile extends GetWidget<ProfileController> {
                           fontWeight: FontWeight.w600),
                     ),
                   ),
-                  SizedBox(
+                const  SizedBox(
                     height: 5,
                   ),
                   Obx(
@@ -84,7 +83,7 @@ class Profile extends GetWidget<ProfileController> {
                   decoration: BoxDecoration(
                       color: ColorConstant.white,
                       borderRadius:const BorderRadius.only(
-                        topRight: Radius.circular(10),topLeft: Radius.circular(16)
+                        topRight: Radius.circular(16),topLeft: Radius.circular(16)
                       ),
                       boxShadow: [
                         BoxShadow(
@@ -137,6 +136,18 @@ class Profile extends GetWidget<ProfileController> {
                       profileTypesWidget(title: 'Help & Support', img: AppImages.profileHelp, onTap: () {
                         Get.toNamed(AppRoutes.helpSupportScreen,
                             arguments: ['helpSupport', ""]);
+                      },),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Container(
+                        width: MediaQuery.of(navigatorKey.currentContext!).size.width - 30,
+                        color: ColorConstant.dividerColor,
+                        height: 1,
+                      ),
+
+                      profileTypesWidget(title: 'Refer & Earn', img: AppImages.profileUsers, onTap: () {
+                        Get.toNamed(AppRoutes.referEarnScreen,);
                       },),
                       const SizedBox(
                         height: 15,

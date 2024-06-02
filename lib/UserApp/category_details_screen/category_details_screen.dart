@@ -40,9 +40,6 @@ class CategoryDetailScreen extends GetView<CategoryDetailController> {
 
   @override
   Widget build(BuildContext context) {
-    Color randomColor() =>
-        Color((Random().nextDouble() * 0xff0060A4).toInt() << 0)
-            .withOpacity(1.0);
     return Scaffold(
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
@@ -713,14 +710,14 @@ class CategoryDetailScreen extends GetView<CategoryDetailController> {
                   //set border radius more than 50% of height and width to make circle
                 ),
                 child: Padding(
-                  padding:const EdgeInsets.only(top: 10, bottom: 0),
+                  padding: const EdgeInsets.only(top: 10, bottom: 0),
                   child: Obx(
                     () => Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding:
-                             const EdgeInsets.only(left: 10, right: 10, top: 10),
+                          padding: const EdgeInsets.only(
+                              left: 10, right: 10, top: 10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -740,9 +737,8 @@ class CategoryDetailScreen extends GetView<CategoryDetailController> {
                                 ),
                               ),*/
                               Container(
-                                width: MediaQuery.of(context).size.width/1,
-                                padding: const EdgeInsets.only(
-                                    right: 12.0),
+                                width: MediaQuery.of(context).size.width / 1,
+                                padding: const EdgeInsets.only(right: 12.0),
                                 child: Text(
                                   softWrap: true,
                                   controller.name.value.toString(),
@@ -755,21 +751,26 @@ class CategoryDetailScreen extends GetView<CategoryDetailController> {
                                   ),
                                 ),
                               ),
-                              Obx(() =>
-                              controller.subCategory.isNotEmpty
-                                  ? Padding(
-                                    padding: const EdgeInsets.only(top: 5),
-                                    child: getText(
-                                    title: controller.subCategory.map((subcat)=>subcat.subCategoryName).join(', ')?? '',
-                                    size: 14,
-                                    fontFamily: interMedium,
-                                    color: ColorConstant.blackLight,
-                                    fontWeight: FontWeight.w500),
-                                  )
-                                  :const SizedBox(),
+                              Obx(
+                                () => controller.subCategory.isNotEmpty
+                                    ? Padding(
+                                        padding: const EdgeInsets.only(top: 5),
+                                        child: getText(
+                                            title: controller.subCategory
+                                                    .map((subcat) =>
+                                                        subcat.subCategoryName)
+                                                    .join(', ') ??
+                                                '',
+                                            size: 14,
+                                            fontFamily: interMedium,
+                                            color: ColorConstant.blackLight,
+                                            fontWeight: FontWeight.w500),
+                                      )
+                                    : const SizedBox(),
                               ),
-                              Padding(padding:const EdgeInsets.only(top: 8),
-                                child:  Row(
+                              Padding(
+                                padding: const EdgeInsets.only(top: 8),
+                                child: Row(
                                   children: [
                                     const Text(
                                       "Exp. ",
@@ -793,119 +794,125 @@ class CategoryDetailScreen extends GetView<CategoryDetailController> {
                                     ),
                                   ],
                                 ),
-
                               ),
                               const SizedBox(
                                 height: 10,
                               ),
-                              controller.status.value != "" ?
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      controller.status.value == "1"
-                                          ? Text(
-                                              "Open Now",
+                              controller.status.value != ""
+                                  ? Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            controller.status.value == "1"
+                                                ? Text(
+                                                    "Open Now",
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: TextStyle(
+                                                      fontSize: 13,
+                                                      fontFamily: interMedium,
+                                                      color: ColorConstant
+                                                          .greenColor,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
+                                                  )
+                                                : Text(
+                                                    "Close Now",
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontFamily: interMedium,
+                                                      letterSpacing: 0.6,
+                                                      color: ColorConstant
+                                                          .greenColor,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
+                                                  ),
+                                            Text(
+                                              "",
                                               overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                fontSize: 13,
-                                                fontFamily: interMedium,
-                                                color:
-                                                    ColorConstant.greenColor,
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            )
-                                          : Text(
-                                              "Close Now",
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                fontFamily: interMedium,
+                                              style: new TextStyle(
+                                                fontSize: 14.0,
                                                 letterSpacing: 0.6,
-                                                color:
-                                                    ColorConstant.greenColor,
+                                                fontFamily: interMedium,
+                                                color: ColorConstant.blackLight,
                                                 fontWeight: FontWeight.w500,
                                               ),
                                             ),
-                                      Text(
-                                        "",
-                                        overflow: TextOverflow.ellipsis,
-                                        style: new TextStyle(
-                                          fontSize: 14.0,
-                                          letterSpacing: 0.6,
-                                          fontFamily: interMedium,
-                                          color: ColorConstant.blackLight,
-                                          fontWeight: FontWeight.w500,
+                                          ],
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ):SizedBox(),
+                                      ],
+                                    )
+                                  : SizedBox(),
                             ],
                           ),
                         ),
                         const SizedBox(
                           height: 10,
                         ),
-                             Padding(
-                                padding:const EdgeInsets.only(left: 6, right: 10),
-                                child: GestureDetector(
-                                  onTap: (){
-                                    controller.salonLat.value.isNotEmpty&&controller.salonLng.value.isNotEmpty?
-                                    MapUtils.openMap(
-                                        double.parse(controller.salonLat.value.toString()), double.parse(controller.salonLng.value.toString())):null;
-                                  },
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Padding(
-                                            padding:const EdgeInsets.only(top: 3),
-                                            child: Image.asset(
-                                              width: 20,
-                                              height: 20,
-                                              AppImages.location,
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            width: 2,
-                                          ),
-                                          Container(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width -
-                                                50,
-                                            padding: const EdgeInsets.only(
-                                                right: 13.0),
-                                            child: Text(
-                                              softWrap: true,
-                                              controller.location.value!='null'?controller.location.value:'',
-                                              // overflow: TextOverflow.ellipsis,
-                                              style:const TextStyle(
-                                                fontSize: 13.0,
-                                                fontFamily: interMedium,
-                                                color: ColorConstant.blackLight,
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
+                        Padding(
+                          padding: const EdgeInsets.only(left: 6, right: 10),
+                          child: GestureDetector(
+                            onTap: () {
+                              controller.salonLat.value.isNotEmpty &&
+                                      controller.salonLng.value.isNotEmpty
+                                  ? MapUtils.openMap(
+                                      double.parse(
+                                          controller.salonLat.value.toString()),
+                                      double.parse(
+                                          controller.salonLng.value.toString()))
+                                  : null;
+                            },
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 3),
+                                      child: Image.asset(
+                                        width: 20,
+                                        height: 20,
+                                        AppImages.location,
                                       ),
-                                      const SizedBox(
-                                        height: 10,
+                                    ),
+                                    const SizedBox(
+                                      width: 2,
+                                    ),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width -
+                                          50,
+                                      padding:
+                                          const EdgeInsets.only(right: 13.0),
+                                      child: Text(
+                                        softWrap: true,
+                                        controller.location.value != 'null'
+                                            ? controller.location.value
+                                            : '',
+                                        // overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                          fontSize: 13.0,
+                                          fontFamily: interMedium,
+                                          color: ColorConstant.blackLight,
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                              )
-                            ,
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                         controller.distance.value.toString() != ""
                             ? Padding(
                                 padding:
@@ -922,7 +929,7 @@ class CategoryDetailScreen extends GetView<CategoryDetailController> {
                                           height: 15,
                                           AppImages.distance,
                                         ),
-                                       const SizedBox(
+                                        const SizedBox(
                                           width: 3,
                                         ),
                                         Container(
@@ -932,10 +939,9 @@ class CategoryDetailScreen extends GetView<CategoryDetailController> {
                                               1.2,
                                           padding: const EdgeInsets.only(
                                               right: 13.0),
-                                          child:  Text(
+                                          child: Text(
                                             " " +
-                                                controller.distance
-                                                    .toString() +
+                                                controller.distance.toString() +
                                                 " km",
                                             overflow: TextOverflow.ellipsis,
                                             style: const TextStyle(
@@ -952,77 +958,82 @@ class CategoryDetailScreen extends GetView<CategoryDetailController> {
                                 ),
                               )
                             : SizedBox(),
-                        controller.kodagoCard.value != "" ?Padding(
-                          padding:const
-                              EdgeInsets.only(left: 10, right: 10, bottom: 1,top: 22),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  Get.toNamed(AppRoutes.helpSupportScreen,
-                                      arguments: [
-                                        'detail',
-                                        controller.kodagoCard.value
-                                      ]);
-                                },
-                                child: SizedBox(
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                    const  getText(
-                                          title: "Kodago Card",
-                                          size: 15,
-                                          fontFamily: interSemiBold,
-                                          color: ColorConstant.blackColorDark,
-                                          fontWeight: FontWeight.w600),
-                                      const  SizedBox(
-                                        height: 7,
+                        controller.kodagoCard.value != ""
+                            ? Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 10, right: 10, bottom: 1, top: 22),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        Get.toNamed(AppRoutes.helpSupportScreen,
+                                            arguments: [
+                                              'detail',
+                                              controller.kodagoCard.value
+                                            ]);
+                                      },
+                                      child: SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const getText(
+                                                title: "Kodago Card",
+                                                size: 15,
+                                                fontFamily: interSemiBold,
+                                                color: ColorConstant
+                                                    .blackColorDark,
+                                                fontWeight: FontWeight.w600),
+                                            const SizedBox(
+                                              height: 7,
+                                            ),
+                                            getText(
+                                                title:
+                                                    controller.kodagoCard.value,
+                                                size: 13,
+                                                fontFamily: interMedium,
+                                                color:
+                                                    ColorConstant.darkBlueColor,
+                                                fontWeight: FontWeight.w500),
+                                          ],
+                                        ),
                                       ),
-                                      getText(
-                                          title: controller.kodagoCard.value,
-                                          size: 13,
-                                          fontFamily: interMedium,
-                                          color: ColorConstant.darkBlueColor,
-                                          fontWeight: FontWeight.w500),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                              controller.spacialOffer.isNotEmpty
-                                  ? Padding(
-                                    padding: const EdgeInsets.only(top: 15),
-                                    child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          const getText(
-                                              title: "Special offers",
-                                              size: 15,
-                                              fontFamily: interSemiBold,
-                                              color:
-                                                  ColorConstant.blackColorDark,
-                                              fontWeight: FontWeight.w600),
-                                         const SizedBox(
-                                            height: 15,
-                                          ),
-                                          specialOffers(context)
-                                        ],
-                                      ),
-                                  )
-                                  : SizedBox(),
+                              )
+                            : SizedBox(),
+                        controller.spacialOffer.isNotEmpty
+                            ? Padding(
+                          padding:
+                          const EdgeInsets.only(top: 15,left: 10,right: 10),
+                          child: Column(
+                            crossAxisAlignment:
+                            CrossAxisAlignment.start,
+                            children: [
+                              const getText(
+                                  title: "Special offers",
+                                  size: 15,
+                                  fontFamily: interSemiBold,
+                                  color: ColorConstant
+                                      .blackColorDark,
+                                  fontWeight:
+                                  FontWeight.w600),
+                              specialOffers(context)
                             ],
                           ),
-                        ):SizedBox(),
+                        )
+                            : SizedBox(),
                         Padding(
                           padding: const EdgeInsets.only(top: 30),
                           child: SizedBox(
-                            height: 40,
+                            height: 50,
                             child: Padding(
                               padding: const EdgeInsets.only(
                                   left: 5, right: 5, bottom: 5),
@@ -1438,23 +1449,23 @@ class CategoryDetailScreen extends GetView<CategoryDetailController> {
                           );
                         })
                     : Center(
-                      child: Column(
-                        children: [
-                          Image.asset(
+                        child: Column(
+                          children: [
+                            Image.asset(
                               width: MediaQuery.of(context).size.width,
                               height: 100,
                               AppImages.noDataFound,
                             ),
-                          getText(
-                              lineHeight: 1.6,
-                              title: "No Data Found",
-                              size: 14,
-                              fontFamily: interSemiBold,
-                              color: ColorConstant.blackColor,
-                              fontWeight: FontWeight.w600),
-                        ],
+                            getText(
+                                lineHeight: 1.6,
+                                title: "No Data Found",
+                                size: 14,
+                                fontFamily: interSemiBold,
+                                color: ColorConstant.blackColor,
+                                fontWeight: FontWeight.w600),
+                          ],
+                        ),
                       ),
-                    ),
               )
             : controller.selectedTabValue == 2
                 ? Padding(
@@ -1469,13 +1480,13 @@ class CategoryDetailScreen extends GetView<CategoryDetailController> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               GestureDetector(
-                                onTap:(){
-                                  controller.myRating.value.isEmpty?
-                                  ratingUi(context):
-                                  showToast('Already reviewed');
+                                onTap: () {
+                                  controller.myRating.value.isEmpty
+                                      ? ratingUi(context)
+                                      : showToast('Already reviewed');
                                 },
                                 child: SizedBox(
-                                  height:25,
+                                  height: 25,
                                   child: getText(
                                       lineHeight: 1.6,
                                       title: "Write a review",
@@ -1485,119 +1496,139 @@ class CategoryDetailScreen extends GetView<CategoryDetailController> {
                                       fontWeight: FontWeight.w600),
                                 ),
                               ),
-                             // const SizedBox(
-                             //    height: 3,
-                             //  ),
-                             //  Obx(
-                             //    () => GestureDetector(
-                             //        onTap: () {
-                             //          /*controller.myRating.value!="null"?showToast("Review Already Submited"):
-                             //        ratingUi(context);*/
-                             //          controller.myRating.value.isEmpty?
-                             //          ratingUi(context):null;
-                             //        },
-                             //        child: RatingBar.builder(
-                             //          initialRating: controller.myRating.value != ""
-                             //              ? double.parse(controller
-                             //                  .myRating.value
-                             //                  .toString())
-                             //              : 0.0,
-                             //          minRating: 0,
-                             //          ignoreGestures: true,
-                             //          direction: Axis.horizontal,
-                             //          allowHalfRating: false,
-                             //          itemCount: 5,
-                             //          itemSize: 20,
-                             //          itemPadding: EdgeInsets.symmetric(
-                             //              horizontal: 0.0),
-                             //          itemBuilder: (context, _) => Icon(
-                             //            Icons.star,
-                             //            color: Colors.amber,
-                             //          ),
-                             //          onRatingUpdate: (rating) {
-                             //            print(rating);
-                             //          },
-                             //        )),
-                             //  ),
+                              // const SizedBox(
+                              //    height: 3,
+                              //  ),
+                              //  Obx(
+                              //    () => GestureDetector(
+                              //        onTap: () {
+                              //          /*controller.myRating.value!="null"?showToast("Review Already Submited"):
+                              //        ratingUi(context);*/
+                              //          controller.myRating.value.isEmpty?
+                              //          ratingUi(context):null;
+                              //        },
+                              //        child: RatingBar.builder(
+                              //          initialRating: controller.myRating.value != ""
+                              //              ? double.parse(controller
+                              //                  .myRating.value
+                              //                  .toString())
+                              //              : 0.0,
+                              //          minRating: 0,
+                              //          ignoreGestures: true,
+                              //          direction: Axis.horizontal,
+                              //          allowHalfRating: false,
+                              //          itemCount: 5,
+                              //          itemSize: 20,
+                              //          itemPadding: EdgeInsets.symmetric(
+                              //              horizontal: 0.0),
+                              //          itemBuilder: (context, _) => Icon(
+                              //            Icons.star,
+                              //            color: Colors.amber,
+                              //          ),
+                              //          onRatingUpdate: (rating) {
+                              //            print(rating);
+                              //          },
+                              //        )),
+                              //  ),
                             ],
                           ),
                         ),
-                       const SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Container(
                             width: MediaQuery.of(context).size.width,
                             height: 1,
                             color: ColorConstant.fitterLine),
-                        controller.averageRating.value!=""?
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8, top: 8),
-                              child: Column(
+                        controller.averageRating.value != ""
+                            ? Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                const  getText(
-                                      lineHeight: 1.6,
-                                      title: "Reviews & Ratings",
-                                      size: 14,
-                                      fontFamily: interMedium,
-                                      color: ColorConstant.offerTextBlack,
-                                      fontWeight: FontWeight.w600),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Obx(
-                                        () => Row(
-                                      children: [
-                                        Container(
-                                          decoration:const BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(5)),
-                                            color: ColorConstant.greenReview,
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 10,
-                                                right: 10,
-                                                top: 12,
-                                                bottom: 12),
-                                            child: getText(
-                                                title:
-                                                controller.avg_rating.value.isEmpty?'0.0':
-                                                controller.avg_rating.value.toString().contains('.')?
-                                                controller.avg_rating.value.toString():"${controller.avg_rating.value.toString()}.0",
-                                                // controller.avg_rating.value
-                                                //     .toString(),
-                                                size: 15,
-                                                fontFamily: interMedium,
-                                                color: ColorConstant.white,
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 15,
-                                        ),
-                                        Column(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                          crossAxisAlignment:
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.only(left: 8, top: 8),
+                                    child: Column(
+                                      crossAxisAlignment:
                                           CrossAxisAlignment.start,
-                                          children: [
-                                            getText(
-                                                title: controller
-                                                    .review_count.value +
-                                                    " Ratings",
-                                                size: 13,
-                                                fontFamily: interMedium,
-                                                color: ColorConstant.blackColor,
-                                                fontWeight: FontWeight.w600),
-                                            SizedBox(
-                                              height: 2,
-                                            ),
-                                            /* Container(
+                                      children: [
+                                        const getText(
+                                            lineHeight: 1.6,
+                                            title: "Reviews & Ratings",
+                                            size: 14,
+                                            fontFamily: interMedium,
+                                            color: ColorConstant.offerTextBlack,
+                                            fontWeight: FontWeight.w600),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Obx(
+                                          () => Row(
+                                            children: [
+                                              Container(
+                                                decoration: const BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(5)),
+                                                  color:
+                                                      ColorConstant.greenReview,
+                                                ),
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 10,
+                                                          right: 10,
+                                                          top: 12,
+                                                          bottom: 12),
+                                                  child: getText(
+                                                      title: controller
+                                                              .avg_rating
+                                                              .value
+                                                              .isEmpty
+                                                          ? '0.0'
+                                                          : controller
+                                                                  .avg_rating
+                                                                  .value
+                                                                  .toString()
+                                                                  .contains('.')
+                                                              ? controller
+                                                                  .avg_rating
+                                                                  .value
+                                                                  .toString()
+                                                              : "${controller.avg_rating.value.toString()}.0",
+                                                      // controller.avg_rating.value
+                                                      //     .toString(),
+                                                      size: 15,
+                                                      fontFamily: interMedium,
+                                                      color:
+                                                          ColorConstant.white,
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 15,
+                                              ),
+                                              Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  getText(
+                                                      title: controller
+                                                              .review_count
+                                                              .value +
+                                                          " Ratings",
+                                                      size: 13,
+                                                      fontFamily: interMedium,
+                                                      color: ColorConstant
+                                                          .blackColor,
+                                                      fontWeight:
+                                                          FontWeight.w600),
+                                                  SizedBox(
+                                                    height: 2,
+                                                  ),
+                                                  /* Container(
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width /
@@ -1609,100 +1640,111 @@ class CategoryDetailScreen extends GetView<CategoryDetailController> {
                                               fontFamily: interMedium,
                                               color: ColorConstant.qrViewText,
                                               fontWeight: FontWeight.w600),*/
-                                            Container(
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                                  1.5,
-                                              padding: new EdgeInsets.only(
-                                                  right: 13.0),
-                                              child: Text(
-                                                softWrap: true,
-                                                "Senoritapp rating index based on 300 rating across",
-                                                // overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                  fontSize: 12.0,
-                                                  fontFamily: interMedium,
-                                                  color: ColorConstant.greyColor,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        )
+                                                  Container(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            1.5,
+                                                    padding:
+                                                        new EdgeInsets.only(
+                                                            right: 13.0),
+                                                    child: Text(
+                                                      softWrap: true,
+                                                      "Senoritapp rating index based on 300 rating across",
+                                                      // overflow: TextOverflow.ellipsis,
+                                                      style: TextStyle(
+                                                        fontSize: 12.0,
+                                                        fontFamily: interMedium,
+                                                        color: ColorConstant
+                                                            .greyColor,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
+                                  SizedBox(
+                                    height: 6,
+                                  ),
+                                  Container(
+                                    height: 1,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10)),
+                                        color: Colors.black12),
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 8, right: 8),
+                                    child: getText(
+                                        lineHeight: 1.6,
+                                        title: "User Reviews",
+                                        size: 14,
+                                        fontFamily: interSemiBold,
+                                        color: ColorConstant.blackColor,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  SizedBox(
+                                    height: 8,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 8, right: 8),
+                                    child: ListView.builder(
+                                        physics: NeverScrollableScrollPhysics(),
+                                        padding:
+                                            EdgeInsets.only(top: 0, bottom: 0),
+                                        shrinkWrap: true,
+                                        itemCount:
+                                            controller.getRatingList.length,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          //var model = controller.allWalletList[index];
+                                          var model =
+                                              controller.getRatingList[index];
+                                          return Padding(
+                                            padding: EdgeInsets.only(
+                                                top: 0.0, bottom: 10),
+                                            child: GestureDetector(
+                                                behavior:
+                                                    HitTestBehavior.opaque,
+                                                onTap: () {},
+                                                child:
+                                                    reviewUi(context, model)),
+                                          );
+                                        }),
+                                  ),
                                 ],
+                              )
+                            : Center(
+                                child: Column(
+                                  children: [
+                                    Image.asset(
+                                      width: MediaQuery.of(context).size.width,
+                                      height: 100,
+                                      AppImages.noDataFound,
+                                    ),
+                                    getText(
+                                        lineHeight: 1.6,
+                                        title: "No Data Found",
+                                        size: 14,
+                                        fontFamily: interSemiBold,
+                                        color: ColorConstant.blackColor,
+                                        fontWeight: FontWeight.w600),
+                                  ],
+                                ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 6,
-                            ),
-                            Container(
-                              height: 1,
-                              decoration: BoxDecoration(
-                                  borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                                  color: Colors.black12),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8, right: 8),
-                              child: getText(
-                                  lineHeight: 1.6,
-                                  title: "User Reviews",
-                                  size: 14,
-                                  fontFamily: interSemiBold,
-                                  color: ColorConstant.blackColor,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 8, right: 8),
-                              child: ListView.builder(
-                                  physics: NeverScrollableScrollPhysics(),
-                                  padding: EdgeInsets.only(top: 0, bottom: 0),
-                                  shrinkWrap: true,
-                                  itemCount: controller.getRatingList.length,
-                                  itemBuilder: (BuildContext context, int index) {
-                                    //var model = controller.allWalletList[index];
-                                    var model = controller.getRatingList[index];
-                                    return Padding(
-                                      padding:
-                                      EdgeInsets.only(top: 0.0, bottom: 10),
-                                      child: GestureDetector(
-                                          behavior: HitTestBehavior.opaque,
-                                          onTap: () {},
-                                          child: reviewUi(context, model)),
-                                    );
-                                  }),
-                            ),
-                          ],
-                        )
-                            :Center(
-                          child: Column(
-                            children: [
-                              Image.asset(
-                                width: MediaQuery.of(context).size.width,
-                                height: 100,
-                                AppImages.noDataFound,
-                              ),
-                              getText(
-                                  lineHeight: 1.6,
-                                  title: "No Data Found",
-                                  size: 14,
-                                  fontFamily: interSemiBold,
-                                  color: ColorConstant.blackColor,
-                                  fontWeight: FontWeight.w600),
-                            ],
-                          ),
-                        ),
-
                       ],
                     ),
                   )
@@ -1735,7 +1777,9 @@ class CategoryDetailScreen extends GetView<CategoryDetailController> {
                                         top: 0, left: 3, right: 5),
                                     child: GestureDetector(
                                       onTap: () {
-                                        Get.to(ImgView(controller.photosList,index),
+                                        Get.to(
+                                            ImgView(
+                                                controller.photosList, index),
                                             transition: Transition.cupertino);
                                         // _showImageDialog(context,  ApiUrls.offerImageBase  + model.banner);
                                       },
@@ -1783,7 +1827,7 @@ class CategoryDetailScreen extends GetView<CategoryDetailController> {
             fontWeight: FontWeight.w500,
           ),
         ),
-      const  SizedBox(
+        const SizedBox(
           height: 0,
         ),
         ListView.builder(
@@ -1797,7 +1841,11 @@ class CategoryDetailScreen extends GetView<CategoryDetailController> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Icon(Icons.circle,color: ColorConstant.appColor,size: 10,),
+                    Icon(
+                      Icons.circle,
+                      color: ColorConstant.appColor,
+                      size: 10,
+                    ),
                     // Image.asset(
                     //   width: 18,
                     //   height: 18,
@@ -1898,7 +1946,7 @@ class CategoryDetailScreen extends GetView<CategoryDetailController> {
                       Text(
                         formattedDateTime.toString(),
                         overflow: TextOverflow.ellipsis,
-                        style:const TextStyle(
+                        style: const TextStyle(
                           fontSize: 11.0,
                           fontFamily: interMedium,
                           color: ColorConstant.qrViewText,
@@ -1950,16 +1998,16 @@ class CategoryDetailScreen extends GetView<CategoryDetailController> {
                         child: Row(
                           children: [
                             getText(
-                                title:
-                                model.rating==null?'0.0':
-                                model.rating.toString().contains('.')?
-                                model.rating.toString():"${model.rating.toString()}.0"
-                                ,
+                                title: model.rating == null
+                                    ? '0.0'
+                                    : model.rating.toString().contains('.')
+                                        ? model.rating.toString()
+                                        : "${model.rating.toString()}.0",
                                 size: 12,
                                 fontFamily: interMedium,
                                 color: ColorConstant.white,
                                 fontWeight: FontWeight.w500),
-                          const  SizedBox(
+                            const SizedBox(
                               width: 2,
                             ),
                             Image.asset(
@@ -2054,25 +2102,25 @@ class CategoryDetailScreen extends GetView<CategoryDetailController> {
 
   Widget specialOffers(BuildContext context) {
     return ListView.separated(
-      separatorBuilder: (context,sp){
-        return const SizedBox(height: 20,);
-      },
+        separatorBuilder: (context, sp) {
+          return const SizedBox(
+            height: 20,
+          );
+        },
         itemCount: controller.spacialOffer.length,
         shrinkWrap: true,
         physics: const ScrollPhysics(),
-        itemBuilder: (context,index){
+        itemBuilder: (context, index) {
           return Container(
             decoration: BoxDecoration(
                 color: ColorConstant.white,
                 // borderRadius: BorderRadius.circular(10),
                 boxShadow: [
                   BoxShadow(
-                      offset:const Offset(0, -2),
+                      offset: const Offset(0, -2),
                       color: ColorConstant.blackColor.withOpacity(.2),
-                      blurRadius: 10
-                  )
-                ]
-            ),
+                      blurRadius: 10)
+                ]),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -2082,60 +2130,77 @@ class CategoryDetailScreen extends GetView<CategoryDetailController> {
                     color: ColorConstant.white,
                   ),
                   child: ClipRRect(
-                    borderRadius:const BorderRadius.only(
-                        topRight: Radius.circular(8),
-                        topLeft: Radius.circular(8)),
-                    child:
-                    controller.spacialOffer[index]['banner']!=null?   CachedNetworkImage(
-                      height: 200,
-                      fit: BoxFit.fill,
-                      width: MediaQuery.of(context).size.width,
-                      imageUrl: controller.offersUrl+controller.spacialOffer[index]['banner'].toString(),
-                      errorWidget: (context, url, error) =>
-                          Image.network(
+                    borderRadius: const BorderRadius.only(
+                        // topRight: Radius.circular(8),
+                        // topLeft: Radius.circular(8)
+                    ),
+                    child: controller.spacialOffer[index]['banner'] != null
+                        ? CachedNetworkImage(
+                            height: 200,
+                            fit: BoxFit.fill,
+                            width: MediaQuery.of(context).size.width,
+                            imageUrl: "${controller.offersUrl}/${controller.spacialOffer[index]['banner']}",
+                            errorWidget: (context, url, error) => Image.network(
+                              "https://raysensenbach.com/wp-content/uploads/2013/04/default.jpg",
+                              height: 250,
+                              fit: BoxFit.fill,
+                              width: MediaQuery.of(context).size.width,
+                            ),
+                          )
+                        : Image.network(
                             "https://raysensenbach.com/wp-content/uploads/2013/04/default.jpg",
                             height: 250,
                             fit: BoxFit.fill,
                             width: MediaQuery.of(context).size.width,
                           ),
-                    ): Image.network(
-                      "https://raysensenbach.com/wp-content/uploads/2013/04/default.jpg",
-                      height: 250,
-                      fit: BoxFit.fill,
-                      width: MediaQuery.of(context).size.width,
-                    ),
                   ),
                 ),
-
                 Padding(
-                    padding: const EdgeInsets.only(left: 11,right: 12,top: 8,bottom: 13),
+                  padding: const EdgeInsets.only(
+                      left: 11, right: 12, top: 8, bottom: 13),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      getText(title: controller.spacialOffer[index]['type']=='discount'?
-                      "${controller.spacialOffer[index]['discount_pecent'].toString()}% Discount":controller.spacialOffer[index]['type'].toString().toUpperCase(),
-                           size: 14,
-                          fontFamily: interSemiBold, color: ColorConstant.black3333, fontWeight: FontWeight.w600)
-                 ,     ScreenSize.height(4),
                       getText(
-                          title: controller.spacialOffer[index]['description'],
+                          title: controller.spacialOffer[index]['type'] ==
+                                  'discount'
+                              ? "${controller.spacialOffer[index]['discount_pecent'].toString()}% Discount"
+                              : controller.spacialOffer[index]['type']
+                                  .toString()
+                                  .toUpperCase(),
+                          size: 14,
+                          fontFamily: interSemiBold,
+                          color: ColorConstant.black3333,
+                          fontWeight: FontWeight.w600),
+                      ScreenSize.height(4),
+                      getText(
+                          title: controller.spacialOffer[index]['description']??"",
                           size: 12,
                           fontFamily: interMedium,
-                          color:const Color(0xff7C7C7C),
+                          color: const Color(0xff7C7C7C),
                           fontWeight: FontWeight.w400),
                       ScreenSize.height(10),
                       Row(
                         children: [
-                          Image.asset(AppImages.clockIcon,height: 20,width: 20,),
+                          Image.asset(
+                            AppImages.clockIcon,
+                            height: 20,
+                            width: 20,
+                          ),
                           ScreenSize.width(7),
-                         const getText(title: 'Valid Day - ',
+                          const getText(
+                              title: 'Valid On - ',
                               size: 12,
                               fontFamily: interMedium,
-                              color: Color(0xff707070), fontWeight: FontWeight.w400),
-                           getText(title: '${TimeFormat.convertInDate(controller.spacialOffer[index]['end_date'])} at ${TimeFormat.convertInTime(controller.spacialOffer[index]['end_time'])}',
+                              color: Color(0xff707070),
+                              fontWeight: FontWeight.w400),
+                          getText(
+                              title:controller.spacialOffer[index]['end_date']!=null?
+                                  '${TimeFormat.convertInDate(controller.spacialOffer[index]['end_date'])} at ${TimeFormat.convertInTime(controller.spacialOffer[index]['end_time'])}':"",
                               size: 12,
                               fontFamily: interMedium,
-                              color:const Color(0xff707070), fontWeight: FontWeight.w400),
+                              color: const Color(0xff707070),
+                              fontWeight: FontWeight.w400),
                         ],
                       )
                     ],
@@ -2144,7 +2209,7 @@ class CategoryDetailScreen extends GetView<CategoryDetailController> {
               ],
             ),
           );
-    });
+        });
 
     //   CarouselSlider(
     //   items: <Widget>[

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:senorita/api_config/Api_Url.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../ScreenRoutes/routes.dart';
 import '../../../helper/appbar.dart';
@@ -149,7 +150,7 @@ class ExpertEditProfileScreen extends GetView<ExpertEditProfileController> {
                                         )
                                       : ClipOval(
                                           child: Image.network(
-                                            controller.imgUrl.value,
+                                           ApiUrls.imgBaseUrl+ controller.imgUrl.value,
                                             fit: BoxFit.cover,
                                           ),
                                         ),

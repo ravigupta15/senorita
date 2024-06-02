@@ -4,8 +4,6 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
-import 'package:senorita/ExpertApp/BottomMenuScreen/addOffers/shimmer/offerList_shimmer.dart';
-
 import '../../../api_config/Api_Url.dart';
 import '../../../helper/appbar.dart';
 import '../../../helper/appimage.dart';

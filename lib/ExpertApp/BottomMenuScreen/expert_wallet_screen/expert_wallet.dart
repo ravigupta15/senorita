@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:senorita/ExpertApp/BottomMenuScreen/expert_profile_screen/controller/expert_profile_controller.dart';
 import '../../../ScreenRoutes/routes.dart';
 import '../../../helper/appbar.dart';
 import '../../../helper/appimage.dart';
@@ -11,11 +12,13 @@ import '../../../helper/getText.dart';
 import '../../../utils/color_constant.dart';
 import '../../../utils/screensize.dart';
 import '../../../utils/stringConstants.dart';
+import '../../../utils/time_format.dart';
 import '../../../utils/toast.dart';
 import '../../../utils/validation.dart';
 import '../../../widget/customTextField.dart';
 import 'dart:math' as math;
 
+import '../../../widget/no_data_found.dart';
 import 'controller/expert_wallet_controller.dart';
 
 class ExpertWalletScreen extends GetWidget<ExpertWalletController> {
@@ -23,263 +26,202 @@ class ExpertWalletScreen extends GetWidget<ExpertWalletController> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        Get.toNamed(
-          AppRoutes.dashboardScreen,
-        );
-        return true;
-      },
-      child: Scaffold(
-        appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leadingWidth: 30,
-        title: getText(
-            title: "Wallet",
-            size: 17,
-            fontFamily: interSemiBold,
-            letterSpacing: 0.7,
-            color: ColorConstant.blackColor,
-            fontWeight: FontWeight.w400),
-        centerTitle: true,
-      ),
-        backgroundColor: ColorConstant.checkBox.withOpacity(0.1),
-        body: NotificationListener<ScrollNotification>(
-          onNotification: (scrollNotification) {
-            if (scrollNotification is ScrollStartNotification) {
-            } else if (scrollNotification is ScrollUpdateNotification) {
-            } else if (scrollNotification is ScrollEndNotification) {
-              if (scrollNotification.metrics.pixels >=
-                  scrollNotification.metrics.maxScrollExtent - 40) {
-                controller.allWalletListApiPaginationApiFunction();
-              }
-            }
-            return true;
-          },
-          child:  Column(
+    final profileController = Get.put(ExpertProfileController());
+    return Scaffold(
+      appBar: AppBar(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      leadingWidth: 30,
+      title: getText(
+          title: "Wallet",
+          size: 17,
+          fontFamily: interSemiBold,
+          letterSpacing: 0.7,
+          color: ColorConstant.blackColor,
+          fontWeight: FontWeight.w400),
+      centerTitle: true,
+    ),
+      backgroundColor: ColorConstant.checkBox.withOpacity(0.1),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          availablePointUi(),
-
-          ///Recent Transaction text
-          const Padding(
-            padding: EdgeInsets.only(right: 15,left: 20,top: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                getText(
-                    title: "Recent redeem point",
-                    size: 15,
-                    fontFamily: interMedium,
-                    color: ColorConstant.blackColorLight,
-                    fontWeight: FontWeight.w500),
-              ],
-            ),
-          ),
           Padding(
-            padding: EdgeInsets.only(right: 0,left: 0),
+            padding: const EdgeInsets.only(left: 15,right: 15,top: 10),
             child: Container(
-              height: 1,
-              width: MediaQuery.of(context).size.width,
-              color: ColorConstant.walletBorder,
+              decoration: BoxDecoration(
+                  color: ColorConstant.walletCard,
+                  borderRadius:const BorderRadius.all(Radius.circular(12)),
+                  boxShadow: [
+                    BoxShadow(
+                        offset:const Offset(0, 3),
+                        color: ColorConstant.black3333.withOpacity(.2),
+                        blurRadius: 14
+                    )
+                  ]
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 20,left: 12,right: 12,bottom: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Obx(()=> Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        getText(
+                            title: "Total available points",
+                            size: 13,
+                            fontFamily: interMedium,
+                            letterSpacing: 0.8,
+                            color: ColorConstant.blackColor,
+                            fontWeight: FontWeight.w500),
+                        const SizedBox(height: 4,),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 0),
+                          child: Center(
+                            child: getText(
+                                title: profileController.model!=null&&profileController.model.value.data!=null&&
+                                    profileController.model.value.data!.user!=null?
+                                profileController.model.value.data!.user!.wallet.toString():"0",
+                                size: 22,
+                                fontFamily: interSemiBold,
+                                color: ColorConstant.blackColor,
+                                fontWeight: FontWeight.w700),
+                          ),
+                        ),
+                      ],
+                    ),
+                    ),
+                    GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: ()
+                        {
+                          Get.toNamed(AppRoutes.expertQrScreen);
+                        },
+                        child: Image.asset(AppImages.qrExpert,height: 44,width: 44,)
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
-          SizedBox(height: 12,),
 
-          walletTransactionListUi(context),
-
-          controller.isLoadMoreRunning.value == true
-        ? const Padding(
-              padding: EdgeInsets.only(bottom: 30),
-              child: Center(child: CircularProgressIndicator()))
-              : Container(),
-          controller.hasNextPage.value == false
-              ? const Padding(
-              padding: EdgeInsets.only(top: 10, bottom: 40),
-              child: Center(child: Text("no data")))
-              : Container(),
-
-        ],
-        ),
-        ),
-
-      ),
-    );
-  }
-  /// Section AvailablePoint
-  Widget availablePointUi() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
-      child: Container(
-        decoration: BoxDecoration(
-            border: Border.all(
-              color: ColorConstant.walletBorder,
-            ),
-            borderRadius: BorderRadius.all(Radius.circular(15))),
-        height: 85,
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
+          const SizedBox(height: 30,),
+          Expanded(
+            child: Container(
+              decoration: BoxDecoration(
+                  color: ColorConstant.white,
+                  borderRadius:const BorderRadius.only(
+                      topLeft: Radius.circular(16),
+                      topRight: Radius.circular(16)
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                        offset:const Offset(0, -2),
+                        color: ColorConstant.black3333.withOpacity(.2),
+                        blurRadius: 10
+                    )
+                  ]
+              ),
+              child: Column(
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 2),
-                        child: Center(
-                          child: getText(
-                              title: "Total available Point",
-                              size: 17,
-                              fontFamily: interMedium,
-                              color: ColorConstant.offerTextBlack,
-                              fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Obx(
-                            () => Padding(
-                              padding: const EdgeInsets.only(left: 2),
-                              child: getText(
-                              title:controller.totalPoints.value,
-                              size: 15,
-                              fontFamily: interMedium,
-                              letterSpacing: 0.8,
-                              color: ColorConstant.redeemTextDark,
-                              fontWeight: FontWeight.w500),
-                            ),
-                      ),
-                      SizedBox(
-                        height: 4,
-                      ),
-                    ],
+                  const SizedBox(height: 24,),
+                  Center(
+                    child: getText(
+                        title: "Recent Transaction",
+                        size: 14,
+                        fontFamily: poppinsMedium,
+                        color: ColorConstant.blackColor,
+                        fontWeight: FontWeight.w400),
                   ),
-                  Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: () {
-                        Get.toNamed(AppRoutes.qrCodeScreen);
-                      },
-                      child: Image.asset(
-                        width: 30,
-                        height: 30,
-                        AppImages.walletIcon,
-                      ),
-                    ),
-                  ),
+                  const SizedBox(height: 25,),
+                  Obx(()=> controller.model!.value!=null&&controller.model!.value.data!=null?
+                  Expanded(
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        itemCount: controller.model!.value.data!.length,
+                        itemBuilder: (BuildContext context, int index) {
+
+                          return GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              onTap: () {
+                              },
+                              child: walletTransaction(context,index));
+                        }),
+                  ):  Container(
+                      height: 200,alignment: Alignment.center,
+                      child: noDataFound()),
+                  )
+                  ,
                 ],
               ),
-            ],
-          ),
-        ),
+            ),
+          )
+
+        ],
       ),
+
     );
   }
-
-  Widget walletTransactionListUi(BuildContext context) {
-    return  Expanded(
-      child: Obx(()=>
-          Padding(
-            padding: const EdgeInsets.only(left: 08,right: 15),
-            child: ListView.builder(
-              //physics: const ScrollPhysics(),
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                itemCount: controller.allWalletList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  var model = controller.allWalletList[index];
-                  return GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: () {
-                      },
-                      child: walletTransaction(context,model));
-                }),
-          ),
-      ),
-    );
-  }
-
-  walletTransaction(BuildContext context,model) {
-    final String timestamp = model.created_at;
-    // Parse the timestamp string into a DateTime object
-    DateTime dateTime = DateTime.parse(timestamp);
-    // Format the DateTime object with the desired format
-    String createdAt = DateFormat('MMMM dd, yyyy HH:mm:ss').format(dateTime);
-
+  walletTransaction(BuildContext context,int index) {
     return Padding(
-      padding: const EdgeInsets.only(left: 8,right: 8,top: 0,bottom: 6),
+      padding: const EdgeInsets.only(left: 18,right: 18,top: 0,bottom: 6),
       child: GestureDetector(
         onTap: () {
         },
         child: SizedBox(
-          height: 55,
+          height: 63,
           width: MediaQuery.of(context).size.width,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Row(
                 children: [
-                  Padding(
-                    padding:  EdgeInsets.only(bottom: 15),
-                    child: Image.asset(
+                  controller.model!.value.data![index].type!='paid'?
+                  Image.asset(
                       width: 20,
                       height: 20,
-                      AppImages.transaction,),
+                      AppImages.transcationIcon1):
+                  Container(
+                    height: 20,width: 20,
+                    alignment: Alignment.center,
+                    child: Image.asset(
+                      width: 12,
+                      height: 12,
+                      AppImages.transcationIcon2,),
                   ),
-                  SizedBox(width: 10,),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        getText(
-                            title: "Redeem to "+ model.txn_id.toString(),
-                            size: 13,
-                            fontFamily: interMedium,
-                            color: ColorConstant.blackColorDark,
-                            fontWeight: FontWeight.w500),
-
-                        SizedBox(height: 5,),
-
-                        getText(
-                            title: createdAt.toString(),
-                            size: 11,
-                            fontFamily: interLight,
-                            color: ColorConstant.blackLight,
-                            fontWeight: FontWeight.w600),
-
-                      ],
+                  const  SizedBox(width: 10,),
+                  Expanded(
+                    child: Text(controller.model!.value.data![index].titleMessage??'',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style:const TextStyle(
+                          fontSize: 14,
+                          fontFamily: poppinsMedium,
+                          color: ColorConstant.blackColorDark,
+                          fontWeight: FontWeight.w400
+                      ),
                     ),
                   ),
-
-                  Spacer(),
+                  const  SizedBox(width: 5,),
                   getText(
-                      title: "₹ "+model.points,
+                      title: controller.model!.value.data![index].points??"",
                       size: 14,
-                      fontFamily: interMedium,
-                      color: ColorConstant.blackColor,
-                      fontWeight: FontWeight.w500),
+                      fontFamily: poppinsMedium,
+                      color: ColorConstant.blackColorDark,
+                      fontWeight: FontWeight.w400),
                 ],),
-
-              /* Padding(
-                padding: const EdgeInsets.only(left: 29),
+              const SizedBox(height: 2,),
+              Padding(
+                padding:const  EdgeInsets.only(left: 29),
                 child: getText(
-                    title: createdAt.toString(),
-                    size: 11,
-                    fontFamily: interLight,
-                    color: ColorConstant.blackLight,
-                    fontWeight: FontWeight.w600),
-              ),*/
-              SizedBox(height: 10,),
+                    title:TimeFormat.currentTime(controller.model!.value.data![index].createdAt),
+                    size: 12,
+                    fontFamily: poppinsRegular,
+                    color: ColorConstant.blackColor,
+                    fontWeight: FontWeight.w400),
+              ),
+              const  SizedBox(height: 10,),
               Container(
                 width: MediaQuery.of(context).size.width-15,
                 color: ColorConstant.dividerColor,

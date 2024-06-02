@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:senorita/UserApp/BottomMenuScreen/home_screen/shimmer/all_expert_shimmer.dart';
 import 'package:senorita/UserApp/BottomMenuScreen/home_screen/shimmer/popular_category_shimmer.dart';
 import 'package:senorita/UserApp/BottomMenuScreen/single_category_list_screen/controller/single_category_list_controller.dart';
+import 'package:senorita/api_config/Api_Url.dart';
 import 'package:senorita/utils/screensize.dart';
 import '../../../ScreenRoutes/routes.dart';
 import '../../../helper/appbar.dart';
@@ -34,12 +35,12 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
     return Scaffold(
       backgroundColor: ColorConstant.white,
       // drawer: drawer(context, controller),
-      appBar: appBar(context,controller.categoryName.value, () {
+      appBar: appBar(context, controller.categoryName.value, () {
         Get.back();
       }),
-      body:
-      RefreshIndicator(
-        onRefresh: () => controller.allCategoryApiFunction(controller.categoryId.toString()),
+      body: RefreshIndicator(
+        onRefresh: () =>
+            controller.allCategoryApiFunction(controller.categoryId.toString()),
         child: NotificationListener<ScrollNotification>(
           onNotification: (scrollNotification) {
             if (scrollNotification is ScrollStartNotification) {
@@ -47,7 +48,8 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
             } else if (scrollNotification is ScrollEndNotification) {
               if (scrollNotification.metrics.pixels >=
                   scrollNotification.metrics.maxScrollExtent - 40) {
-                controller.allCategoryPaginationApiFunction(controller.categoryId.toString());
+                controller.allCategoryPaginationApiFunction(
+                    controller.categoryId.toString());
                 // controller.selectedTabBar.value ==0?
                 // productPaginApiFunction():servicePaginApiFunction();
               }
@@ -57,84 +59,104 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 15,right: 15,top: 10),
+                padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
                 child: Row(
                   children: [
-                    Expanded(child: searchBar(readOnly: true, onTap: (){
-                      Get.toNamed(AppRoutes.searchScreen);
-                    })),
+                    Expanded(
+                        child: searchBar(
+                            readOnly: true,
+                            onTap: () {
+                              Get.toNamed(AppRoutes.searchScreen);
+                            })),
                     ScreenSize.width(10),
                     Container(
                       height: 49,
                       width: 49,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
-                          border: Border.all(
-                              color: Color(0xffD9D9D9)
-                          )
-                      ),
+                          border: Border.all(color: Color(0xffD9D9D9))),
                       alignment: Alignment.center,
-                      child: Image.asset(AppImages.filterIcon,height: 20,width:20,color: Color(0xff767676),),
+                      child: Image.asset(
+                        AppImages.filterIcon,
+                        height: 20,
+                        width: 20,
+                        color: Color(0xff767676),
+                      ),
                     )
                   ],
                 ),
               ),
               ScreenSize.height(5),
               Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(),
-                    child: Container(
-                        color: ColorConstant.white,
-                        child:    Obx(
-                              () => controller.isLoading.value
-                              ? allExpertShimmer()
-                              : controller.allCategoryList.isNotEmpty?SizedBox(
-                            child: RefreshIndicator(
-                              onRefresh: () {
-                                allExpertShimmer();
-                                return controller.allCategoryApiFunction(controller.categoryId.toString());
-                              },
-                              child: ListView.separated(
-                                  separatorBuilder: (context,sp){
-                                return const SizedBox(height: 23,);
-                              },
-                                  padding:const EdgeInsets.only(left: 15,right: 14,top: 15,bottom: 30),
-                                  shrinkWrap: true,
-                                  itemCount: controller.allCategoryList.length,
-                                  physics:const ScrollPhysics(),
-                                  itemBuilder: (BuildContext context, int index) {
-                                    var model = controller.allCategoryList[index];
+                child: Padding(
+                  padding: const EdgeInsets.only(),
+                  child: Container(
+                      color: ColorConstant.white,
+                      child: Obx(
+                        () => controller.isLoading.value
+                            ? allExpertShimmer()
+                            : controller.allCategoryList.isNotEmpty
+                                ? SizedBox(
+                                    child: RefreshIndicator(
+                                      onRefresh: () {
+                                        allExpertShimmer();
+                                        return controller
+                                            .allCategoryApiFunction(controller
+                                                .categoryId
+                                                .toString());
+                                      },
+                                      child: ListView.separated(
+                                          separatorBuilder: (context, sp) {
+                                            return const SizedBox(
+                                              height: 23,
+                                            );
+                                          },
+                                          padding: const EdgeInsets.only(
+                                              left: 15,
+                                              right: 14,
+                                              top: 15,
+                                              bottom: 30),
+                                          shrinkWrap: true,
+                                          itemCount:
+                                              controller.allCategoryList.length,
+                                          physics: const ScrollPhysics(),
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
+                                            var model = controller
+                                                .allCategoryList[index];
 
-                                    return expertUi(context, model);
-                                  }),
-                            ),
-                          ):
-                              Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height,
-                            child: Center(
-                              child: getText(
-                                  title: "",
-                                  size: 15,
-                                  fontFamily: interMedium,
-                                  color: ColorConstant.blackColor,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          ),
-                        )),
-                  ),
+                                            return expertUi(context, model);
+                                          }),
+                                    ),
+                                  )
+                                : Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: MediaQuery.of(context).size.height,
+                                    child: Center(
+                                      child: getText(
+                                          title: "",
+                                          size: 15,
+                                          fontFamily: interMedium,
+                                          color: ColorConstant.blackColor,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ),
+                      )),
                 ),
-              const SizedBox(height: 15,),
-               controller.isLoadMoreRunning.value == true
-                    ? const Padding(
-                    padding: EdgeInsets.only(bottom: 30),
-                    child: Center(child: CircularProgressIndicator()))
-                    : Container(),
-                controller.hasNextPage.value == false
-                    ? const Padding(
-                    padding: EdgeInsets.only(top: 10, bottom: 40),
-                    child: Center(child: Text("no data")))
-                    : Container(),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              controller.isLoadMoreRunning.value == true
+                  ? const Padding(
+                      padding: EdgeInsets.only(bottom: 30),
+                      child: Center(child: CircularProgressIndicator()))
+                  : Container(),
+              controller.hasNextPage.value == false
+                  ? const Padding(
+                      padding: EdgeInsets.only(top: 10, bottom: 40),
+                      child: Center(child: Text("no data")))
+                  : Container(),
             ],
           ),
         ),
@@ -259,28 +281,26 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
     );
   }
 
-
   expertUi(BuildContext context, model) {
     return GestureDetector(
       onTap: () {
         // Get.toNamed(AppRoutes.categoryDetailsScreen);
-        Get.toNamed(AppRoutes.categoryDetailsScreen,
-            arguments: [model.userId,
-              controller.latitude.toString(),controller.longitude.toString()]
-        );
+        Get.toNamed(AppRoutes.categoryDetailsScreen, arguments: [
+          model.userId,
+          controller.latitude.toString(),
+          controller.longitude.toString()
+        ]);
       },
       child: Container(
         decoration: BoxDecoration(
-          color: ColorConstant.white,
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            BoxShadow(
-                offset:const Offset(0, -2),
-                color: ColorConstant.blackColor.withOpacity(.2),
-                blurRadius: 10
-            )
-          ]
-      ),
+            color: ColorConstant.white,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                  offset: const Offset(0, -2),
+                  color: ColorConstant.blackColor.withOpacity(.2),
+                  blurRadius: 10)
+            ]),
         padding: const EdgeInsets.only(bottom: 13),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -292,24 +312,25 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
                   width: MediaQuery.of(context).size.width,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    shape: BoxShape.circle, color: ColorConstant.white,
-
+                    shape: BoxShape.circle,
+                    color: ColorConstant.white,
                   ),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.only(topRight: Radius.circular(8),topLeft: Radius.circular(8)),
-                    child:
-                    CachedNetworkImage(
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(8),
+                        topLeft: Radius.circular(8)),
+                    child: CachedNetworkImage(
                       height: 200,
                       fit: BoxFit.fill,
                       width: MediaQuery.of(context).size.width,
-                      imageUrl: model.imageUrl.toString(),
-                      errorWidget: (context, url, error) =>
-                          Image.network(
-                            "https://raysensenbach.com/wp-content/uploads/2013/04/default.jpg",
-                            height: 250,
-                            fit: BoxFit.fill,
-                            width: MediaQuery.of(context).size.width,
-                          ),
+                      imageUrl:
+                          ApiUrls.imgBaseUrl + model.profileImg.toString(),
+                      errorWidget: (context, url, error) => Image.network(
+                        "https://raysensenbach.com/wp-content/uploads/2013/04/default.jpg",
+                        height: 250,
+                        fit: BoxFit.fill,
+                        width: MediaQuery.of(context).size.width,
+                      ),
                     ),
                   ),
                 ),
@@ -318,12 +339,12 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
             const SizedBox(
               width: 10,
             ),
-
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 11,right: 12,top: 8,bottom: 8),
+                  padding: const EdgeInsets.only(
+                      left: 11, right: 12, top: 8, bottom: 8),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -347,32 +368,41 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
-                                const SizedBox(height: 3,),
+                                const SizedBox(
+                                  height: 3,
+                                ),
                                 getText(
-                                    title: model.subCat!=null&&model.subCat.isNotEmpty?
-                                    model.subCat.map((subCat)=>subCat['name']).join(', '):"",
+                                    title: model.subCat != null &&
+                                            model.subCat.isNotEmpty
+                                        ? model.subCat
+                                            .map((subCat) => subCat['name'])
+                                            .join(', ')
+                                        : "",
                                     size: 13,
                                     fontFamily: interMedium,
                                     color: ColorConstant.blackLight,
-                                    fontWeight: FontWeight.w500)
-                                ,
+                                    fontWeight: FontWeight.w500),
                               ],
                             ),
                           ),
-
                           Container(
-                            decoration:const BoxDecoration(
+                            decoration: const BoxDecoration(
                               color: ColorConstant.greenStar,
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(4)),),
-                            padding:const EdgeInsets.only(left: 5,right: 4,top: 3,bottom: 4),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4)),
+                            ),
+                            padding: const EdgeInsets.only(
+                                left: 5, right: 4, top: 3, bottom: 4),
                             child: Row(
                               children: [
                                 getText(
-                                    title:
-                                    model.avg_rating==null?'0.0':
-                                    model.avg_rating.toString().contains('.')?
-                                    model.avg_rating.toString():"${model.avg_rating.toString()}.0",
+                                    title: model.avg_rating == null
+                                        ? '0.0'
+                                        : model.avg_rating
+                                                .toString()
+                                                .contains('.')
+                                            ? model.avg_rating.toString()
+                                            : "${model.avg_rating.toString()}.0",
                                     size: 13,
                                     fontFamily: interMedium,
                                     color: ColorConstant.white,
@@ -397,87 +427,86 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
                     ],
                   ),
                 ),
-                model.address!=null && model.address!="null"?
-                Padding(
-                  padding: const EdgeInsets.only(left: 11,right: 12),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Image.asset(
-                            width: 18,
-                            height: 18,
-                            AppImages.location,
-                          ),
-                          SizedBox(
-                            width: 3,
-                          ),
-                          Flexible(
-                            child: Text(
-                              model.address.toString(),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                              style: const TextStyle(
-                                fontSize: 13.0,
-                                fontFamily: interMedium,
-                                color: ColorConstant.blackLight,
-                                fontWeight: FontWeight.w500,
-                              ),
+                model.address != null && model.address != "null"
+                    ? Padding(
+                        padding: const EdgeInsets.only(left: 11, right: 12),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Image.asset(
+                                  width: 18,
+                                  height: 18,
+                                  AppImages.location,
+                                ),
+                                SizedBox(
+                                  width: 3,
+                                ),
+                                Flexible(
+                                  child: Text(
+                                    model.address.toString(),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    style: const TextStyle(
+                                      fontSize: 13.0,
+                                      fontFamily: interMedium,
+                                      color: ColorConstant.blackLight,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                )
+                              ],
                             ),
-                          )
-                        ],
-                      ),
-                      const  SizedBox(
-                        height: 12,
-                      ),
-                    ],
-                  ),
-                )
-                    :SizedBox(),
-
-                model.lat!=null &&   model.lat!="null"?
-                Padding(
-                  padding: const EdgeInsets.only(left: 11 ,right: 12, top: 2),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Image.asset(
-                            width: 13,
-                            height: 13,
-                            AppImages.distance,
-                          ),
-                          const SizedBox(
-                            width: 3,
-                          ),
-                          Flexible(
-                            child:  Text(
-                              " " + model.distance.toString() + " Km",
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                              style: const TextStyle(
-                                fontSize: 13.0,
-                                fontFamily: interMedium,
-                                color: ColorConstant.blackLight,
-                                fontWeight: FontWeight.w500,
-                              ),),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                )
-                    :SizedBox(),
-
+                            const SizedBox(
+                              height: 12,
+                            ),
+                          ],
+                        ),
+                      )
+                    : SizedBox(),
+                model.lat != null && model.lat != "null"
+                    ? Padding(
+                        padding:
+                            const EdgeInsets.only(left: 11, right: 12, top: 2),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Image.asset(
+                                  width: 13,
+                                  height: 13,
+                                  AppImages.distance,
+                                ),
+                                const SizedBox(
+                                  width: 3,
+                                ),
+                                Flexible(
+                                  child: Text(
+                                    " " + model.distance.toString() + " Km",
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    style: const TextStyle(
+                                      fontSize: 13.0,
+                                      fontFamily: interMedium,
+                                      color: ColorConstant.blackLight,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                      )
+                    : SizedBox(),
                 const Padding(
-                  padding:  EdgeInsets.only(left: 11, right: 12,top: 10),
+                  padding: EdgeInsets.only(left: 11, right: 12, top: 10),
                   child: MySeparator(color: Color(0xffD6D5D5)),
                 ),
                 Padding(
-                  padding:
-                  const EdgeInsets.only(left: 11, top: 11, right: 12),
+                  padding: const EdgeInsets.only(left: 11, top: 11, right: 12),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -504,30 +533,19 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
                             ),
                           ),
                         ],
-                      ),int.parse(model.offer_count) > 0
-                          ?
-                      Row(
-                        children: [
-                          Image.asset(
-                            width: 17,
-                            height: 17,
-                            AppImages.specialOffer,
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          const Text(
-                            "Special offer",
-                            style: TextStyle(
-                              fontSize: 14.0,
-                              fontFamily: interMedium,
-                              color: ColorConstant.darkBlueColor,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      )
-                          : SizedBox(),
+                      ),
+                      model.offers!=null&& model.offers.isNotEmpty ?
+                      Text(
+                        model.offers[0]['type']=='buyget'?
+                        "BUY 1 GET 1 FREE":
+                        "Flat ${model.offers[0]['discount_pecent']}% Discount",
+                        style:const TextStyle(
+                          fontSize: 14.0,
+                          fontFamily: interBold,
+                          color: ColorConstant.darkBlueColor,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ) :const SizedBox(),
                     ],
                   ),
                 ),
@@ -538,7 +556,6 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
       ),
     );
   }
-
 
   // expertCardData(BuildContext context, model) {
   //   return GestureDetector(
@@ -672,7 +689,6 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
   //     ),
   //   );
   // }
-
 }
 /*final startPointPrice=20.0.obs;
    final endPointPrice=10.0.obs;*/

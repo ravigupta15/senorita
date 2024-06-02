@@ -18,7 +18,7 @@ class ProfileController extends GetxController {
   final mobile="".obs;
   String id="";// Initialize with your desired upper value
   final walletAmount = ''.obs;
-
+final referralCode = ''.obs;
   @override
   Future<void> onInit() async {
     SizeConfig().init();
@@ -37,6 +37,8 @@ class ProfileController extends GetxController {
       email.value=response['data']['email'].toString() ?? "";
       mobile.value=response['data']['mobile'].toString() ?? "";
       walletAmount.value = response['data']['wallet']??'';
+      referralCode.value = response['data']['referral_code']??"";
     }
   }
+
 }

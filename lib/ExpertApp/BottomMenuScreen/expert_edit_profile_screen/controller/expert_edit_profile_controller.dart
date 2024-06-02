@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:senorita/ExpertApp/BottomMenuScreen/expert_edit_profile_screen/models/edit_categorymodel.dart';
 import 'package:senorita/ScreenRoutes/routes.dart';
+import 'package:senorita/UserApp/BottomMenuScreen/profile_screen/controller/profile_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
@@ -53,15 +54,15 @@ class ExpertEditProfileController extends GetxController {
   final expertProfileImage="".obs;
 
   ///Country data
-  RxInt selectedCountryType = (-1).obs;
-  final countryString = "".obs;
-  final allCountryList = [].obs;
-  final countryId = "".obs;
+  // RxInt selectedCountryType = (-1).obs;
+  // final countryString = "".obs;
+  // final allCountryList = [].obs;
+  // final countryId = "".obs;
 
   ///State data
-  RxInt selectedStateType = (-1).obs;
-  final stateId = "".obs;
-  final allStateList = [].obs;
+  // RxInt selectedStateType = (-1).obs;
+  // final stateId = "".obs;
+  // final allStateList = [].obs;
 
   ///City data
   RxInt selectedCityType = (-1).obs;
@@ -138,37 +139,63 @@ class ExpertEditProfileController extends GetxController {
     {
 
     }
-
-    /*if(addressString.value=='Current Address')
-      {
-        getCityApiFunction();
-        getCategoryApiFunction();
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        Id=prefs.getString("id").toString();
-        expertId=prefs.getString("expert_id").toString();
-        token=prefs.getString("token").toString();
-        expertProfileApiFunction();
-      }*/
-    getCityApiFunction();
-    getCategoryApiFunction();
+    // getCityApiFunction();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     Id=prefs.getString("id").toString();
     expertId=prefs.getString("expert_id").toString();
     token=prefs.getString("token").toString();
-    expertProfileApiFunction();
-
-
-
+    setValues();
     super.onInit();
   }
 
-  void resetValues() {
-    fullNameController.clear();
-    emailController.clear();
-    numberController.clear();
-    expController.clear();
+  // void resetValues() {
+  //   fullNameController.clear();
+  //   emailController.clear();
+  //   numberController.clear();
+  //   expController.clear();
+  //
+  // }
 
+  final profileController = Get.put(ExpertProfileController());
+  setValues(){
+    if(profileController.model.value!=null&&profileController.model.value!.data!=null &&profileController.model.value!.data!.user !=null){
+      imgUrl.value= profileController.model.value!.data!.user!.profilePicture??'';
+      fullNameController.text=profileController.model.value!.data!.user!.name??'';
+      numberController.text=profileController.model.value!.data!.user!.mobile??"";
+      emailController.text=profileController.model.value!.data!.user!.email??"";
 
+      Get.parameters['address']!=null?
+      addressString.value:addressString.value=profileController.model.value!.data!.user!.address??"";
+      cityString.value=profileController.model.value!.data!.user!.city??"";
+      stateString.value=profileController.model.value!.data!.user!.state??"";
+      latString.value=profileController.model.value!.data!.user!.lat??"";
+      lngString.value=profileController.model.value!.data!.user!.lng??"";
+
+    }
+    if(profileController.model!=null&&profileController.model.value.data!=null&&profileController.model.value!.data!.category!=null){
+      categoryString.value= profileController.model.value!.data!.category!.name.toString();
+      selectedCategoryType.value=profileController.model.value!.data!.category!.id;
+      // response['data']['category']!=null?response['data']['category']['id']-1:0;
+      categoryId.value=profileController.model.value!.data!.category!.id.toString();
+      categoryId.value.isNotEmpty?
+      getSubCategoryApiFunction(categoryId.value.toString()):null;
+
+    }
+    if(profileController.model!=null&&profileController.model.value.data!=null&&profileController.model.value!.data!.expertSubcats!=null){
+      for (int i = 0; i < profileController.model.value!.data!.expertSubcats!.length; i++) {
+        EditSubCategoryModel model = EditSubCategoryModel(
+            profileController.model.value!.data!.expertSubcats![i].expertId.toString(),
+            profileController.model.value!.data!.expertSubcats![i].name.toString()
+        );
+        subCategoryIdList.add(model.id);
+        subCategoryNameList.add(model.name);
+        subCategoryList.add(model);
+      }
+    }
+
+    expController.text= profileController.model!=null&&profileController.model.value!.data!=null? profileController.model.value!.data!.experience.toString():"";
+    kodagoCardController.text=profileController.model!=null&&profileController.model.value!.data!=null&&profileController.model.value!.data!.kodagoCardUrl!=null? profileController.model.value!.data!.kodagoCardUrl.toString():"";
+    aboutUsController.text=profileController.model!=null&&profileController.model.value!.data!=null? profileController.model.value!.data!.about.toString():"";
   }
 
 
@@ -271,54 +298,9 @@ class ExpertEditProfileController extends GetxController {
     }
   }
 
-  expertProfileApiFunction() async {
-    showCircleProgressDialog(Get.context!);
-    final response = await ApiConstants.getWithToken(url: "${ApiUrls.getExpertProfileDetail}", useAuthToken: true);
-    isLoading.value = true;
-    if (response != null && response['success'] == true) {
-      Get.back();
-      imgUrl.value=response['data']['image_url']??'';
-      fullNameController.text=response['data']['name'].toString();
-      numberController.text=response['data']['mobile'].toString();
-      emailController.text=response['data']['email'].toString();
-
-      Get.parameters['address']!=null?
-      addressString.value:addressString.value=response['data']['address'].toString();
-
-      cityString.value=response['data']['city'].toString();
-      stateString.value=response['data']['state'].toString();
-      latString.value=response['data']['lat'].toString();
-      lngString.value=response['data']['lng'].toString();
-
-      categoryString.value=response['data']['expert_details']['category']['name'].toString();
-      selectedCategoryType.value=response['data']['expert_details']['category']['id']-1;
-      categoryId.value=response['data']['expert_details']['category']['id'].toString();
-      getSubCategoryApiFunction(categoryId.value.toString());
-      for (int i = 0; i < response['data']['expert_sub_category'].length; i++) {
-        EditSubCategoryModel model = EditSubCategoryModel(
-          response['data']['expert_sub_category'][i]['sub_category_details']['id'].toString(),
-          response['data']['expert_sub_category'][i]['sub_category_details']['name'].toString()
-
-        );
-        subCategoryIdList.add(model.id);
-        subCategoryNameList.add(model.name);
-        subCategoryList.add(model);
-      }
-      expController.text=response['data']['expert_details']['experience'].toString();
-      kodagoCardController.text=response['data']['expert_details']['kodago_card_url'].toString();
-      aboutUsController.text=response['data']['expert_details']['about'].toString();
-    }
-    else
-    {
-      response['message'].toString();
-    }
-  }
-
-
 
   submitExpertProfileApi(BuildContext context) async {
     showCircleProgressDialog(Get.context!);
-    print("vbdfb${imgUrl.value}");
     isLoading.value = true;
     var headers = {
       'Authorization': 'Bearer'+token
@@ -330,8 +312,8 @@ class ExpertEditProfileController extends GetxController {
       'mobile': numberController.text.toString(),
       'email': emailController.text.toString(),
       'address': addressString.toString(),
-      'city': cityString.toString(),
-      'state': stateString.toString(),
+      // 'city': cityString.toString(),
+      // 'state': stateString.toString(),
       'lat': latString.toString(),
       'lng': lngString.toString(),
       'category_id': categoryId.toString(),
@@ -361,7 +343,7 @@ class ExpertEditProfileController extends GetxController {
       if (result["success"] == true) {
         showToast(result["message"].toString());
         Get.back();
-        Get.offAllNamed(AppRoutes.expertDashboardScreen);
+        // Get.offAllNamed(AppRoutes.expertDashboardScreen);
       }
       else
       {

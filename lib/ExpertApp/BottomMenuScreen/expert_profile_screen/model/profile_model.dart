@@ -75,7 +75,6 @@ class Data {
     myRating = json['my_rating'];
     myReview = json['my_review'];
     imageUrl = json['image_url'];
-
     category = json['category'] != null
         ?  Category.fromJson(json['category'])
         : null;
@@ -89,7 +88,7 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data =  Map<String, dynamic>();
     data['id'] = id;
     data['category_id'] = categoryId;
     data['user_id'] = userId;
@@ -105,15 +104,15 @@ class Data {
     data['my_rating'] = myRating;
     data['my_review'] = myReview;
     data['image_url'] = imageUrl;
-    if (this.category != null) {
-      data['category'] = this.category!.toJson();
+    if (category != null) {
+      data['category'] = category!.toJson();
     }
-    if (this.expertSubcats != null) {
+    if (expertSubcats != null) {
       data['expert_subcats'] =
-          this.expertSubcats!.map((v) => v.toJson()).toList();
+          expertSubcats!.map((v) => v.toJson()).toList();
     }
-    if (this.user != null) {
-      data['user'] = this.user!.toJson();
+    if (user != null) {
+      data['user'] = user!.toJson();
     }
     return data;
   }
@@ -131,7 +130,7 @@ class Category {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data =  Map<String, dynamic>();
     data['id'] = id;
     data['name'] = name;
     return data;
@@ -166,8 +165,13 @@ class User {
   dynamic isAdmin;
   dynamic email;
   dynamic phonecode;
+  dynamic wallet;
   dynamic mobile;
   dynamic mobileApi;
+  dynamic city;
+  dynamic state;
+  dynamic lat;
+  dynamic lng;
   dynamic profilePicture;
   dynamic isVerified;
   dynamic accountStatus;
@@ -181,8 +185,13 @@ class User {
         this.isAdmin,
         this.email,
         this.phonecode,
+        this.wallet,
         this.mobile,
         this.mobileApi,
+        this.city,
+        this.state,
+        this.lat,
+        this.lng,
         this.profilePicture,
         this.isVerified,
         this.accountStatus});
@@ -196,7 +205,12 @@ class User {
     isAdmin = json['is_admin'];
     email = json['email'];
     phonecode = json['phonecode'];
+    wallet = json['wallet'];
     mobile = json['mobile'];
+    city = json['city'];
+    state = json['state'];
+    lat = json['lat'];
+    lng = json['lng'];
     mobileApi = json['mobile_api'];
     profilePicture = json['profile_picture'];
     isVerified = json['is_verified'];
@@ -213,8 +227,13 @@ class User {
     data['is_admin'] = isAdmin;
     data['email'] = email;
     data['phonecode'] = phonecode;
+    data['wallet'] = wallet;
     data['mobile'] = mobile;
     data['mobile_api'] = mobileApi;
+    data['city'] = city;
+    data['state'] =state;
+    data['lat'] =lat;
+     data['lng']=lng;
     data['profile_picture'] = profilePicture;
     data['is_verified'] = isVerified;
     data['account_status'] = accountStatus;

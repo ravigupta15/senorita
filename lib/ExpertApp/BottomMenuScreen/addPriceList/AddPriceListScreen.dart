@@ -105,11 +105,11 @@ class AddPriceListScreen extends GetView<PriceListController> {
                                 ),
                               ),
                               Expanded(
-                                child: Image.asset(
-                                  height: 8,
-                                  width: 8,
-                                  AppImages.arrowRegister,
-                                ),
+                                        child: Image.asset(
+                                          height: 8,
+                                          width: 8,
+                                          AppImages.arrowRegister,
+                                        ),
                                 /*  Icon(
                                                 Icons.arrow_back_ios_rounded)*/
                               )

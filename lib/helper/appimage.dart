@@ -21,10 +21,9 @@ class AppImages {
   static const  profileHelp  = 'assets/icons/profile_help.png';
   static const  profileLogout  = 'assets/icons/profile_logout.png';
   static const  profilePhotos  = 'assets/images/photos.png';
-
-
-
-
+  static const referEarnImage  = 'assets/images/referearn_img.png';
+  static const copyIcon = 'assets/icons/copyIcon.png';
+  static const dateIcon = 'assets/icons/date_icon.png';
 
 
   static const userIcon  = 'assets/icons/user.png';

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:senorita/ScreenRoutes/routes.dart';
@@ -72,6 +73,7 @@ class OtpController extends GetxController {
     });
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse);
+    log(response.body);
     if (response.statusCode == 200) {
       final result = jsonDecode(response.body) as Map<String, dynamic>;
       if (result["success"] == true) {
@@ -88,6 +90,7 @@ class OtpController extends GetxController {
             prefs.setString('expert_name', result['data']["name"].toString());
             prefs.setString('expert_profile', result['data']["profile_picture"].toString());
             prefs.setString('status', result['data']["expert_details"]["status"].toString());
+            prefs.setString('expert_qr_code', result['data']['expert_qr_code']);
             Get.toNamed(AppRoutes.expertDashboardScreen);
           }
         else

@@ -82,7 +82,6 @@ class DashboardController extends GetxController {
   RxInt selectedCityType = (-1).obs;
   final cityString = "".obs;
   final cityId = "".obs;
-  final allCityList = [].obs;
 
   ///Country data
   RxInt selectedCountryType = (-1).obs;
@@ -175,7 +174,6 @@ final bannerIndex =0.obs;
     Id=prefs.getString("id").toString();
     getUserLocation();
     profileApiFunction();
-    getCityApiFunction();
     categoryApiFunction();
     ///Home Screen
     token = prefs.getString("token").toString();
@@ -274,43 +272,6 @@ final bannerIndex =0.obs;
     }
   }
 
-  citiesApiFunction() async {
-    cityList.clear();
-    isCityLoading.value = true;
-    final response = await ApiConstants.getWithToken(
-        url: ApiUrls.citiesApiUrl, useAuthToken: true);
-    if (response != null && response['success'] == true) {
-      isCityLoading.value = false;
-      if (response['data'] != null) {
-        for (int i = 0; i < response['data'].length; i++) {
-          print(response['data'],);
-          if(response['data'][i]['name']!=null)
-          {
-            PopularCategoryModel model = PopularCategoryModel(
-                response['icon'],
-                response['data'][i]['name'].toString(),
-                response['data'][i]['id'].toString());
-            cityList.add(model);
-          }
-          else
-          {
-
-          }
-
-
-        }
-      }
-    }
-  }
-  getCityApiFunction() async {
-    final response = await ApiConstants.get(
-        url: ApiUrls.cityApiUrl + "/" + "all");
-    if (response["success"] == true) {
-      if (response['data'] != null) {
-        allCityList.value = response['data'];
-      }
-    }
-  }
   categoryApiFunction() async {
     // categoryList.clear();
     isCategoryLoading.value=true;

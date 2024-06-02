@@ -30,7 +30,6 @@ class AppRoutes {
   static var otpProfileScreen = '/otpProfileScreen';
   static var homeNewScreen = '/homeNewScreen';
 
-  static var addOffers = '/addOffers';
 
   static var offerScreen = '/offerScreen';
 
@@ -44,7 +43,7 @@ class AppRoutes {
   static var paymentScreen = '/paymentScreen';
   static var reportScreen = '/reportScreen';
   static var notificationScreen = '/notificationScreen';
-
+  static var referEarnScreen = '/referEarnScreen';
 
   static var singleCategoryListScreen = '/singleCategoryListScreen';
 
@@ -55,7 +54,7 @@ class AppRoutes {
   static var expertDashboardScreen = '/expertDashboardScreen';
   static var expertQrScreen = '/expertQrScreen';
   static var expertEditProfileScreen = '/expertEditProfileScreen';
-  static var expertAddOfferScreen = '/expertAddOfferScreen';
+  static var addOfferScreen = '/addOfferScreen';
   static var expertWalletScreen = '/expertWalletScreen';
   static var googleMap = '/googleMap';
   static var googleMapAnimation = '/googleMapAnimation';

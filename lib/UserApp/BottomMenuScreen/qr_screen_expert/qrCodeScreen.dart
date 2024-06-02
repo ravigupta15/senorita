@@ -13,37 +13,30 @@ class QrCodeScreen extends GetWidget<QRScannerController> {
   @override
   Widget build(BuildContext context) {
 
-    return WillPopScope(
-      onWillPop: () async
-      {
-        SystemNavigator.pop();
-        return true;
-      },
-      child: Scaffold(
-        backgroundColor: ColorConstant.screenBack.withOpacity(0.4),
-        body: Column(
-            children: [
-              Expanded(
-                child: QRView(
-                  key: controller.qrKey,
-                  onQRViewCreated: controller.onQRViewCreated,
-                  overlay: QrScannerOverlayShape(
-                    borderColor: Colors.green,
-                    borderRadius: 10,
-                    borderLength: 30,
-                    borderWidth: 10,
-                    cutOutSize: MediaQuery.of(context).size.width * 0.8,
-                  ),
+    return Scaffold(
+      backgroundColor: ColorConstant.screenBack.withOpacity(0.4),
+      body: Column(
+          children: [
+            Expanded(
+              child: QRView(
+                key: controller.qrKey,
+                onQRViewCreated: controller.onQRViewCreated,
+                overlay: QrScannerOverlayShape(
+                  borderColor: Colors.green,
+                  borderRadius: 10,
+                  borderLength: 30,
+                  borderWidth: 10,
+                  cutOutSize: MediaQuery.of(context).size.width * 0.8,
                 ),
               ),
-              Obx(() => Text(
-                'Scanned Data: ${controller.scannedData.value}',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              )),
-            ],
-        ),
-
+            ),
+            // Obx(() => Text(
+            //   'Scanned Data: ${controller.scannedData.value}',
+            //   style:const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            // )),
+          ],
       ),
+
     );
   }
   Widget _buildQrView(BuildContext context) {

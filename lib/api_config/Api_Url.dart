@@ -6,6 +6,7 @@ class ApiUrls {
 
   ///Live Url
   static const String apiBaseUrlTesting = "https://senoritaapp.com/backend/public/api/";
+  static const String imgBaseUrl = "https://senoritaapp.com/backend/public/";
   static const String offerImageBase = "https://senoritaapp.com/backend/public/upload/offers/";
 
   ///Common Screen
@@ -27,6 +28,7 @@ class ApiUrls {
   static const String expertAddMultipleItemApiUrl = "${apiBaseUrlTesting}add_multiple_items";
   static const String homeScreenDetails = "${apiBaseUrlTesting}expert-detail";
   static const String transactionUrl  = '${apiBaseUrlTesting}getUserPointTansctions';
+  static const String scanCodePaymentUrl= '${apiBaseUrlTesting}ScanCode';
 
   ///Expert Api Url
   static const String registerExpert = "${apiBaseUrlTesting}create-expert";
@@ -37,10 +39,9 @@ class ApiUrls {
   static const String updateExpertStatus = "${apiBaseUrlTesting}update-expert-status";
   static const String getExpertProfileDetail = "${apiBaseUrlTesting}expert-profile";
   static const String updateExpertProfileDetail = "${apiBaseUrlTesting}update-expert-details";
-  static const String updateExpertHome = "${apiBaseUrlTesting}expert_home_page";
+  static const String expertHomePage = "${apiBaseUrlTesting}expert_home_page";
   static const String walletExpert = "${apiBaseUrlTesting}expert_wallet";
   static const String selectedSubCategory = "${apiBaseUrlTesting}selected_sub_category_list";
-
 
   static const String getPriceList = "${apiBaseUrlTesting}list_items";
 

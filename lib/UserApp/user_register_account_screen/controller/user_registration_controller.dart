@@ -16,6 +16,7 @@ class UserRegistrationController extends GetxController {
   final numberController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final referralController =TextEditingController();
   final conformPasswordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
   final checkBoxValue = false.obs;
@@ -46,6 +47,7 @@ class UserRegistrationController extends GetxController {
       'email': emailController.text,
       'password': "",
       'confirm_password': '',
+      'referral_code':referralController.text,
       'mobile': numberController.text,
       'phonecode': '',
       'terms&conditions': termsConditionValue.toString(),

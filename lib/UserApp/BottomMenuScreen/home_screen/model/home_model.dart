@@ -19,29 +19,29 @@ class OnlineExpertModel {
   dynamic distance;
   dynamic lat;
   dynamic lng;
+  dynamic profileImg;
   dynamic avg_rating;
-
-
+dynamic offers;
   OnlineExpertModel(
-      this.experience,
-      this.status,
-      this.imageUrl,
-      this.userName,
-      this.category_id,
-      this.userId,
-      this.mobile,
-      this.categoryName,
-      this.subCat,
-      this.offer_count,
-      this.expertId,
-      this.address,
-      this.distance,
-      this.lat,
-      this.lng,
-      this.avg_rating,
-
-
-      );
+    this.experience,
+    this.status,
+    this.imageUrl,
+    this.userName,
+    this.category_id,
+    this.userId,
+    this.mobile,
+    this.categoryName,
+    this.subCat,
+    this.offer_count,
+    this.expertId,
+    this.address,
+    this.distance,
+    this.lat,
+    this.lng,
+    this.avg_rating,
+      this.profileImg,
+      this.offers
+  );
 }
 
 class PopularCategoryModel {
@@ -50,12 +50,11 @@ class PopularCategoryModel {
   dynamic categoryId;
 
   PopularCategoryModel(
-      this.imageUrl,
-      this.categoryName,
-      this.categoryId,
-      );
+    this.imageUrl,
+    this.categoryName,
+    this.categoryId,
+  );
 }
-
 
 class GetFeatureOfferModel {
   dynamic id;
@@ -63,10 +62,11 @@ class GetFeatureOfferModel {
   dynamic banner;
   dynamic is_feature;
   GetFeatureOfferModel(
-      this.id,
-      this.expert_id,
-      this.banner,
-      this.is_feature,);
+    this.id,
+    this.expert_id,
+    this.banner,
+    this.is_feature,
+  );
 }
 
 class HomeScreenModel {
@@ -77,12 +77,13 @@ class HomeScreenModel {
   dynamic topRatedListing;
   dynamic listing_base_url;
   HomeScreenModel(
-      this.getFeatureOffer,
-      this.offer_base_url,
-      this.getFeatureCategoryList,
-      this.category_base_url,
-      this.topRatedListing,
-      this.listing_base_url,);
+    this.getFeatureOffer,
+    this.offer_base_url,
+    this.getFeatureCategoryList,
+    this.category_base_url,
+    this.topRatedListing,
+    this.listing_base_url,
+  );
 }
 
 class SingleCategoryModel {
@@ -101,17 +102,18 @@ class SingleCategoryModel {
 
   SingleCategoryModel({
     required this.experience,
-    required  this.status,
+    required this.status,
     required this.imageUrl,
     required this.userName,
-    required  this.category_id,
-    required  this.userId,
+    required this.category_id,
+    required this.userId,
     required this.mobile,
-    required  this.categoryName,
-    required  this.offer_count,
-    required  this.expertId,
-    required  this.address,
-    required this.distance,});
+    required this.categoryName,
+    required this.offer_count,
+    required this.expertId,
+    required this.address,
+    required this.distance,
+  });
 
   factory SingleCategoryModel.fromJson(Map<String, dynamic> json) =>
       SingleCategoryModel(
@@ -127,11 +129,9 @@ class SingleCategoryModel {
         expertId: json["expertId"],
         address: json["address"],
         distance: json["distance"],
-
       );
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "experience": experience,
         "status": status,
         "imageUrl": imageUrl,

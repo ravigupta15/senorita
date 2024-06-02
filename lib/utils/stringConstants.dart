@@ -32,9 +32,9 @@ const String selectRole = "Choose your role";
 const String selectRoleButton = "Get started";
 
 
-const String textEnterAmountMoney= "Enter Amount";
-const String enterAmountValidation= "Please Enter Some Amount";
-const String enterValidAmountValidation= "Please Enter Valid Amount";
+const String textEnterAmountMoney= "Enter Coins";
+const String enterAmountValidation= "Please Enter Some Coins";
+const String enterValidAmountValidation= "Please Enter Valid Coins";
 
 
 
@@ -80,6 +80,7 @@ const String forgotPasswordButton = "Send";
 const String registerAccountTitle = "Create Account";
 const String registerAccountSubTitle = "Create a account by filling in info below.";
 const String registerFullName = "Full Name";
+const String referralText = "Referral Code";
 const String registerMobileNumber = "Mobile Number";
 const String registerEmailAddress = "Email Address";
 const String registerPassword = "Password";

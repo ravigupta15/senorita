@@ -18,9 +18,6 @@ import '../../../../utils/size_config.dart';
 import '../../../../widget/error_box.dart';
 
 class WalletController extends GetxController {
-  // final name="".obs;
-  // final email="".obs;
-  // final mobile="".obs;
   final id="".obs;// Initialize with your desired upper value
  var model = WalletModel().obs;
  final isLoading = false.obs;
@@ -41,7 +38,7 @@ class WalletController extends GetxController {
     var headers = {'Authorization': 'Bearer ${prefs.getString("token").toString()}'};
     var request = http.MultipartRequest('POST', Uri.parse(ApiUrls.transactionUrl));
     request.fields.addAll({
-      'user_id':'1',
+      'user_id':id.value,
     });
     request.headers.addAll(headers);
     var streamedResponse = await request.send();

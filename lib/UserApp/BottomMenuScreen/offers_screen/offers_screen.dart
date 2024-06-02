@@ -586,30 +586,19 @@ class OffersScreen extends GetView<OffersController> {
                             ),
                           ),
                         ],
-                      ),int.parse(model.offer_count) > 0
-                          ?
-                      Row(
-                        children: [
-                          Image.asset(
-                            width: 17,
-                            height: 17,
-                            AppImages.specialOffer,
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          const Text(
-                            "Special offer",
-                            style: TextStyle(
-                              fontSize: 14.0,
-                              fontFamily: interMedium,
-                              color: ColorConstant.darkBlueColor,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      )
-                          : SizedBox(),
+                      ),
+                      model.offers!=null&& model.offers.isNotEmpty ?
+                       Text(
+                      model.offers[0]['type']=='buyget'?
+                     "BUY 1 GET 1 FREE":
+                      "Flat ${model.offers[0]['discount_pecent']}% Discount",
+                        style:const TextStyle(
+                          fontSize: 14.0,
+                          fontFamily: interBold,
+                          color: ColorConstant.darkBlueColor,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ) :const SizedBox(),
                     ],
                   ),
                 ),

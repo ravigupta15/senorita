@@ -84,7 +84,6 @@ class Wallet extends GetWidget<WalletController> {
                         behavior: HitTestBehavior.opaque,
                         onTap: ()
                         {
-                          // controller.callApiFunction();
                           Get.toNamed(AppRoutes.qrCodeScreen);
                         },
                         child: Image.asset(AppImages.qrExpert,height: 44,width: 44,)

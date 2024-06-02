@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:senorita/utils/color_constant.dart';
 
 
 String emailPattern =
     r'^(([^<>()[\]\\.,;:@\"]+(\.[^<>()[\]\\.,;:@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-
 String gstPattern = '[0-9]{2}[a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}[1-9A-Za-z]{1}[Z]{1}[0-9a-zA-Z]{1}';
 final whiteSpaceRegex = RegExp(r'\s+');
 
@@ -116,3 +116,41 @@ internetSnackbar() {
       backgroundColor: Colors.red,
       content: Text('No internet connectivity')));
 }
+
+ successSnackBar(
+    String title,
+    BuildContext context,
+    ) {
+  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      behavior: SnackBarBehavior.floating,
+      duration: const Duration(seconds: 2),
+      shape: OutlineInputBorder(
+          borderSide: BorderSide(color: ColorConstant.appColor.withOpacity(.9)),
+          borderRadius: BorderRadius.circular(3)),
+      // margin: EdgeInsets.only(left: 20, right: 20,),
+      backgroundColor: ColorConstant.appColor.withOpacity(.9),
+      content: Text(
+        title,
+        style:const TextStyle(color: ColorConstant.whiteColor),
+      )));
+}
+errorSnackBar(
+    String title,
+    context,
+    ) {
+  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      behavior: SnackBarBehavior.floating,
+      duration: const Duration(seconds: 2),
+      shape: OutlineInputBorder(
+          borderSide: BorderSide(color: ColorConstant.redColor.withOpacity(.8)),
+          borderRadius: BorderRadius.circular(3)),
+      //  margin: EdgeInsets.only(left: 20,right: 20,bottom: bottom),
+      backgroundColor: ColorConstant.redColor.withOpacity(.8),
+      content: Text(
+        title,
+        style:const TextStyle(color: ColorConstant.whiteColor),
+      )));
+}
+
