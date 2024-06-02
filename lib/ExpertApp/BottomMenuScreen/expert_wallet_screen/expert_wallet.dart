@@ -57,7 +57,7 @@ class ExpertWalletScreen extends GetWidget<ExpertWalletController> {
             }
             return true;
           },
-          child:  /*Column(
+          child:  Column(
         children: [
           availablePointUi(),
 
@@ -76,8 +76,7 @@ class ExpertWalletScreen extends GetWidget<ExpertWalletController> {
               ],
             ),
           ),
-
-         *//* Padding(
+          Padding(
             padding: EdgeInsets.only(right: 0,left: 0),
             child: Container(
               height: 1,
@@ -85,13 +84,12 @@ class ExpertWalletScreen extends GetWidget<ExpertWalletController> {
               color: ColorConstant.walletBorder,
             ),
           ),
-*//*
           SizedBox(height: 12,),
 
           walletTransactionListUi(context),
 
-         *//* controller.isLoadMoreRunning.value == true
-              ? const Padding(
+          controller.isLoadMoreRunning.value == true
+        ? const Padding(
               padding: EdgeInsets.only(bottom: 30),
               child: Center(child: CircularProgressIndicator()))
               : Container(),
@@ -99,19 +97,10 @@ class ExpertWalletScreen extends GetWidget<ExpertWalletController> {
               ? const Padding(
               padding: EdgeInsets.only(top: 10, bottom: 40),
               child: Center(child: Text("no data")))
-              : Container(),*//*
+              : Container(),
 
         ],
-        ),*/
-          Center(
-            child: getText(
-                title: "Coming Soon",
-                size: 16,
-                textAlign: TextAlign.center,
-                fontFamily: interMedium,
-                color: ColorConstant.blackColorLight,
-                fontWeight: FontWeight.w500),
-          ),
+        ),
         ),
 
       ),
