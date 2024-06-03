@@ -1,12 +1,10 @@
 import 'package:get/get.dart';
 
-import '../controller/category_details_controller.dart';
+import '../controller/salon_details_controller.dart';
 
-
-class CategoryDetailBinding extends Bindings {
+class SalonDetailBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => CategoryDetailController());
-    // Get.lazyPut(CategoryDetailController());
+    Get.lazyPut(() => SalonDetailController());
   }
 }

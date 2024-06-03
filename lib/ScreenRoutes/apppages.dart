@@ -7,8 +7,10 @@ import 'package:senorita/ExpertApp/BottomMenuScreen/expert_edit_profile_screen/b
 import 'package:senorita/ExpertApp/BottomMenuScreen/expert_edit_profile_screen/expert_edit_profile_screen.dart';
 import 'package:senorita/ExpertApp/BottomMenuScreen/expert_wallet_screen/binding/expert_wallet_binding.dart';
 import 'package:senorita/ExpertApp/BottomMenuScreen/expert_wallet_screen/expert_wallet.dart';
-import 'package:senorita/ExpertApp/BottomMenuScreen/offers/add_offer_screen.dart';
-import 'package:senorita/ExpertApp/BottomMenuScreen/offers/binding/add_offer_binding.dart';
+import 'package:senorita/ExpertApp/BottomMenuScreen/specialoffers/add_offer_screen.dart';
+import 'package:senorita/ExpertApp/BottomMenuScreen/specialoffers/binding/add_offer_binding.dart';
+import 'package:senorita/ExpertApp/BottomMenuScreen/specialoffers/binding/special_offer_binding.dart';
+import 'package:senorita/ExpertApp/BottomMenuScreen/specialoffers/special_offer_screen.dart';
 import 'package:senorita/ExpertApp/expert_registration_screen/googleMap/googleMapScreen.dart';
 import 'package:senorita/ExpertApp/expert_registration_screen/googleMapAnimation/binding/googleMapAnimationBinding.dart';
 import 'package:senorita/ExpertApp/expert_registration_screen/googleMapAnimation/googleMapAnimation.dart';
@@ -65,16 +67,15 @@ import '../UserApp/BottomMenuScreen/qr_screen_expert/QrCodeScreen.dart';
 import '../UserApp/BottomMenuScreen/qr_screen_expert/binding/qrCode_binding.dart';
 import '../UserApp/BottomMenuScreen/refer_earn/referearn_screen.dart';
 import '../UserApp/BottomMenuScreen/single_category_list_screen/binding/single_category_list_binding.dart';
-import '../UserApp/BottomMenuScreen/single_category_list_screen/model/single_category_list_model.dart';
 import '../UserApp/BottomMenuScreen/single_category_list_screen/single_category_list_screen.dart';
-import '../UserApp/category_details_screen/binding/category_details_binding.dart';
-import '../UserApp/category_details_screen/category_details_screen.dart';
 import '../UserApp/change_password_screen/binding/changePassword_binding.dart';
 import '../UserApp/change_password_screen/change_password_screen.dart';
 import '../UserApp/help_screen/binding/help_binding.dart';
 import '../UserApp/help_screen/help_screen.dart';
 import '../UserApp/otp_screen_profile/binding/otp_profile_binding.dart';
 import '../UserApp/otp_screen_profile/otp_screen_profile.dart';
+import '../UserApp/salon_details_screen/binding/salon_details_binding.dart';
+import '../UserApp/salon_details_screen/salon_details_screen.dart';
 import '../UserApp/user_register_account_screen/binding/user_registration_binding.dart';
 import '../UserApp/user_register_account_screen/user_registration_screen.dart';
 
@@ -210,11 +211,10 @@ class AppPages {
 
     GetPage(
         name: AppRoutes.categoryDetailsScreen,
-        page: () => CategoryDetailScreen(),
-        binding: CategoryDetailBinding (),
+        page: () => SalonDetailScreen(),
+        binding: SalonDetailBinding (),
         transition: Transition.rightToLeft
     ),
-
     GetPage(
         name: AppRoutes.selectCreateAccount,
         page: () =>  SelectCreateAccountScreen(),
@@ -333,6 +333,11 @@ class AppPages {
         name: AppRoutes.addOfferScreen,
         page: () => AddOfferScreen(),
         binding: AddOfferBinding(),
+        transition: Transition.cupertino),
+    GetPage(
+        name: AppRoutes.specialOfferScreen,
+        page: () => SpecialOfferScreen(),
+        binding: SpecialOfferBinding(),
         transition: Transition.cupertino),
 
     GetPage(

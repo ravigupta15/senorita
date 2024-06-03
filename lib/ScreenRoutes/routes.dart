@@ -55,6 +55,7 @@ class AppRoutes {
   static var expertQrScreen = '/expertQrScreen';
   static var expertEditProfileScreen = '/expertEditProfileScreen';
   static var addOfferScreen = '/addOfferScreen';
+  static var specialOfferScreen = '/specialOfferScreen';
   static var expertWalletScreen = '/expertWalletScreen';
   static var googleMap = '/googleMap';
   static var googleMapAnimation = '/googleMapAnimation';

@@ -6,8 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-
-import '../../../../UserApp/category_details_screen/model/offers_list_model.dart';
+import '../../../../UserApp/salon_details_screen/model/offers_list_model.dart';
 import '../../../../api_config/Api_Url.dart';
 import '../../../../helper/getText.dart';
 import '../../../../utils/color_constant.dart';

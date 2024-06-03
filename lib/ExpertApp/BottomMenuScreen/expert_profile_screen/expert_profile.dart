@@ -233,7 +233,7 @@ class ExpertProfile extends GetWidget<ExpertProfileController> {
             GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () {
-                Get.toNamed(AppRoutes.addPhotos);
+                Get.toNamed(AppRoutes.specialOfferScreen);
               },
               child: Padding(
                 padding: const EdgeInsets.only(left: 12, right: 12, top: 15),
@@ -250,7 +250,7 @@ class ExpertProfile extends GetWidget<ExpertProfileController> {
                                 child: Image.asset(
                                   height: 20,
                                   width: 20,
-                                  AppImages.profilePhotos,
+                                  AppImages.specialOffer,
                                   fit: BoxFit.contain,
                                 ),
                               ),
@@ -262,7 +262,7 @@ class ExpertProfile extends GetWidget<ExpertProfileController> {
                               padding: const EdgeInsets.only(top: 5),
                               child: Center(
                                 child: getText(
-                                    title: "Photos",
+                                    title: "Offers",
                                     size: 13,
                                     fontFamily: interSemiBold,
                                     color: ColorConstant.blackColor,

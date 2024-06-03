@@ -4,8 +4,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:senorita/ExpertApp/BottomMenuScreen/offers/model/expert_category_model.dart';
-import 'package:senorita/ExpertApp/BottomMenuScreen/offers/model/expert_subcategory_model.dart';
+import 'package:senorita/ExpertApp/BottomMenuScreen/specialoffers/model/expert_category_model.dart';
+import 'package:senorita/ExpertApp/BottomMenuScreen/specialoffers/model/expert_subcategory_model.dart';
 import 'package:senorita/utils/showcircledialogbox.dart';
 import 'package:senorita/utils/utils.dart';
 import 'package:senorita/utils/validation.dart';
@@ -176,7 +176,7 @@ callSubmitApiFunction(BuildContext context) async {
       "end_time":discountEndTimeController.text,
       "description":discountDescriptionController.text,
       "category_id":selectedDiscountCategoryId.value,
-      "sub_category_id":subCatId,
+      "sub_category_id":discountSubCatModel.value.isAllSelected?'all': subCatId,
       "discount_pecent":discountController.text
     });
     if (discountImgFile.value != null) {

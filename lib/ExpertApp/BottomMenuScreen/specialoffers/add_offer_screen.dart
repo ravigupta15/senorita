@@ -1151,64 +1151,119 @@ class AddOfferScreen extends GetView<AddOfferController>{
                     width: MediaQuery.of(context).size.width,
                     // color: Colors.white,
                     child:controller.discountSubCatModel.value!=null&& controller.discountSubCatModel.value!.data!=null?
-                    ListView.builder(
-                        physics: const ScrollPhysics(),
-                        shrinkWrap: true,
-                        scrollDirection: Axis.vertical,
-                        padding: const EdgeInsets.only(
-                            left: 15, right: 10, bottom: 15, top: 4),
-                        itemCount: controller.discountSubCatModel.value!.data!.length,
-                        itemBuilder: (context, index) {
-                          return Column(
-                            children: [
-                              const SizedBox(
-                                height: 10,
+                    SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 15, right: 10,top: 5),
+                            child: GestureDetector(
+                              onTap: (){
+                                state((){});
+                                if(controller.discountSubCatModel.value.isAllSelected){
+                                  controller.discountSubCatModel.value.isAllSelected=false;
+                                  for(int i=0;i<controller.discountSubCatModel.value!.data!.length;i++){
+                                    controller.discountSubCatModel.value.data![i].isSelected=false;
+                                    controller.discountSubCatModel.value.selectedList.clear();
+                                  }
+                                }
+                                else{
+                                  controller.discountSubCatModel.value.selectedList.clear();
+                                  controller.discountSubCatModel.value.isAllSelected=true;
+                                  for(int i=0;i<controller.discountSubCatModel.value!.data!.length;i++){
+                                    controller.discountSubCatModel.value.data![i].isSelected=true;
+                                    controller.discountSubCatModel.value.selectedList.add({
+                                      "name": controller.discountSubCatModel.value.data![i].name,
+                                      "id": controller.discountSubCatModel.value.data![i].id
+                                    });
+                                  }
+                                }
+                              },
+                              child: Row(
+                                children: [
+                                  checkBoxWidget(controller.discountSubCatModel.value.isAllSelected==true?
+                                  ColorConstant.onBoardingBack:ColorConstant.white
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                const  Text(
+                                    "All",
+                                    style:  TextStyle(
+                                      color: ColorConstant.greyColor,
+                                      fontSize: 14,
+                                      fontFamily: interRegular,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Obx(
-                                    () => GestureDetector(
-                                  behavior: HitTestBehavior.opaque,
-                                  onTap: () {
-                                    state((){});
-                                    if(controller.discountSubCatModel.value.data![index].isSelected==false){
-                                      controller.discountSubCatModel.value.data![index].isSelected=true;
-                                      controller.discountSubCatModel.value.selectedList.add({
-                                        "name": controller.discountSubCatModel.value.data![index].name,
-                                        "id": controller.discountSubCatModel.value.data![index].id
-                                      }
-                                      );
-                                    }
-                                    else{
-                                      controller.discountSubCatModel.value.data![index].isSelected=false;
-                                      controller.discountSubCatModel.value.selectedList.remove({
-                                        "name": controller.discountSubCatModel.value.data![index].name,
-                                        "id": controller.discountSubCatModel.value.data![index].id
-                                      }
-                                      );
-                                    }
-                                  },
-                                  child: Row(
-                                    children: [
-                                      checkBoxWidget(controller.discountSubCatModel.value.data![index].isSelected==true?
-                                      ColorConstant.onBoardingBack:ColorConstant.white
-                                          ),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text(
-                                        controller.discountSubCatModel.value.data![index].name.toString(),
-                                        style: const TextStyle(
-                                          color: ColorConstant.greyColor,
-                                          fontSize: 14,
-                                          fontFamily: interRegular,
+                            ),
+                          ),
+                          ListView.builder(
+                              physics: const ScrollPhysics(),
+                              shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              padding: const EdgeInsets.only(
+                                  left: 15, right: 10, bottom: 15, top: 4),
+                              itemCount: controller.discountSubCatModel.value!.data!.length,
+                              itemBuilder: (context, index) {
+                                return Column(
+                                  children: [
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Obx(
+                                          () => GestureDetector(
+                                        behavior: HitTestBehavior.opaque,
+                                        onTap: () {
+                                          state((){});
+                                          if(controller.discountSubCatModel.value.data![index].isSelected==false){
+                                            controller.discountSubCatModel.value.data![index].isSelected=true;
+                                            controller.discountSubCatModel.value.selectedList.add({
+                                              "name": controller.discountSubCatModel.value.data![index].name,
+                                              "id": controller.discountSubCatModel.value.data![index].id
+                                            }
+                                            );
+                                            if(controller.discountSubCatModel.value.selectedList.length==controller.discountSubCatModel.value!.data!.length){
+                                              controller.discountSubCatModel.value.isAllSelected=true; /// in case the user select all subCat
+                                            }
+                                          }
+                                          else{
+                                            controller.discountSubCatModel.value.data![index].isSelected=false;
+                                            controller.discountSubCatModel.value.isAllSelected=false; /// in case the user unselect any subCat
+                                            for(int i=0;i<controller.discountSubCatModel.value.selectedList.length;i++){
+                                              if(controller.discountSubCatModel.value.selectedList[i]['id']==controller.discountSubCatModel.value.data![index].id){
+                                                controller.discountSubCatModel.value.selectedList.removeAt(i);
+                                              }
+                                            }
+
+                                          }
+                                        },
+                                        child: Row(
+                                          children: [
+                                            checkBoxWidget(controller.discountSubCatModel.value.data![index].isSelected==true?
+                                            ColorConstant.onBoardingBack:ColorConstant.white
+                                                ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              controller.discountSubCatModel.value.data![index].name.toString(),
+                                              style: const TextStyle(
+                                                color: ColorConstant.greyColor,
+                                                fontSize: 14,
+                                                fontFamily: interRegular,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          );
-                        }):
+                                    ),
+                                  ],
+                                );
+                              }),
+                        ],
+                      ),
+                    ):
                     Align(
                       alignment: Alignment.center,
                       child: noDataFound(),
@@ -1328,66 +1383,119 @@ class AddOfferScreen extends GetView<AddOfferController>{
                     width: MediaQuery.of(context).size.width,
                     // color: Colors.white,
                     child:controller.buySubCatModel.value!=null&& controller.buySubCatModel.value!.data!=null?
-                    ListView.builder(
-                        physics: const ScrollPhysics(),
-                        shrinkWrap: true,
-                        scrollDirection: Axis.vertical,
-                        padding: const EdgeInsets.only(
-                            left: 15, right: 10, bottom: 15, top: 4),
-                        itemCount: controller.buySubCatModel.value!.data!.length,
-                        itemBuilder: (context, index) {
-                          return Column(
-                            children: [
-                              const SizedBox(
-                                height: 10,
+                    SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 15, right: 10,top: 5),
+                            child: GestureDetector(
+                              onTap: (){
+                                state((){});
+                                if(controller.buySubCatModel.value.isAllSelected){
+                                  controller.buySubCatModel.value.isAllSelected=false;
+                                  for(int i=0;i<controller.buySubCatModel.value!.data!.length;i++){
+                                    controller.buySubCatModel.value.data![i].isSelected=false;
+                                    controller.buySubCatModel.value.selectedList.clear();
+                                  }
+                                }
+                                else{
+                                  controller.buySubCatModel.value.selectedList.clear();
+                                  controller.buySubCatModel.value.isAllSelected=true;
+                                  for(int i=0;i<controller.buySubCatModel.value!.data!.length;i++){
+                                    controller.buySubCatModel.value.data![i].isSelected=true;
+                                    controller.buySubCatModel.value.selectedList.add({
+                                      "name": controller.buySubCatModel.value.data![i].name,
+                                      "id": controller.buySubCatModel.value.data![i].id
+                                    });
+                                  }
+                                }
+                              },
+                              child: Row(
+                                children: [
+                                  checkBoxWidget(controller.buySubCatModel.value.isAllSelected==true?
+                                  ColorConstant.onBoardingBack:ColorConstant.white
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  const  Text(
+                                    "All",
+                                    style:  TextStyle(
+                                      color: ColorConstant.greyColor,
+                                      fontSize: 14,
+                                      fontFamily: interRegular,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Obx(
-                                    () => GestureDetector(
-                                  behavior: HitTestBehavior.opaque,
-                                  onTap: () {
-                                    state((){});
-                                    if(controller.buySubCatModel.value.data![index].isSelected==false){
-                                      controller.buySubCatModel.value.data![index].isSelected=true;
-                                      controller.buySubCatModel.value.selectedList.add(
-                                          {
-                                          "name": controller.buySubCatModel.value.data![index].name,
-                                          "id": controller.buySubCatModel.value.data![index].id
+                            ),
+                          ),
+                          ListView.builder(
+                              physics: const ScrollPhysics(),
+                              shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              padding: const EdgeInsets.only(
+                                  left: 15, right: 10, bottom: 15, top: 4),
+                              itemCount: controller.buySubCatModel.value!.data!.length,
+                              itemBuilder: (context, index) {
+                                return Column(
+                                  children: [
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Obx(
+                                          () => GestureDetector(
+                                        behavior: HitTestBehavior.opaque,
+                                        onTap: () {
+                                          state((){});
+                                          if(controller.buySubCatModel.value.data![index].isSelected==false){
+                                            controller.buySubCatModel.value.data![index].isSelected=true;
+                                            controller.buySubCatModel.value.selectedList.add(
+                                                {
+                                                  "name": controller.buySubCatModel.value.data![index].name,
+                                                  "id": controller.buySubCatModel.value.data![index].id
+                                                }
+                                            );
+                                            if(controller.buySubCatModel.value.selectedList.length==controller.buySubCatModel.value!.data!.length){
+                                              controller.buySubCatModel.value.isAllSelected=true; /// in case the user select all subCat
+                                            }
                                           }
-                                      );
-                                    }
-                                    else{
-                                      controller.buySubCatModel.value.data![index].isSelected=false;
-                                      controller.buySubCatModel.value.selectedList.remove(
-                                          {
-                                            "name": controller.buySubCatModel.value.data![index].name,
-                                            "id": controller.buySubCatModel.value.data![index].id
+                                          else{
+                                            controller.buySubCatModel.value.data![index].isSelected=false;
+                                            controller.buySubCatModel.value.isAllSelected=false; /// in case the user unselect any subCat
+                                            for(int i=0;i<controller.buySubCatModel.value.selectedList.length;i++){
+                                              if(controller.buySubCatModel.value.selectedList[i]['id']==controller.buySubCatModel.value.data![index].id){
+                                                controller.buySubCatModel.value.selectedList.removeAt(i);
+                                              }
+                                            }
                                           }
-                                      );
-                                    }
-                                  },
-                                  child: Row(
-                                    children: [
-                                      checkBoxWidget(controller.buySubCatModel.value.data![index].isSelected==true?
-                                      ColorConstant.onBoardingBack:ColorConstant.white
-                                          ),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text(
-                                        controller.buySubCatModel.value.data![index].name.toString(),
-                                        style: const TextStyle(
-                                          color: ColorConstant.greyColor,
-                                          fontSize: 14,
-                                          fontFamily: interRegular,
+                                        },
+                                        child: Row(
+                                          children: [
+                                            checkBoxWidget(controller.buySubCatModel.value.data![index].isSelected==true?
+                                            ColorConstant.onBoardingBack:ColorConstant.white
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              controller.buySubCatModel.value.data![index].name.toString(),
+                                              style: const TextStyle(
+                                                color: ColorConstant.greyColor,
+                                                fontSize: 14,
+                                                fontFamily: interRegular,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          );
-                        }):
+                                    ),
+                                  ],
+                                );
+                              }),
+                        ],
+                      ),
+                    ):
                     Align(
                       alignment: Alignment.center,
                       child: noDataFound(),
@@ -1505,64 +1613,119 @@ class AddOfferScreen extends GetView<AddOfferController>{
                     width: MediaQuery.of(context).size.width,
                     // color: Colors.white,
                     child:controller.getSubCatModel.value!=null&& controller.getSubCatModel.value!.data!=null?
-                    ListView.builder(
-                        physics: const ScrollPhysics(),
-                        shrinkWrap: true,
-                        scrollDirection: Axis.vertical,
-                        padding: const EdgeInsets.only(
-                            left: 15, right: 10, bottom: 15, top: 4),
-                        itemCount: controller.getSubCatModel.value!.data!.length,
-                        itemBuilder: (context, index) {
-                          return Column(
-                            children: [
-                              const SizedBox(
-                                height: 10,
+                    SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 15, right: 10,top: 5),
+                            child: GestureDetector(
+                              onTap: (){
+                                state((){});
+                                if(controller.getSubCatModel.value.isAllSelected){
+                                  controller.getSubCatModel.value.isAllSelected=false;
+                                  for(int i=0;i<controller.getSubCatModel.value!.data!.length;i++){
+                                    controller.getSubCatModel.value.data![i].isSelected=false;
+                                    controller.getSubCatModel.value.selectedList.clear();
+                                  }
+                                }
+                                else{
+                                  controller.getSubCatModel.value.selectedList.clear();
+                                  controller.getSubCatModel.value.isAllSelected=true;
+                                  for(int i=0;i<controller.getSubCatModel.value!.data!.length;i++){
+                                    controller.getSubCatModel.value.data![i].isSelected=true;
+                                    controller.getSubCatModel.value.selectedList.add({
+                                      "name": controller.getSubCatModel.value.data![i].name,
+                                      "id": controller.getSubCatModel.value.data![i].id
+                                    });
+                                  }
+                                }
+                              },
+                              child: Row(
+                                children: [
+                                  checkBoxWidget(controller.getSubCatModel.value.isAllSelected==true?
+                                  ColorConstant.onBoardingBack:ColorConstant.white
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  const  Text(
+                                    "All",
+                                    style:  TextStyle(
+                                      color: ColorConstant.greyColor,
+                                      fontSize: 14,
+                                      fontFamily: interRegular,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Obx(
-                                    () => GestureDetector(
-                                  behavior: HitTestBehavior.opaque,
-                                  onTap: () {
-                                    state((){});
-                                    if(controller.getSubCatModel.value.data![index].isSelected==false){
-                                      controller.getSubCatModel.value.data![index].isSelected=true;
-                                      controller.getSubCatModel.value.selectedList.add( {
-                                        "name": controller.getSubCatModel.value.data![index].name,
-                                        "id": controller.getSubCatModel.value.data![index].id
-                                      }
-                                      );
-                                    }
-                                    else{
-                                      controller.getSubCatModel.value.data![index].isSelected=false;
-                                      controller.getSubCatModel.value.selectedList.remove( {
-                                        "name": controller.getSubCatModel.value.data![index].name,
-                                        "id": controller.getSubCatModel.value.data![index].id
-                                      }
-                                      );
-                                    }
-                                  },
-                                  child: Row(
-                                    children: [
-                                      checkBoxWidget(controller.getSubCatModel.value.data![index].isSelected==true?
-                                      ColorConstant.onBoardingBack:ColorConstant.white
-                                         ),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text(
-                                        controller.getSubCatModel.value.data![index].name.toString(),
-                                        style: const TextStyle(
-                                          color: ColorConstant.greyColor,
-                                          fontSize: 14,
-                                          fontFamily: interRegular,
+                            ),
+                          ),
+                          ListView.builder(
+                              physics: const ScrollPhysics(),
+                              shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              padding: const EdgeInsets.only(
+                                  left: 15, right: 10, bottom: 15, top: 4),
+                              itemCount: controller.getSubCatModel.value!.data!.length,
+                              itemBuilder: (context, index) {
+                                return Column(
+                                  children: [
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Obx(
+                                          () => GestureDetector(
+                                        behavior: HitTestBehavior.opaque,
+                                        onTap: () {
+                                          state((){});
+                                          if(controller.getSubCatModel.value.data![index].isSelected==false){
+                                            controller.getSubCatModel.value.data![index].isSelected=true;
+                                            controller.getSubCatModel.value.selectedList.add({
+                                              "name": controller.getSubCatModel.value.data![index].name,
+                                              "id": controller.getSubCatModel.value.data![index].id
+                                            }
+                                            );
+                                            if(controller.getSubCatModel.value.selectedList.length==controller.getSubCatModel.value!.data!.length){
+                                              controller.getSubCatModel.value.isAllSelected=true; /// in case the user select all subCat
+                                            }
+                                          }
+                                          else{
+                                            controller.getSubCatModel.value.data![index].isSelected=false;
+                                            controller.getSubCatModel.value.isAllSelected=false; /// in case the user unselect any subCat
+                                            for(int i=0;i<controller.getSubCatModel.value.selectedList.length;i++){
+                                              if(controller.getSubCatModel.value.selectedList[i]['id']==controller.getSubCatModel.value.data![index].id){
+                                                controller.getSubCatModel.value.selectedList.removeAt(i);
+                                              }
+                                            }
+                                          }
+                      
+                                        },
+                                        child: Row(
+                                          children: [
+                                            checkBoxWidget(controller.getSubCatModel.value.data![index].isSelected==true?
+                                            ColorConstant.onBoardingBack:ColorConstant.white
+                                               ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              controller.getSubCatModel.value.data![index].name.toString(),
+                                              style: const TextStyle(
+                                                color: ColorConstant.greyColor,
+                                                fontSize: 14,
+                                                fontFamily: interRegular,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          );
-                        }):
+                                    ),
+                                  ],
+                                );
+                              }),
+                        ],
+                      ),
+                    ):
                     Align(
                       alignment: Alignment.center,
                       child: noDataFound(),

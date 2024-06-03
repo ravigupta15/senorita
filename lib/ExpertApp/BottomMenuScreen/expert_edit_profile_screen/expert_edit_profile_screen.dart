@@ -526,12 +526,6 @@ class ExpertEditProfileScreen extends GetView<ExpertEditProfileController> {
             auto: AutovalidateMode.onUserInteraction,
             textInputAction: TextInputAction.next,
             controller: controller.kodagoCardController,
-            validator: (value) {
-              if (value == null || (!kodagoCard(value, isRequired: true))) {
-                return "Please enter Kodago Card (URL)";
-              }
-              return null;
-            },
           ),
         ),
         SizedBox(height: 10),
@@ -690,7 +684,7 @@ class ExpertEditProfileScreen extends GetView<ExpertEditProfileController> {
                                 ? showToast("Please Select Category")
                                 : Navigator.pop(context);
                           },
-                          child: getText(
+                          child:const getText(
                               title: "Ok",
                               size: 14,
                               fontFamily: interRegular,

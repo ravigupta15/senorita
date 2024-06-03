@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:senorita/UserApp/BottomMenuScreen/offers_screen/controller/offers_controller.dart';
-import 'package:senorita/UserApp/category_details_screen/controller/category_details_controller.dart';
+import 'package:senorita/UserApp/salon_details_screen/controller/salon_details_controller.dart';
 import 'package:senorita/helper/appbar.dart';
 import 'package:senorita/utils/screensize.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -344,7 +344,7 @@ class OffersScreen extends GetView<OffersController> {
           controller.latitude.toString(),
           controller.longitude.toString()
         ]);
-        final categoryController = Get.put(CategoryDetailController());
+        final categoryController = Get.put(SalonDetailController());
         categoryController.categoryId.value= model.userId.toString();
         categoryController.lat.value= controller.latitude.toString();
         controller.longitude.toString();

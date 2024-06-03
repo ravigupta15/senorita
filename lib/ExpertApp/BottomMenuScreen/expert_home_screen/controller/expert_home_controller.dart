@@ -6,10 +6,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:senorita/ExpertApp/BottomMenuScreen/expert_profile_screen/controller/expert_profile_controller.dart';
 import 'package:senorita/utils/showcircledialogbox.dart';
 import 'package:senorita/utils/toast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../../UserApp/category_details_screen/model/offers_list_model.dart';
+import '../../../../UserApp/salon_details_screen/model/offers_list_model.dart';
 import '../../../../api_config/Api_Url.dart';
 import 'package:http/http.dart' as http;
 
@@ -87,7 +88,6 @@ class ExpertHomeController extends GetxController  {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     token = prefs.getString("token").toString();
     userId.value = prefs.getString('id').toString();
-    //rating = double.parse(_stringValue);
     name.value="";
     image.value="";
     experience.value="";
@@ -128,6 +128,7 @@ class ExpertHomeController extends GetxController  {
 
   categoryDetailsFunction(lat,lng,BuildContext context) async {
     showCircleProgressDialog(context);
+    isLoading.value =true;
     var headers = {'Authorization': 'Bearer' + token};
     var request = http.MultipartRequest('POST', Uri.parse(ApiUrls.homeScreenDetails));
     request.fields.addAll({
@@ -144,7 +145,7 @@ class ExpertHomeController extends GetxController  {
     if (response.statusCode == 200) {
       final result = jsonDecode(response.body) as Map<String, dynamic>;
       if (result['success'] == true && result['success'] != null) {
-        getPriceListApiFunction(categoryId.value.toString());
+        getPriceListApiFunction();
         getUserReviewApiFunction();
         name.value=result['data']['user']!=null?result['data']['user']['name'] ?? "":"";
         status.value=result['data']['status'] ?? "";
@@ -201,61 +202,45 @@ class ExpertHomeController extends GetxController  {
     }
   }
 
-  getPriceListApiFunction(String expertId) async {
+  getPriceListApiFunction() async {
     // showCircleProgressDialog(Get.context!);
     getPriceList.clear();
-    isLoading.value = true;
     var headers = {'Authorization': 'Bearer' + token};
     var request =
     http.MultipartRequest('POST', Uri.parse(ApiUrls.getPriceList));
     request.fields.addAll({
-      'expert_id': expertId.toString(),
+      'expert_id': Get.find<ExpertProfileController>().model.value.data!.categoryId,
     });
-
+    print("object...${expertId.toString()}");
     request.headers.addAll(headers);
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse);
-    log(response.body);
 
     if (response.statusCode == 200) {
-      isLoading.value = false;
       final result = jsonDecode(response.body) as Map<String, dynamic>;
       if (result['success'] == true && result['success'] != null) {
         getPriceList.value = result['Items'];
         print("items....${result['items']}");
-        // for (int i = 0; i < result['Items'].length; i++) {
-        //   PriceList model = PriceList(
-        //     result['Items'][i]['id'],
-        //     result['Items'][i]['item_name'],
-        //     result['Items'][i]['price'],
-        //     result['Items'][i]['sub_sategory']["name"],
-        //   );
-        // getPriceList.add(model);
-        // }
-      }
+       }
     }
     else
     {
-      isLoading.value=false;
-      Get.back();
     }
   }
 
 
   getUserReviewApiFunction() async {
-    isLoading.value = true;
     var headers = {'Authorization': 'Bearer' + token};
     var request =
     http.MultipartRequest('POST', Uri.parse(ApiUrls.getUserReview));
     request.fields.addAll({
-      'expert_id': categoryId.value.toString(),
+      'expert_id': Get.find<ExpertProfileController>().model.value.data!.categoryId,
     });
 
     request.headers.addAll(headers);
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse);
     if (response.statusCode == 200) {
-      isLoading.value = false;
       final result = jsonDecode(response.body) as Map<String, dynamic>;
       if (result['success'] == true && result['success'] != null) {
         for (int i = 0; i < result['list'].length; i++) {

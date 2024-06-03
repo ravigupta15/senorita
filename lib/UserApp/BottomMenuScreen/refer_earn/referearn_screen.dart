@@ -88,7 +88,7 @@ class ReferEarnScreen extends GetView<ReferEarnController>{
           ScreenSize.width(26),
           GestureDetector(
             onTap: (){
-              Share.share('Download only using my referral link to get coins\n ${Get.find<ProfileController>().referralCode.value}\n\n https://example.com', subject: 'Senorita');
+              Share.share('Download only using my referral link to get coins\n ${Get.find<ProfileController>().referralCode.value}\n\n https://play.google.com/store/apps/details?id=com.app.senoritaApp&pcampaignid=web_share', subject: 'Senorita');
             },
             child: Container(
               height: 48,

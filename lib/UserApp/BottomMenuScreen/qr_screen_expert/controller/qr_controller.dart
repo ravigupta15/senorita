@@ -25,7 +25,6 @@ class QRScannerController extends GetxController {
     controller.scannedDataStream.listen((scanData) {
       // Update the scannedData observable with the scanned QR code data
       print("code....${scanData.code}");
-
       scannedData.value = scanData.code!;
       print(scannedData.value);
       Get.toNamed(AppRoutes.paymentScreen,arguments: {'scannerCode':scannedData.value});

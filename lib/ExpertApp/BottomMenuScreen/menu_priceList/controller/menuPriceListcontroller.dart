@@ -10,7 +10,6 @@ import 'package:senorita/utils/stringConstants.dart';
 import 'package:senorita/utils/toast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../../UserApp/category_details_screen/model/offers_list_model.dart';
 import '../../../../api_config/ApiConstant.dart';
 import '../../../../api_config/Api_Url.dart';
 import '../../../../utils/showcircledialogbox.dart';

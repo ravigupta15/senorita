@@ -3,6 +3,7 @@ class ExpertSubCategoryModel {
   List<Data>? data;
   dynamic baseUrl;
   dynamic message;
+  dynamic isAllSelected=false;
   dynamic selectedList =[];
 
   ExpertSubCategoryModel({this.success, this.data, this.baseUrl, this.message});

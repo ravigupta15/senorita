@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:senorita/ExpertApp/BottomMenuScreen/expert_dashboard_screen/controller/dashboard_controller.dart';
-import 'package:senorita/ExpertApp/BottomMenuScreen/offers/controller/special_offer_controller.dart';
+import 'package:senorita/ExpertApp/BottomMenuScreen/specialoffers/controller/special_offer_controller.dart';
 import 'package:senorita/ScreenRoutes/routes.dart';
 import 'package:senorita/helper/appbar.dart';
 import 'package:senorita/helper/getText.dart';

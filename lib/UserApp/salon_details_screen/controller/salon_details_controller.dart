@@ -1,21 +1,18 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:carousel_slider/carousel_controller.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:senorita/utils/toast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../api_config/ApiConstant.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
-
 import '../../../api_config/Api_Url.dart';
 import '../../../utils/showcircledialogbox.dart';
 import '../model/offers_list_model.dart';
 
-class CategoryDetailController extends GetxController  {
+class SalonDetailController extends GetxController  {
   ///Detail data
   final name = "".obs;
   final image = "".obs;
@@ -100,8 +97,6 @@ class CategoryDetailController extends GetxController  {
     bio.value="";
     location.value="";
     status.value="";
-
-
     email.value="";
     mobile.value="";
     // allOffersApiFunction();
@@ -124,42 +119,6 @@ class CategoryDetailController extends GetxController  {
     super.onClose();
   }
 
-/*
-  allOffersApiFunction() async {
-    isLoading.value = true ;
-    //  showCircleProgressDialog(Get.context!);
-    var headers = {'Authorization': 'Bearer' + token};
-    var request = http.MultipartRequest('POST', Uri.parse("https://senoritaapp.com/backend/public/api/list_offer"));
-    request.fields.addAll({
-      'expert_id': expertId,
-    });
-
-    request.headers.addAll(headers);
-    var streamedResponse = await request.send();
-
-    var response = await http.Response.fromStream(streamedResponse);
-    fileNameList.clear();
-
-
-    if (response.statusCode == 200) {
-      isLoading.value = false;
-      final result = jsonDecode(response.body) as Map<String, dynamic>;
-      if (result['success'] == true && result['success'] != null) {
-        for (int i = 0; i < result['offersList'].length; i++) {
-          selectedSliderValue.value = i;
-          OfferList model = OfferList(
-            result['offersList'][i]['id'],
-            result['offersList'][i]['expert_id'],
-            result['offersList'][i]['banner'].toString(),
-
-          );
-          fileNameList.add(model);
-        }
-      }
-    }
-  }
-*/
-
   precache()async{
     for(int i=0;i<offerList.length-1;i++){
       if(offerList[i]['banner'].toString()!=null) {
@@ -172,6 +131,7 @@ class CategoryDetailController extends GetxController  {
 
   categoryDetailsFunction(lat,lng,BuildContext context) async {
     EasyLoading.show(status: 'loading...');
+    isLoading.value =true;
     var headers = {'Authorization': 'Bearer' + token};
     var request = http.MultipartRequest('POST', Uri.parse(ApiUrls.homeScreenDetails));
     request.fields.addAll({
@@ -249,7 +209,6 @@ class CategoryDetailController extends GetxController  {
   getPriceListApiFunction(String expertId) async {
     showCircleProgressDialog(Get.context!);
     getPriceList.clear();
-    isLoading.value = true;
     var headers = {'Authorization': 'Bearer' + token};
     var request =
     http.MultipartRequest('POST', Uri.parse(ApiUrls.getPriceList));
@@ -264,29 +223,18 @@ class CategoryDetailController extends GetxController  {
 
     if (response.statusCode == 200) {
       Get.back();
-      isLoading.value = false;
       final result = jsonDecode(response.body) as Map<String, dynamic>;
       if (result['success'] == true && result['success'] != null) {
         getPriceList.value = result['Items'];
         print("items....${result['items']}");
-        // for (int i = 0; i < result['Items'].length; i++) {
-        //   PriceList model = PriceList(
-        //     result['Items'][i]['id'],
-        //     result['Items'][i]['item_name'],
-        //     result['Items'][i]['price'],
-        //     result['Items'][i]['sub_sategory']["name"],
-        //   );
-        // getPriceList.add(model);
-        // }
+
       }
     }
     else
     {
-      isLoading.value=false;
       Get.back();
     }
   }
-
 
 
   submitReviewApiFunction(BuildContext context) async {
@@ -295,7 +243,6 @@ class CategoryDetailController extends GetxController  {
     String result = userRating.toString().replaceAll(".0", "");
     print(result); // Output: "4"
 
-    isLoading.value = true;
     var headers = {'Authorization': 'Bearer' + token};
     var request =
     http.MultipartRequest('POST', Uri.parse(ApiUrls.submitReview));
@@ -310,7 +257,6 @@ class CategoryDetailController extends GetxController  {
     getPriceList.clear();
     if (response.statusCode == 200) {
       Navigator.of(context).pop();
-      isLoading.value = false;
       final result = jsonDecode(response.body) as Map<String, dynamic>;
       if (result['success'] == true && result['success'] != null) {
         showToast(result['message']);
@@ -332,7 +278,6 @@ class CategoryDetailController extends GetxController  {
   }
 
   getUserReviewApiFunction() async {
-    isLoading.value = true;
     var headers = {'Authorization': 'Bearer' + token};
     var request =
     http.MultipartRequest('POST', Uri.parse(ApiUrls.getUserReview));
@@ -344,7 +289,6 @@ class CategoryDetailController extends GetxController  {
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse);
     if (response.statusCode == 200) {
-      isLoading.value = false;
       final result = jsonDecode(response.body) as Map<String, dynamic>;
       if (result['success'] == true && result['success'] != null) {
         for (int i = 0; i < result['list'].length; i++) {
@@ -362,60 +306,12 @@ class CategoryDetailController extends GetxController  {
     }
   }
 
-
-
-
-
-/*categoryDetailsFunction() async {
-    showCircleProgressDialog(Get.context!);
-    isDetailsLoading.value = true;
-    final response = await ApiConstants.getWithToken(url: ApiUrls.getCategoryDetails ,useAuthToken: true);
-    if (response != null && response['success'] == true) {
-
-      isDetailsLoading.value = false;
-      Get.back();
-      if (response['data'] != null) {
-        name.value = response['data']['user']['name'].toString();
-        image.value = response['data']['image_url'].toString();
-        experience.value = response['data']['experience'].toString();
-        expertise.value = response['data']['expertise'].toString();
-        status.value = response['data']['status'].toString();
-        bio.value = response['data']['bio'].toString();
-        mobile.value = response['data']['user']['mobile'].toString();
-        email.value = response['data']['user']['email'].toString();
-        location.value = response['data']['user']['getcity']['name'].toString();
-        expertise.value = response['data']['expertise'].toString();
-        categoryName.value = response['data']['category']['name'].toString();
-        if (response['success'] == true && response['success'] != null) {
-          for (int i = 0; i < response['data']['offers'].length; i++) {
-            selectedSliderValue.value = i;
-            OfferList model = OfferList(
-              response['data']['offers'][i]['id'],
-              response['data']['offers'][i]['expert_id'],
-              response['data']['offers'][i]['banner'].toString(),
-
-            );
-            offerList.add(model);
-          }
-          for (int i = 0; i < response['data']['prices'].length; i++) {
-            selectedSliderValue.value = i;
-            OfferList model = OfferList(
-              response['data']['prices'][i]['id'],
-              response['data']['prices'][i]['expert_id'],
-              response['data']['prices'][i]['banner'].toString(),
-
-            );
-            priceMenuList.add(model);
-          }
-        }
-        else {
-
-        }
-
-
-      }
+  openWhatsapp(String number) async{
+    var url = "https://wa.me/$number";
+    try{
+        await launchUrl(Uri.parse(url));
+    } on Exception{
     }
-  }*/
-
+  }
 
 }

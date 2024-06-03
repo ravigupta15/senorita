@@ -26,58 +26,59 @@ class PaymentScreen extends GetView<PaymentController> {
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
-      appBar: appBar(context, '', () {
-        Get.back();
-      }),
-      body: Obx(
-        () => Form(
-          key: controller.addMoneyFormKey,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
-            child: Align(
-              alignment: Alignment.center,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  mainScreen(context),
-                  SizedBox(
-                    height: 50,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CustomBtn(
-                        title: "Proceed Payment",
-                        height: 45,
-                        width: double.infinity,
-                        color: controller.amountController.text.isNotEmpty
-                            ? ColorConstant.onBoardingBack
-                            : ColorConstant.hintColor,
-                        onTap: () {
-                          if (controller.amountController.text.isEmpty) {
-                            Fluttertoast.showToast(
-                                msg: "Please Enter Some Coins",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.CENTER,
-                                timeInSecForIosWeb: 1,
-                                textColor: Colors.white,
-                                fontSize: 16.0);
-                          } else if (int.parse(
-                                  controller.amountController.text) <
-                              0) {
-                            Fluttertoast.showToast(
-                                msg: " greater than 0",
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.CENTER,
-                                timeInSecForIosWeb: 1,
-                                textColor: Colors.black,
-                                fontSize: 16.0);
-                          } else {
-                           controller.callPaymentApiFunction();
-                            }
-                        }),
-                  ),
-                ],
+    return Obx(()=>Scaffold(
+        appBar: appBar(context, controller.scannerCode.value, () {
+          Get.back();
+        }),
+        body: Obx(
+          () => Form(
+            key: controller.addMoneyFormKey,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
+              child: Align(
+                alignment: Alignment.center,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    mainScreen(context),
+                    SizedBox(
+                      height: 50,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CustomBtn(
+                          title: "Proceed Payment",
+                          height: 45,
+                          width: double.infinity,
+                          color: controller.amountController.text.isNotEmpty
+                              ? ColorConstant.onBoardingBack
+                              : ColorConstant.hintColor,
+                          onTap: () {
+                            if (controller.amountController.text.isEmpty) {
+                              Fluttertoast.showToast(
+                                  msg: "Please Enter Some Coins",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.CENTER,
+                                  timeInSecForIosWeb: 1,
+                                  textColor: Colors.white,
+                                  fontSize: 16.0);
+                            } else if (int.parse(
+                                    controller.amountController.text) <
+                                0) {
+                              Fluttertoast.showToast(
+                                  msg: " greater than 0",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.CENTER,
+                                  timeInSecForIosWeb: 1,
+                                  textColor: Colors.black,
+                                  fontSize: 16.0);
+                            } else {
+                             controller.callPaymentApiFunction();
+                              }
+                          }),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
