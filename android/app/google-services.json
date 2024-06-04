@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "289021925040",
+    "project_id": "senorita-f4691",
+    "storage_bucket": "senorita-f4691.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:289021925040:android:810c733f0414fcd3840d75",
+        "android_client_info": {
+          "package_name": "com.app.senoritaApp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAapcfW84JYYDDeGMU26pkj83b5D1Y4Ql0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
