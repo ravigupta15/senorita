@@ -1,29 +1,26 @@
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:senorita/utils/notification_service.dart';
 import 'package:senorita/utils/theme.dart';
 import 'package:senorita/utils/utils.dart';
 import 'ScreenRoutes/apppages.dart';
 import 'ScreenRoutes/routes.dart';
 import 'api_config/dependency_injection.dart';
 
-/*
-class MyHttpOverrides extends HttpOverrides {
-  @override
-  HttpClient createHttpClient(SecurityContext? context) {
-    return super.createHttpClient(context)
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true; }}
-*/
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown
   ]);
+  FirebaseMessaging.onBackgroundMessage(backgroundHandler);
   await FlutterDownloader.initialize(
       debug: true, // optional: set to false to disable printing logs to console (default: true)
       ignoreSsl: true // option: set to false to disable working with http links (default: false)
@@ -32,13 +29,25 @@ void main() async {
   //DependencyInjection.init();
   configLoading();
 
+}
 
+Future<void> backgroundHandler(RemoteMessage message) async {
+  print('Handling a background message ${message.messageId}');
 }
 @override
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final NotificationService notificationService = NotificationService();
+
   @override
   Widget build(BuildContext context) {
+    notificationService.initialize();
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());

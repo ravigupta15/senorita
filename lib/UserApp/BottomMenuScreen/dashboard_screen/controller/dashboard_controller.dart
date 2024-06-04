@@ -268,7 +268,6 @@ final bannerIndex =0.obs;
     }
     else
     {
-      Get.back();
     }
   }
 

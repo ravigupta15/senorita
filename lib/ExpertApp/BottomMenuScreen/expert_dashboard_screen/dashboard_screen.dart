@@ -115,7 +115,7 @@ class ExpertDashboardScreen extends GetView<ExpertDashboardController> {
         ),
         bottomNavigationBar: Obx(()=>
            Container(
-             padding: EdgeInsets.only(bottom: 4,left: 5,right: 5,top: 5),
+             padding:const EdgeInsets.only(bottom: 4,left: 5,right: 5,top: 5),
              color:  ColorConstant.homeBackground,
              child: ClipRRect(
                borderRadius: const BorderRadius.only(

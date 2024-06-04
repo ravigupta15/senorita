@@ -12,7 +12,7 @@ class TimeFormat{
     DateTime dateTime = DateTime.parse(date);
 
     // Format the date
-    return DateFormat('yyyy MMMM').format(dateTime);
+    return DateFormat('yyyy MMMM dd').format(dateTime);
   }
 
   static String convertInTime(timeString){

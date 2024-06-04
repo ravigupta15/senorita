@@ -29,6 +29,7 @@ class ApiUrls {
   static const String homeScreenDetails = "${apiBaseUrlTesting}expert-detail";
   static const String transactionUrl  = '${apiBaseUrlTesting}getUserPointTansctions';
   static const String scanCodePaymentUrl= '${apiBaseUrlTesting}ScanCode';
+  static const String verifyScanCodeUrl = '${apiBaseUrlTesting}verifyScanCode';
 
   ///Expert Api Url
   static const String registerExpert = "${apiBaseUrlTesting}create-expert";
@@ -48,10 +49,8 @@ class ApiUrls {
   static const String getUserReview = "${apiBaseUrlTesting}expert-review-by-id";
 
   static const String submitReview = "${apiBaseUrlTesting}submit-rating";
-
   static const String removePriceList = "${apiBaseUrlTesting}delete_item";
-
-
+  static const String storeScanImageUrl = '${apiBaseUrlTesting}storeScanImage';
 
 
   //offer Api Url

@@ -76,7 +76,7 @@ class ReferEarnScreen extends GetView<ReferEarnController>{
                     GestureDetector(
                         onTap: (){
                           Clipboard.setData(ClipboardData(text: Get.find<ProfileController>().referralCode.value));
-                          // Fluttertoast.showToast(msg: 'Copied');
+                          Fluttertoast.showToast(msg: 'Copied',gravity:ToastGravity.CENTER );
                         },
                         child: Image.asset(AppImages.copyIcon,height: 24,width: 24,))
                   ],

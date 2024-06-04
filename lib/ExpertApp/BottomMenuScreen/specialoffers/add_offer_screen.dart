@@ -12,6 +12,7 @@ import 'package:senorita/utils/stringConstants.dart';
 import 'package:senorita/widget/no_data_found.dart';
 
 import '../../../helper/appimage.dart';
+import '../../../widget/checkbox_widget.dart';
 import '../addPriceList/model/topic.dart';
 import 'controller/add_offer_controller.dart';
 
@@ -523,18 +524,6 @@ class AddOfferScreen extends GetView<AddOfferController>{
           ),
         ],
       ),
-    );
-  }
-  checkBoxWidget(Color color, ){
-    return  Container(
-      height: 22,width: 22,
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(5),
-        border: Border.all(color: ColorConstant.onBoardingBack)
-      ),
-      alignment: Alignment.center,
-      child: Icon(Icons.check,size: 16,color: ColorConstant.white,),
     );
   }
   customTextField({required String hintText,bool readOnly=false,

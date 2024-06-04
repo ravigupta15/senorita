@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:senorita/ExpertApp/BottomMenuScreen/expert_dashboard_screen/controller/dashboard_controller.dart';
 import 'package:senorita/ExpertApp/BottomMenuScreen/expert_profile_screen/controller/expert_profile_controller.dart';
 import 'package:senorita/utils/showcircledialogbox.dart';
 import 'package:senorita/utils/toast.dart';
@@ -88,33 +89,14 @@ class ExpertHomeController extends GetxController  {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     token = prefs.getString("token").toString();
     userId.value = prefs.getString('id').toString();
-    name.value="";
-    image.value="";
-    experience.value="";
-    expertise.value="";
-    categoryName.value="";
-    bio.value="";
-    location.value="";
-    status.value="";
-    email.value="";
-    mobile.value="";
     // allOffersApiFunction();
     latitude.value = prefs.getString("lat").toString();
     longitude.value = prefs.getString("long").toString();
-    categoryDetailsFunction(latitude.value.toString(),longitude.value.toString(),Get.context!);
+    categoryDetailsFunction(latitude.value.toString(),longitude.value.toString(),Get.context!,true);
 
     super.onInit();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
 
   precache()async{
     for(int i=0;i<offerList.length-1;i++){
@@ -126,9 +108,9 @@ class ExpertHomeController extends GetxController  {
     }
   }
 
-  categoryDetailsFunction(lat,lng,BuildContext context) async {
-    showCircleProgressDialog(context);
-    isLoading.value =true;
+  categoryDetailsFunction(lat,lng,BuildContext context, bool showLoading) async {
+    showLoading? showCircleProgressDialog(context):null;
+    isLoading.value =Get.find<ExpertDashboardController>().selectedIndex.value!=0&&showLoading? true:false;
     var headers = {'Authorization': 'Bearer' + token};
     var request = http.MultipartRequest('POST', Uri.parse(ApiUrls.homeScreenDetails));
     request.fields.addAll({
@@ -141,7 +123,7 @@ class ExpertHomeController extends GetxController  {
     var response = await http.Response.fromStream(streamedResponse).timeout(const Duration(seconds: 60));
     log(response.body);
     isLoading.value = false;
-    Get.back();
+    showLoading? Get.back():null;
     if (response.statusCode == 200) {
       final result = jsonDecode(response.body) as Map<String, dynamic>;
       if (result['success'] == true && result['success'] != null) {
@@ -149,6 +131,8 @@ class ExpertHomeController extends GetxController  {
         getUserReviewApiFunction();
         name.value=result['data']['user']!=null?result['data']['user']['name'] ?? "":"";
         status.value=result['data']['status'] ?? "";
+        /// change the toggle button status
+        Get.find<ExpertDashboardController>().toggleSwitch(status.value=='1'?true:false);
         experience.value=result['data']['experience'] ?? "";
         location.value=result['data']['user']!=null?result['data']['user']['address']??"":"";
         kodagoCard.value=result['data']['kodago_card_url']??"";
@@ -161,7 +145,6 @@ class ExpertHomeController extends GetxController  {
         result['data']['user']['lat']:"";
         salonLng.value = result['data']['user']!=null&&result['data']['user']['lng']!=null?
         result['data']['user']['lng']:"";
-
         myRating.value =  result['data']['my_rating'] ?? "";
         averageRating.value=result['data']['avg_rating']?? "";
         //  showToast(result['data']['my_rating'].toString());
@@ -199,6 +182,16 @@ class ExpertHomeController extends GetxController  {
     }
     else
     {
+      name.value="";
+      image.value="";
+      experience.value="";
+      expertise.value="";
+      categoryName.value="";
+      bio.value="";
+      location.value="";
+      status.value="";
+      email.value="";
+      mobile.value="";
     }
   }
 

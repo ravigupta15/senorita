@@ -19,6 +19,7 @@ class ProfileController extends GetxController {
   String id="";// Initialize with your desired upper value
   final walletAmount = ''.obs;
 final referralCode = ''.obs;
+final profileImg = ''.obs;
   @override
   Future<void> onInit() async {
     SizeConfig().init();
@@ -38,6 +39,7 @@ final referralCode = ''.obs;
       mobile.value=response['data']['mobile'].toString() ?? "";
       walletAmount.value = response['data']['wallet']??'';
       referralCode.value = response['data']['referral_code']??"";
+      profileImg.value = response['data']['profile_picture']??"";
     }
   }
 

@@ -13,11 +13,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../api_config/ApiConstant.dart';
 import '../../../../api_config/Api_Url.dart';
 import '../../../../utils/showcircledialogbox.dart';
+import '../../../../utils/utils.dart';
 import '../../../../widget/error_box.dart';
+import '../../specialoffers/model/expert_category_model.dart';
+import '../../specialoffers/model/expert_subcategory_model.dart';
 
 class PriceListController extends GetxController {
   final hideSubtopic = false.obs;
-  final hidechildTopic = false.obs;
   TextEditingController titleController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   final addButton = false.obs;
@@ -34,7 +36,11 @@ class PriceListController extends GetxController {
 
   Map jsonObject = {};
 
+  var categoryModel = ExpertCategoryModel().obs;
+  var subCatModel = ExpertSubCategoryModel().obs;
+
   updateItems() {
+
     var model = AddPriceModel();
     addTopicList.add(model);
   }
@@ -64,7 +70,26 @@ class PriceListController extends GetxController {
     //showToast(response["message"]);
   }
 
+
+  getSubCategoryApiFunction(String id) async {
+    showCircleProgressDialog(navigatorKey.currentContext!);
+    var body = {
+      'category':id
+    };
+    final response = await ApiConstants.post(url: ApiUrls.expertSubCategoriesApiUrl,body: body);
+    Get.back();
+    if (response != null && response['success'] == true) {
+      if (response!=null&& response['success']!=false&& response['data'] != null) {
+          subCatModel.value = ExpertSubCategoryModel.fromJson(response);
+      }
+    }
+    else{
+    }
+  }
+
+
   submitMultipleItems(BuildContext context, List dataList) async {
+    showCircleProgressDialog(context);
     var headers = {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer' + token
@@ -77,18 +102,23 @@ class PriceListController extends GetxController {
     print(request.body);
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
+    Get.back();
     if (response.statusCode == 200) {
-     Get.back();
+      Get.back();
       //showToast(request[''])
     }
     else {
       print(response.reasonPhrase);
     }
   }
+
+
 }
 
 class AddPriceModel {
   TextEditingController titleController = TextEditingController();
   TextEditingController priceController = TextEditingController();
+  final title = ''.obs;
+  final subCatId = ''.obs;
   final status = false.obs;
 }

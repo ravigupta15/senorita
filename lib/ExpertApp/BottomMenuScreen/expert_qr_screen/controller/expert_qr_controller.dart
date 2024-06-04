@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'dart:isolate';
 import 'dart:ui';
@@ -10,7 +12,9 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:senorita/ScreenRoutes/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:http/http.dart'as http;
 
+import '../../../../api_config/Api_Url.dart';
 class ExpertQRScannerController extends GetxController {
   ReceivePort port = ReceivePort();
   final downloadStatus =''.obs;
@@ -79,7 +83,32 @@ class ExpertQRScannerController extends GetxController {
     openFileFromNotification: true,
     saveInPublicStorage: true,
     );
+  }
 
+  convertImageToUrlApiFunction(var img)async{
+   try{
+     SharedPreferences prefs = await SharedPreferences.getInstance();
+     var headers = {'Authorization': 'Bearer ${prefs.getString('token').toString()}'};
+     var request =
+     http.MultipartRequest('POST', Uri.parse(ApiUrls.storeScanImageUrl));
+     final file = await http.MultipartFile.fromPath('scan_image', img.path);
+     request.files.add(file);
+     request.headers.addAll(headers);
+     var streamedResponse = await request.send();
+     var response = await http.Response.fromStream(streamedResponse);
+     log(response.body);
+     if (response.statusCode == 200) {
+       final result = json.decode(response.body);
+       if (result['success'] == true && result['success'] != null) {
+       }
+     }
+     else
+     {
+     }
+
+   }catch(e){
+     print("dfg${e.toString()}");
+   }
   }
 
   launchURL(final url) async {

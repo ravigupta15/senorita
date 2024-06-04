@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-
+import 'package:share_plus/share_plus.dart';
 import '../../../helper/appbar.dart';
 import '../../../helper/appimage.dart';
 import '../../../helper/getText.dart';
@@ -102,7 +102,7 @@ class ExpertQrCodeScreen extends GetWidget<ExpertQRScannerController> {
                       children: [
                         GestureDetector(
                           onTap:(){
-                            capturePng();
+                            capturePng(context,'share');
                           },
                           child: Container(
                             color: Colors.white,
@@ -140,25 +140,37 @@ class ExpertQrCodeScreen extends GetWidget<ExpertQRScannerController> {
                             ),
                           ),
                         ),
-                        Image.asset(
-                          height: 17,
-                          width: 17,
-                          AppImages.imgDownloadQr,
-                          fit: BoxFit.contain,
+                      GestureDetector(
+                        onTap: (){
+                          capturePng(context, 'download');
+                        },
+                        child: Container(
+                          color: Colors.white,
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                height: 17,
+                                width: 17,
+                                AppImages.imgDownloadQr,
+                                fit: BoxFit.contain,
+                              ),
+                              const Padding(
+                                  padding: EdgeInsets.only(
+                                    left: 9,
+                                    top: 3,
+                                    bottom: 3,
+                                  ),
+                                  child: getText(
+                                      title: "Download QR",
+                                      size: 15,
+                                      fontFamily: interMedium,
+                                      color: ColorConstant.onBoardingBack,
+                                      fontWeight: FontWeight.w600)
+                              )
+                            ],
+                          ),
                         ),
-                        const Padding(
-                            padding: EdgeInsets.only(
-                              left: 9,
-                              top: 3,
-                              bottom: 3,
-                            ),
-                            child: getText(
-                                title: "Download QR",
-                                size: 15,
-                                fontFamily: interMedium,
-                                color: ColorConstant.onBoardingBack,
-                                fontWeight: FontWeight.w600)
-                        ),
+                      ),
                       ],
                     ),
                   ),
@@ -170,7 +182,7 @@ class ExpertQrCodeScreen extends GetWidget<ExpertQRScannerController> {
       ),
     );
   }
-  Future<void> capturePng() async {
+  Future<void> capturePng(BuildContext context, String route) async {
     try {
       RenderRepaintBoundary boundary =
       globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
@@ -182,7 +194,16 @@ class ExpertQrCodeScreen extends GetWidget<ExpertQRScannerController> {
       final directory = await getApplicationDocumentsDirectory();
       final path = directory.path;
       File imgFile = File('$path/qr_code.png');
+      final box = context.findRenderObject() as RenderBox?;
       imgFile.writeAsBytes(pngBytes);
+     if(route=='share'){
+       Share.shareFiles([imgFile.path],
+           sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
+           text: 'Check out this QR code!',subject: 'Qr Code');
+     }
+     else{
+       controller.convertImageToUrlApiFunction(imgFile);
+     }
       print('QR Code saved to $path/qr_code.png');
     } catch (e) {
       print(e);

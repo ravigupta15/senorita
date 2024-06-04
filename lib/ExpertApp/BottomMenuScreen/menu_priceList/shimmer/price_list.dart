@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:senorita/utils/color_constant.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../../utils/size_config.dart';
 
 priceListShimmer() {
-  return ListView.builder(
+  return ListView.separated(
+    separatorBuilder: (context,sp){
+      return const SizedBox(height: 20,);
+    },
       itemCount: 10,
       shrinkWrap: true,
       physics: const ScrollPhysics(),
@@ -13,12 +17,18 @@ priceListShimmer() {
           right: SizeConfig.screenHeightConstant * 0.1,
           bottom: SizeConfig.screenHeightConstant * 2),
       itemBuilder: (context, index) {
-        return Card(
-            elevation: 1,
-            shadowColor: const Color(0xff6A6A6A),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12.0),
-            ),
+        return Container(
+           decoration: BoxDecoration(
+             color: ColorConstant.white,
+             borderRadius: BorderRadius.circular(12),
+             boxShadow: [
+               BoxShadow(
+                 offset:const Offset(0, -2),
+                 color: ColorConstant.blackColor.withOpacity(.1),
+                 blurRadius: 5
+               )
+             ]
+           ),
             child: Container(
               margin: const EdgeInsets.all(15),
               child: Shimmer.fromColors(

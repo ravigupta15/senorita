@@ -160,8 +160,9 @@ class SalonDetailScreen extends GetView<SalonDetailController> {
                                                               style: TextStyle(
                                                                 fontSize: 13,
                                                                 fontFamily: interMedium,
-                                                                color: ColorConstant
-                                                                    .greenColor,
+                                                                color:controller.status.value == "1"? ColorConstant
+                                                                    .greenColor:ColorConstant
+                                                                    .redColor,
                                                                 fontWeight:
                                                                     FontWeight.w500,
                                                               ),

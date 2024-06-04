@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:senorita/ExpertApp/BottomMenuScreen/expert_dashboard_screen/controller/dashboard_controller.dart';
@@ -7,6 +8,11 @@ import 'package:senorita/helper/appbar.dart';
 import 'package:senorita/helper/getText.dart';
 import 'package:senorita/utils/color_constant.dart';
 import 'package:senorita/utils/stringConstants.dart';
+import 'package:senorita/widget/no_data_found.dart';
+
+import '../../../helper/appimage.dart';
+import '../../../utils/screensize.dart';
+import '../../../utils/time_format.dart';
 
 class SpecialOfferScreen extends GetView<SpecialOfferController>{
 
@@ -18,37 +24,161 @@ class SpecialOfferScreen extends GetView<SpecialOfferController>{
         false:true, () => Get.back()),
         body: Column(
           children: [
-            GestureDetector(
-              onTap: (){
-                Get.toNamed(AppRoutes.addOfferScreen);
-              },
-              child: Align(
-                alignment: Alignment.topRight,
-                child: Container(
-                  height: 42,
-                  margin:const EdgeInsets.only(right: 15),
-                  width: 110,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(
-                          color:const Color(0xffD9D9D9)
-                      )
-                  ),
-                  child:const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.add,color: ColorConstant.homeExp,),
-                      getText(title: 'Add offer',
-                          size: 15, fontFamily: poppinsMedium, color: ColorConstant.homeExp,
-                          fontWeight: FontWeight.w400)
-                    ],
-                  ),
-                ),
-              ),
+            addOfferWidget(),
+            ScreenSize.height(7),
+            Expanded(child:
+            controller.specialOfferModel!=null&&
+            controller.specialOfferModel.value.offersList!=null?
+            specialOfferWidget():
+            noDataFound()
             )
           ],
         ),
       ),
     );
+  }
+
+  addOfferWidget(){
+    return  GestureDetector(
+      onTap: (){
+        Get.toNamed(AppRoutes.addOfferScreen)?.then((value) {
+          controller.allOffersApiFunction();
+        });
+      },
+      child: Align(
+        alignment: Alignment.topRight,
+        child: Container(
+          height: 42,
+          margin:const EdgeInsets.only(right: 15),
+          width: 110,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(
+                  color:const Color(0xffD9D9D9)
+              )
+          ),
+          child:const Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.add,color: ColorConstant.homeExp,),
+              getText(title: 'Add offer',
+                  size: 15, fontFamily: poppinsMedium, color: ColorConstant.homeExp,
+                  fontWeight: FontWeight.w400)
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  specialOfferWidget(){
+    return ListView.separated(
+        separatorBuilder: (context, sp) {
+          return const SizedBox(
+            height: 25,
+          );
+        },
+        shrinkWrap: true,
+        padding:const EdgeInsets.only(left: 15,right: 15,bottom: 50,top: 15),
+        itemCount: controller.specialOfferModel.value.offersList!.length,
+        itemBuilder: (context,index){
+        return Container(
+          decoration: BoxDecoration(
+              color: ColorConstant.white,
+              // borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                    offset: const Offset(0, -2),
+                    color: ColorConstant.blackColor.withOpacity(.2),
+                    blurRadius: 10)
+              ]),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: ColorConstant.white,
+                ),
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    // topRight: Radius.circular(8),
+                    // topLeft: Radius.circular(8)
+                  ),
+                  child: controller.specialOfferModel.value.offersList![index].banner != null
+                      ? CachedNetworkImage(
+                    height: 200,
+                    fit: BoxFit.fill,
+                    width: MediaQuery.of(context).size.width,
+                    imageUrl: "${controller.specialOfferModel.value.baseUrl}/${controller.specialOfferModel.value.offersList![index].banner}",
+                    errorWidget: (context, url, error) => Image.network(
+                      "https://raysensenbach.com/wp-content/uploads/2013/04/default.jpg",
+                      height: 250,
+                      fit: BoxFit.fill,
+                      width: MediaQuery.of(context).size.width,
+                    ),
+                  )
+                      : Image.network(
+                    "https://raysensenbach.com/wp-content/uploads/2013/04/default.jpg",
+                    height: 250,
+                    fit: BoxFit.fill,
+                    width: MediaQuery.of(context).size.width,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 11, right: 12, top: 8, bottom: 13),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    getText(
+                        title: controller.specialOfferModel.value.offersList![index].type ==
+                            'discount'
+                            ? "${controller.specialOfferModel.value.offersList![index].discountPecent.toString()}% Discount"
+                            : "BUY 1 GET 1 FREE",
+                        size: 14,
+                        fontFamily: interSemiBold,
+                        color: ColorConstant.black3333,
+                        fontWeight: FontWeight.w600),
+                    ScreenSize.height(4),
+                    getText(
+                        title: controller.specialOfferModel.value.offersList![index].description??"",
+                        size: 12,
+                        fontFamily: interMedium,
+                        color: const Color(0xff7C7C7C),
+                        fontWeight: FontWeight.w400),
+                    ScreenSize.height(10),
+                    Row(
+                      children: [
+                        Image.asset(
+                          AppImages.clockIcon,
+                          height: 20,
+                          width: 20,
+                        ),
+                        ScreenSize.width(7),
+                        const getText(
+                            title: 'Valid On - ',
+                            size: 12,
+                            fontFamily: interMedium,
+                            color: Color(0xff707070),
+                            fontWeight: FontWeight.w400),
+                        getText(
+                            title:
+                            controller.specialOfferModel.value.offersList![index].endDate!=null?
+                            '${TimeFormat.convertInDate(controller.specialOfferModel.value.offersList![index].endDate)} at ${TimeFormat.convertInTime(controller.specialOfferModel.value.offersList![index].endTime)}':"",
+                            size: 12,
+                            fontFamily: interMedium,
+                            color: const Color(0xff707070),
+                            fontWeight: FontWeight.w400),
+                      ],
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+        );
+    });
   }
 }

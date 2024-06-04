@@ -61,13 +61,13 @@ class OtpController extends GetxController {
   }
 
   verifyOtpApiFunction(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     showCircleProgressDialog(context);
     var request =
         http.MultipartRequest('POST', Uri.parse(ApiUrls.submitOtp));
     request.fields.addAll({
       "mobile": mobileNumber,
-      "device_token":
-          "dJuWepgXRnK-orOuvSS0Be:APA91bEW6fLfWOAaOu8bqRekvCjEfgjGHL0xffPpZSSQSNfZD5HfV_4KHzJdIss6dy0UAtdjD-N8_MlhmZcFMJNbdVjrOtxbZWTi47ig3To0nA0NpQfmSnPwQlmP64xNpNklyWRSmPCB",
+      "device_token":prefs.getString('fcmToken').toString(),
       'otp': otpController.text,
       'ref_type': refType,
     });

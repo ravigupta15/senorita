@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -46,9 +47,22 @@ class Profile extends GetWidget<ProfileController> {
                         color: ColorConstant.blackColor,
                         fontWeight: FontWeight.w600),
                   ),
-                  SizedBox(
-                    height: 35,
+                const  SizedBox(
+                    height: 30,
                   ),
+                  Obx(()=> controller.profileImg.value.isNotEmpty?
+                    ClipOval(
+                      child: CachedNetworkImage(
+                        height: 90,
+                        width: 90,
+                        fit: BoxFit.cover,
+                        imageUrl:controller.profileImg.value,
+                        placeholder: (context, url) => const CircularProgressIndicator(),
+                        errorWidget: (context, url, error) =>const  Icon(Icons.person),
+                      ),
+                    ):Container(),
+                  ),
+                  ScreenSize.height(12),
                   Obx(
                     () => Center(
                       child: getText(

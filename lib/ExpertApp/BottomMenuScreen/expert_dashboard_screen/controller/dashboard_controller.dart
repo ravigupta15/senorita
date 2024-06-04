@@ -6,6 +6,7 @@ import 'package:senorita/ExpertApp/BottomMenuScreen/expert_wallet_screen/control
 import 'package:senorita/ExpertApp/BottomMenuScreen/expert_wallet_screen/expert_wallet.dart';
 import 'package:senorita/ExpertApp/BottomMenuScreen/specialoffers/controller/special_offer_controller.dart';
 import 'package:senorita/ExpertApp/BottomMenuScreen/specialoffers/special_offer_screen.dart';
+import 'package:senorita/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../ScreenRoutes/routes.dart';
 import '../../../../api_config/ApiConstant.dart';
@@ -63,10 +64,9 @@ class ExpertDashboardController extends GetxController {
     ExpertProfile(),
   ];
 
-  void toggleSwitch() {
-    isSwitched.value = !isSwitched.value;
+  void toggleSwitch(bool value) {
+    isSwitched.value = value;
   }
-
 
   final selectedIndex = 0.obs;
 
@@ -75,7 +75,10 @@ class ExpertDashboardController extends GetxController {
     if(index==0){
       Get.find<ExpertHomeController>().onInit();
     }
-    if(index==2){
+    else if(index==1){
+      Get.find<SpecialOfferController>().onInit();
+    }
+   else if(index==2){
       expertWalletController.callApiFunction();
     }
     else if(index==3){
@@ -91,27 +94,28 @@ class ExpertDashboardController extends GetxController {
     super.onInit();
 
   }
-
-  onlineStatusFunction() async {
-    final response = await ApiConstants.getWithToken(url: ApiUrls.getExpertStatus, useAuthToken: true);
-    if (response != null && response['success'] == true) {
-      print(response['data']);
-      status.value=response['data']['status'] ?? "";
-    }
-  }
+  //
+  // onlineStatusFunction() async {
+  //   final response = await ApiConstants.getWithToken(url: ApiUrls.getExpertStatus, useAuthToken: true);
+  //   if (response != null && response['success'] == true) {
+  //     print(response['data']);
+  //     status.value=response['data']['status'] ?? "";
+  //   }
+  // }
 
   expertUpdateApiFunction(BuildContext context) async {
-   showCircleProgressDialog(context);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    showCircleProgressDialog(context);
    final response =
-   await ApiConstants.getWithToken(url:  "${ApiUrls.updateExpertStatus}", useAuthToken: true);
-   if (response != null && response['success'] == true) {
-     Navigator.of(context).pop();
+   await ApiConstants.getWithToken(url:  ApiUrls.updateExpertStatus, useAuthToken: true);
+    Get.back();
+    if (response != null && response['success'] == true) {
      response['data'].toString();
-     toggleSwitch();
+     toggleSwitch(response['data']=='Offline'?false:true);
+     Get.find<ExpertHomeController>().categoryDetailsFunction(prefs.getString("lat").toString(), prefs.getString("long").toString(), navigatorKey.currentContext!,false);
    }
    else
    {
-     Navigator.of(context).pop();
    }
  }
 

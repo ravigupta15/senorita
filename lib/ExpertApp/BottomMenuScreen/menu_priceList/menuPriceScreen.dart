@@ -35,7 +35,7 @@ class MenuPriceList extends GetWidget<MenuPriceListController> {
         }),
         body:
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 15),
+          padding:const EdgeInsets.symmetric(horizontal: 15),
           height: MediaQuery.of(context).size.height,
           child: Obx(() => controller.isLoading.value
               ? priceListShimmer():
@@ -49,8 +49,6 @@ class MenuPriceList extends GetWidget<MenuPriceListController> {
               itemCount: controller.getPriceList.length,
               itemBuilder: (BuildContext context, int index) {
                 var priceListModel = controller.getPriceList[index];
-                // showToast(controller.getPriceList.toString());
-                //var model = controller.allWalletList[index];
                 return Padding(
                   padding: const EdgeInsets.only(top: 8.0, bottom: 10),
                   child: GestureDetector(

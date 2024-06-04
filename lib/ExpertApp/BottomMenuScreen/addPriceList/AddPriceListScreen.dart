@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:pinput/pinput.dart';
 import 'package:senorita/helper/appimage.dart';
 import 'package:http/http.dart' as http;
+import 'package:senorita/utils/screensize.dart';
 import '../../../helper/appbar.dart';
 import '../../../helper/custombtn_new.dart';
 import '../../../helper/getText.dart';
@@ -15,7 +16,9 @@ import '../../../utils/color_constant.dart';
 import '../../../utils/size_config.dart';
 import '../../../utils/stringConstants.dart';
 import '../../../utils/toast.dart';
+import '../../../widget/checkbox_widget.dart';
 import '../../../widget/customTextField.dart';
+import '../../../widget/no_data_found.dart';
 import 'controller/priceListcontroller.dart';
 import 'model/topic.dart';
 
@@ -29,36 +32,7 @@ class AddPriceListScreen extends GetView<PriceListController> {
       appBar: appBar(context, "Menu & Price List", () {
         Get.back();
       }),
-      /* floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.cyanAccent,
-        onPressed: () {},
-        child: Image.asset(AppImages.downArrow,
-            width: SizeConfig.imageSizeMultiplier * 7),
-      ),*/
-      body: /*Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 0, right: 0),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10.0),
-                  child: Image.asset(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height/2,
-                    fit: BoxFit.cover,
-                    AppImages.comingSoon,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      )*/
+      body:
           Container(
         padding: const EdgeInsets.symmetric(
           horizontal: 15.0,
@@ -72,53 +46,14 @@ class AddPriceListScreen extends GetView<PriceListController> {
                 child: Column(
                   children: [
                     Obx(
-                      () => GestureDetector(
-                        onTap: () {
-                          controller.allCategoryList.isNotEmpty?
-                          categoryDialogBox(context):showToast("Data Loading Please Wait");
-                        },
-                        child: Container(
-                          padding: EdgeInsets.only(top: 5, bottom: 5),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                              color: ColorConstant.addMoney,
-                            ),
-                          ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                flex: 4,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 15, top: 10, bottom: 10),
-                                  child: getText(
-                                      title:
-                                          controller.categoryString.value == ""
-                                              ? registerCategory
-                                              : controller.categoryString.value,
-                                      textAlign: TextAlign.start,
-                                      size: 13,
-                                      fontFamily: interRegular,
-                                      color: ColorConstant.black2,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ),
-                              Expanded(
-                                        child: Image.asset(
-                                          height: 8,
-                                          width: 8,
-                                          AppImages.arrowRegister,
-                                        ),
-                                /*  Icon(
-                                                Icons.arrow_back_ios_rounded)*/
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
+                      () => customDropDown(context, () {
+                controller.allCategoryList.isNotEmpty?
+                 categoryDialogBox(context):showToast("Data Loading Please Wait");},
+                          controller.categoryString.value == ""
+                              ? registerCategory
+                              : controller.categoryString.value, ColorConstant.black2)
                     ),
-                    SizedBox(height: 10),
+                  const  SizedBox(height: 10),
                     Obx(
                       () => controller.selectedCategoryType.value != (-1)
                           ? Column(
@@ -349,103 +284,51 @@ class AddPriceListScreen extends GetView<PriceListController> {
             Flexible(
               flex: 3,
               child: Obx(
-                () => Padding(
-                  padding: EdgeInsets.only(),
-                  child: ListView.builder(
-                    padding: EdgeInsets.zero,
-                    shrinkWrap: true,
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    itemCount: controller.addTopicList.length,
-                    itemBuilder: (context, index) {
-                      var model = controller.addTopicList[index];
+                () => ListView.builder(
+                  // padding: EdgeInsets.zero,
+                  shrinkWrap: true,
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  itemCount: controller.addTopicList.length,
+                  itemBuilder: (context, index) {
+                    var model = controller.addTopicList[index];
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: ColorConstant.lightColor.withOpacity(0.2),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(5))),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              Expanded(child: Obx(() => customDropDown(context, () {
+                                subCategoryDialogBox(context,model);
+                              }, model.title.value.isEmpty?"title":model.title.value,
+                                  model.title.value.isEmpty? ColorConstant.addPriceListText:ColorConstant.redeemTextDark))),
+                             // const Spacer(),
+                              const SizedBox(
+                                width: 10,
+                              ),
 
-                      return Padding(
-                        padding: const EdgeInsets.only(top: 10),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: ColorConstant.lightColor.withOpacity(0.2),
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(5))),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  flex: 4,
-                                  child: SizedBox(
-                                    height: 50,
-                                    child: TextFormField(
-                                      controller: model.titleController,
-
-                                      decoration: InputDecoration(
-                                        filled: true,
-                                        fillColor: Colors.transparent,
-                                        isDense: true,
-                                        contentPadding:
-                                            const EdgeInsets.symmetric(
-                                                horizontal: 10.0, vertical: 15),
-                                        hintText: "Type Title",
-                                        hintStyle: const TextStyle(
-                                            fontSize: 13,
-                                            fontFamily: interRegular,
-                                            color:
-                                                ColorConstant.addPriceListText),
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                          borderSide: const BorderSide(
-                                            width: 1.0,
-                                          ), // BorderSide
-                                        ),
-                                        // OutlineInputBorder
-                                        enabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                          borderSide: const BorderSide(
-                                              width: 1,
-                                              color: ColorConstant
-                                                  .addPriceListText), // BorderSide
-                                        ),
-                                        // OutlineInputBorder
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                          borderSide: const BorderSide(
-                                              width: 1,
-                                              color: ColorConstant
-                                                  .addPriceListText), // BorderSide
-                                        ), // OutlineInputBorder
+                              Expanded(
+                                child: Container(
+                                  width: 100,
+                                  height: 45,
+                                  child: Row(
+                                    children: [
+                                      getText(
+                                          title: "₹",
+                                          textAlign: TextAlign.center,
+                                          size: 14,
+                                          fontFamily: celiaRegular,
+                                          color: ColorConstant.blackColor,
+                                          fontWeight: FontWeight.w400),
+                                    const  SizedBox(
+                                        width: 10,
                                       ),
-                                      style: const TextStyle(
-                                          fontSize: 13,
-                                          fontFamily: interRegular,
-                                          color: ColorConstant
-                                              .redeemTextDark), // InputDecoration
-                                    ),
-                                  ),
-                                ),
-                                Spacer(),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Expanded(
-                                  flex: 4,
-                                  child: Container(
-                                    width: 100,
-                                    height: 45,
-                                    child: Row(
-                                      children: [
-                                        getText(
-                                            title: "₹",
-                                            textAlign: TextAlign.center,
-                                            size: 14,
-                                            fontFamily: celiaRegular,
-                                            color: ColorConstant.blackColor,
-                                            fontWeight: FontWeight.w400),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        SizedBox(
+                                      Expanded(
+                                        child: SizedBox(
                                           height: 50,
                                           width: 80,
                                           child: TextFormField(
@@ -502,56 +385,57 @@ class AddPriceListScreen extends GetView<PriceListController> {
                                                     .redeemTextDark), // InputDecoration
                                           ),
                                         ),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            if (model.status.value) {
-                                              print('if${model.status.value}');
-                                              controller.removeItems(index);
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          if (model.status.value) {
+                                            print('if${model.status.value}');
+                                            controller.removeItems(index);
+                                          } else {
+                                            if (model.title.value
+                                                    .isNotEmpty &&
+                                                model.priceController.text
+                                                    .isNotEmpty) {
+                                              model.status.value = true;
+                                              print(
+                                                  'else${model.status.value}');
+                                              controller.sendDataList.add({
+                                                'item_name': model
+                                                    .title.value,
+                                                'price':
+                                                    model.priceController.text
+                                              });
+                                              controller.updateItems();
                                             } else {
-                                              if (model.titleController.text
-                                                      .isNotEmpty &&
-                                                  model.priceController.text
-                                                      .isNotEmpty) {
-                                                model.status.value = true;
-                                                print(
-                                                    'else${model.status.value}');
-                                                controller.sendDataList.add({
-                                                  'item_name': model
-                                                      .titleController.text,
-                                                  'price':
-                                                      model.priceController.text
-                                                });
-                                                controller.updateItems();
-                                              } else {
-                                                showToast(
-                                                    "Enter title and price");
-                                              }
+                                              showToast(
+                                                  "Enter title and price");
                                             }
-                                            // controller.addTopicList.removeAt(index);
-                                            // controller.addTopicList.remove(model1);
-                                          },
-                                          child: Image.asset(
-                                            height: 23,
-                                            width: 23,
-                                            model.status.value
-                                                ? AppImages.removePrice
-                                                : AppImages.addPrice,
-                                          ),
+                                          }
+                                          // controller.addTopicList.removeAt(index);
+                                          // controller.addTopicList.remove(model1);
+                                        },
+                                        child: Image.asset(
+                                          height: 23,
+                                          width: 23,
+                                          model.status.value
+                                              ? AppImages.removePrice
+                                              : AppImages.addPrice,
+
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
-                      );
-                    },
-                  ),
+                      ),
+                    );
+                  },
                 ),
               ),
             ),
@@ -574,7 +458,7 @@ class AddPriceListScreen extends GetView<PriceListController> {
                           height: 46,
                           width: double.infinity,
                           rectangleBorder: RoundedRectangleBorder(
-                            side: BorderSide(
+                            side:const BorderSide(
                                 color: Colors.transparent, width: 1.3),
                             borderRadius: BorderRadius.circular(5),
                           ),
@@ -586,7 +470,7 @@ class AddPriceListScreen extends GetView<PriceListController> {
                             for (int i = 0;
                                 i < controller.addTopicList.length;
                                 i++) {
-                              if(controller.addTopicList[controller.addTopicList.length-1].titleController.text.isNotEmpty&&
+                              if(controller.addTopicList[controller.addTopicList.length-1].title.value.isNotEmpty&&
                                   controller.addTopicList[controller.addTopicList.length-1].priceController.text.isNotEmpty){
                                 checkValidation=true;
                               }
@@ -595,7 +479,7 @@ class AddPriceListScreen extends GetView<PriceListController> {
                               }
                               controller.sendDataList.add({
                                 'item_name': controller
-                                    .addTopicList[i].titleController.text,
+                                    .addTopicList[i].title.value,
                                 'price': controller
                                     .addTopicList[i].priceController.text
                               });
@@ -619,275 +503,46 @@ class AddPriceListScreen extends GetView<PriceListController> {
     );
   }
 
-  /* Widget AddTopicWidget(BuildContext context) {
-    return Obx(
-      () => ListView.builder(
-        shrinkWrap: true,
-        itemCount: controller.addTopicList.length,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: Container(
-              decoration: BoxDecoration(color: ColorConstant.addPriceBack.withOpacity(0.9),
-              borderRadius: const BorderRadius.all(Radius.circular(5))),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                children: [
-
-                  Expanded(
-                    flex: 4,
-                    child: SizedBox(
-                      height: 40,
-
-                      child:
-                      TextFormField(
-                        controller: controller.enterTopic,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.transparent,
-                          isDense: true,
-                          contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 10.0, vertical: 15),
-                          hintText: "Type Title",
-                          hintStyle: const TextStyle(
-                            fontSize: 15,
-                            fontFamily: interRegular,
-                            color: ColorConstant.addPriceListText
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: const BorderSide(
-                              width: 1.0,
-                            ), // BorderSide
-                          ),
-                          // OutlineInputBorder
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: const BorderSide(
-                              width: 1,
-                              color: ColorConstant.addPriceListText
-                            ), // BorderSide
-                          ),
-                          // OutlineInputBorder
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: const BorderSide(
-                              width: 1,
-                              color: ColorConstant.addPriceListText
-                            ), // BorderSide
-                          ), // OutlineInputBorder
-                        ),
-                        style: const TextStyle(
-                            fontSize: 15,
-                            fontFamily: interRegular,
-                            color: ColorConstant.redeemTextDark), // InputDecoration
-                      ),
-                    ),
-                  ),
-                  Spacer(),
-                  SizedBox(width: 10,),
-                  Expanded(
-                    flex: 4,
-                    child: Container(
-                      width: 100,
-                      height: 45,
-                      child: Row(
-                        children: [
-                           getText(
-                              title: "₹",
-                              textAlign: TextAlign.center,
-                              size: 16,
-                              fontFamily: celiaRegular,
-                              color: ColorConstant.blackColor,
-                              fontWeight: FontWeight.w400),
-                          SizedBox(width: 10,),
-                          SizedBox(
-                            height: 40,
-                            width: 80,
-                            child: TextFormField(
-                              controller: controller.enterTopic,
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: Colors.transparent,
-                                isDense: true,
-                                contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 10.0, vertical: 15),
-                                hintText: "Price",
-                                hintStyle: const TextStyle(
-                                    fontSize: 15,
-                                    fontFamily: interRegular,
-                                    color: ColorConstant.addPriceListText
-                                ),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: const BorderSide(
-                                    width: 2.0,
-                                  ), // BorderSide
-                                ),
-                                // OutlineInputBorder
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: const BorderSide(
-                                      width: 1.5,
-                                      color: ColorConstant.addPriceListText
-                                  ), // BorderSide
-                                ),
-                                // OutlineInputBorder
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: const BorderSide(
-                                      width: 2.0,
-                                      color: ColorConstant.addPriceListText
-                                  ), // BorderSide
-                                ), // OutlineInputBorder
-                              ),
-                              style: const TextStyle(
-                                  fontSize: 15,
-                                  fontFamily: interRegular,
-                                  color: ColorConstant.redeemTextDark), // InputDecoration
-                            ),
-                          ),
-                          SizedBox(width: 10,),
-                          Image.asset(
-                            height: 25,
-                            width: 25,
-                            AppImages.removePrice,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                ],
-                  ),
+  customDropDown(BuildContext context, Function()onTap,String title, Color color){
+    return  GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: 48,
+        width: double.infinity,
+        padding:const EdgeInsets.only(left: 15,right: 15),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+            color: ColorConstant.addMoney,
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text(  title,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    fontSize: 13,
+                    fontFamily: interRegular,
+                    color:color,
+                    fontWeight: FontWeight.w500
+                ),
               ),
             ),
-          );
-        },
+            ScreenSize.width(3),
+            Image.asset(
+              height: 12,
+              width: 12,
+              AppImages.arrowRegister,
+            )
+          ],
+        ),
       ),
     );
+    ;
   }
-
-  subCategory(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            contentPadding: EdgeInsets.zero,
-            content: StatefulBuilder(builder: (context, state) {
-              return Container(
-                height: 350,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Obx(
-                          () => Container(
-                        height: 300,
-                        child: ListView.builder(
-                            physics: ScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: controller.subCategoryList.length,
-                            itemBuilder: (context, index) {
-                              SubCategoryPriceModel model = SubCategoryPriceModel.fromJson(controller.subCategoryList[index]);
-                              return Column(
-                                children: [
-                                  Obx(
-                                        () => GestureDetector(
-                                        behavior: HitTestBehavior.opaque,
-                                        onTap: () {
-                                          if (controller.stringList.contains(controller.subCategoryList[index].toString())) {
-                                            controller.stringList.remove(controller.subCategoryList[index].toString());
-                                            print(controller.stringList[index].toString());
-                                          } else {
-                                            controller.stringList.add(model.name.toString());
-                                            controller.subCategoryIdList.add(model.id.toString());
-
-                                            //
-                                            //  showToast((controller.subCategoryIdList).join(","));
-
-
-
-                                          }
-                                        },
-                                        child: ListTile(
-                                          title: Text(model.name.toString()),
-                                          trailing: Container(
-                                            height: 20,
-                                            width: 20,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                              BorderRadius.circular(2),
-                                              border: Border.all(
-                                                color: controller.stringList.contains(model.name.toString())
-                                                    ? Colors.blue
-                                                    : Colors.grey.shade500,
-                                              ),
-                                              color: controller.stringList.contains(model.name.toString())
-                                                  ? Colors.blue
-                                                  : Colors.white,
-                                            ),
-                                            child: controller.stringList.contains(model.name.toString())
-                                                ? const Icon(
-                                              Icons.check,
-                                              color: Colors.white,
-                                              size: 14,
-                                            )
-                                                : null,
-                                          ),
-                                        )),
-                                  ),
-                                ],
-                              );
-                            }),
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.only(
-                          left: 15, right: 15, bottom: 10, top: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          GestureDetector(
-                            behavior: HitTestBehavior.opaque,
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: getText(
-                                title: "Cancel",
-                                size: 17,
-                                fontFamily: interRegular,
-                                color: ColorConstant.onBoardingBack,
-                                fontWeight: FontWeight.w100),
-                          ),
-                          SizedBox(
-                            width: 25,
-                          ),
-                          GestureDetector(
-                            behavior: HitTestBehavior.opaque,
-                            onTap: () {
-                              controller.selectedSubCategoryType.value == ""
-                                  ? showToast("Please Select Category")
-                                  : Navigator.pop(context);
-                            },
-                            child: getText(
-                                title: "Ok",
-                                size: 17,
-                                fontFamily: interRegular,
-                                color: ColorConstant.onBoardingBack,
-                                fontWeight: FontWeight.w500),
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              );
-            }),
-          );
-        });
-  }*/
 
   categoryDialogBox(BuildContext context) {
     showDialog(
@@ -919,7 +574,7 @@ class AddPriceListScreen extends GetView<PriceListController> {
                             onTap: () {
                               Navigator.pop(context);
                             },
-                            child: Icon(
+                            child:const Icon(
                               Icons.close,
                               size: 20,
                               color: ColorConstant.onBoardingBack,
@@ -928,7 +583,7 @@ class AddPriceListScreen extends GetView<PriceListController> {
                         ],
                       ),
                     ),
-                    SizedBox(
+                   const SizedBox(
                       height: 5,
                     ),
                     Container(
@@ -965,7 +620,6 @@ class AddPriceListScreen extends GetView<PriceListController> {
                                           model.name.toString();
                                       controller.categoryId.value =
                                           model.id.toString();
-
                                       controller.selectedCategoryType.value != (-1)
                                           ? controller.addTopicList.clear()
                                           : SizedBox();
@@ -1031,8 +685,10 @@ class AddPriceListScreen extends GetView<PriceListController> {
                               if (controller.selectedCategoryType.value == -1) {
                                 showToast("Please Select Category");
                               } else {
+                                controller.addTopicList.clear();
                                 controller.updateItems();
                                 Navigator.pop(context);
+                                controller.getSubCategoryApiFunction(controller.categoryId.value);
                               }
                             },
                             child: const getText(
@@ -1052,4 +708,160 @@ class AddPriceListScreen extends GetView<PriceListController> {
           );
         });
   }
+
+
+  subCategoryDialogBox(BuildContext context,var model) {
+    String value = '';
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            backgroundColor: ColorConstant.white,
+            contentPadding: EdgeInsets.zero,
+            content: StatefulBuilder(builder: (context, state) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 20, right: 10, bottom: 5, top: 10),
+                    child: Row(
+                      children: [
+                        getText(
+                            title: "Sub Category",
+                            size: 14,
+                            fontFamily: interRegular,
+                            color: ColorConstant.blackColor,
+                            fontWeight: FontWeight.w500),
+                        const Spacer(),
+                        GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child:const Icon(
+                            Icons.close,
+                            size: 20,
+                            color: ColorConstant.onBoardingBack,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    color: ColorConstant.dividerColor,
+                    height: 1,
+                  ),
+                  Container(
+                    constraints:const BoxConstraints(
+                        maxHeight: 300,
+                        minHeight: 100
+                    ),
+                    width: MediaQuery.of(context).size.width,
+                    // color: Colors.white,
+                    child:controller.subCatModel.value!=null&& controller.subCatModel.value!.data!=null?
+                    ListView.builder(
+                        physics: const ScrollPhysics(),
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        padding: const EdgeInsets.only(
+                            left: 15, right: 10, bottom: 15, top: 4),
+                        itemCount: controller.subCatModel.value!.data!.length,
+                        itemBuilder: (context, index) {
+                          return Column(
+                            children: [
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Obx(
+                                    () => GestureDetector(
+                                  behavior: HitTestBehavior.opaque,
+                                  onTap: () {
+                                    state((){});
+                                    model.subCatId.value = controller.subCatModel.value.data![index].id.toString();
+                                   value = controller.subCatModel.value.data![index].name.toString();
+                                  },
+                                  child: Row(
+                                    children: [
+                                      checkBoxWidget(controller.subCatModel.value.data![index].id.toString()==model.subCatId.value?
+                                      ColorConstant.onBoardingBack:ColorConstant.white
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        controller.subCatModel.value.data![index].name.toString(),
+                                        style: const TextStyle(
+                                          color: ColorConstant.greyColor,
+                                          fontSize: 14,
+                                          fontFamily: interRegular,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        }):
+                    Align(
+                      alignment: Alignment.center,
+                      child: noDataFound(),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(
+                        left: 15, right: 15, bottom: 10, top: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: const getText(
+                              title: "Cancel",
+                              size: 17,
+                              fontFamily: interRegular,
+                              color: ColorConstant.onBoardingBack,
+                              fontWeight: FontWeight.w100),
+                        ),
+                        const  SizedBox(
+                          width: 25,
+                        ),
+                        GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: () {
+                            if(value.isNotEmpty){
+                              model.title.value=value;
+                            state((){});
+                              Navigator.pop(context);
+                            }
+                            else{
+                              Fluttertoast.showToast(msg: "Please Select Sub Category");
+                            }
+                          },
+                          child: const getText(
+                              title: "Ok",
+                              size: 17,
+                              fontFamily: interRegular,
+                              color: ColorConstant.onBoardingBack,
+                              fontWeight: FontWeight.w500),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              );
+            }),
+          );
+        });
+  }
+
 }

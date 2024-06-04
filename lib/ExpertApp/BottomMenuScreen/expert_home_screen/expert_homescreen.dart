@@ -145,30 +145,17 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
                                 children: [
                                   Row(
                                     children: [
-                                      controller.status.value == "1"
-                                          ? Text(
-                                        "Open Now",
-                                        overflow:
-                                        TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          fontFamily: interMedium,
-                                          color: ColorConstant
-                                              .greenColor,
-                                          fontWeight:
-                                          FontWeight.w500,
-                                        ),
-                                      )
-                                          : Text(
-                                        "Close Now",
+                                      Text(
+                                        controller.status.value == "1"
+                                            ?   "Open Now":"Close Now",
                                         overflow:
                                         TextOverflow.ellipsis,
                                         style: TextStyle(
                                           fontSize: 14,
+                                          letterSpacing: .6,
                                           fontFamily: interMedium,
-                                          letterSpacing: 0.6,
-                                          color: ColorConstant
-                                              .greenColor,
+                                          color:controller.status.value == "1"? ColorConstant
+                                              .greenColor:ColorConstant.redColor,
                                           fontWeight:
                                           FontWeight.w500,
                                         ),
@@ -176,7 +163,7 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
                                       Text(
                                         "",
                                         overflow: TextOverflow.ellipsis,
-                                        style: new TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 14.0,
                                           letterSpacing: 0.6,
                                           fontFamily: interMedium,
@@ -1247,7 +1234,7 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
                           title: controller.spacialOffer[index]['type'] ==
                               'discount'
                               ? "${controller.spacialOffer[index]['discount_pecent'].toString()}% Discount"
-                              : controller.spacialOffer[index]['type']
+                              : "BUY 1 GET 1 FREE"
                               .toString()
                               .toUpperCase(),
                           size: 14,
