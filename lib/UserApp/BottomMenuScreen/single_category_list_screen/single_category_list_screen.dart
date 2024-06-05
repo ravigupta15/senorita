@@ -69,18 +69,23 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
                               Get.toNamed(AppRoutes.searchScreen);
                             })),
                     ScreenSize.width(10),
-                    Container(
-                      height: 49,
-                      width: 49,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: Color(0xffD9D9D9))),
-                      alignment: Alignment.center,
-                      child: Image.asset(
-                        AppImages.filterIcon,
-                        height: 20,
-                        width: 20,
-                        color: Color(0xff767676),
+                    GestureDetector(
+                      onTap: (){
+                        Get.toNamed(AppRoutes.filterScreen);
+                      },
+                      child: Container(
+                        height: 49,
+                        width: 49,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: Color(0xffD9D9D9))),
+                        alignment: Alignment.center,
+                        child: Image.asset(
+                          AppImages.filterIcon,
+                          height: 20,
+                          width: 20,
+                          color: Color(0xff767676),
+                        ),
                       ),
                     )
                   ],

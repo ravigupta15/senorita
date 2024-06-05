@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+
 class ExpertCategorySubCatModel {
   dynamic success;
   List<Data>? data;
@@ -5,6 +7,7 @@ class ExpertCategorySubCatModel {
   dynamic message;
   dynamic selectedIndex = -1;
   dynamic selectedCategory = '';
+  dynamic selectedList=[];
 
   ExpertCategorySubCatModel({this.success, this.data, this.baseUrl, this.message});
 
@@ -36,6 +39,7 @@ class Data {
   dynamic id;
   dynamic categoryId;
   dynamic name;
+  final isSelected=false.obs;
   dynamic iconImage;
   dynamic createdAt;
   dynamic updatedAt;
