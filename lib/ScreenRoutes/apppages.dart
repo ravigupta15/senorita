@@ -18,6 +18,8 @@ import 'package:senorita/ExpertApp/searchLocationMap/searchLocationScreen.dart';
 import 'package:senorita/ScreenRoutes/routes.dart';
 import 'package:senorita/UserApp/BottomMenuScreen/editProfile/binding/editProfile_binding.dart';
 import 'package:senorita/UserApp/BottomMenuScreen/editProfile/editProfile_screen.dart';
+import 'package:senorita/UserApp/BottomMenuScreen/filter/filter_binding.dart';
+import 'package:senorita/UserApp/BottomMenuScreen/filter/filter_screen.dart';
 import 'package:senorita/UserApp/BottomMenuScreen/home_screen/binding/search_binding.dart';
 import 'package:senorita/UserApp/BottomMenuScreen/home_screen/search_screen.dart';
 import 'package:senorita/UserApp/BottomMenuScreen/payment_screen/binding/payment_binding.dart';
@@ -456,6 +458,12 @@ class AppPages {
       transition: Transition.rightToLeftWithFade,
       // transition: Transition.rightToLeftWithFade
     ),
+
+    GetPage(
+        name: AppRoutes.filterScreen,
+        page: () =>  FilterScreen(),
+        binding: FilterBinding(),
+        transition: Transition.cupertino),
 
 
 

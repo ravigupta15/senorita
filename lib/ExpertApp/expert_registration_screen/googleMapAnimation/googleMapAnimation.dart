@@ -21,8 +21,8 @@ class GoogleMapAnimation extends GetView<MapAnimationController> {
   @override
   Widget build(BuildContext context) {
     //controller.getUserLocation();
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark
-        .copyWith(statusBarBrightness: Brightness.light));
+    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark
+    //     .copyWith(statusBarBrightness: Brightness.light));
     return Scaffold(
       body: Container(
         decoration: new BoxDecoration(

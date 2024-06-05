@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:senorita/ExpertApp/BottomMenuScreen/specialoffers/model/expert_category_model.dart';
+import 'package:senorita/ExpertApp/BottomMenuScreen/specialoffers/model/expert_category_subcat_model.dart';
 import 'package:senorita/ExpertApp/BottomMenuScreen/specialoffers/model/expert_subcategory_model.dart';
 import 'package:senorita/utils/showcircledialogbox.dart';
 import 'package:senorita/utils/utils.dart';
@@ -16,6 +17,7 @@ import '../../../../api_config/Api_Url.dart';
 import '../../../../helper/getText.dart';
 import '../../../../utils/color_constant.dart';
 import '../../../../utils/stringConstants.dart';
+import '../model/expert_subcat_cat_subcat_model.dart';
 
 class AddOfferController extends GetxController{
 final selectedOfferType =0.obs;
@@ -39,8 +41,8 @@ final buyEndDateController =TextEditingController();
 final buyEndTimeController =TextEditingController();
 
 
-final selectedDiscountCategory = ''.obs;
 final selectedDiscountCategoryId = ''.obs;
+final selectedDiscountCategory = ''.obs;
 final selectedBuyCategory = ''.obs;
 final selectedBuyCategoryId = ''.obs;
 final selectedDiscountSubCat = [].obs;
@@ -64,11 +66,11 @@ TimeOfDay buyStartTime= const TimeOfDay(hour: 12, minute: 00);
 TimeOfDay buyEndTime =const TimeOfDay(hour: 12, minute: 00);
 
 
-var discountCategoryModel = ExpertCategoryModel().obs;
-var buyCategoryModel = ExpertCategoryModel().obs;
-var discountSubCatModel = ExpertSubCategoryModel().obs;
-var buySubCatModel =  ExpertSubCategoryModel().obs;
-var getSubCatModel =  ExpertSubCategoryModel().obs;
+var discountCategoryModel = ExpertCategorySubCatModel().obs;
+var buyCategoryModel = ExpertCategorySubCatModel().obs;
+var discountSubCatModel = ExpertSubCatCatSubCatModel().obs;
+var buySubCatModel =  ExpertSubCatCatSubCatModel().obs;
+var getSubCatModel =  ExpertSubCatCatSubCatModel().obs;
 
 @override
 void onInit() async {
@@ -82,11 +84,46 @@ void onInit() async {
 
 
 getCategoryApiFunction() async {
-  final response = await ApiConstants.getWithToken(
-      url: ApiUrls.categoryApiUrl, useAuthToken: true);
+  var body = {
+    'category':'1'
+  };
+  final response = await ApiConstants.post(url: ApiUrls.expertSubCategoriesApiUrl,body: body);
+  if (response != null && response['success'] == true) {
     if (response!=null&& response['success']!=false&& response['data'] != null) {
-      discountCategoryModel.value = ExpertCategoryModel.fromJson(response);
-      buyCategoryModel.value = ExpertCategoryModel.fromJson(response);
+      discountCategoryModel.value = ExpertCategorySubCatModel.fromJson(response);
+      buyCategoryModel.value = ExpertCategorySubCatModel.fromJson(response);
+    }
+  }
+
+}
+
+
+getSubCategoryApiFunction(String id) async {
+  showCircleProgressDialog(navigatorKey.currentContext!);
+  var body = {
+    'sub_category_id':id
+  };
+  final response = await ApiConstants.post(url: ApiUrls.getSubCategoryListUrl,body: body);
+  Get.back();
+  if (response != null && response['success'] == true) {
+    if (response!=null&& response['success']!=false&& response['data'] != null) {
+      if (selectedOfferType.value == 0) {
+        discountSubCatModel.value = ExpertSubCatCatSubCatModel.fromJson(response);
+      }
+      else {
+        buySubCatModel.value = ExpertSubCatCatSubCatModel.fromJson(response);
+        getSubCatModel.value = ExpertSubCatCatSubCatModel.fromJson(response);
+      }
+    }
+  }
+  else{
+    if (selectedOfferType.value == 0) {
+      discountSubCatModel.value = ExpertSubCatCatSubCatModel.fromJson(response);
+    }
+    else {
+      buySubCatModel.value = ExpertSubCatCatSubCatModel.fromJson(response);
+      getSubCatModel.value = ExpertSubCatCatSubCatModel.fromJson(response);
+    }
   }
 }
 
@@ -227,36 +264,6 @@ else{
 }
 
 
-
-
-getSubCategoryApiFunction(String id) async {
-  showCircleProgressDialog(navigatorKey.currentContext!);
-  var body = {
-    'category':id
-  };
-  final response = await ApiConstants.post(url: ApiUrls.expertSubCategoriesApiUrl,body: body);
-  Get.back();
-  if (response != null && response['success'] == true) {
-    if (response!=null&& response['success']!=false&& response['data'] != null) {
-      if (selectedOfferType.value == 0) {
-        discountSubCatModel.value = ExpertSubCategoryModel.fromJson(response);
-      }
-      else {
-        buySubCatModel.value = ExpertSubCategoryModel.fromJson(response);
-        getSubCatModel.value = ExpertSubCategoryModel.fromJson(response);
-      }
-    }
-    }
-    else{
-    if (selectedOfferType.value == 0) {
-      discountSubCatModel.value = ExpertSubCategoryModel.fromJson(response);
-    }
-    else {
-      buySubCatModel.value = ExpertSubCategoryModel.fromJson(response);
-      getSubCatModel.value = ExpertSubCategoryModel.fromJson(response);
-    }
-    }
-  }
 
 DateTime selectedDate = DateTime.now();
 

@@ -152,9 +152,9 @@ class SalonDetailScreen extends GetView<SalonDetailController> {
                                                 children: [
                                                   Row(
                                                     children: [
-                                                      controller.status.value == "1"
-                                                          ? Text(
-                                                              "Open Now",
+                                                      Text(
+                                                        controller.status.value == "1"
+                                                            ?"Open Now":"Close Now",
                                                               overflow:
                                                                   TextOverflow.ellipsis,
                                                               style: TextStyle(
@@ -167,20 +167,7 @@ class SalonDetailScreen extends GetView<SalonDetailController> {
                                                                     FontWeight.w500,
                                                               ),
                                                             )
-                                                          : Text(
-                                                              "Close Now",
-                                                              overflow:
-                                                                  TextOverflow.ellipsis,
-                                                              style: TextStyle(
-                                                                fontSize: 14,
-                                                                fontFamily: interMedium,
-                                                                letterSpacing: 0.6,
-                                                                color: ColorConstant
-                                                                    .greenColor,
-                                                                fontWeight:
-                                                                    FontWeight.w500,
-                                                              ),
-                                                            ),
+                                                          ,
                                                       Text(
                                                         "",
                                                         overflow: TextOverflow.ellipsis,
@@ -1543,7 +1530,7 @@ class SalonDetailScreen extends GetView<SalonDetailController> {
                       getText(
                           title: controller.spacialOffer[index]['type'] ==
                                   'discount'
-                              ? "${controller.spacialOffer[index]['discount_pecent'].toString()}% Discount"
+                              ? "Flat ${controller.spacialOffer[index]['discount_pecent'].toString()}% Discount"
                               : "BUY 1 GET 1 FREE",
                           size: 14,
                           fontFamily: interSemiBold,

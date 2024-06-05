@@ -1233,7 +1233,7 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
                       getText(
                           title: controller.spacialOffer[index]['type'] ==
                               'discount'
-                              ? "${controller.spacialOffer[index]['discount_pecent'].toString()}% Discount"
+                              ? "Flat ${controller.spacialOffer[index]['discount_pecent'].toString()}% Discount"
                               : "BUY 1 GET 1 FREE"
                               .toString()
                               .toUpperCase(),

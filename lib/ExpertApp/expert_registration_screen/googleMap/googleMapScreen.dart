@@ -43,8 +43,8 @@ class GoogleMapScreen extends GetView<MapController> {
     }*/
     controller.getUserLocation();
 
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark
-        .copyWith(statusBarBrightness: Brightness.light));
+    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark
+    //     .copyWith(statusBarBrightness: Brightness.light));
     return WillPopScope(
       onWillPop: () async {
         controller.screenName == "EditProfile"

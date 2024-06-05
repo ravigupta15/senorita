@@ -8,7 +8,7 @@ import 'getText.dart';
 
 AppBar appBar(BuildContext context, String title, Function() onTap,{isShowLeading =true}) {
   return AppBar(
-    backgroundColor: Colors.transparent,
+    backgroundColor: Colors.white,
     elevation: 0,
     scrolledUnderElevation: 0.0,
     leadingWidth: 28,

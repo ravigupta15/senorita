@@ -25,10 +25,10 @@ class HomeScreen extends GetView<DashboardController> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      systemNavigationBarColor: Colors.white, // navigation bar color
-      statusBarColor: Colors.black, // status bar color
-    ));
+    // SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    //   systemNavigationBarColor: Colors.white, // navigation bar color
+    //   statusBarColor: Colors.black, // status bar color
+    // ));
     return Scaffold(
       appBar: appBar(context, () => null),
       backgroundColor: ColorConstant.white,

@@ -20,6 +20,7 @@ import '../../../../utils/toast.dart';
 import '../../../../widget/error_box.dart';
 import '../../expert_dashboard_screen/controller/dashboard_controller.dart';
 import '../../expert_profile_screen/controller/expert_profile_controller.dart';
+import '../../specialoffers/model/expert_subcategory_model.dart';
 
 class ExpertEditProfileController extends GetxController {
   final fullNameController = TextEditingController();
@@ -41,7 +42,8 @@ class ExpertEditProfileController extends GetxController {
 
   final aboutUsController = TextEditingController();
 
-
+  var subCatModel = ExpertSubCategoryModel().obs;
+ List selectedSubCatList = [].obs;
   ExpertDashboardController dashboardController=ExpertDashboardController();
 
   final userFormKey = GlobalKey<FormState>();
@@ -120,7 +122,7 @@ class ExpertEditProfileController extends GetxController {
   @override
   void onInit() async{
     SizeConfig().init();
-
+getCategoryApiFunction();
     addressString.value = Get.parameters['address'] ?? 'Current Address';
     cityString.value = Get.parameters['city'].toString() ?? '';
     stateString.value = Get.parameters['state'].toString() ?? '';
@@ -183,13 +185,10 @@ class ExpertEditProfileController extends GetxController {
     }
     if(profileController.model!=null&&profileController.model.value.data!=null&&profileController.model.value!.data!.expertSubcats!=null){
       for (int i = 0; i < profileController.model.value!.data!.expertSubcats!.length; i++) {
-        EditSubCategoryModel model = EditSubCategoryModel(
-            profileController.model.value!.data!.expertSubcats![i].expertId.toString(),
-            profileController.model.value!.data!.expertSubcats![i].name.toString()
-        );
-        subCategoryIdList.add(model.id);
-        subCategoryNameList.add(model.name);
-        subCategoryList.add(model);
+        selectedSubCatList.add({
+          'name':profileController.model.value!.data!.expertSubcats![i].name,
+          'id':profileController.model.value!.data!.expertSubcats![i].expertId.toString()
+        });
       }
     }
 
@@ -300,13 +299,14 @@ class ExpertEditProfileController extends GetxController {
 
 
   submitExpertProfileApi(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     showCircleProgressDialog(Get.context!);
     isLoading.value = true;
     var headers = {
       'Authorization': 'Bearer'+token
     };
     var request = http.MultipartRequest('POST', Uri.parse(ApiUrls.updateExpertProfileDetail,));
-    var stringSubCategory=subCategoryIdList.join(",");
+    // var stringSubCategory=subCategoryIdList.join(",");
     request.fields.addAll({
       'name': fullNameController.text.toString(),
       'mobile': numberController.text.toString(),
@@ -317,12 +317,11 @@ class ExpertEditProfileController extends GetxController {
       'lat': latString.toString(),
       'lng': lngString.toString(),
       'category_id': categoryId.toString(),
-      'sub_categories': stringSubCategory.toString(),
+      'sub_categories': selectedSubCatList.isNotEmpty? selectedSubCatList.map((e) => e['id']).join(','):'',
       'experience': expController.text.toString(),
       'kodago_card_url': kodagoCardController.text.toString(),
       'about': aboutUsController.text.toString(),
-      'device_token': "dJuWepgXRnK-orOuvSS0Be:APA91bEW6fLfWOAaOu8bqRekvCjEfgjGHL0xffPpZSSQSNfZD5"
-          "HfV_4KHzJdIss6dy0UAtdjD-N8_MlhmZcFMJNbdVjrOtxbZWTi47ig3To0nA0NpQfmSnPwQlmP64xNpNklyWRSmPCB",
+      'device_token': prefs.getString('fcmToken').toString(),
     });
     request.headers.addAll(headers);
 
@@ -382,8 +381,8 @@ class ExpertEditProfileController extends GetxController {
    //   Navigator.of(context).pop();
       final result = jsonDecode(response.body) as Map<String, dynamic>;
       if (result["success"] == true) {
-
-        subCategoryList.value = result['data'];
+        subCatModel.value = ExpertSubCategoryModel.fromJson(result);
+        // subCategoryList.value = result['data'];
 
       }
       else

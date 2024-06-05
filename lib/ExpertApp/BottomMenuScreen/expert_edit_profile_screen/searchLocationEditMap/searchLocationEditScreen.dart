@@ -20,8 +20,8 @@ import 'controller/searchEditLocationController.dart';
 class SearchEditLocationScreen extends GetView<SearchEditLocationController> {
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark
-        .copyWith(statusBarBrightness: Brightness.light));
+    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark
+    //     .copyWith(statusBarBrightness: Brightness.light));
     return WillPopScope(
       onWillPop: () async {
         Get.back();

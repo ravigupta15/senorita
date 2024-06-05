@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -17,7 +18,9 @@ import '../../../utils/size_config.dart';
 import '../../../utils/stringConstants.dart';
 import '../../../utils/toast.dart';
 import '../../../utils/validation.dart';
+import '../../../widget/checkbox_widget.dart';
 import '../../../widget/customTextField.dart';
+import '../../../widget/no_data_found.dart';
 import '../../expert_registration_screen/googleMap/googleMapScreen.dart';
 import '../../expert_registration_screen/models/category_model.dart';
 import '../../expert_registration_screen/models/city_model.dart';
@@ -75,7 +78,6 @@ class ExpertEditProfileScreen extends GetView<ExpertEditProfileController> {
                                 .validate()) {
                               controller.submitExpertProfileApi(context)
                                   .then((value) {
-
                                 return null;
                               });
                             } else {
@@ -404,6 +406,21 @@ class ExpertEditProfileScreen extends GetView<ExpertEditProfileController> {
                     child: GestureDetector(
                       onTap: ()
                       {
+                        // for(int i=0;i<controller.subCatModel.value.data!.length;i++){
+                        //   for(int j=0;j<controller.selectedSubCatList.length;j++){
+                        //     print(controller.selectedSubCatList[j]['id']);
+                        //     if(controller.subCatModel.value.data![i].id.toString()==controller.selectedSubCatList[j]['id'].toString()){
+                        //       print('sdgdf');
+                        //       controller.subCatModel.value.data![i].isSelected=true;
+                        //       controller.subCatModel.value.selectedList.add({
+                        //         'name':controller.selectedSubCatList[j]['name'],
+                        //         'id':controller.selectedSubCatList[j]['id']
+                        //       }
+                        //       );
+                        //     }
+                        //   }
+
+                        // }
                         subCategory(context);
                       },
                       child: Row(
@@ -437,14 +454,13 @@ class ExpertEditProfileScreen extends GetView<ExpertEditProfileController> {
                   Padding(
                     padding: const EdgeInsets.only(left: 10),
                     child: Obx(
-                      () => ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
+                      () =>controller.selectedSubCatList.isNotEmpty? ListView.builder(
+                        physics:const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: controller.subCategoryNameList.length,
+                        itemCount: controller.selectedSubCatList.length,
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             onTap: () {
-
                             },
                             child: Padding(
                               padding: const EdgeInsets.only(
@@ -453,7 +469,7 @@ class ExpertEditProfileScreen extends GetView<ExpertEditProfileController> {
                                 children: [
                                   getText(
                                       title:
-                                          controller.subCategoryNameList[index],
+                                          controller.selectedSubCatList[index]['name'].toString(),
                                       size: 13,
                                       fontFamily: interRegular,
                                       color: ColorConstant.qrViewText,
@@ -462,10 +478,19 @@ class ExpertEditProfileScreen extends GetView<ExpertEditProfileController> {
                                   GestureDetector(
                                     onTap: ()
                                     {
-                                      controller.subCategoryNameList.removeAt(index);
-                                      controller.subCategoryIdList.removeAt(index);
-                                  //    model.id.toString()
-
+                                      // controller.subCatModel.value.selectedList.removeAt(index);
+                                      for(int i=0;i<controller.subCatModel.value.data!.length;i++){
+                                        if(controller.subCatModel.value.data![i].id==controller.selectedSubCatList[index]['id']){
+                                          print('sdfsd$i');
+                                          controller.subCatModel.value.data![i].isSelected=false;
+                                        }
+                                      }
+                                      for(int j=0;j<controller.subCatModel.value.selectedList.length;j++){
+                                        if(controller.subCatModel.value.selectedList[j]['id']==controller.selectedSubCatList[index]['id']){
+                                          controller.subCatModel.value.selectedList.removeAt(j);
+                                        }
+                                      }
+                                      controller.selectedSubCatList.removeAt(index);
                                     },
                                     child: Container(
                                       decoration: const BoxDecoration(
@@ -484,7 +509,7 @@ class ExpertEditProfileScreen extends GetView<ExpertEditProfileController> {
                             ),
                           );
                         },
-                      ),
+                      ):Container(),
                     ),
                   )
                 ],
@@ -553,7 +578,6 @@ class ExpertEditProfileScreen extends GetView<ExpertEditProfileController> {
   }
 
   categoryDialogBox(BuildContext context) {
-    controller.getCategoryApiFunction();
     showDialog(
         context: context,
         builder: (context) {
@@ -730,7 +754,7 @@ class ExpertEditProfileScreen extends GetView<ExpertEditProfileController> {
                           onTap: () {
                             Navigator.pop(context);
                           },
-                          child: Icon(
+                          child:const Icon(
                             Icons.close,
                             size: 20,
                             color: ColorConstant.onBoardingBack,
@@ -739,7 +763,7 @@ class ExpertEditProfileScreen extends GetView<ExpertEditProfileController> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 5,),
+                const  SizedBox(height: 5,),
                   Container(
                     width: MediaQuery.of(context).size.width,
                     color: ColorConstant.dividerColor,
@@ -749,142 +773,63 @@ class ExpertEditProfileScreen extends GetView<ExpertEditProfileController> {
                         () => Container(
                       width: double.maxFinite,
                       height: 300,
-                      child: ListView.builder(
+                      child:controller.subCatModel.value!=null&& controller.subCatModel.value!.data!=null?
+                      ListView.separated(
+                        separatorBuilder: (context,sp){
+                          return const SizedBox(height: 12,);
+                        },
                           physics: const ScrollPhysics(),
                           shrinkWrap: true,
-                          itemCount: controller.subCategoryList.length,
+                          padding: const EdgeInsets.only(
+                              left: 15, right: 10, bottom: 15, top: 4),
+                          itemCount: controller.subCatModel.value.data!.length,
                           itemBuilder: (context, index) {
-                            SubCategoryModel model =
-                            SubCategoryModel.fromJson(controller.subCategoryList[index]);
                             return Column(
                               children: [
                                 Obx(() => GestureDetector(
                                     behavior: HitTestBehavior.opaque,
                                     onTap: () {
-                                     /* // controller.subCategoryNameList.add(model.name.toString());
-                                      // controller.subCategoryIdList.add(model.id.toString());
-                                      if (controller.subCategoryNameList.contains(model.name.toString())) {
-                                        controller.subCategoryNameList.removeAt(index);
-                                        controller.subCategoryList..removeAt(index);
-                                        controller.subCategoryIdList.removeAt(index);
-                                        state;
-                                      }
-                                      else {
-                                        controller.subCategoryNameList.add(model.name.toString());
-                                        controller.subCategoryIdList.add(model.id.toString());
-                                      }
-*/
-                                      bool isContains = false;
-                                      for (int i = 0;
-                                      i <
-                                          controller.subCategoryNameList
-                                              .length;
-                                      i++) {
-                                        print(controller
-                                            .subCategoryNameList[i]);
-                                        if (controller
-                                            .subCategoryNameList[i] ==
-                                            model.name) {
-                                          isContains = true;
-                                          print(
-                                              "if...${controller.subCategoryNameList[i]}");
-                                          controller.subCategoryNameList
-                                              .removeAt(i);
-                                          controller.subCategoryIdList
-                                              .removeAt(i);
+                                      state((){});
+                                      if(controller.subCatModel.value.data![index].isSelected==false){
+                                        controller.subCatModel.value.data![index].isSelected=true;
+                                        controller.subCatModel.value.selectedList.add({
+                                          "name": controller.subCatModel.value.data![index].name,
+                                          "id": controller.subCatModel.value.data![index].id
+                                        }
+                                        );
 
-                                          break;
+                                      }
+                                      else{
+                                        controller.subCatModel.value.data![index].isSelected=false;
+                                        for(int i=0;i<controller.subCatModel.value.selectedList.length;i++){
+                                          if(controller.subCatModel.value.selectedList[i]['id']==controller.subCatModel.value.data![index].id){
+                                            controller.subCatModel.value.selectedList.removeAt(i);
+                                          }
                                         }
                                       }
-
-                                      if (!isContains) {
-                                        controller.subCategoryNameList
-                                            .add(model.name.toString());
-                                        controller.subCategoryIdList
-                                            .add(model.id.toString());
-                                      }
-
                                     },
-                                    child: /*ListTile(
-                                      title:  Text(model.name.toString(),
-                                        style: const TextStyle(
-                                          color: ColorConstant.greyColor,
-                                          fontSize: 13,
-                                          fontFamily: interRegular,
+                                    child: Row(
+                                      children: [
+                                        checkBoxWidget(controller.subCatModel.value.data![index].isSelected==true?
+                                        ColorConstant.onBoardingBack:ColorConstant.white
                                         ),
-                                      ),
-                                      trailing: Container(
-                                        height: 20,
-                                        width: 20,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                          BorderRadius.circular(2),
-                                          border: Border.all(
-                                            color: controller.subCategoryNameList
-                                                .contains(model.name
-                                                .toString())
-                                                ? Colors.blue
-                                                : Colors.grey.shade500,
-                                          ),
-                                          color: controller.subCategoryNameList
-                                              .contains(
-                                              model.name.toString())
-                                              ? Colors.blue
-                                              : Colors.white,
+                                        const SizedBox(
+                                          width: 10,
                                         ),
-                                        child: controller.subCategoryNameList
-                                            .contains(
-                                            model.name.toString())
-                                            ? const Icon(
-                                          Icons.check,
-                                          color: Colors.white,
-                                          size: 14,
-                                        )
-                                            : null,
-                                      ),
-                                    )*/
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 15,right: 15,top: 10,bottom: 10),
-                                      child: Row(
-                                        children: [
-                                          Text(model.name.toString(),
-                                            style: const TextStyle(
-                                              color: ColorConstant.greyColor,
-                                              fontSize: 13,
-                                              fontFamily: interRegular,
-                                            ),
+                                        Text(
+                                          controller.subCatModel.value.data![index].name.toString(),
+                                          style: const TextStyle(
+                                            color: ColorConstant.greyColor,
+                                            fontSize: 14,
+                                            fontFamily: interRegular,
                                           ),
-                                          Spacer(),
-                                          Container(
-                                            height: 20,
-                                            width: 20,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                              BorderRadius.circular(2),
-                                              border: Border.all(
-                                                color: controller.subCategoryNameList.contains(model.name.toString())
-                                                    ? Colors.blue
-                                                    : Colors.grey.shade500,
-                                              ),
-                                              color: controller.subCategoryNameList.contains(model.name.toString())
-                                                  ? Colors.blue
-                                                  : Colors.white,
-                                            ),
-                                            child: controller.subCategoryNameList.contains(model.name.toString())
-                                                ? const Icon(
-                                              Icons.check,
-                                              color: Colors.white,
-                                              size: 13,
-                                            )
-                                                : null,
-                                          ),
-                                        ],
-                                      ),
-                                    )
+                                        ),
+                                      ],
+                                    ),
                                 ),
                                 ),
                                 Padding(
-                                  padding:  EdgeInsets.only(left:15,right:10),
+                                  padding:const  EdgeInsets.only(left:15,right:10),
                                   child: Container(
                                     width: MediaQuery.of(context).size.width,
                                     color: ColorConstant.dividerColor,
@@ -893,7 +838,10 @@ class ExpertEditProfileScreen extends GetView<ExpertEditProfileController> {
                                 ),
                               ],
                             );
-                          }),
+                          }) :Align(
+                        alignment: Alignment.center,
+                        child: noDataFound(),
+                      ),
                     ),
                   ),
                   Container(
@@ -907,24 +855,39 @@ class ExpertEditProfileScreen extends GetView<ExpertEditProfileController> {
                           onTap: () {
                             Navigator.pop(context);
                           },
-                          child: getText(
+                          child:const getText(
                               title: "Cancel",
                               size: 14,
                               fontFamily: interRegular,
                               color: ColorConstant.onBoardingBack,
                               fontWeight: FontWeight.w100),
                         ),
-                        SizedBox(
+                       const SizedBox(
                           width: 25,
                         ),
                         GestureDetector(
                           behavior: HitTestBehavior.opaque,
                           onTap: () {
-                            controller.selectedSubCategoryType.value == ""
-                                ? showToast("Please Select Category")
-                                : Navigator.pop(context);
+                            if(controller.subCatModel.value.selectedList.isNotEmpty) {
+                              controller.selectedSubCatList.clear();
+                              for (int i = 0; i <
+                                  controller.subCatModel.value
+                                      .selectedList.length; i++) {
+                                controller.selectedSubCatList.add(
+                                    {
+                                      "name": controller.subCatModel.value.selectedList[i]['name'],
+                                      "id": controller.subCatModel.value.selectedList[i]['id']
+                                    }
+                                );
+                                state(() {});
+                              }
+                              Navigator.pop(context);
+                            }
+                            else{
+                              Fluttertoast.showToast(msg: "Please Select Sub Category");
+                            }
                           },
-                          child: getText(
+                          child:const getText(
                               title: "Ok",
                               size: 14,
                               fontFamily: interRegular,

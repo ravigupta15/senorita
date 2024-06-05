@@ -193,7 +193,7 @@ class ExpertQrCodeScreen extends GetWidget<ExpertQRScannerController> {
       // Get the directory to save the image
       final directory = await getApplicationDocumentsDirectory();
       final path = directory.path;
-      File imgFile = File('$path/qr_code.png');
+      File imgFile = File('$path/qr_code.jpeg');
       final box = context.findRenderObject() as RenderBox?;
       imgFile.writeAsBytes(pngBytes);
      if(route=='share'){
@@ -204,7 +204,7 @@ class ExpertQrCodeScreen extends GetWidget<ExpertQRScannerController> {
      else{
        controller.convertImageToUrlApiFunction(imgFile);
      }
-      print('QR Code saved to $path/qr_code.png');
+      print('QR Code saved to $path');
     } catch (e) {
       print(e);
     }

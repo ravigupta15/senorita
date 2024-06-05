@@ -46,8 +46,8 @@ class GoogleEditMapScreen extends GetView<MapEditController> {
       controller.getUserLocation();
     }
 
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark
-        .copyWith(statusBarBrightness: Brightness.light));
+    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark
+    //     .copyWith(statusBarBrightness: Brightness.light));
     return WillPopScope(
       onWillPop: () async {
         Get.offAllNamed(AppRoutes.expertEditProfileScreen);

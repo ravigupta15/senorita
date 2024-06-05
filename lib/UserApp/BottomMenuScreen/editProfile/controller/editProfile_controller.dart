@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:senorita/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../../../../ScreenRoutes/routes.dart';
@@ -53,7 +54,9 @@ class EditProfileController extends GetxController {
   }
 
   profileApiFunction() async {
+    showCircleProgressDialog(navigatorKey.currentContext!);
     final response = await ApiConstants.getWithToken(url: ApiUrls.getProfile+"/"+Id, useAuthToken: true);
+    Get.back();
     if (response != null && response['success'] == true) {
 
       fullNameController.text=response['data']['name'].toString() ?? "";

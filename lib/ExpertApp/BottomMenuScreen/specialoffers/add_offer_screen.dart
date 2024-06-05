@@ -676,17 +676,17 @@ class AddOfferScreen extends GetView<AddOfferController>{
                                   behavior: HitTestBehavior.opaque,
                                   onTap: () {
                                     state((){});
-                                    controller.discountCategoryModel.value.data![index].selectedIndex=index;
+                                    controller.discountCategoryModel.value.selectedIndex=index;
                                     controller.selectedDiscountCategory.value=controller.discountCategoryModel.value.data![index].name;
                                     controller.selectedDiscountCategoryId.value = controller.discountCategoryModel.value.data![index].id.toString();
                                   },
                                   child: Row(
                                     children: [
                                     Icon(
-                                        color:controller.discountCategoryModel.value.data![index].selectedIndex==index?
+                                        color:controller.discountCategoryModel.value.selectedIndex==index?
                                         ColorConstant.onBoardingBack: ColorConstant.greyColor,
                                         size: 20,
-                                     controller.discountCategoryModel.value.data![index].selectedIndex==index?
+                                     controller.discountCategoryModel.value.selectedIndex==index?
                                      Icons.radio_button_checked:
                                         Icons.radio_button_off_outlined,
                                       ),
@@ -746,165 +746,6 @@ class AddOfferScreen extends GetView<AddOfferController>{
                             }
                             else{
                              Fluttertoast.showToast(msg: "Please Select Category");
-                            }
-                          },
-                          child: const getText(
-                              title: "Ok",
-                              size: 17,
-                              fontFamily: interRegular,
-                              color: ColorConstant.onBoardingBack,
-                              fontWeight: FontWeight.w500),
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              );
-            }),
-          );
-        });
-  }
-  discountSubDialogBox(BuildContext context,) {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            backgroundColor: ColorConstant.white,
-            contentPadding: EdgeInsets.zero,
-            content: StatefulBuilder(builder: (context, state) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: 20, right: 10, bottom: 5, top: 10),
-                    child: Row(
-                      children: [
-                        getText(
-                            title: "Category",
-                            size: 14,
-                            fontFamily: interRegular,
-                            color: ColorConstant.blackColor,
-                            fontWeight: FontWeight.w500),
-                        const Spacer(),
-                        GestureDetector(
-                          behavior: HitTestBehavior.opaque,
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child:const Icon(
-                            Icons.close,
-                            size: 20,
-                            color: ColorConstant.onBoardingBack,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    color: ColorConstant.dividerColor,
-                    height: 1,
-                  ),
-                  Container(
-                    constraints:const BoxConstraints(
-                        maxHeight: 300,
-                        minHeight: 100
-                    ),
-                    width: MediaQuery.of(context).size.width,
-                    // color: Colors.white,
-                    child:controller.discountCategoryModel.value!=null&& controller.discountCategoryModel.value!.data!=null?
-                    ListView.builder(
-                        physics: const ScrollPhysics(),
-                        shrinkWrap: true,
-                        scrollDirection: Axis.vertical,
-                        padding: const EdgeInsets.only(
-                            left: 15, right: 10, bottom: 15, top: 4),
-                        itemCount: controller.discountCategoryModel.value!.data!.length,
-                        itemBuilder: (context, index) {
-                          return Column(
-                            children: [
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Obx(
-                                    () => GestureDetector(
-                                  behavior: HitTestBehavior.opaque,
-                                  onTap: () {
-                                    state((){});
-                                    controller.discountCategoryModel.value.data![index].selectedIndex=index;
-                                    controller.selectedDiscountCategory.value=controller.discountCategoryModel.value.data![index].name;
-                                    controller.selectedDiscountCategoryId.value = controller.discountCategoryModel.value.data![index].id.toString();
-                                  },
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        color:controller.discountCategoryModel.value.data![index].selectedIndex==index?
-                                        ColorConstant.onBoardingBack: ColorConstant.greyColor,
-                                        size: 20,
-                                        controller.discountCategoryModel.value.data![index].selectedIndex==index?
-                                        Icons.radio_button_checked:
-                                        Icons.radio_button_off_outlined,
-                                      ),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text(
-                                        controller.discountCategoryModel.value.data![index].name.toString(),
-                                        style: const TextStyle(
-                                          color: ColorConstant.greyColor,
-                                          fontSize: 14,
-                                          fontFamily: interRegular,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          );
-                        }):
-                    Align(
-                      alignment: Alignment.center,
-                      child: noDataFound(),
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.only(
-                        left: 15, right: 15, bottom: 10, top: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        GestureDetector(
-                          behavior: HitTestBehavior.opaque,
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: const getText(
-                              title: "Cancel",
-                              size: 17,
-                              fontFamily: interRegular,
-                              color: ColorConstant.onBoardingBack,
-                              fontWeight: FontWeight.w100),
-                        ),
-                        const  SizedBox(
-                          width: 25,
-                        ),
-                        GestureDetector(
-                          behavior: HitTestBehavior.opaque,
-                          onTap: () {
-                            state((){});
-                            if(controller.selectedDiscountCategory.value.isNotEmpty){
-                              Navigator.pop(context);
-                              controller.discountCategoryController.text = controller.selectedDiscountCategory.value;
-                              controller.getSubCategoryApiFunction(controller.selectedDiscountCategoryId.value);
-                            }
-                            else{
-                              Fluttertoast.showToast(msg: "Please Select Category");
                             }
                           },
                           child: const getText(
@@ -996,17 +837,17 @@ class AddOfferScreen extends GetView<AddOfferController>{
                                   behavior: HitTestBehavior.opaque,
                                   onTap: () {
                                     state((){});
-                                    controller.buyCategoryModel.value.data![index].selectedIndex=index;
+                                    controller.buyCategoryModel.value.selectedIndex=index;
                                     controller.selectedBuyCategory.value=controller.buyCategoryModel.value.data![index].name;
                                     controller.selectedBuyCategoryId.value = controller.buyCategoryModel.value.data![index].id.toString();
                                   },
                                   child: Row(
                                     children: [
                                       Icon(
-                                        color:controller.buyCategoryModel.value.data![index].selectedIndex==index?
+                                        color:controller.buyCategoryModel.value.selectedIndex==index?
                                         ColorConstant.onBoardingBack: ColorConstant.greyColor,
                                         size: 20,
-                                        controller.buyCategoryModel.value.data![index].selectedIndex==index?
+                                        controller.buyCategoryModel.value.selectedIndex==index?
                                         Icons.radio_button_checked:
                                         Icons.radio_button_off_outlined,
                                       ),
@@ -1235,12 +1076,16 @@ class AddOfferScreen extends GetView<AddOfferController>{
                                             const SizedBox(
                                               width: 10,
                                             ),
-                                            Text(
-                                              controller.discountSubCatModel.value.data![index].name.toString(),
-                                              style: const TextStyle(
-                                                color: ColorConstant.greyColor,
-                                                fontSize: 14,
-                                                fontFamily: interRegular,
+                                            Flexible(
+                                              child: Text(
+                                                controller.discountSubCatModel.value.data![index].name.toString(),
+                                                maxLines:1,
+                                                overflow:TextOverflow.ellipsis,
+                                                style: const TextStyle(
+                                                  color: ColorConstant.greyColor,
+                                                  fontSize: 14,
+                                                  fontFamily: interRegular,
+                                                ),
                                               ),
                                             ),
                                           ],
@@ -1467,12 +1312,16 @@ class AddOfferScreen extends GetView<AddOfferController>{
                                             const SizedBox(
                                               width: 10,
                                             ),
-                                            Text(
-                                              controller.buySubCatModel.value.data![index].name.toString(),
-                                              style: const TextStyle(
-                                                color: ColorConstant.greyColor,
-                                                fontSize: 14,
-                                                fontFamily: interRegular,
+                                            Flexible(
+                                              child: Text(
+                                                controller.buySubCatModel.value.data![index].name.toString(),
+                                                maxLines:1,
+                                                overflow:TextOverflow.ellipsis,
+                                                style: const TextStyle(
+                                                  color: ColorConstant.greyColor,
+                                                  fontSize: 14,
+                                                  fontFamily: interRegular,
+                                                ),
                                               ),
                                             ),
                                           ],
@@ -1697,12 +1546,15 @@ class AddOfferScreen extends GetView<AddOfferController>{
                                             const SizedBox(
                                               width: 10,
                                             ),
-                                            Text(
-                                              controller.getSubCatModel.value.data![index].name.toString(),
-                                              style: const TextStyle(
-                                                color: ColorConstant.greyColor,
-                                                fontSize: 14,
-                                                fontFamily: interRegular,
+                                            Flexible(
+                                              child: Text(
+                                                controller.getSubCatModel.value.data![index].name.toString(),
+                                                maxLines:1,
+                                                overflow:TextOverflow.ellipsis, style: const TextStyle(
+                                                  color: ColorConstant.greyColor,
+                                                  fontSize: 14,
+                                                  fontFamily: interRegular,
+                                                ),
                                               ),
                                             ),
                                           ],

@@ -121,18 +121,18 @@ class OffersController extends GetxController {
                 ? result['data'][i]['user']['name']
                 : '',
             result['data'][i]['category_id'],
-            result['data'][i]['user']['id'],
-            result['data'][i]['user']['mobile'],
+              result['data'][i]['user']!=null? result['data'][i]['user']['id']:"",
+              result['data'][i]['user']!=null?result['data'][i]['user']['mobile']:"",
             result['data'][i]['category'] != null
                 ? result['data'][i]['category']['name']
                 : "",
             result['data'][i]['expert_subcats'] ?? [],
             result['data'][i]['offer_count'].toString(),
             result['data'][i]['id'],
-            result['data'][i]['user']['address'],
-            result['data'][i]['user']['distance'],
-            result['data'][i]['user']['lat'],
-            result['data'][i]['user']['lng'],
+              result['data'][i]['user']!=null? result['data'][i]['user']['address']:"",
+              result['data'][i]['user']!=null? result['data'][i]['user']['distance']:"",
+              result['data'][i]['user']!=null?result['data'][i]['user']['lat']:"",
+              result['data'][i]['user']!=null?result['data'][i]['user']['lng']:"",
             result['data'][i]['avg_rating'],
             result['data'][i]['user'] != null
                 ? result['data'][i]['user']['profile_picture']

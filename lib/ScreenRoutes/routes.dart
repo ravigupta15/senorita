@@ -71,8 +71,7 @@ class AppRoutes {
 
 
   static var menuPriceList = '/menuPriceList';
-
-
+  static var filterScreen = '/filterScreen';
 
 
 

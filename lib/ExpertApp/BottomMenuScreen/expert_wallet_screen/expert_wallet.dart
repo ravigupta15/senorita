@@ -28,19 +28,7 @@ class ExpertWalletScreen extends GetWidget<ExpertWalletController> {
   Widget build(BuildContext context) {
     final profileController = Get.put(ExpertProfileController());
     return Scaffold(
-      appBar: AppBar(
-      backgroundColor: Colors.transparent,
-      elevation: 0,
-      leadingWidth: 30,
-      title: getText(
-          title: "Wallet",
-          size: 17,
-          fontFamily: interSemiBold,
-          letterSpacing: 0.7,
-          color: ColorConstant.blackColor,
-          fontWeight: FontWeight.w400),
-      centerTitle: true,
-    ),
+      appBar: appBar(context, 'Wallet',isShowLeading: false, () => null),
       backgroundColor: ColorConstant.checkBox.withOpacity(0.1),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,

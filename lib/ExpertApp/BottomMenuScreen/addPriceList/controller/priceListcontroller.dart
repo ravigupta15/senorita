@@ -16,6 +16,8 @@ import '../../../../utils/showcircledialogbox.dart';
 import '../../../../utils/utils.dart';
 import '../../../../widget/error_box.dart';
 import '../../specialoffers/model/expert_category_model.dart';
+import '../../specialoffers/model/expert_category_subcat_model.dart';
+import '../../specialoffers/model/expert_subcat_cat_subcat_model.dart';
 import '../../specialoffers/model/expert_subcategory_model.dart';
 
 class PriceListController extends GetxController {
@@ -25,19 +27,18 @@ class PriceListController extends GetxController {
   final addButton = false.obs;
   String token = "";
   ///Category data
-  RxInt selectedCategoryType = (-1).obs;
   final categoryString = "".obs;
-  final categoryId = "".obs;
-  final allCategoryList = [].obs;
   final sendDataList = [].obs;
+  var categoryModel = ExpertCategorySubCatModel().obs;
+  var subCatModel = ExpertSubCatCatSubCatModel().obs;
+  final selectedCategoryId = ''.obs;
+  final selectedCategory = ''.obs;
+
 
   //New Data Add
   final addTopicList = [].obs;
 
   Map jsonObject = {};
-
-  var categoryModel = ExpertCategoryModel().obs;
-  var subCatModel = ExpertSubCategoryModel().obs;
 
   updateItems() {
 
@@ -51,7 +52,7 @@ class PriceListController extends GetxController {
 
   @override
   void onInit() async {
-    getCategoryPriceApiFunction();
+    getCategoryApiFunction();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     token = prefs.getString("token").toString();
     update();
@@ -59,28 +60,31 @@ class PriceListController extends GetxController {
   }
 
 
-  getCategoryPriceApiFunction() async {
-    final response = await ApiConstants.getWithToken(
-        url: ApiUrls.expertSubCategoriesPriceApiUrl, useAuthToken: true);
-    if (response["success"] == true) {
-      if (response['data'] != null) {
-        allCategoryList.value = response['data'];
+
+  getCategoryApiFunction() async {
+    var body = {
+      'category':'1'
+    };
+    final response = await ApiConstants.post(url: ApiUrls.expertSubCategoriesApiUrl,body: body);
+    if (response != null && response['success'] == true) {
+      if (response!=null&& response['success']!=false&& response['data'] != null) {
+        categoryModel.value = ExpertCategorySubCatModel.fromJson(response);
       }
     }
-    //showToast(response["message"]);
+
   }
 
 
   getSubCategoryApiFunction(String id) async {
     showCircleProgressDialog(navigatorKey.currentContext!);
     var body = {
-      'category':id
+      'sub_category_id':id
     };
-    final response = await ApiConstants.post(url: ApiUrls.expertSubCategoriesApiUrl,body: body);
+    final response = await ApiConstants.post(url: ApiUrls.getSubCategoryListUrl,body: body);
     Get.back();
     if (response != null && response['success'] == true) {
       if (response!=null&& response['success']!=false&& response['data'] != null) {
-          subCatModel.value = ExpertSubCategoryModel.fromJson(response);
+          subCatModel.value = ExpertSubCatCatSubCatModel.fromJson(response);
       }
     }
     else{
@@ -96,7 +100,7 @@ class PriceListController extends GetxController {
     };
     var request = http.Request('POST', Uri.parse('https://senoritaapp.com/backend/public/api/add_multiple_items'));
     request.body = json.encode({
-      "sub_category_id": categoryId.value.toString(),
+      "sub_category_id": selectedCategoryId.value.toString(),
       "items": dataList
     });
     print(request.body);

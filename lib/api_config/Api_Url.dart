@@ -51,7 +51,7 @@ class ApiUrls {
   static const String submitReview = "${apiBaseUrlTesting}submit-rating";
   static const String removePriceList = "${apiBaseUrlTesting}delete_item";
   static const String storeScanImageUrl = '${apiBaseUrlTesting}storeScanImage';
-
+  static const String getSubCategoryListUrl = '${apiBaseUrlTesting}get-category-list';
 
   //offer Api Url
   static const String expertAllOffer = "${apiBaseUrlTesting}list_offer";

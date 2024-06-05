@@ -135,7 +135,7 @@ class SpecialOfferScreen extends GetView<SpecialOfferController>{
                     getText(
                         title: controller.specialOfferModel.value.offersList![index].type ==
                             'discount'
-                            ? "${controller.specialOfferModel.value.offersList![index].discountPecent.toString()}% Discount"
+                            ? "Flat ${controller.specialOfferModel.value.offersList![index].discountPecent.toString()}% Discount"
                             : "BUY 1 GET 1 FREE",
                         size: 14,
                         fontFamily: interSemiBold,
