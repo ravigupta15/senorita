@@ -140,18 +140,21 @@ class Category {
 class ExpertSubcats {
   dynamic name;
   dynamic expertId;
+  dynamic subCatId;
 
-  ExpertSubcats({this.name, this.expertId});
+  ExpertSubcats({this.name, this.expertId,this.subCatId});
 
   ExpertSubcats.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     expertId = json['expert_id'];
+    subCatId = json['sub_category_id'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['name'] = name;
     data['expert_id'] = expertId;
+    data['sub_category_id']=subCatId;
     return data;
   }
 }

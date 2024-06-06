@@ -124,6 +124,8 @@ class ExpertHomeController extends GetxController  {
     log(response.body);
     isLoading.value = false;
     showLoading? Get.back():null;
+    subCategory.clear();
+    photosList.clear();
     if (response.statusCode == 200) {
       final result = jsonDecode(response.body) as Map<String, dynamic>;
       if (result['success'] == true && result['success'] != null) {

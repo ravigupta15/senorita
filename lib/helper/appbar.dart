@@ -6,7 +6,7 @@ import '../utils/stringConstants.dart';
 import 'appimage.dart';
 import 'getText.dart';
 
-AppBar appBar(BuildContext context, String title, Function() onTap,{isShowLeading =true}) {
+AppBar appBar(BuildContext context, String title,  Function() onTap,{isShowLeading =true,List<Widget>? actions}) {
   return AppBar(
     backgroundColor: Colors.white,
     elevation: 0,
@@ -34,5 +34,6 @@ AppBar appBar(BuildContext context, String title, Function() onTap,{isShowLeadin
         color: ColorConstant.blackColor,
         fontWeight: FontWeight.w400),
     centerTitle: true,
+    actions: actions,
   );
 }

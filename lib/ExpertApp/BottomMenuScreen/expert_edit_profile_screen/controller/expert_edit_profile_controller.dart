@@ -176,7 +176,7 @@ getCategoryApiFunction();
     }
     if(profileController.model!=null&&profileController.model.value.data!=null&&profileController.model.value!.data!.category!=null){
       categoryString.value= profileController.model.value!.data!.category!.name.toString();
-      selectedCategoryType.value=profileController.model.value!.data!.category!.id;
+      selectedCategoryType.value=0;
       // response['data']['category']!=null?response['data']['category']['id']-1:0;
       categoryId.value=profileController.model.value!.data!.category!.id.toString();
       categoryId.value.isNotEmpty?
@@ -187,7 +187,7 @@ getCategoryApiFunction();
       for (int i = 0; i < profileController.model.value!.data!.expertSubcats!.length; i++) {
         selectedSubCatList.add({
           'name':profileController.model.value!.data!.expertSubcats![i].name,
-          'id':profileController.model.value!.data!.expertSubcats![i].expertId.toString()
+          'id':profileController.model.value!.data!.expertSubcats![i].subCatId.toString()
         });
       }
     }

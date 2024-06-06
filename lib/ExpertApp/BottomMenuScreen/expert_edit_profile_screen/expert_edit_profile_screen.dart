@@ -402,25 +402,24 @@ class ExpertEditProfileScreen extends GetView<ExpertEditProfileController> {
               child: Column(
                 children: [
                   Container(
-                    padding: EdgeInsets.only(top: 5, bottom: 5),
+                    padding:const EdgeInsets.only(top: 5, bottom: 5),
                     child: GestureDetector(
                       onTap: ()
                       {
-                        // for(int i=0;i<controller.subCatModel.value.data!.length;i++){
-                        //   for(int j=0;j<controller.selectedSubCatList.length;j++){
-                        //     print(controller.selectedSubCatList[j]['id']);
-                        //     if(controller.subCatModel.value.data![i].id.toString()==controller.selectedSubCatList[j]['id'].toString()){
-                        //       print('sdgdf');
-                        //       controller.subCatModel.value.data![i].isSelected=true;
-                        //       controller.subCatModel.value.selectedList.add({
-                        //         'name':controller.selectedSubCatList[j]['name'],
-                        //         'id':controller.selectedSubCatList[j]['id']
-                        //       }
-                        //       );
-                        //     }
-                        //   }
-
-                        // }
+                        for(int i=0;i<controller.subCatModel.value.data!.length;i++){
+                          for(int j=0;j<controller.selectedSubCatList.length;j++){
+                            print(controller.selectedSubCatList[j]);
+                            if(controller.subCatModel.value.data![i].id.toString()==controller.selectedSubCatList[j]['id'].toString()){
+                              print('sdgdf');
+                              controller.subCatModel.value.data![i].isSelected=true;
+                              controller.subCatModel.value.selectedList.add({
+                                'name':controller.selectedSubCatList[j]['name'],
+                                'id':controller.selectedSubCatList[j]['id']
+                              }
+                              );
+                            }
+                          }
+                        }
                         subCategory(context);
                       },
                       child: Row(
@@ -553,7 +552,7 @@ class ExpertEditProfileScreen extends GetView<ExpertEditProfileController> {
             controller: controller.kodagoCardController,
           ),
         ),
-        SizedBox(height: 10),
+      const SizedBox(height: 10),
 
         ///aboutUs Data Widget
         Padding(
@@ -604,7 +603,7 @@ class ExpertEditProfileScreen extends GetView<ExpertEditProfileController> {
                           onTap: () {
                             Navigator.pop(context);
                           },
-                          child: Icon(
+                          child:const Icon(
                             Icons.close,
                             size: 20,
                             color: ColorConstant.onBoardingBack,
@@ -613,7 +612,7 @@ class ExpertEditProfileScreen extends GetView<ExpertEditProfileController> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 5,),
+                 const SizedBox(height: 5,),
                   Container(
                     width: MediaQuery.of(context).size.width,
                     color: ColorConstant.dividerColor,

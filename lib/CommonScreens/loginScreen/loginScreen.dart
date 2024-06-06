@@ -72,6 +72,7 @@ class LoginScreen extends GetWidget<LoginController> {
                           hintText: "",
                           labelText: loginMobile,
                           inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
                             new LengthLimitingTextInputFormatter(10),
                           ],
                           textInputType: TextInputType.phone,

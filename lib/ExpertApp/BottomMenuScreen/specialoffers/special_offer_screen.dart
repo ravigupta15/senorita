@@ -27,10 +27,10 @@ class SpecialOfferScreen extends GetView<SpecialOfferController>{
             addOfferWidget(),
             ScreenSize.height(7),
             Expanded(child:
-            controller.specialOfferModel!=null&&
-            controller.specialOfferModel.value.offersList!=null?
+            Obx(() => controller.specialOfferModel.value!=null&&
+                controller.specialOfferModel.value.offersList!=null?
             specialOfferWidget():
-            noDataFound()
+            noDataFound())
             )
           ],
         ),

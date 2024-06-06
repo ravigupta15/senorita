@@ -16,26 +16,19 @@ class FilterScreen extends GetView<FilterController>{
     return Scaffold(
       appBar: appBar(context, "Filter", () {
         Get.back();
-      },),
+      },actions: [
+        GestureDetector(
+          onTap: (){},
+          child: const Padding(
+            padding:  EdgeInsets.only(right: 15),
+            child: getText(title: 'Sort by', size: 13,
+                fontFamily: poppinsRegular, color: ColorConstant.pointBg,
+                fontWeight: FontWeight.w400),
+          ),
+        )
+      ]),
       body: Column(
         children: [
-          Align(
-            alignment: Alignment.centerRight,
-            child: Container(
-              height: 40,
-              width: 100,
-              margin:const EdgeInsets.only(right: 15),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: ColorConstant.blackLight)
-              ),
-              child:const getText(title: 'Clear All',
-                  size: 16, fontFamily: poppinsMedium,
-                  color: ColorConstant.blackLight, fontWeight: FontWeight.w500),
-            ),
-          ),
-          ScreenSize.height(10),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -279,5 +272,12 @@ class FilterScreen extends GetView<FilterController>{
         ),
       ),
     );
+  }
+
+  sortByBottomSheet(BuildContext context){
+    showModalBottomSheet(context: context,
+        builder: (context){
+      return Container();
+        });
   }
 }
