@@ -54,8 +54,7 @@ class OffersController extends GetxController {
 
   allOffersApiFunction(int hasOffers) async {
     page.value = 1;
-    showCircleProgressDialog(Get.context!);
-    isLoading.value = true;
+   allOffersList.isEmpty?  showCircleProgressDialog(Get.context!):null;
     var headers = {'Authorization': 'Bearer' + token};
     var request = http.MultipartRequest('POST', Uri.parse(ApiUrls.getExperts));
 
@@ -72,7 +71,13 @@ class OffersController extends GetxController {
         'has_offer': hasOffers.toString(),
         'lat': latitude.value.toString(),
         'lng': longitude.value.toString(),
-        'category_id': selectedCategoryId.toString()
+        'category_id': selectedCategoryId.toString(),
+        'distance_val':"",
+        'rating_val':"",
+        'search_val':'',
+        'rating_val':'',
+        'new_arivals':'',
+        'sub_category_id':''
       });
     } else {
       request.fields.addAll({
@@ -88,7 +93,7 @@ class OffersController extends GetxController {
     var response = await http.Response.fromStream(streamedResponse)
         .timeout(const Duration(seconds: 60));
     log(response.body);
-    Get.back();
+   allOffersList.isEmpty? Get.back():null;
     isLoading.value = false;
     allOffersList.clear();
     if (response.statusCode == 200) {

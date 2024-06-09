@@ -54,7 +54,9 @@ class OffersScreen extends GetView<OffersController> {
                             ScreenSize.width(10),
                             GestureDetector(
                               onTap: (){
-                                Get.toNamed(AppRoutes.filterScreen);
+                                Get.toNamed(AppRoutes.filterScreen)?.then((value) {
+                                  print(value);
+                                });
                               },
                               child: Container(
                                 height: 49,

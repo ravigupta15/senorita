@@ -63,6 +63,8 @@ class AppImages {
   static const notificationHome  = 'assets/images/notification_home.png';
   static const homeLocationIcon = 'assets/icons/home_location.png';
   static const clockIcon = 'assets/icons/clock.png';
+  static const unRatedStarIcon = 'assets/icons/unRatedStar.png';
+  static const ratedStarIcon = 'assets/icons/ratedStar.png';
 
   ///Payment
   static const fitter  = 'assets/icons/fitter.png';

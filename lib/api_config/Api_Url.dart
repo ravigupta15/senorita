@@ -30,6 +30,7 @@ class ApiUrls {
   static const String transactionUrl  = '${apiBaseUrlTesting}getUserPointTansctions';
   static const String scanCodePaymentUrl= '${apiBaseUrlTesting}ScanCode';
   static const String verifyScanCodeUrl = '${apiBaseUrlTesting}verifyScanCode';
+  static const String mergeCategoryListUrl = '${apiBaseUrlTesting}mergeCategoryList';
 
   ///Expert Api Url
   static const String registerExpert = "${apiBaseUrlTesting}create-expert";
