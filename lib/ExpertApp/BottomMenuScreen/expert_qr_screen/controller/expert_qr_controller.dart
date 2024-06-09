@@ -87,16 +87,21 @@ class ExpertQRScannerController extends GetxController {
 
   convertImageToUrlApiFunction(var img)async{
    try{
+     print(img.path);
      SharedPreferences prefs = await SharedPreferences.getInstance();
-     var headers = {'Authorization': 'Bearer ${prefs.getString('token').toString()}'};
+     var headers = {'Authorization': 'Bearer ${prefs.getString('token').toString()}',
+     // 'Content-Length': img.lengthSync().toString()
+     };
      var request =
      http.MultipartRequest('POST', Uri.parse(ApiUrls.storeScanImageUrl));
-     final file = await http.MultipartFile.fromPath('scan_image', img.path);
+     final file = await http.MultipartFile.fromPath('scan_image', '/data/user/0/com.app.senoritaApp/app_flutter/qr_code.png');
      request.files.add(file);
+     print(file);
      request.headers.addAll(headers);
      var streamedResponse = await request.send();
      var response = await http.Response.fromStream(streamedResponse);
      log(response.body);
+     print(response.request);
      if (response.statusCode == 200) {
        final result = json.decode(response.body);
        if (result['success'] == true && result['success'] != null) {

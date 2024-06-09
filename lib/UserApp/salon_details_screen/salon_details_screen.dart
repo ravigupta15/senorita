@@ -3,6 +3,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:senorita/helper/custombtn.dart';
 import 'package:senorita/utils/screensize.dart';
 import 'package:senorita/utils/time_format.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -66,21 +67,6 @@ class SalonDetailScreen extends GetView<SalonDetailController> {
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        /*Container(
-                                          width: MediaQuery.of(context).size.width,
-                                          padding: new EdgeInsets.only(right: 13.0),
-                                          child: Text(
-                                            controller.name.value.toString(),
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                              fontSize: 19.0,
-                                              letterSpacing: 0.6,
-                                              fontFamily: interSemiBold,
-                                              color: ColorConstant.blackColorDark,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ),*/
                                         Container(
                                           width: MediaQuery.of(context).size.width / 1,
                                           padding: const EdgeInsets.only(right: 12.0),
@@ -106,7 +92,7 @@ class SalonDetailScreen extends GetView<SalonDetailController> {
                                                                   subcat.subCategoryName)
                                                               .join(', ') ??
                                                           '',
-                                                      size: 14,
+                                                      size: 12.5,
                                                       fontFamily: interMedium,
                                                       color: ColorConstant.blackLight,
                                                       fontWeight: FontWeight.w500),
@@ -123,7 +109,7 @@ class SalonDetailScreen extends GetView<SalonDetailController> {
                                                 "Exp. ",
                                                 overflow: TextOverflow.ellipsis,
                                                 style: TextStyle(
-                                                  fontSize: 14.0,
+                                                  fontSize: 13.0,
                                                   fontFamily: interMedium,
                                                   color: ColorConstant.pointBg,
                                                   fontWeight: FontWeight.w500,
@@ -133,7 +119,7 @@ class SalonDetailScreen extends GetView<SalonDetailController> {
                                                 "- ${controller.experience.value.toString()} year in Business",
                                                 overflow: TextOverflow.ellipsis,
                                                 style: const TextStyle(
-                                                  fontSize: 14.0,
+                                                  fontSize: 13.0,
                                                   fontFamily: interRegular,
                                                   color: ColorConstant.blackLight,
                                                   fontWeight: FontWeight.w500,
@@ -142,48 +128,27 @@ class SalonDetailScreen extends GetView<SalonDetailController> {
                                             ],
                                           ),
                                         ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
+
                                         controller.status.value != ""
-                                            ? Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Row(
-                                                    children: [
-                                                      Text(
-                                                        controller.status.value == "1"
-                                                            ?"Open Now":"Close Now",
-                                                              overflow:
-                                                                  TextOverflow.ellipsis,
-                                                              style: TextStyle(
-                                                                fontSize: 13,
-                                                                fontFamily: interMedium,
-                                                                color:controller.status.value == "1"? ColorConstant
-                                                                    .greenColor:ColorConstant
-                                                                    .redColor,
-                                                                fontWeight:
-                                                                    FontWeight.w500,
-                                                              ),
-                                                            )
-                                                          ,
-                                                      Text(
-                                                        "",
-                                                        overflow: TextOverflow.ellipsis,
-                                                        style: new TextStyle(
-                                                          fontSize: 14.0,
-                                                          letterSpacing: 0.6,
-                                                          fontFamily: interMedium,
-                                                          color: ColorConstant.blackLight,
-                                                          fontWeight: FontWeight.w500,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              )
-                                            : SizedBox(),
+                                            ?  Padding(
+                                              padding: const EdgeInsets.only(top:10.0),
+                                              child: Text(
+                                                controller.status.value == "1"
+                                                ?"Open Now":"Close Now",
+                                                overflow:
+                                                TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                              fontSize: 13,
+                                              fontFamily: interMedium,
+                                              color:controller.status.value == "1"? ColorConstant
+                                                  .greenColor:ColorConstant
+                                                  .redColor,
+                                              fontWeight:
+                                              FontWeight.w500,
+                                                ),
+                                              ),
+                                            )
+                                            :const SizedBox(),
                                       ],
                                     ),
                                   ),
@@ -203,57 +168,44 @@ class SalonDetailScreen extends GetView<SalonDetailController> {
                                                     controller.salonLng.value.toString()))
                                             : null;
                                       },
-                                      child: Column(
+                                      child: controller.location.value.isEmpty?
+                                      Container():
+                                      Padding(padding:const EdgeInsets.only(top: 3),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          controller.location.value.isEmpty?
-                                              Container():
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(top: 3),
-                                                child: Image.asset(
-                                                  width: 20,
-                                                  height: 20,
-                                                  AppImages.location,
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                width: 2,
-                                              ),
-                                              Container(
-                                                width: MediaQuery.of(context).size.width -
-                                                    50,
-                                                padding:
-                                                    const EdgeInsets.only(right: 13.0),
-                                                child: Text(
-                                                  softWrap: true,
-                                                  controller.location.value != 'null'
-                                                      ? controller.location.value
-                                                      : '',
-                                                  // overflow: TextOverflow.ellipsis,
-                                                  style: const TextStyle(
-                                                    fontSize: 13.0,
-                                                    fontFamily: interMedium,
-                                                    color: ColorConstant.blackLight,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
+                                          Image.asset(
+                                            width: 16,
+                                            height: 16,
+                                            AppImages.location,
                                           ),
                                           const SizedBox(
-                                            height: 10,
+                                            width: 2,
+                                          ),
+                                          Flexible(
+                                            child: Text(
+                                              controller.location.value != 'null'
+                                                  ? controller.location.value
+                                                  : '',
+                                              // overflow: TextOverflow.ellipsis,
+                                              style: const TextStyle(
+                                                fontSize: 12.5,
+                                                fontFamily: interMedium,
+                                                color: ColorConstant.blackLight,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
                                           ),
                                         ],
+                                      ),
                                       ),
                                     ),
                                   ),
                                   controller.distance.value.toString() != ""
                                       ? Padding(
                                           padding:
-                                              const EdgeInsets.only(left: 10, top: 2),
+                                              const EdgeInsets.only(left: 10, top: 8),
                                           child: Column(
                                             children: [
                                               Row(
@@ -362,6 +314,7 @@ class SalonDetailScreen extends GetView<SalonDetailController> {
                                                 .blackColorDark,
                                             fontWeight:
                                             FontWeight.w600),
+
                                         specialOffers(context)
                                       ],
                                     ),
@@ -370,10 +323,10 @@ class SalonDetailScreen extends GetView<SalonDetailController> {
                                   Padding(
                                     padding: const EdgeInsets.only(top: 30),
                                     child: SizedBox(
-                                      height: 50,
+                                      height: 40,
                                       child: Padding(
                                         padding: const EdgeInsets.only(
-                                            left: 5, right: 5, bottom: 5),
+                                            left: 5, right: 5, ),
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
@@ -541,102 +494,6 @@ class SalonDetailScreen extends GetView<SalonDetailController> {
                             ),
                           ),
                         ),
-                        /*  Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Card(
-                          margin: EdgeInsets.zero,
-                          elevation: 0,
-                          child: Container(
-                            color: Colors.white,
-                            width: MediaQuery.of(context).size.width,
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 10, right: 10, top: 8, bottom: 0),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                      child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                        elevation: 0.0,
-                                        backgroundColor: ColorConstant.onBoardingBack,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(5),
-                                        )),
-                                    onPressed: () {
-                                      var phoneNumber =
-                                          controller.mobile.value.toString();
-                                      controller.status == 1.toString()
-                                          ? _makePhoneCall(phoneNumber)
-                                          : showToast("Expert is not Available");
-                                    },
-                                    child: Container(
-                                      height: 40,
-                                      alignment: Alignment.center,
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Image.asset(
-                                            width: 15,
-                                            height: 15,
-                                            AppImages.callDetails,
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          getText(
-                                              title: "Call Now",
-                                              size: 13,
-                                              fontFamily: interSemiBold,
-                                              color: ColorConstant.white,
-                                              fontWeight: FontWeight.w500),
-                                        ],
-                                      ),
-                                    ),
-                                  )),
-                                  const SizedBox(
-                                    width: 35,
-                                  ),
-                                  Expanded(
-                                      child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                        elevation: 0.0,
-                                        backgroundColor: ColorConstant.onBoardingBack,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(5),
-                                        )),
-                                    onPressed: () {
-                                      showToast("Coming Soon");
-                                    },
-                                    child: Container(
-                                      height: 40,
-                                      alignment: Alignment.center,
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Image.asset(
-                                            width: 15,
-                                            height: 15,
-                                            AppImages.messageDetails,
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          getText(
-                                              title: "Chat",
-                                              size: 13,
-                                              fontFamily: interSemiBold,
-                                              color: ColorConstant.white,
-                                              fontWeight: FontWeight.w600),
-                                        ],
-                                      ),
-                                    ),
-                                  )),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      )*/
                       ],
                     ),
                   ),
@@ -668,8 +525,17 @@ class SalonDetailScreen extends GetView<SalonDetailController> {
         ),
 
         bottomNavigationBar:Obx(()=> controller.isLoading.value?
-        const SizedBox(height: 0,): SizedBox(
+        const SizedBox(height: 0,): Container(
             height: 55,
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  offset:const Offset(0, -1),
+                  color: ColorConstant.blackColor.withOpacity(.1),
+                  blurRadius: 10
+                )
+              ]
+            ),
             child: Align(
               alignment: Alignment.bottomCenter,
               child: Card(
@@ -792,7 +658,7 @@ class SalonDetailScreen extends GetView<SalonDetailController> {
                 () => controller.getPriceList.isNotEmpty
                     ? ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
-                        padding: EdgeInsets.only(
+                        padding:const EdgeInsets.only(
                             top: 0, bottom: 0, left: 0, right: 0),
                         shrinkWrap: true,
                         scrollDirection: Axis.vertical,
@@ -814,24 +680,7 @@ class SalonDetailScreen extends GetView<SalonDetailController> {
                                 child: menuUi(context, index)),
                           );
                         })
-                    : Center(
-                        child: Column(
-                          children: [
-                            Image.asset(
-                              width: MediaQuery.of(context).size.width,
-                              height: 100,
-                              AppImages.noDataFound,
-                            ),
-                            getText(
-                                lineHeight: 1.6,
-                                title: "No Data Found",
-                                size: 14,
-                                fontFamily: interSemiBold,
-                                color: ColorConstant.blackColor,
-                                fontWeight: FontWeight.w600),
-                          ],
-                        ),
-                      ),
+                    :  noDataFoundWidget(context)
               )
             : controller.selectedTabValue == 2
                 ? Padding(
@@ -840,72 +689,6 @@ class SalonDetailScreen extends GetView<SalonDetailController> {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8, right: 8),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  controller.myRating.value.isEmpty
-                                      ? ratingUi(context)
-                                      : showToast('Already reviewed');
-                                },
-                                child: SizedBox(
-                                  height: 25,
-                                  child: getText(
-                                      lineHeight: 1.6,
-                                      title: "Write a review",
-                                      size: 14,
-                                      fontFamily: interSemiBold,
-                                      color: ColorConstant.blackColor,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                              // const SizedBox(
-                              //    height: 3,
-                              //  ),
-                              //  Obx(
-                              //    () => GestureDetector(
-                              //        onTap: () {
-                              //          /*controller.myRating.value!="null"?showToast("Review Already Submited"):
-                              //        ratingUi(context);*/
-                              //          controller.myRating.value.isEmpty?
-                              //          ratingUi(context):null;
-                              //        },
-                              //        child: RatingBar.builder(
-                              //          initialRating: controller.myRating.value != ""
-                              //              ? double.parse(controller
-                              //                  .myRating.value
-                              //                  .toString())
-                              //              : 0.0,
-                              //          minRating: 0,
-                              //          ignoreGestures: true,
-                              //          direction: Axis.horizontal,
-                              //          allowHalfRating: false,
-                              //          itemCount: 5,
-                              //          itemSize: 20,
-                              //          itemPadding: EdgeInsets.symmetric(
-                              //              horizontal: 0.0),
-                              //          itemBuilder: (context, _) => Icon(
-                              //            Icons.star,
-                              //            color: Colors.amber,
-                              //          ),
-                              //          onRatingUpdate: (rating) {
-                              //            print(rating);
-                              //          },
-                              //        )),
-                              //  ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: 1,
-                            color: ColorConstant.fitterLine),
                         controller.averageRating.value != ""
                             ? Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -1093,29 +876,14 @@ class SalonDetailScreen extends GetView<SalonDetailController> {
                                   ),
                                 ],
                               )
-                            : Center(
-                                child: Column(
-                                  children: [
-                                    Image.asset(
-                                      width: MediaQuery.of(context).size.width,
-                                      height: 100,
-                                      AppImages.noDataFound,
-                                    ),
-                                    getText(
-                                        lineHeight: 1.6,
-                                        title: "No Data Found",
-                                        size: 14,
-                                        fontFamily: interSemiBold,
-                                        color: ColorConstant.blackColor,
-                                        fontWeight: FontWeight.w600),
-                                  ],
-                                ),
-                              ),
+                            : noDataFoundWidget(context),
+                           ScreenSize.height(15),
+                        writeReviewBtn(context),
                       ],
                     ),
                   )
                 : Obx(() => controller.photosList.isEmpty
-                    ? SizedBox()
+                    ? noDataFoundWidget(context)
                     : GridView.builder(
                         padding: EdgeInsets.zero,
                         shrinkWrap: true,
@@ -1475,17 +1243,19 @@ class SalonDetailScreen extends GetView<SalonDetailController> {
         },
         itemCount: controller.spacialOffer.length,
         shrinkWrap: true,
+        padding:const EdgeInsets.only(top: 15),
         physics: const ScrollPhysics(),
         itemBuilder: (context, index) {
           return Container(
             decoration: BoxDecoration(
                 color: ColorConstant.white,
-                // borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(18),
+                border: Border.all(color: ColorConstant.borderColor),
                 boxShadow: [
                   BoxShadow(
                       offset: const Offset(0, -2),
                       color: ColorConstant.blackColor.withOpacity(.2),
-                      blurRadius: 10)
+                      blurRadius: 15)
                 ]),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -1497,26 +1267,26 @@ class SalonDetailScreen extends GetView<SalonDetailController> {
                   ),
                   child: ClipRRect(
                     borderRadius: const BorderRadius.only(
-                        // topRight: Radius.circular(8),
-                        // topLeft: Radius.circular(8)
+                        topRight: Radius.circular(18),
+                        topLeft: Radius.circular(18)
                     ),
                     child: controller.spacialOffer[index]['banner'] != null
                         ? CachedNetworkImage(
                             height: 200,
-                            fit: BoxFit.fill,
+                            fit: BoxFit.cover,
                             width: MediaQuery.of(context).size.width,
                             imageUrl: "${controller.offersUrl}/${controller.spacialOffer[index]['banner']}",
                             errorWidget: (context, url, error) => Image.network(
                               "https://raysensenbach.com/wp-content/uploads/2013/04/default.jpg",
-                              height: 250,
-                              fit: BoxFit.fill,
+                              height: 200,
+                              fit: BoxFit.cover,
                               width: MediaQuery.of(context).size.width,
                             ),
                           )
                         : Image.network(
                             "https://raysensenbach.com/wp-content/uploads/2013/04/default.jpg",
-                            height: 250,
-                            fit: BoxFit.fill,
+                            height: 200,
+                            fit: BoxFit.cover,
                             width: MediaQuery.of(context).size.width,
                           ),
                   ),
@@ -1548,8 +1318,8 @@ class SalonDetailScreen extends GetView<SalonDetailController> {
                         children: [
                           Image.asset(
                             AppImages.clockIcon,
-                            height: 20,
-                            width: 20,
+                            height: 16,
+                            width: 16,
                           ),
                           ScreenSize.width(7),
                           const getText(
@@ -1574,37 +1344,55 @@ class SalonDetailScreen extends GetView<SalonDetailController> {
             ),
           );
         });
+  }
 
-    //   CarouselSlider(
-    //   items: <Widget>[
-    //     for (var i = 0; i < controller.spacialOffer.length; i++)
-    //       Container(
-    //         margin: const EdgeInsets.only(
-    //           top: 5.0,
-    //         ),
-    //         decoration: BoxDecoration(
-    //           image: DecorationImage(
-    //             image: NetworkImage(controller.offersUrl.value.toString() +
-    //                 "/" +
-    //                 controller.spacialOffer[i]['banner']),
-    //             fit: BoxFit.cover,
-    //           ),
-    //           // border:
-    //           //     Border.all(color: Theme.of(context).accentColor),
-    //           borderRadius: BorderRadius.circular(10.0),
-    //         ),
-    //       ),
-    //   ],
-    //   options: CarouselOptions(
-    //     height: 150,
-    //     enlargeCenterPage: true,
-    //     autoPlay: true,
-    //     autoPlayCurve: Curves.fastOutSlowIn,
-    //     enableInfiniteScroll: true,
-    //     autoPlayAnimationDuration: Duration(milliseconds: 500),
-    //     viewportFraction: 1,
-    //   ),
-    // );
+  Widget noDataFoundWidget(BuildContext context){
+    return Center(
+      child: Column(
+        children: [
+          Image.asset(
+            width: MediaQuery.of(context).size.width,
+            height: 80,
+            AppImages.noDataFound,
+          ),
+          getText(
+              lineHeight: 1.6,
+              title: "No Data Found",
+              size: 14,
+              fontFamily: interSemiBold,
+              color: ColorConstant.blackColor,
+              fontWeight: FontWeight.w600),
+        ],
+      ),
+    );
+  }
+  
+  Widget writeReviewBtn(BuildContext context){
+    return GestureDetector(
+      onTap: (){
+        controller.myRating.value.isEmpty
+            ? ratingUi(context)
+            : showToast('Already reviewed');
+      },
+      child: Align(
+        alignment: Alignment.center,
+        child: Container(
+          width: 120,
+          height: 40,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            color: ColorConstant.white,
+            border: Border.all(
+              color: ColorConstant.appColor,
+            )
+          ),
+          alignment: Alignment.center,
+          child: getText(title: 'Write a review',
+              size: 13, fontFamily: interMedium, color: ColorConstant.appColor,
+              fontWeight: FontWeight.w500),
+        ),
+      ),
+    );
   }
 
   void ratingUi(BuildContext context) {

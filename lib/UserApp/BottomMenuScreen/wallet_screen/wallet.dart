@@ -70,7 +70,8 @@ class Wallet extends GetWidget<WalletController> {
                             padding: const EdgeInsets.only(top: 0),
                             child: Center(
                               child: getText(
-                                  title: profileController.walletAmount.value,
+                                  title: profileController.model!=null&&profileController.model.value.data!=null?
+                                  profileController.model.value.data!.wallet??"":"",
                                   size: 22,
                                   fontFamily: interSemiBold,
                                   color: ColorConstant.blackColor,
@@ -84,7 +85,10 @@ class Wallet extends GetWidget<WalletController> {
                         behavior: HitTestBehavior.opaque,
                         onTap: ()
                         {
-                          Get.toNamed(AppRoutes.qrCodeScreen);
+                          Get.toNamed(AppRoutes.qrCodeScreen)!.then((value) {
+                            controller.callApiFunction();
+                            profileController.profileApiFunction();
+                          });
                         },
                         child: Image.asset(AppImages.qrExpert,height: 44,width: 44,)
                       ),
@@ -121,7 +125,7 @@ class Wallet extends GetWidget<WalletController> {
                           size: 14,
                           fontFamily: poppinsMedium,
                           color: ColorConstant.blackColor,
-                          fontWeight: FontWeight.w400),
+                          fontWeight: FontWeight.w500),
                     ),
                    const SizedBox(height: 25,),
                     Obx(()=> controller.model!.value!=null&&controller.model!.value.data!=null?
@@ -190,7 +194,7 @@ class Wallet extends GetWidget<WalletController> {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style:const TextStyle(
-                          fontSize: 14,
+                          fontSize: 13.5,
                           fontFamily: poppinsMedium,
                           color: ColorConstant.blackColorDark,
                           fontWeight: FontWeight.w400
@@ -212,7 +216,7 @@ class Wallet extends GetWidget<WalletController> {
                     title:TimeFormat.currentTime(controller.model!.value.data![index].createdAt),
                     size: 12,
                     fontFamily: poppinsRegular,
-                    color: ColorConstant.blackColor,
+                    color: ColorConstant.hintColor,
                     fontWeight: FontWeight.w400),
               ),
             const  SizedBox(height: 10,),

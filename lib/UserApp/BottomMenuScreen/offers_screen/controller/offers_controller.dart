@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:senorita/model/user_special_offer_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../api_config/ApiConstant.dart';
 import '../../../../api_config/Api_Url.dart';
@@ -12,23 +13,13 @@ import '../../home_screen/model/home_model.dart';
 
 class OffersController extends GetxController {
   String token = "";
-  final onlineExpertList = [].obs;
-  final cityList = [].obs;
-  final allOffersList = [].obs;
+  List allOffersList = [];
 
   ///Home Screen
-  RxInt selectedAddressType = (-1).obs;
   final selectedCategoryId = "".obs;
-  String categoryId = "";
-  String profileBack = "";
-  final allExpertList = [].obs;
 
   ///loading
   final isOnlineExpertLoading = false.obs;
-  final isCityLoading = false.obs;
-  final allSelected = false.obs;
-  final cityName = "All".obs;
-  final categoryList = [].obs;
 
   ///Pagination
   final count = 1.obs;
@@ -49,7 +40,6 @@ class OffersController extends GetxController {
 
   final latitude = "".obs;
   final longitude = "".obs;
-  final listing_base_url = "".obs;
 
   @override
   Future<void> onInit() async {
@@ -58,16 +48,8 @@ class OffersController extends GetxController {
     token = prefs.getString("token").toString();
     latitude.value = prefs.getString("lat").toString();
     longitude.value = prefs.getString("long").toString();
-    print("cuttentlatitudeOffer" + latitude.value.toString());
-    print("cuttentlongitudeOffer" + longitude.value.toString());
     allOffersApiFunction(1);
-    categoryApiFunction();
     super.onInit();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   allOffersApiFunction(int hasOffers) async {
@@ -110,42 +92,15 @@ class OffersController extends GetxController {
     isLoading.value = false;
     allOffersList.clear();
     if (response.statusCode == 200) {
-      final result = jsonDecode(response.body) as Map<String, dynamic>;
+      final result = json.decode(response.body);
       if (result['success'] == true && result['success'] != null) {
         for (int i = 0; i < result['data'].length; i++) {
-          OnlineExpertModel model = OnlineExpertModel(
-            result['data'][i]['experience'],
-            result['data'][i]['status'],
-            result['data'][i]['image_url'],
-            result['data'][i]['user'] != null
-                ? result['data'][i]['user']['name']
-                : '',
-            result['data'][i]['category_id'],
-              result['data'][i]['user']!=null? result['data'][i]['user']['id']:"",
-              result['data'][i]['user']!=null?result['data'][i]['user']['mobile']:"",
-            result['data'][i]['category'] != null
-                ? result['data'][i]['category']['name']
-                : "",
-            result['data'][i]['expert_subcats'] ?? [],
-            result['data'][i]['offer_count'].toString(),
-            result['data'][i]['id'],
-              result['data'][i]['user']!=null? result['data'][i]['user']['address']:"",
-              result['data'][i]['user']!=null? result['data'][i]['user']['distance']:"",
-              result['data'][i]['user']!=null?result['data'][i]['user']['lat']:"",
-              result['data'][i]['user']!=null?result['data'][i]['user']['lng']:"",
-            result['data'][i]['avg_rating'],
-            result['data'][i]['user'] != null
-                ? result['data'][i]['user']['profile_picture']
-                : "",
-            result['data'][i]['offers']
-          );
-          isLoading.value = false;
+          UserSpecialOfferModel model = UserSpecialOfferModel.fromJson(result['data'][i]);
           allOffersList.add(model);
         }
         count.value = result['total_count'];
       }
     } else {
-      Get.back();
     }
   }
 
@@ -157,7 +112,7 @@ class OffersController extends GetxController {
         if (count.value > allOffersList.length) {
           ++page.value;
           isLoadMoreRunning.value = true;
-          var headers = {'Authorization': 'Bearer' + token};
+          var headers = {'Authorization': 'Bearer $token'};
           var request =
               http.MultipartRequest('POST', Uri.parse(ApiUrls.getExperts));
           if (selectedCategoryId != "") {
@@ -180,37 +135,14 @@ class OffersController extends GetxController {
           var streamedResponse = await request.send();
           var response = await http.Response.fromStream(streamedResponse);
           if (response.statusCode == 200) {
-            final result = jsonDecode(response.body) as Map<String, dynamic>;
+            final result = json.decode(response.body) ;
             if (result['success'] == true && result['success'] != null) {
+              List list = [];
               for (int i = 0; i < result['data'].length; i++) {
-                OnlineExpertModel model = OnlineExpertModel(
-                  result['data'][i]['experience'] != null
-                      ? result['data'][i]['experience']
-                      : "",
-                  result['data'][i]['status'],
-                  result['data'][i]['image_url'],
-                  result['data'][i]['user']['name'],
-                  result['data'][i]['category_id'],
-                  result['data'][i]['user']['id'],
-                  result['data'][i]['user']['mobile'],
-                  result['data'][i]['category'] != null
-                      ? result['data'][i]['category']['name']
-                      : "",
-                  result['data'][i]['expert_subcats'] ?? [],
-                  result['data'][i]['offer_count'],
-                  result['data'][i]['id'],
-                  result['data'][i]['user']['address'],
-                  result['data'][i]['user']['distance'],
-                  result['data'][i]['user']['lat'],
-                  result['data'][i]['user']['lng'],
-                  result['data'][i]['avg_rating'],
-                  result['data'][i]['user'] != null
-                      ? result['data'][i]['user']['profile_picture']
-                      : "",
-                    result['data'][i]['offers']
-                );
-                allOffersList.add(model);
+                UserSpecialOfferModel model = UserSpecialOfferModel.fromJson(result['data'][i]);
+                list.add(model);
               }
+              allOffersList = allOffersList+list;
               isLoadMoreRunning.value = false;
             }
           }
@@ -219,25 +151,4 @@ class OffersController extends GetxController {
     }
   }
 
-  categoryApiFunction() async {
-    categoryList.clear();
-    isCategoryLoading.value = true;
-    final response = await ApiConstants.getWithToken(
-        url: ApiUrls.expertCategoriesApiUrl, useAuthToken: true);
-    if (response != null && response['success'] == true) {
-      isCategoryLoading.value = false;
-      if (response['data'] != null) {
-        for (int i = 0; i < response['data'].length; i++) {
-          print(
-            response['data'],
-          );
-          PopularCategoryModel model = PopularCategoryModel(
-              response['data'][i]['imageUrl'].toString(),
-              response['data'][i]['name'].toString(),
-              response['data'][i]['id'].toString());
-          categoryList.add(model);
-        }
-      }
-    }
-  }
 }

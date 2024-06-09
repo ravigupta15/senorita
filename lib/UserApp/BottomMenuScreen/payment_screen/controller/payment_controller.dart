@@ -82,67 +82,70 @@ class PaymentController extends GetxController {
             scale: 1.2,
             child: Opacity(
               opacity: a1.value,
-              child: AlertDialog(
-                contentPadding: EdgeInsets.zero,
-                shape: OutlineInputBorder(
-                    borderSide:const BorderSide(color: Colors.transparent),
-                    borderRadius: BorderRadius.circular(16.0)
+              child: PopScope(
+                canPop: false,
+                child: AlertDialog(
+                  contentPadding: EdgeInsets.zero,
+                  shape: OutlineInputBorder(
+                      borderSide:const BorderSide(color: Colors.transparent),
+                      borderRadius: BorderRadius.circular(16.0)
 
-                ),
-                content: SizedBox(
-                  height: 250,
-                  child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 50,),
-                        Align(
-                          alignment: Alignment.center,
-                          child:  Image.asset(
-                            height: 110,
-                            width: 110,
-                            AppImages.successPayment,
-                            fit: BoxFit.contain,
-                          ),
-                        ),
-                        Spacer(),
-                        GestureDetector(
-                          behavior: HitTestBehavior.opaque,
-                          onTap: ()
-                          {
-                            Get.back();
-                            Get.back();
-                            Get.back();
-                          },
-                          child: Container(
-                            decoration:const BoxDecoration(
-                                color:  ColorConstant.successful,
-                                borderRadius: BorderRadius.only(
-
-                                  bottomRight: Radius.circular(15),
-                                  bottomLeft: Radius.circular(15),)
-                            ),
+                  ),
+                  content: SizedBox(
+                    height: 250,
+                    child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 50,),
+                          Align(
                             alignment: Alignment.center,
-                            height: 55,
-                            child:  getText(
-                                title:"Payment Successful",
-                                size: 15,
-                                letterSpacing: 0.9,
-                                fontFamily: interSemiBold,
-                                color: ColorConstant.white,
-                                fontWeight: FontWeight.w600),
+                            child:  Image.asset(
+                              height: 110,
+                              width: 110,
+                              AppImages.successPayment,
+                              fit: BoxFit.contain,
+                            ),
                           ),
-                        ),
+                         const Spacer(),
+                          GestureDetector(
+                            behavior: HitTestBehavior.opaque,
+                            onTap: ()
+                            {
+                              Get.back();
+                              Get.back();
+                              Get.back();
+                            },
+                            child: Container(
+                              decoration:const BoxDecoration(
+                                  color:  ColorConstant.successful,
+                                  borderRadius: BorderRadius.only(
 
-                      ]),
+                                    bottomRight: Radius.circular(15),
+                                    bottomLeft: Radius.circular(15),)
+                              ),
+                              alignment: Alignment.center,
+                              height: 55,
+                              child:  getText(
+                                  title:"Payment Successful",
+                                  size: 15,
+                                  letterSpacing: 0.9,
+                                  fontFamily: interSemiBold,
+                                  color: ColorConstant.white,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ),
+
+                        ]),
+                  ),
                 ),
               ),
             ),
           );
         },
         transitionDuration: const Duration(milliseconds: 200),
-        barrierDismissible: true,
+        barrierDismissible: false,
         barrierLabel: '',
         context: navigatorKey.currentContext!,
         pageBuilder: (context, animation1, animation2) {

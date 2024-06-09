@@ -33,6 +33,7 @@ class ExpertProfile extends GetWidget<ExpertProfileController> {
 
           child: Container(
             decoration: BoxDecoration(
+              color: Colors.white,
               gradient: LinearGradient(
                 colors: [ColorConstant.white, ColorConstant.screenBack],
                 begin: Alignment.topCenter,
@@ -145,8 +146,9 @@ class ExpertProfile extends GetWidget<ExpertProfileController> {
     DashboardController dashboardController = DashboardController();
 
     return SizedBox(
-      height: MediaQuery.of(context).size.height/2,
+      // height: MediaQuery.of(context).size.height/2,
       child: Container(
+
         decoration: BoxDecoration(
             color: ColorConstant.white,
             borderRadius:const BorderRadius.only(
@@ -160,6 +162,7 @@ class ExpertProfile extends GetWidget<ExpertProfileController> {
               )
             ]
         ),
+        padding: EdgeInsets.only(bottom: 20),
         child: Column(
           children: [
             GestureDetector(

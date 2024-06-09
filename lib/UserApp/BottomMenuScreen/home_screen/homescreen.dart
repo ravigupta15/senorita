@@ -1,21 +1,14 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:dotted_border/dotted_border.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:senorita/UserApp/BottomMenuScreen/home_screen/shimmer/all_expert_shimmer.dart';
 import 'package:senorita/helper/network_image_helper.dart';
-import 'package:senorita/utils/screensize.dart';
-import 'package:senorita/widget/no_data_found.dart';
 import 'package:senorita/widget/view_salon_widget.dart';
 import '../../../ScreenRoutes/routes.dart';
 import '../../../helper/appimage.dart';
 import '../../../helper/getText.dart';
 import '../../../helper/searchbar.dart';
 import '../../../utils/color_constant.dart';
-import '../../../utils/format_rating.dart';
-import '../../../utils/my_sperator.dart';
 import '../../../utils/stringConstants.dart';
 import '../../../widget/banner_indicator.dart';
 import '../dashboard_screen/controller/dashboard_controller.dart';
@@ -25,248 +18,189 @@ class HomeScreen extends GetView<DashboardController> {
 
   @override
   Widget build(BuildContext context) {
-    // SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    //   systemNavigationBarColor: Colors.white, // navigation bar color
-    //   statusBarColor: Colors.black, // status bar color
-    // ));
     return Scaffold(
       appBar: appBar(context, () => null),
       backgroundColor: ColorConstant.white,
-      // drawer: drawer(context, controller),
-      body: NotificationListener<ScrollNotification>(
-        onNotification: (scrollNotification) {
-          if (scrollNotification is ScrollStartNotification) {
-          } else if (scrollNotification is ScrollUpdateNotification) {
-          } else if (scrollNotification is ScrollEndNotification) {
-            if (scrollNotification.metrics.pixels >=
-                scrollNotification.metrics.maxScrollExtent - 40) {
-              // controller.allExpertPaginationApiFunction();
-              // controller.selectedTabBar.value ==0?
-              // productPaginApiFunction():servicePaginApiFunction();
-            }
-          }
-          return true;
-        },
-        child: Obx(
-          () => SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
-                  child: searchBar(
-                      readOnly: true,
-                      onTap: () {
-                        Get.toNamed(AppRoutes.searchScreen);
-                      }),
-                ),
-                //Slider
-                Obx(
-                  () => controller.bannerList.isNotEmpty
-                      ? Padding(
-                          padding:
-                              const EdgeInsets.only(left: 9, right: 9, top: 20),
-                          child: Obx(
-                            () => controller.isLoading.value &&
-                                    controller.bannerList.isEmpty
-                                ? homeScreenShimmer()
-                                : SizedBox(
-                                    child: RefreshIndicator(
-                                        onRefresh: () {
-                                          // homeScreenShimmer();
-                                          return controller
-                                              .allHomeScreenApiFunction(
-                                                  controller.currentLat.value
-                                                      .toString(),
-                                                  controller.currentLong.value
-                                                      .toString(),
-                                                  '',
-                                                  true);
-                                        },
-                                        child: CarouselSlider(
-                                          items: <Widget>[
-                                            for (var i = 0;
-                                                i <
-                                                    controller
-                                                        .bannerList.length;
-                                                i++)
-                                              ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                child: NetworkImageHelper(
-                                                  img:
-                                                      "${controller.offerBaseUrl.value.toString()}/${controller.bannerList[i]['banner']}",
-                                                  width: MediaQuery.of(context)
-                                                      .size
-                                                      .width,
-                                                ),
-                                              ),
-                                          ],
-                                          options: CarouselOptions(
-                                              height: 200.0,
-                                              enlargeCenterPage: true,
-                                              autoPlay:
-                                                  controller.bannerList.length >
-                                                          1
-                                                      ? true
-                                                      : false,
-                                              aspectRatio: 16 / 9,
-                                              scrollPhysics: controller
-                                                          .bannerList.length >
-                                                      1
-                                                  ? const ScrollPhysics()
-                                                  : const NeverScrollableScrollPhysics(),
-                                              autoPlayCurve:
-                                                  Curves.fastOutSlowIn,
-                                              enableInfiniteScroll: true,
-                                              autoPlayAnimationDuration:
-                                                  const Duration(
-                                                      milliseconds: 500),
-                                              viewportFraction: 1,
-                                              onPageChanged: (val, _) {
-                                                controller.bannerIndex.value =
-                                                    val;
-                                              }),
-                                        )),
+      body: Obx(
+        () => Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 15, right: 15, top: 10,bottom: 5),
+              child: searchBar(
+                  readOnly: true,
+                  onTap: () {
+                    Get.toNamed(AppRoutes.searchScreen);
+                  }),
+            ),
+            Expanded(child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  //Slider
+                  Obx(
+                        () => controller.homeModel!=null&&controller.homeModel.value.data!=null&&
+                        controller.homeModel.value.data!.getFeatureOffer!=null
+                        ? Padding(
+                        padding:
+                        const EdgeInsets.only(left: 9, right: 9, top: 20),
+                        child: Obx(
+                              () => controller.isLoading.value&&controller.homeModel==null
+                              ? homeScreenShimmer()
+                              : SizedBox(
+                            child: CarouselSlider(
+                              items: <Widget>[
+                                for (var i = 0;
+                                i <controller.homeModel.value.data!.getFeatureOffer!.length;
+                                i++)
+                                  ClipRRect(
+                                    borderRadius:
+                                    BorderRadius.circular(10),
+                                    child: NetworkImageHelper(
+                                      img:
+                                      "${controller.homeModel.value.data!.offerBaseUrl.toString()}/${controller.homeModel.value.data!.getFeatureOffer![i].banner}",
+                                      width: MediaQuery.of(context)
+                                          .size
+                                          .width,
+                                    ),
                                   ),
-                          ))
-                      : const SizedBox(),
-                ),
-                Obx(
-                  () => controller.bannerList.length > 1
-                      ? Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: List.generate(
-                                  controller.bannerList.length, (index) {
-                                return controller.bannerIndex.value == index
-                                    ? bannerIndicator(true)
-                                    : bannerIndicator(false);
-                              })),
-                        )
-                      : Container(),
-                ),
-                //All Expertise
-
-                // all category
-                categoryWidget(),
-                Padding(
-                  padding: const EdgeInsets.only(right: 12, left: 12, top: 15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      getText(
-                          title: "Top Rated Salons",
-                          size: 18,
-                          fontFamily: interSemiBold,
-                          color: ColorConstant.blackColor,
-                          fontWeight: FontWeight.w600),
-                      // Container(
-                      //   height: 30,
-                      //   decoration: BoxDecoration(
-                      //       borderRadius:const
-                      //       BorderRadius.all(Radius.circular(5)),
-                      //       border: Border.all(
-                      //           color: ColorConstant.checkBox)),
-                      //   child:const Padding(
-                      //     padding:  EdgeInsets.all(6.0),
-                      //     child: getText(
-                      //         title: "Great Offers",
-                      //         size: 11,
-                      //         fontFamily: interMedium,
-                      //         color: ColorConstant.blackColorLight,
-                      //         fontWeight: FontWeight.w500),
-                      //   ),
-                      // ),
-                    ],
+                              ],
+                              options: CarouselOptions(
+                                  height: 200.0,
+                                  enlargeCenterPage: true,
+                                  autoPlay:
+                                  controller.homeModel.value.data!.getFeatureOffer!.length > 1
+                                      ? true
+                                      : false,
+                                  aspectRatio: 16 / 9,
+                                  scrollPhysics: controller.homeModel.value.data!.getFeatureOffer!.length >
+                                      1
+                                      ? const ScrollPhysics()
+                                      : const NeverScrollableScrollPhysics(),
+                                  autoPlayCurve:
+                                  Curves.fastOutSlowIn,
+                                  enableInfiniteScroll: true,
+                                  autoPlayAnimationDuration:
+                                  const Duration(
+                                      milliseconds: 500),
+                                  viewportFraction: 1,
+                                  onPageChanged: (val, _) {
+                                    controller.bannerIndex.value =
+                                        val;
+                                  }),
+                            ),
+                          ),
+                        ))
+                        : const SizedBox(),
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                ListView.separated(
-                    separatorBuilder: (context, sp) {
-                      return const SizedBox(
-                        height: 23,
-                      );
-                    },
-                    padding: const EdgeInsets.only(left: 15, right: 14),
-                    shrinkWrap: true,
-                    itemCount: controller.allExpertList.length,
-                    physics: const ScrollPhysics(),
-                    itemBuilder: (BuildContext context, int index) {
-                      var model = controller.allExpertList[index];
-                      return viewSalonWidget(
-                          context, model, controller.listing_base_url.value,
-                          () {
-                        Get.toNamed(AppRoutes.categoryDetailsScreen,
-                            arguments: [
-                              model['user']['id'].toString(),
-                              controller.lat.toString(),
-                              controller.long.toString(),
-                            ]);
-                      });
-                    }),
-                /* Obx(() => controller.isLoading.value
-                    ? allHomeExpertShimmer()
-                    :  ListView.builder(
-                    padding: EdgeInsets.zero,
-                    shrinkWrap: true,
-                    itemCount:
-                    controller.allExpertList.length,
-                    physics: ScrollPhysics(),
-                    itemBuilder: (BuildContext context,
-                        int index) {
-                      var model =
-                      controller.allExpertList[index];
+                  Obx(
+                        () => controller.homeModel!=null&&controller.homeModel.value.data!=null&&
+                        controller.homeModel.value.data!.getFeatureOffer!=null&&
+                        controller.homeModel.value.data!.getFeatureOffer!.length > 1
+                        ? Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: List.generate(
+                              controller.homeModel.value.data!.getFeatureOffer!.length, (index) {
+                            return controller.bannerIndex.value == index
+                                ? bannerIndicator(true)
+                                : bannerIndicator(false);
+                          })),
+                    )
+                        : Container(),
+                  ),
+                  //All Expertise
 
-                      return expertUi(context, model);
-                    }),*/
-                /*Obx(
-                        () => controller.isLoading.value
-                            ? allExpertShimmer()
-                            : SizedBox(
-                                child: RefreshIndicator(
-                                  onRefresh: () {
-                                    allExpertShimmer();
-                                    return controller
-                                        .allHomeScreenApiFunction(
-                                            controller.currentLat.value
-                                                .toString(),
-                                            controller.currentLong.value
-                                                .toString());
-                                  },
-                                  child: ListView.builder(
-                                      padding: EdgeInsets.zero,
-                                      shrinkWrap: true,
-                                      itemCount:
-                                          controller.allExpertList.length,
-                                      physics: ScrollPhysics(),
-                                      itemBuilder: (BuildContext context,
-                                          int index) {
-                                        var model =
-                                            controller.allExpertList[index];
+                  // all category
+                  categoryWidget(),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 12, left: 12, top: 15),
+                    child:  getText(
+                        title: "Top Rated Salons",
+                        size: 16,
+                        fontFamily: interSemiBold,
+                        color: ColorConstant.blackColor,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  controller.homeModel!=null&&controller.homeModel.value.data!=null&&
+                      controller.homeModel.value.data!.topRatedListing!=null?
+                  ListView.separated(
+                      separatorBuilder: (context, sp) {
+                        return const SizedBox(
+                          height: 20,
+                        );
+                      },
+                      padding: const EdgeInsets.only(left: 15, right: 14,bottom: 30),
+                      shrinkWrap: true,
+                      itemCount: controller.homeModel.value.data!.topRatedListing!.length,
+                      physics: const ScrollPhysics(),
+                      itemBuilder: (BuildContext context, int index) {
+                        var model = controller.homeModel.value.data!.topRatedListing![index];
+                        return Column(
+                          children: [
+                            salonWidget(
+                                context, model,'home',
+                                    () {
+                                  Get.toNamed(AppRoutes.categoryDetailsScreen,
+                                      arguments: [
+                                        model.user!.id.toString(),
+                                        controller.lat.toString(),
+                                        controller.long.toString(),
+                                      ]);
+                                }),
+                            controller.homeModel.value.data!.topRatedListing!.length-1 ==index?
+                            seeMoreBtn(context):Container()
+                          ],
+                        );
+                      }):Container(),
+                ],
+              ),
+            ))
+         ],
+        ),
+      ),
+    );
+  }
 
-                                        return expertUi(context, model);
-                                      }),
-                                ),
-                              ),
-                      )*/
 
-                const SizedBox(
-                  height: 10,
-                ),
-                controller.isLoadMoreRunning.value == true
-                    ? const Padding(
-                        padding: EdgeInsets.only(bottom: 30),
-                        child: Center(child: CircularProgressIndicator()))
-                    : Container(),
-                controller.hasNextPage.value == false
-                    ? const Padding(
-                        padding: EdgeInsets.only(top: 10, bottom: 40),
-                        child: Center(child: Text("no data")))
-                    : Container(),
+  Widget seeMoreBtn(BuildContext context){
+    return Padding(
+      padding: const EdgeInsets.only(top: 20),
+      child: GestureDetector(
+        onTap: (){
+          Get.toNamed(AppRoutes.singleCategoryListScreen,
+              arguments: [
+                '',
+                ''
+              ]);
+
+        },
+        child: Align(
+          alignment: Alignment.center,
+          child: Container(
+            width:120,
+            height: 40,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: ColorConstant.white,
+                border: Border.all(
+                  color: ColorConstant.appColor,
+                )
+            ),
+            padding:const EdgeInsets.only(right: 10,left: 10),
+            alignment: Alignment.center,
+            child: Row(
+              children: [
+                const Spacer(),
+                getText(title: 'See More',
+                    size: 13, fontFamily: interMedium, color: ColorConstant.appColor,
+                    fontWeight: FontWeight.w500),
+                const Spacer(),
+                Icon(Icons.arrow_forward_ios,color: ColorConstant.appColor,size: 15,)
               ],
             ),
           ),
@@ -301,7 +235,6 @@ class HomeScreen extends GetView<DashboardController> {
                   Flexible(
                     child: GestureDetector(
                       onTap: () {
-                        print('object');
                         // controller.categoryApiFunction();
                       },
                       child: Padding(
@@ -319,7 +252,7 @@ class HomeScreen extends GetView<DashboardController> {
                                       maxLines: 1,
                                       style: TextStyle(
                                           fontSize: 15,
-                                          fontFamily: interMedium,
+                                          fontFamily: interBold,
                                           color: ColorConstant.blackColor,
                                           fontWeight: FontWeight.w500),
                                     ),
@@ -339,7 +272,7 @@ class HomeScreen extends GetView<DashboardController> {
                               ),
                               getText(
                                   title: controller.address.value.toString(),
-                                  size: 10.5,
+                                  size: 10,
                                   fontFamily: interLight,
                                   letterSpacing: .3,
                                   lineHeight: 1.4,
@@ -388,8 +321,8 @@ class HomeScreen extends GetView<DashboardController> {
                   Get.toNamed(AppRoutes.walletScreen);
                 },
                 child: Image.asset(
-                  height: 25,
-                  width: 25,
+                  height: 22,
+                  width: 22,
                   AppImages.walletIcon,
                   color: Colors.black87,
                 ),
@@ -413,7 +346,7 @@ class HomeScreen extends GetView<DashboardController> {
             child: Text(
               'Popular Category',
               style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 16,
                   color: ColorConstant.black3333,
                   fontWeight: FontWeight.w500,
                   fontFamily: interSemiBold),

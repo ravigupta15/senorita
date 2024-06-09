@@ -101,7 +101,7 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
                                       subcat.subCategoryName)
                                           .join(', ') ??
                                           '',
-                                      size: 14,
+                                      size: 13.5,
                                       fontFamily: interMedium,
                                       color: ColorConstant.blackLight,
                                       fontWeight: FontWeight.w500),
@@ -116,7 +116,7 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
                                       "Exp. ",
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
-                                        fontSize: 14.0,
+                                        fontSize: 13.0,
                                         fontFamily: interMedium,
                                         color: ColorConstant.pointBg,
                                         fontWeight: FontWeight.w500,
@@ -126,7 +126,7 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
                                       "- ${controller.experience.value.toString()} year in Business",
                                       overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(
-                                        fontSize: 14.0,
+                                        fontSize: 13.0,
                                         fontFamily: interRegular,
                                         color: ColorConstant.blackLight,
                                         fontWeight: FontWeight.w500,
@@ -139,41 +139,20 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
                                 height: 10,
                               ),
                               controller.status.value != ""
-                                  ? Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        controller.status.value == "1"
-                                            ?   "Open Now":"Close Now",
-                                        overflow:
-                                        TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          letterSpacing: .6,
-                                          fontFamily: interMedium,
-                                          color:controller.status.value == "1"? ColorConstant
-                                              .greenColor:ColorConstant.redColor,
-                                          fontWeight:
-                                          FontWeight.w500,
-                                        ),
-                                      ),
-                                      Text(
-                                        "",
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                          fontSize: 14.0,
-                                          letterSpacing: 0.6,
-                                          fontFamily: interMedium,
-                                          color: ColorConstant.blackLight,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                  ?  Text(
+                                controller.status.value == "1"
+                                    ?   "Open Now":"Close Now",
+                                overflow:
+                                TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  letterSpacing: .6,
+                                  fontFamily: interMedium,
+                                  color:controller.status.value == "1"? ColorConstant
+                                      .greenColor:ColorConstant.redColor,
+                                  fontWeight:
+                                  FontWeight.w500,
+                                ),
                               )
                                   : SizedBox(),
                             ],
@@ -204,8 +183,8 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
                                     Padding(
                                       padding: const EdgeInsets.only(top: 3),
                                       child: Image.asset(
-                                        width: 20,
-                                        height: 20,
+                                        width: 16,
+                                        height: 16,
                                         AppImages.location,
                                       ),
                                     ),
@@ -224,7 +203,7 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
                                             : '',
                                         // overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
-                                          fontSize: 13.0,
+                                          fontSize: 12.5,
                                           fontFamily: interMedium,
                                           color: ColorConstant.blackLight,
                                           fontWeight: FontWeight.w500,
@@ -361,7 +340,7 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
                         Padding(
                           padding: const EdgeInsets.only(top: 30),
                           child: SizedBox(
-                            height: 50,
+                            height: 40,
                             child: Padding(
                               padding: const EdgeInsets.only(
                                   left: 5, right: 5, bottom: 5),
@@ -561,7 +540,7 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
           () => controller.getPriceList.isNotEmpty
           ? ListView.builder(
           physics: const NeverScrollableScrollPhysics(),
-          padding: EdgeInsets.only(
+          padding:const EdgeInsets.only(
               top: 0, bottom: 0, left: 0, right: 0),
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
@@ -583,24 +562,7 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
                   child: menuUi(context, index)),
             );
           })
-          : Center(
-        child: Column(
-          children: [
-            Image.asset(
-              width: MediaQuery.of(context).size.width,
-              height: 100,
-              AppImages.noDataFound,
-            ),
-            getText(
-                lineHeight: 1.6,
-                title: "No Data Found",
-                size: 14,
-                fontFamily: interSemiBold,
-                color: ColorConstant.blackColor,
-                fontWeight: FontWeight.w600),
-          ],
-        ),
-      ),
+          : noDataFoundWidget(context)
     )
         : controller.selectedTabValue == 2
         ? Padding(
@@ -627,7 +589,7 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
                         fontFamily: interMedium,
                         color: ColorConstant.offerTextBlack,
                         fontWeight: FontWeight.w600),
-                    SizedBox(
+                  const  SizedBox(
                       height: 10,
                     ),
                     Obx(
@@ -796,29 +758,12 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
               ),
             ],
           )
-              : Center(
-            child: Column(
-              children: [
-                Image.asset(
-                  width: MediaQuery.of(context).size.width,
-                  height: 100,
-                  AppImages.noDataFound,
-                ),
-                getText(
-                    lineHeight: 1.6,
-                    title: "No Data Found",
-                    size: 14,
-                    fontFamily: interSemiBold,
-                    color: ColorConstant.blackColor,
-                    fontWeight: FontWeight.w600),
-              ],
-            ),
-          ),
+              : noDataFoundWidget(context)
         ],
       ),
     )
         : Obx(() => controller.photosList.isEmpty
-        ? SizedBox()
+        ? noDataFoundWidget(context)
         : GridView.builder(
       padding: EdgeInsets.zero,
       shrinkWrap: true,
@@ -923,17 +868,6 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
                     const SizedBox(
                       width: 5,
                     ),
-                    /*Text(
-                      controller.getPriceList[index]['data'][i]['item_name'],
-                      //  priceListModel['Bridal/Groom Packages'][0]['item_name'].toString(),
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontSize: 12.0,
-                        fontFamily: interMedium,
-                        color: ColorConstant.qrViewText,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),*/
                     Expanded(
                       child: Text(
                         controller.getPriceList[index]['data'][i]['item_name'],
@@ -1007,7 +941,7 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  SizedBox(
+                 const SizedBox(
                     height: 5,
                   ),
                   Row(
@@ -1028,39 +962,11 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
               ),
               Spacer(),
               model.rating != ""
-                  ? /*Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
-                        color: ColorConstant.greenStar,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            left: 10, right: 10, top: 9, bottom: 9),
-                        child: Row(
-                          children: [
-                            getText(
-                                title: model.rating + ".0",
-                                size: 15,
-                                fontFamily: interMedium,
-                                color: ColorConstant.white,
-                                fontWeight: FontWeight.w500),
-                            SizedBox(
-                              width: 6,
-                            ),
-                            Image.asset(
-                              AppImages.reviewStar,
-                              width: 12.0,
-                              height: 12.0,
-                              fit: BoxFit.fill,
-                            ),
-                          ],
-                        ),
-                      ),
-                    )*/
+                  ? 
               Container(
                 decoration: BoxDecoration(
                     color: ColorConstant.greenColor,
-                    borderRadius: BorderRadius.all(Radius.circular(5)),
+                    borderRadius:const BorderRadius.all(Radius.circular(5)),
                     border: Border.all(color: ColorConstant.greenColor)),
                 child: Padding(
                   padding: const EdgeInsets.all(2),
@@ -1093,7 +999,7 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
             ],
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 5,
         ),
         Padding(
@@ -1102,7 +1008,7 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
           ),
           child: Text(
             model.review,
-            style: TextStyle(
+            style:const TextStyle(
               fontSize: 12.0,
               fontFamily: interMedium,
               letterSpacing: 0.4,
@@ -1114,8 +1020,8 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
         SizedBox(
           height: 0,
         ),
-        Padding(
-          padding: const EdgeInsets.only(right: 13, bottom: 0),
+      const  Padding(
+          padding:  EdgeInsets.only(right: 13, bottom: 0),
           child: Row(
             children: [
               Text(
@@ -1128,33 +1034,6 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              /* Spacer(),
-              GestureDetector(
-                onTap: () {
-                  Get.toNamed(AppRoutes.reportScreen);
-                },
-                child: Container(
-                  width: 80,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(5)),
-                      border: Border.all(color: ColorConstant.fitterLine)),
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 13, right: 13, top: 9, bottom: 9),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        getText(
-                            title: "Report",
-                            size: 13,
-                            fontFamily: interMedium,
-                            color: ColorConstant.qrViewText,
-                            fontWeight: FontWeight.w500),
-                      ],
-                    ),
-                  ),
-                ),
-              ),*/
             ],
           ),
         ),
@@ -1183,12 +1062,13 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
           return Container(
             decoration: BoxDecoration(
                 color: ColorConstant.white,
-                // borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(18),
+                border: Border.all(color: ColorConstant.borderColor),
                 boxShadow: [
                   BoxShadow(
                       offset: const Offset(0, -2),
                       color: ColorConstant.blackColor.withOpacity(.2),
-                      blurRadius: 10)
+                      blurRadius: 15)
                 ]),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -1200,28 +1080,16 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
                   ),
                   child: ClipRRect(
                     borderRadius: const BorderRadius.only(
-                      // topRight: Radius.circular(8),
-                      // topLeft: Radius.circular(8)
+                      topRight: Radius.circular(18),
+                      topLeft: Radius.circular(18)
                     ),
                     child: controller.spacialOffer[index]['banner'] != null
-                        ? CachedNetworkImage(
-                      height: 200,
-                      fit: BoxFit.fill,
-                      width: MediaQuery.of(context).size.width,
-                      imageUrl: "${controller.offersUrl}/${controller.spacialOffer[index]['banner']}",
-                      errorWidget: (context, url, error) => Image.network(
-                        "https://raysensenbach.com/wp-content/uploads/2013/04/default.jpg",
-                        height: 250,
-                        fit: BoxFit.fill,
-                        width: MediaQuery.of(context).size.width,
-                      ),
+                        ? NetworkImageHelper(
+                      img: "${controller.offersUrl}/${controller.spacialOffer[index]['banner']}",
+                      height: 200.0,
+                      width: double.infinity,
                     )
-                        : Image.network(
-                      "https://raysensenbach.com/wp-content/uploads/2013/04/default.jpg",
-                      height: 250,
-                      fit: BoxFit.fill,
-                      width: MediaQuery.of(context).size.width,
-                    ),
+                        : Container()
                   ),
                 ),
                 Padding(
@@ -1253,8 +1121,8 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
                         children: [
                           Image.asset(
                             AppImages.clockIcon,
-                            height: 20,
-                            width: 20,
+                            height: 16,
+                            width: 16,
                           ),
                           ScreenSize.width(7),
                           const getText(
@@ -1280,38 +1148,31 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
             ),
           );
         });
-
-    //   CarouselSlider(
-    //   items: <Widget>[
-    //     for (var i = 0; i < controller.spacialOffer.length; i++)
-    //       Container(
-    //         margin: const EdgeInsets.only(
-    //           top: 5.0,
-    //         ),
-    //         decoration: BoxDecoration(
-    //           image: DecorationImage(
-    //             image: NetworkImage(controller.offersUrl.value.toString() +
-    //                 "/" +
-    //                 controller.spacialOffer[i]['banner']),
-    //             fit: BoxFit.cover,
-    //           ),
-    //           // border:
-    //           //     Border.all(color: Theme.of(context).accentColor),
-    //           borderRadius: BorderRadius.circular(10.0),
-    //         ),
-    //       ),
-    //   ],
-    //   options: CarouselOptions(
-    //     height: 150,
-    //     enlargeCenterPage: true,
-    //     autoPlay: true,
-    //     autoPlayCurve: Curves.fastOutSlowIn,
-    //     enableInfiniteScroll: true,
-    //     autoPlayAnimationDuration: Duration(milliseconds: 500),
-    //     viewportFraction: 1,
-    //   ),
-    // );
   }
+
+
+  Widget noDataFoundWidget(BuildContext context){
+    return Center(
+      child: Column(
+        children: [
+          Image.asset(
+            width: MediaQuery.of(context).size.width,
+            height: 80,
+            AppImages.noDataFound,
+          ),
+          getText(
+              lineHeight: 1.6,
+              title: "No Data Found",
+              size: 14,
+              fontFamily: interSemiBold,
+              color: ColorConstant.blackColor,
+              fontWeight: FontWeight.w600),
+        ],
+      ),
+    );
+  }
+
+
 
   AppBar appBar(BuildContext context, ExpertDashboardController dashboardController){
     return AppBar(
@@ -1397,7 +1258,7 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
                     onTap: (){
                       Get.toNamed(AppRoutes.expertQrScreen);
                     },
-                    child: Image.asset(AppImages.qrExpert,height: 44,width: 44,))
+                    child: Image.asset(AppImages.qrExpert,height: 30,width: 30,))
               ],
              ),
            ),

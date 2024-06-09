@@ -26,8 +26,8 @@ class NetworkImageHelper extends StatelessWidget {
         errorWidget: (context, url, error) =>
             Image.network(
               "https://raysensenbach.com/wp-content/uploads/2013/04/default.jpg",
-              height: 250,
-              fit: BoxFit.fill,
+              height: 200,
+              fit: BoxFit.cover,
               width: MediaQuery.of(context).size.width,
             ),
 

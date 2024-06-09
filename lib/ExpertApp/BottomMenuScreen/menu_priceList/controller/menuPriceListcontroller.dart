@@ -39,13 +39,11 @@ getPriceListApiFunction(expertId.value);
 
   getPriceListApiFunction(String expertId) async {
     isLoading.value = true;
-    print('objectsvdsv');
     try{
       final result = await InternetAddress.lookup('example.com');
       if(result.isNotEmpty && result[0].rawAddress.isNotEmpty)
       {
         getPriceList.clear();
-        print("ExpertId"+expertId.toString());
         //showCircleProgressDialog(Get.context!);
         isLoading.value = true;
         var headers = {'Authorization': 'Bearer' + token};

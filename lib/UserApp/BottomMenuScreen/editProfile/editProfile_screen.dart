@@ -16,11 +16,6 @@ class EditProfileScreen extends GetView<EditProfileController> {
 
   @override
   Widget build(BuildContext context) {
-    // SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    //     statusBarColor: Colors.black45,
-    //     statusBarIconBrightness: Brightness.light
-    //     //color set to transperent or set your own color
-    //     ));
     return Scaffold(
       appBar: appBar(context, () {
         Get.back();

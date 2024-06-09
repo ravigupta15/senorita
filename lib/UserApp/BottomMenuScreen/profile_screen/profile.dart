@@ -50,13 +50,14 @@ class Profile extends GetWidget<ProfileController> {
                 const  SizedBox(
                     height: 30,
                   ),
-                  Obx(()=> controller.profileImg.value.isNotEmpty?
+                  Obx(()=>controller.model!= null&&controller.model.value.data!=null&&
+                      controller.model.value.data!.profilePicture!=null?
                     ClipOval(
                       child: CachedNetworkImage(
                         height: 90,
                         width: 90,
                         fit: BoxFit.cover,
-                        imageUrl:controller.profileImg.value,
+                        imageUrl:controller.model.value.data!.profilePicture,
                         placeholder: (context, url) => const CircularProgressIndicator(),
                         errorWidget: (context, url, error) =>const  Icon(Icons.person),
                       ),
@@ -66,7 +67,8 @@ class Profile extends GetWidget<ProfileController> {
                   Obx(
                     () => Center(
                       child: getText(
-                          title: controller.name.value.toString(),
+                          title:controller.model!= null&&controller.model.value.data!=null?
+                          controller.model.value.data!.name??'':"",
                           size: 16,
                           fontFamily: interSemiBold,
                           color: ColorConstant.blackColor,
@@ -79,7 +81,8 @@ class Profile extends GetWidget<ProfileController> {
                   Obx(
                     () => Center(
                       child: getText(
-                          title: controller.mobile.value.toString(),
+                          title: controller.model!= null&&controller.model.value.data!=null?
+                          controller.model.value.data!.mobile??'':"",
                           size: 14,
                           fontFamily: interRegular,
                           color: ColorConstant.blackLight,

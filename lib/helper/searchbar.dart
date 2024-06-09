@@ -31,12 +31,13 @@ searchBar({required bool readOnly,bool showPrefix = false,
       decoration: InputDecoration(
           prefixIcon: Container(
             alignment: Alignment.center,
-            height: 20,
-            width: 20,
+            height: 15,
+            width: 15,
             child: Image.asset(
               AppImages.search,
-              height: 20,
-              width: 20,
+              height: 18,
+              width: 18,
+
             ),
           ),
           suffixIcon:showPrefix? GestureDetector(

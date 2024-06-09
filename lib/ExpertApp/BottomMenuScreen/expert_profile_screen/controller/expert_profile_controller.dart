@@ -13,11 +13,12 @@ class ExpertProfileController extends GetxController {
     super.onInit();
   }
 
-  profileApiFunction() async {
+  Future profileApiFunction() async {
     final response = await ApiConstants.getWithToken(url: ApiUrls.getExpertProfileDetail, useAuthToken: true);
     if (response != null && response['success'] == true) {
       print(response['data']);
       model.value = ProfileModel.fromJson(response);
+      return response;
       }
   }
 

@@ -83,7 +83,10 @@ class ExpertWalletScreen extends GetWidget<ExpertWalletController> {
                         behavior: HitTestBehavior.opaque,
                         onTap: ()
                         {
-                          Get.toNamed(AppRoutes.expertQrScreen);
+                          Get.toNamed(AppRoutes.expertQrScreen)!.then((value) {
+                            controller.callApiFunction();
+                            profileController.profileApiFunction();
+                          });
                         },
                         child: Image.asset(AppImages.qrExpert,height: 44,width: 44,)
                     ),
@@ -119,7 +122,7 @@ class ExpertWalletScreen extends GetWidget<ExpertWalletController> {
                         size: 14,
                         fontFamily: poppinsMedium,
                         color: ColorConstant.blackColor,
-                        fontWeight: FontWeight.w400),
+                        fontWeight: FontWeight.w500),
                   ),
                   const SizedBox(height: 25,),
                   Obx(()=> controller.model!.value!=null&&controller.model!.value.data!=null?
@@ -184,7 +187,7 @@ class ExpertWalletScreen extends GetWidget<ExpertWalletController> {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style:const TextStyle(
-                          fontSize: 14,
+                          fontSize: 13.5,
                           fontFamily: poppinsMedium,
                           color: ColorConstant.blackColorDark,
                           fontWeight: FontWeight.w400
@@ -206,7 +209,7 @@ class ExpertWalletScreen extends GetWidget<ExpertWalletController> {
                     title:TimeFormat.currentTime(controller.model!.value.data![index].createdAt),
                     size: 12,
                     fontFamily: poppinsRegular,
-                    color: ColorConstant.blackColor,
+                    color: ColorConstant.hintColor,
                     fontWeight: FontWeight.w400),
               ),
               const  SizedBox(height: 10,),

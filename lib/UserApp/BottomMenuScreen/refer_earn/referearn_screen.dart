@@ -36,7 +36,7 @@ class ReferEarnScreen extends GetView<ReferEarnController>{
               alignment: Alignment.center,
               child: getText(title: 'Invite your Friend and get\n200 in Wallet.',
                   textAlign: TextAlign.center,
-                  size: 20, fontFamily: poppinsMedium, color: ColorConstant.blackColor,
+                  size: 16, fontFamily: poppinsMedium, color: ColorConstant.blackColor,
                   fontWeight: FontWeight.w600),
             ),
             ScreenSize.height(26),
@@ -70,14 +70,17 @@ class ReferEarnScreen extends GetView<ReferEarnController>{
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    getText(title: Get.find<ProfileController>().referralCode.value,
+                    getText(title:Get.find<ProfileController>().model!=null&&
+                    Get.find<ProfileController>().model.value.data!=null?
+                        Get.find<ProfileController>().model.value.data!.referralCode??"":"",
                         size: 16, fontFamily: poppinsRegular, color:const Color(0xff4F4F52),
                         fontWeight: FontWeight.w400),
                     GestureDetector(
                         onTap: (){
-                          Clipboard.setData(ClipboardData(text: Get.find<ProfileController>().referralCode.value));
-                          Fluttertoast.showToast(msg: 'Copied',gravity:ToastGravity.CENTER );
-                        },
+                          if(Get.find<ProfileController>().model!=null&& Get.find<ProfileController>().model.value.data!=null&&Get.find<ProfileController>().model.value.data!.referralCode!=null){
+                            Clipboard.setData(ClipboardData(text: Get.find<ProfileController>().model.value.data!.referralCode.value));
+                            Fluttertoast.showToast(msg: 'Copied',gravity:ToastGravity.CENTER );
+                          }},
                         child: Image.asset(AppImages.copyIcon,height: 24,width: 24,))
                   ],
                 ),
@@ -88,7 +91,7 @@ class ReferEarnScreen extends GetView<ReferEarnController>{
           ScreenSize.width(26),
           GestureDetector(
             onTap: (){
-              Share.share('Download only using my referral link to get coins\n ${Get.find<ProfileController>().referralCode.value}\n\n https://play.google.com/store/apps/details?id=com.app.senoritaApp&pcampaignid=web_share', subject: 'Senorita');
+              Share.share('Download only using my referral link to get coins\n ${Get.find<ProfileController>().model.value.data!.referralCode.value}\n\n https://play.google.com/store/apps/details?id=com.app.senoritaApp&pcampaignid=web_share', subject: 'Senorita');
             },
             child: Container(
               height: 48,
@@ -115,7 +118,7 @@ class ReferEarnScreen extends GetView<ReferEarnController>{
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           getText(title: 'How it work',
-              size: 21, fontFamily: interBold
+              size: 20, fontFamily: interBold
               , color: ColorConstant.blackColor,
               fontWeight: FontWeight.w600),
           ScreenSize.height(23),
@@ -140,7 +143,7 @@ class ReferEarnScreen extends GetView<ReferEarnController>{
           ),
           alignment: Alignment.center,
           child: getText(title: number,
-              size: 16, fontFamily: poppinsMedium, color: Colors.white, fontWeight: FontWeight.w500),
+              size: 14, fontFamily: poppinsMedium, color: Colors.white, fontWeight: FontWeight.w500),
         ),
         ScreenSize.width(19),
         Flexible(child: Column(
@@ -153,7 +156,7 @@ class ReferEarnScreen extends GetView<ReferEarnController>{
             maxLines: 3,
               overflow: TextOverflow.ellipsis,
               style:const TextStyle(
-                  fontSize: 14, fontFamily: poppinsRegular, color: Color(0xff767676),
+                  fontSize: 13, fontFamily: poppinsRegular, color: Color(0xff767676),
                   fontWeight: FontWeight.w400),
             )
 

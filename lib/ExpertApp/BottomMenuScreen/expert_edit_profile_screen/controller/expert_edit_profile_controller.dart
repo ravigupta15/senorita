@@ -335,13 +335,12 @@ getCategoryApiFunction();
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse);
     print(response.body);
+    Get.back();
     if (response.statusCode == 200) {
       isLoading.value = false;
-      Get.back();
       final result = jsonDecode(response.body) as Map<String, dynamic>;
       if (result["success"] == true) {
         showToast(result["message"].toString());
-        Get.back();
         // Get.offAllNamed(AppRoutes.expertDashboardScreen);
       }
       else

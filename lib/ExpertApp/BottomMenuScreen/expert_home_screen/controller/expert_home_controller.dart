@@ -93,20 +93,15 @@ class ExpertHomeController extends GetxController  {
     latitude.value = prefs.getString("lat").toString();
     longitude.value = prefs.getString("long").toString();
     categoryDetailsFunction(latitude.value.toString(),longitude.value.toString(),Get.context!,true);
-
+    Get.find<ExpertProfileController>().profileApiFunction().then((value) {
+      if(value!=null){
+        getPriceListApiFunction();
+        getUserReviewApiFunction();
+      }
+    });
     super.onInit();
   }
 
-
-  precache()async{
-    for(int i=0;i<offerList.length-1;i++){
-      if(offerList[i]['banner'].toString()!=null) {
-        final ImageProvider imageProvider = NetworkImage(
-            offerList[i]['banner'].toString());
-        await precacheImage(imageProvider, Get.context!);
-      }
-    }
-  }
 
   categoryDetailsFunction(lat,lng,BuildContext context, bool showLoading) async {
     showLoading? showCircleProgressDialog(context):null;
@@ -129,8 +124,6 @@ class ExpertHomeController extends GetxController  {
     if (response.statusCode == 200) {
       final result = jsonDecode(response.body) as Map<String, dynamic>;
       if (result['success'] == true && result['success'] != null) {
-        getPriceListApiFunction();
-        getUserReviewApiFunction();
         name.value=result['data']['user']!=null?result['data']['user']['name'] ?? "":"";
         status.value=result['data']['status'] ?? "";
         /// change the toggle button status

@@ -19,22 +19,12 @@ class SpecialOfferScreen extends GetView<SpecialOfferController>{
   @override
   Widget build(BuildContext context){
     return Obx(()=>Scaffold(
-        appBar: appBar(context, "Special Offer",isShowLeading:
-        Get.find<ExpertDashboardController>().selectedIndex.value==1?
-        false:true, () => Get.back()),
-        body: Column(
-          children: [
-            addOfferWidget(),
-            ScreenSize.height(7),
-            Expanded(child:
-            Obx(() => controller.specialOfferModel.value!=null&&
-                controller.specialOfferModel.value.offersList!=null?
-            specialOfferWidget():
-            noDataFound())
-            )
-          ],
-        ),
-      ),
+        appBar: specialOfferAppbar(context),
+        body: Obx(() => controller.specialOfferModel.value!=null&&
+            controller.specialOfferModel.value.offersList!=null?
+        specialOfferWidget():
+        noDataFound())
+    ),
     );
   }
 
@@ -45,27 +35,22 @@ class SpecialOfferScreen extends GetView<SpecialOfferController>{
           controller.allOffersApiFunction();
         });
       },
-      child: Align(
-        alignment: Alignment.topRight,
-        child: Container(
-          height: 42,
-          margin:const EdgeInsets.only(right: 15),
-          width: 110,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(
-                  color:const Color(0xffD9D9D9)
-              )
-          ),
-          child:const Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.add,color: ColorConstant.homeExp,),
-              getText(title: 'Add offer',
-                  size: 15, fontFamily: poppinsMedium, color: ColorConstant.homeExp,
-                  fontWeight: FontWeight.w400)
-            ],
-          ),
+      child: Container(
+        padding:const EdgeInsets.symmetric(horizontal: 4,vertical: 5),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+                color:const Color(0xffD9D9D9)
+            )
+        ),
+        child:const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.add,color: ColorConstant.homeExp,size: 15,),
+            getText(title: 'Add offer',
+                size: 13, fontFamily: poppinsMedium, color: ColorConstant.homeExp,
+                fontWeight: FontWeight.w400)
+          ],
         ),
       ),
     );
@@ -85,12 +70,14 @@ class SpecialOfferScreen extends GetView<SpecialOfferController>{
         return Container(
           decoration: BoxDecoration(
               color: ColorConstant.white,
-              // borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(18),
+              border: Border.all(color: ColorConstant.borderColor),
               boxShadow: [
                 BoxShadow(
-                    offset: const Offset(0, -2),
+                    offset:const Offset(0, -2),
                     color: ColorConstant.blackColor.withOpacity(.2),
-                    blurRadius: 10)
+                    blurRadius: 15
+                )
               ]),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,26 +89,26 @@ class SpecialOfferScreen extends GetView<SpecialOfferController>{
                 ),
                 child: ClipRRect(
                   borderRadius: const BorderRadius.only(
-                    // topRight: Radius.circular(8),
-                    // topLeft: Radius.circular(8)
+                    topRight: Radius.circular(18),
+                    topLeft: Radius.circular(18)
                   ),
                   child: controller.specialOfferModel.value.offersList![index].banner != null
                       ? CachedNetworkImage(
                     height: 200,
-                    fit: BoxFit.fill,
+                    fit: BoxFit.cover,
                     width: MediaQuery.of(context).size.width,
                     imageUrl: "${controller.specialOfferModel.value.baseUrl}/${controller.specialOfferModel.value.offersList![index].banner}",
                     errorWidget: (context, url, error) => Image.network(
                       "https://raysensenbach.com/wp-content/uploads/2013/04/default.jpg",
-                      height: 250,
-                      fit: BoxFit.fill,
+                      height: 200,
+                      fit: BoxFit.cover,
                       width: MediaQuery.of(context).size.width,
                     ),
                   )
                       : Image.network(
                     "https://raysensenbach.com/wp-content/uploads/2013/04/default.jpg",
-                    height: 250,
-                    fit: BoxFit.fill,
+                    height: 200,
+                    fit: BoxFit.cover,
                     width: MediaQuery.of(context).size.width,
                   ),
                 ),
@@ -153,8 +140,8 @@ class SpecialOfferScreen extends GetView<SpecialOfferController>{
                       children: [
                         Image.asset(
                           AppImages.clockIcon,
-                          height: 20,
-                          width: 20,
+                          height: 16,
+                          width: 16,
                         ),
                         ScreenSize.width(7),
                         const getText(
@@ -180,5 +167,40 @@ class SpecialOfferScreen extends GetView<SpecialOfferController>{
           ),
         );
     });
+  }
+
+  AppBar specialOfferAppbar(BuildContext context){
+    return AppBar(
+      backgroundColor: Colors.white,
+      elevation: 0,
+      scrolledUnderElevation: 0.0,
+      automaticallyImplyLeading: false,
+      actions: [
+        Expanded(child: Padding(
+          padding: const EdgeInsets.only(left: 15,right: 15),
+          child: Row(
+            children: [
+              Get.find<ExpertDashboardController>().selectedIndex.value==1?
+                  Container():
+              GestureDetector(onTap: (){},
+                  child: Image.asset(
+                    AppImages.backIcon,
+                    height: 20,
+                    width: 20,
+                  )),
+              ScreenSize.width(15),
+              getText(
+                  title: "Special Offer",
+                  size: 17,
+                  fontFamily: interSemiBold,
+                  color: ColorConstant.blackColor,
+                  fontWeight: FontWeight.w400),
+              const Spacer(),
+              addOfferWidget()
+            ],
+          ),
+        ))
+      ],
+    );
   }
 }

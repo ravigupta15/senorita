@@ -11,6 +11,8 @@ import 'package:senorita/ExpertApp/expert_registration_screen/models/category_mo
 import 'package:senorita/UserApp/BottomMenuScreen/all_category_screen/all_category_screen.dart';
 import 'package:senorita/UserApp/BottomMenuScreen/all_category_screen/controller/all_category_controller.dart';
 import 'package:senorita/UserApp/BottomMenuScreen/wallet_screen/wallet.dart';
+import 'package:senorita/model/home_user_screen_model.dart';
+import 'package:senorita/model/salon_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../CommonScreens/loginScreen/loginScreen.dart';
 import '../../../../ScreenRoutes/routes.dart';
@@ -28,13 +30,12 @@ import '../../wallet_screen/controller/wallet_controller.dart';
 
 class DashboardController extends GetxController {
 
-
  final OffersController offersController = Get.put(OffersController());
  final AllCategoryController categoryListController = Get.put(AllCategoryController());
  final ProfileController profileController = Get.put(ProfileController());
 
  var categoryModel = HomeCategoryModel().obs;
-
+var homeModel = HomeUserScreenModel().obs;
 
  ///Dashboard Screen
   final formKey = GlobalKey<FormState>();
@@ -55,16 +56,15 @@ class DashboardController extends GetxController {
   String token = "";
 
 
-  final onlineExpertList = [].obs;
-  final cityList = [].obs;
-  final allExpertList = [].obs;
-
   ///loading
   final isOnlineExpertLoading = false.obs;
   final isCityLoading = false.obs;
   final allSelected=false.obs;
   final cityName = "All".obs;
   final categoryList =[].obs;
+
+  ///
+ final isSeeMore= false.obs;
 
   ///Pagination
   final count = 1.obs;
@@ -135,6 +135,9 @@ class DashboardController extends GetxController {
        Get.find<WalletController>().onInit();
 
      }
+    else if(selectedIndex.value==3){
+       Get.find<ProfileController>().onInit();
+     }
 
 
 
@@ -158,13 +161,6 @@ class DashboardController extends GetxController {
 
  ///Home Screen Data
 final bannerIndex =0.obs;
- final bannerList = [].obs;
- final offerBaseUrl = "".obs;
- final listing_base_url = "".obs;
-
-
-
-
 
 
  @override
@@ -238,7 +234,7 @@ final bannerIndex =0.obs;
   allHomeScreenApiFunction(lat,long, String searchValue, bool isShowLoad) async {
     page.value=1;
     isLoading.value = true;
-    isShowLoad? showCircleProgressDialog(Get.context!):false;
+    isShowLoad&&homeModel==null? showCircleProgressDialog(Get.context!):false;
     var headers = {'Authorization': 'Bearer $token'};
     var request = http.MultipartRequest('POST', Uri.parse(ApiUrls.homeScreen));
     request.fields.addAll({
@@ -251,19 +247,13 @@ final bannerIndex =0.obs;
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse).timeout(const Duration(seconds: 60));
     log(response.body);
-    isShowLoad? Get.back():null;
-    allExpertList.clear();
+    isShowLoad&&homeModel==null? Get.back():null;
+    isLoading.value=false;
     if (response.statusCode == 200) {
       log(response.body);
       final result = json.decode(response.body);
       if (result['success'] == true && result['success'] != null) {
-        for (int i = 0; i < result['data'].length; i++) {
-          bannerList.value =result['data']['getFeatureOffer']??[];
-          offerBaseUrl.value=result['data']['offer_base_url']??'';
-          allExpertList.value=result['data']['topRatedListing'];
-          listing_base_url.value=result['data']['listing_base_url']??'';
-          isLoading.value = false;
-        }
+        homeModel.value = HomeUserScreenModel.fromJson(result);
       }
     }
     else
@@ -271,8 +261,9 @@ final bannerIndex =0.obs;
     }
   }
 
+
+
   categoryApiFunction() async {
-    // categoryList.clear();
     isCategoryLoading.value=true;
     var body = {
       'category':'1'
@@ -283,15 +274,7 @@ final bannerIndex =0.obs;
       isCategoryLoading.value =false;
       if (response['data'] != null) {
         categoryModel.value = HomeCategoryModel.fromJson(response);
-        // for (int i = 0; i < response['data'].length; i++) {
-          print(response['data'],);
-          // PopularCategoryModel model = PopularCategoryModel(
-          //     response['data'][i]['imageUrl'].toString(),
-          //     response['data'][i]['name'].toString(),
-          //     response['data'][i]['id'].toString());
-          // categoryList.add(model);
-        // }
-      //
+
       }
     }
   }

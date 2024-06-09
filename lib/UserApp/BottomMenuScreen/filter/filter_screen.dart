@@ -276,8 +276,11 @@ class FilterScreen extends GetView<FilterController>{
 
   sortByBottomSheet(BuildContext context){
     showModalBottomSheet(context: context,
+        shape: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
         builder: (context){
-      return Container();
+      return Container(
+        
+      );
         });
   }
 }

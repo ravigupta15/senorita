@@ -52,7 +52,7 @@ class ExpertQrCodeScreen extends GetWidget<ExpertQRScannerController> {
                     decoration: BoxDecoration(
                         color: ColorConstant.qrViewBack,
                         border: Border.all(color: ColorConstant.qrViewBack),
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                        borderRadius:const BorderRadius.all(Radius.circular(10))),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -193,7 +193,7 @@ class ExpertQrCodeScreen extends GetWidget<ExpertQRScannerController> {
       // Get the directory to save the image
       final directory = await getApplicationDocumentsDirectory();
       final path = directory.path;
-      File imgFile = File('$path/qr_code.jpeg');
+      File imgFile = File('$path/qr_code.png');
       final box = context.findRenderObject() as RenderBox?;
       imgFile.writeAsBytes(pngBytes);
      if(route=='share'){

@@ -406,11 +406,10 @@ class ExpertEditProfileScreen extends GetView<ExpertEditProfileController> {
                     child: GestureDetector(
                       onTap: ()
                       {
+                        controller.subCatModel.value.selectedList.clear();
                         for(int i=0;i<controller.subCatModel.value.data!.length;i++){
                           for(int j=0;j<controller.selectedSubCatList.length;j++){
-                            print(controller.selectedSubCatList[j]);
                             if(controller.subCatModel.value.data![i].id.toString()==controller.selectedSubCatList[j]['id'].toString()){
-                              print('sdgdf');
                               controller.subCatModel.value.data![i].isSelected=true;
                               controller.subCatModel.value.selectedList.add({
                                 'name':controller.selectedSubCatList[j]['name'],
@@ -468,7 +467,7 @@ class ExpertEditProfileScreen extends GetView<ExpertEditProfileController> {
                                 children: [
                                   getText(
                                       title:
-                                          controller.selectedSubCatList[index]['name'].toString(),
+                                          controller.selectedSubCatList[index]['name']??'',
                                       size: 13,
                                       fontFamily: interRegular,
                                       color: ColorConstant.qrViewText,
@@ -793,15 +792,15 @@ class ExpertEditProfileScreen extends GetView<ExpertEditProfileController> {
                                         controller.subCatModel.value.data![index].isSelected=true;
                                         controller.subCatModel.value.selectedList.add({
                                           "name": controller.subCatModel.value.data![index].name,
-                                          "id": controller.subCatModel.value.data![index].id
+                                          "id": controller.subCatModel.value.data![index].id.toString()
                                         }
                                         );
-
                                       }
                                       else{
                                         controller.subCatModel.value.data![index].isSelected=false;
                                         for(int i=0;i<controller.subCatModel.value.selectedList.length;i++){
-                                          if(controller.subCatModel.value.selectedList[i]['id']==controller.subCatModel.value.data![index].id){
+                                          if(controller.subCatModel.value.selectedList[i]['id'].toString()==controller.subCatModel.value.data![index].id.toString()){
+                                            print('object');
                                             controller.subCatModel.value.selectedList.removeAt(i);
                                           }
                                         }
@@ -867,6 +866,7 @@ class ExpertEditProfileScreen extends GetView<ExpertEditProfileController> {
                         GestureDetector(
                           behavior: HitTestBehavior.opaque,
                           onTap: () {
+                            print(controller.subCatModel.value.selectedList.length);
                             if(controller.subCatModel.value.selectedList.isNotEmpty) {
                               controller.selectedSubCatList.clear();
                               for (int i = 0; i <
