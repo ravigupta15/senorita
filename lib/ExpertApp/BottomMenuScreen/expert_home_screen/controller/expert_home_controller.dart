@@ -193,19 +193,18 @@ class ExpertHomeController extends GetxController  {
   getPriceListApiFunction() async {
     // showCircleProgressDialog(Get.context!);
     getPriceList.clear();
-    var headers = {'Authorization': 'Bearer' + token};
+    var headers = {'Authorization': 'Bearer $token'};
     var request =
     http.MultipartRequest('POST', Uri.parse(ApiUrls.getPriceList));
     request.fields.addAll({
-      'expert_id': Get.find<ExpertProfileController>().model.value.data!.categoryId,
+      'expert_id': Get.find<ExpertProfileController>().model.value!=null&&Get.find<ExpertProfileController>().model.value!.data!=null&&Get.find<ExpertProfileController>().model.value!.data!.user!=null? Get.find<ExpertProfileController>().model.value!.data!.user!.id.toString():"",
     });
-    print("object...${expertId.toString()}");
     request.headers.addAll(headers);
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse);
-
     if (response.statusCode == 200) {
-      final result = jsonDecode(response.body) as Map<String, dynamic>;
+      final result = json.decode(response.body);
+      log(response.body);
       if (result['success'] == true && result['success'] != null) {
         getPriceList.value = result['Items'];
         print("items....${result['items']}");
@@ -222,9 +221,8 @@ class ExpertHomeController extends GetxController  {
     var request =
     http.MultipartRequest('POST', Uri.parse(ApiUrls.getUserReview));
     request.fields.addAll({
-      'expert_id': Get.find<ExpertProfileController>().model.value.data!.categoryId,
+      'expert_id':  Get.find<ExpertProfileController>().model.value!=null&&Get.find<ExpertProfileController>().model.value!.data!=null&&Get.find<ExpertProfileController>().model.value!.data!.user!=null? Get.find<ExpertProfileController>().model.value!.data!.user!.id.toString():"",
     });
-
     request.headers.addAll(headers);
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse);

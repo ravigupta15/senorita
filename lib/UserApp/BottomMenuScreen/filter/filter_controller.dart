@@ -11,8 +11,8 @@ import '../../../api_config/Api_Url.dart';
 
 class FilterController extends GetxController{
 final selectedFilterIndex = 0.obs;
-final selectedRating = 2.0.obs;
-final currentRangeValues = 0.1.obs;
+final selectedRating = 0.0.obs;
+final currentRangeValues = 0.0.obs;
 List <FilterCatSubCatModel> categoryList = [];
 var categoryModel = ExpertCategorySubCatModel().obs;
 final priceList = ['500-699','700-999','1000-1499','1500-1999'].obs;
@@ -26,8 +26,10 @@ final sortByList = ['Offers','Expert top rated','New Arrivals'].obs;
 
 final selectedSort = 10.obs;
 
+final route = ''.obs;
 @override
   void onInit() async{
+route.value = Get.parameters['route']!;
   Future.delayed(Duration.zero,(){
     getCategoryApiFunction();
   });

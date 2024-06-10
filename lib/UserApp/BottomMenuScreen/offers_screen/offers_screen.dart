@@ -27,7 +27,7 @@ class OffersScreen extends GetView<OffersController> {
       backgroundColor: ColorConstant.white,
       appBar: appBar(context, 'Special Offer', () => null,isShowLeading: false),
       body: RefreshIndicator(
-        onRefresh: () => controller.allOffersApiFunction(2),
+        onRefresh: () => controller.allOffersApiFunction(false),
         child: NotificationListener<ScrollNotification>(
           onNotification: (scrollNotification) {
             if (scrollNotification is ScrollStartNotification) {
@@ -54,8 +54,20 @@ class OffersScreen extends GetView<OffersController> {
                             ScreenSize.width(10),
                             GestureDetector(
                               onTap: (){
-                                Get.toNamed(AppRoutes.filterScreen)?.then((value) {
+                                Get.toNamed(AppRoutes.filterScreen,parameters: {'route':"offer"})?.then((value) {
                                   print(value);
+                                  if(value!=null){
+                                    controller.hasOffer.value = value['offer'].toString();
+                                    controller.category.value = value['category'].toString();
+                                    controller.subCategory.value= value['subcat'].toString();
+                                    controller.price.value = value['price'].toString();
+                                    controller.discount.value= value['discount'].toString();
+                                    controller.rating.value = value['topRated'].isNotEmpty?
+                                    value['topRated'].toString(): value['rating']==0.0?'':value['rating'].toString();
+                                    controller.distance.value = value['distance']=='0-0'?'':value['distance'].toString();
+                                    controller.newArrivals.value = value['arrivals'].toString();
+                                    controller.allOffersApiFunction(true);
+                                  }
                                 });
                               },
                               child: Container(
@@ -81,16 +93,16 @@ class OffersScreen extends GetView<OffersController> {
                             child: Obx(
                               () => controller.isLoading.value
                                   ? allExpertShimmer()
-                                  : controller.allOffersList.isNotEmpty
+                                  : controller.allOffersList.value.isNotEmpty
                                       ? SizedBox(
                                           child: ListView.separated(
                                                 separatorBuilder: (context,sp){
                                                   return const SizedBox(height: 20,);
                                                 },
                                                 shrinkWrap: true,
-                                                padding:const EdgeInsets.only(left: 15,right: 14,top: 15),
+                                                padding:const EdgeInsets.only(left: 15,right: 14,top: 15,bottom: 40),
                                                 itemCount: controller
-                                                    .allOffersList.length,
+                                                    .allOffersList.value.length,
                                                 physics:const ScrollPhysics(),
                                                 itemBuilder:
                                                     (BuildContext context,
@@ -128,9 +140,7 @@ class OffersScreen extends GetView<OffersController> {
                                         ),
                             )),
                       ),
-                      const SizedBox(
-                        height: 15,
-                      ),
+
                       controller.isLoadMoreRunning.value == true
                           ? const Padding(
                               padding: EdgeInsets.only(bottom: 30),

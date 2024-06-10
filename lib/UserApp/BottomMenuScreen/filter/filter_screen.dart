@@ -14,7 +14,6 @@ class FilterScreen extends GetView<FilterController>{
 
   @override
   Widget build(BuildContext context){
-    print(controller.mergeCategoryModel.value.selectedCategory);
     return Scaffold(
       appBar: appBar(context, "Filter", () {
         Get.back();
@@ -63,28 +62,44 @@ class FilterScreen extends GetView<FilterController>{
           children: [
             CustomBtn(title: 'Apply', height: 50, width: double.infinity,
                 onTap: (){
+              List subCat =[];
               String subCatId='';
               String catId = controller.mergeCategoryModel.value.selectedCategory.value.map((e)=>e['id']).join(',');
               for(int i=0;i<controller.mergeCategoryModel.value.data!.length;i++){
                 for(int j=0;j<controller.mergeCategoryModel.value.data![i].baseCategoryArray!.length;j++){
                   if(controller.mergeCategoryModel.value.data![i].baseCategoryArray![j].selectedSubCategory.isNotEmpty){
-                  subCatId = controller.mergeCategoryModel.value.data![i].baseCategoryArray![j].selectedSubCategory.map((e)=>e).join(',');
+                    print(controller.mergeCategoryModel.value.data![i].baseCategoryArray![j].selectedSubCategory);
+                  subCat =subCat+ controller.mergeCategoryModel.value.data![i].baseCategoryArray![j].selectedSubCategory;
                 }
               }}
+              subCatId = subCat.map((e) => e).join(',');
               print(subCatId);
-              // Get.back(result: [
-              //       {'category':},
-              //
-              //     ]);
+              Get.back(result:
+              {'category':catId,'subcat':subCatId,'price':controller.selectedPriceValue.value,'discount':controller.selectedDiscountValue.value,
+              'rating':controller.selectedRating.value,'distance':"0-${controller.currentRangeValues.value.round()}",
+                'offer':controller.selectedSort.value==0?1:controller.route.value=='offer'?'': '2',
+                'topRated':controller.selectedSort.value==1?5:'',
+                'arrivals':controller.selectedSort.value==2?1:''
+              },);
                 }, color: ColorConstant.appColor),
             // ScreenSize.height(6),
-           Container(
-             height: 25,
-             alignment: Alignment.center,
-             color: ColorConstant.white,
-             child: const getText(title: 'Reset Filter',
-                  size: 13, fontFamily: interMedium, color: ColorConstant.blackLight,
-                  fontWeight: FontWeight.w400),
+           InkWell(
+             onTap: (){
+               Get.back(result: {'category':'','subcat':'','price':'','discount':'',
+                 'rating':controller.selectedRating.value,'distance':"0-0",
+                 'offer':controller.route.value=='offer'?'':'2',
+                 'topRated':'',
+                 'arrivals':''
+               },);
+             },
+             child: Container(
+               height: 25,
+               alignment: Alignment.center,
+               color: ColorConstant.white,
+               child: const getText(title: 'Reset Filter',
+                    size: 13, fontFamily: interMedium, color: ColorConstant.blackLight,
+                    fontWeight: FontWeight.w400),
+             ),
            )
           ],
         ),

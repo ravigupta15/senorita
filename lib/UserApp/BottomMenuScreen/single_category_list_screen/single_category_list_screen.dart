@@ -37,7 +37,7 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
       }),
       body: RefreshIndicator(
         onRefresh: () =>
-            controller.allCategoryApiFunction(controller.categoryId.toString()),
+            controller.allCategoryApiFunction(),
         child: NotificationListener<ScrollNotification>(
           onNotification: (scrollNotification) {
             if (scrollNotification is ScrollStartNotification) {
@@ -45,8 +45,7 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
             } else if (scrollNotification is ScrollEndNotification) {
               if (scrollNotification.metrics.pixels >=
                   scrollNotification.metrics.maxScrollExtent - 40) {
-                controller.allCategoryPaginationApiFunction(
-                    controller.categoryId.toString());
+                controller.allCategoryPaginationApiFunction();
                 // controller.selectedTabBar.value ==0?
                 // productPaginApiFunction():servicePaginApiFunction();
               }
@@ -68,7 +67,20 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
                     ScreenSize.width(10),
                     GestureDetector(
                       onTap: (){
-                        Get.toNamed(AppRoutes.filterScreen);
+                        Get.toNamed(AppRoutes.filterScreen,parameters: {'route':'single'})?.then((value) {
+                          if(value!=null){
+                            controller.hasOffer.value = value['offer'].toString();
+                            controller.category.value = value['category'].toString();
+                            controller.subCategory.value= value['subcat'].toString();
+                            controller.price.value = value['price'].toString();
+                            controller.discount.value= value['discount'].toString();
+                            controller.rating.value = value['topRated'].isNotEmpty?
+                            value['topRated'].toString(): value['rating']==0.0?'':value['rating'].toString();
+                            controller.distance.value = value['distance']=='0-0'?'':value['distance'].toString();
+                            controller.newArrivals.value = value['arrivals'].toString();
+                            controller.allCategoryApiFunction();
+                          }
+                        });
                       },
                       child: Container(
                         height: 49,
@@ -101,9 +113,7 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
                                   onRefresh: () {
                                     allExpertShimmer();
                                     return controller
-                                        .allCategoryApiFunction(controller
-                                            .categoryId
-                                            .toString());
+                                        .allCategoryApiFunction();
                                   },
                                   child: ListView.separated(
                                       separatorBuilder: (context, sp) {

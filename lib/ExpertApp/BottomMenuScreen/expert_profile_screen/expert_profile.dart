@@ -41,7 +41,8 @@ class ExpertProfile extends GetWidget<ExpertProfileController> {
               ),
             ),
             child: Column(
-              children: [_buildUserDetails(), _buildOtherMenuOption(context)],
+              children: [_buildUserDetails(),
+                _buildOtherMenuOption(context)],
             ),
           ),
         ),
@@ -144,11 +145,9 @@ class ExpertProfile extends GetWidget<ExpertProfileController> {
   /// Other Menu Option Widget
   Widget _buildOtherMenuOption(BuildContext context) {
     DashboardController dashboardController = DashboardController();
-
     return SizedBox(
-      // height: MediaQuery.of(context).size.height/2,
+      height: MediaQuery.of(context).size.height/2,
       child: Container(
-
         decoration: BoxDecoration(
             color: ColorConstant.white,
             borderRadius:const BorderRadius.only(
@@ -162,7 +161,7 @@ class ExpertProfile extends GetWidget<ExpertProfileController> {
               )
             ]
         ),
-        padding: EdgeInsets.only(bottom: 20),
+        padding:const EdgeInsets.only(bottom: 20),
         child: Column(
           children: [
             GestureDetector(
