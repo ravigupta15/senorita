@@ -1,29 +1,17 @@
-import 'dart:ffi';
 
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:senorita/UserApp/BottomMenuScreen/home_screen/shimmer/all_expert_shimmer.dart';
-import 'package:senorita/UserApp/BottomMenuScreen/home_screen/shimmer/popular_category_shimmer.dart';
 import 'package:senorita/UserApp/BottomMenuScreen/single_category_list_screen/controller/single_category_list_controller.dart';
-import 'package:senorita/api_config/Api_Url.dart';
 import 'package:senorita/utils/screensize.dart';
 import 'package:senorita/widget/no_data_found.dart';
 import 'package:senorita/widget/view_salon_widget.dart';
 import '../../../ScreenRoutes/routes.dart';
 import '../../../helper/appbar.dart';
 import '../../../helper/appimage.dart';
-import '../../../helper/getText.dart';
 import '../../../helper/searchbar.dart';
 import '../../../utils/color_constant.dart';
-import '../../../utils/format_rating.dart';
-import '../../../utils/my_sperator.dart';
-import '../../../utils/size_config.dart';
-import '../../../utils/stringConstants.dart';
-import '../home_screen/model/home_model.dart';
 
 class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
   const SingleCategoryListScreen({key});
@@ -67,7 +55,10 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
                     ScreenSize.width(10),
                     GestureDetector(
                       onTap: (){
-                        Get.toNamed(AppRoutes.filterScreen,parameters: {'route':'single'})?.then((value) {
+                        Get.toNamed(AppRoutes.filterScreen,arguments: ['single',
+                          controller.category.value,controller.categoryName.value,
+                          controller.savedFilterValues
+                        ])?.then((value) {
                           if(value!=null){
                             controller.hasOffer.value = value['offer'].toString();
                             controller.category.value = value['category'].toString();
@@ -75,10 +66,26 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
                             controller.price.value = value['price'].toString();
                             controller.discount.value= value['discount'].toString();
                             controller.rating.value = value['topRated'].isNotEmpty?
-                            value['topRated'].toString(): value['rating']==0.0?'':value['rating'].toString();
-                            controller.distance.value = value['distance']=='0-0'?'':value['distance'].toString();
+                            value['topRated'].toString(): value['rating']==0?'':value['rating'].toString();
+                            controller.distance.value = value['distance'].isEmpty?'':"0-${value['distance'].toString()}";
                             controller.newArrivals.value = value['arrivals'].toString();
+
+                            controller.savedFilterValues = {
+                              'hasOffer':controller.hasOffer.value,
+                              'category':controller.category.value,
+                              'subcat':controller.subCategory.value,
+                              'price':controller.price.value,
+                              'discount':controller.discount.value,
+                              'topRated':value['topRated'],
+                              'rating':value['rating'],
+                              'distance':value['distance'],
+                              'arrivals':value['arrivals']
+                            };
+
+                            print("vbbb..${controller.savedFilterValues}");
+
                             controller.allCategoryApiFunction();
+
                           }
                         });
                       },

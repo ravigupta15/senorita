@@ -4,19 +4,15 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:senorita/ExpertApp/BottomMenuScreen/expert_profile_screen/controller/expert_profile_controller.dart';
+import 'package:senorita/ExpertApp/BottomMenuScreen/expert_qr_screen/expertQrScreen.dart';
 import '../../../ScreenRoutes/routes.dart';
 import '../../../helper/appbar.dart';
 import '../../../helper/appimage.dart';
 import '../../../helper/custombtn_new.dart';
 import '../../../helper/getText.dart';
 import '../../../utils/color_constant.dart';
-import '../../../utils/screensize.dart';
 import '../../../utils/stringConstants.dart';
 import '../../../utils/time_format.dart';
-import '../../../utils/toast.dart';
-import '../../../utils/validation.dart';
-import '../../../widget/customTextField.dart';
-import 'dart:math' as math;
 
 import '../../../widget/no_data_found.dart';
 import 'controller/expert_wallet_controller.dart';
@@ -63,18 +59,15 @@ class ExpertWalletScreen extends GetWidget<ExpertWalletController> {
                             color: ColorConstant.blackColor,
                             fontWeight: FontWeight.w500),
                         const SizedBox(height: 4,),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 0),
-                          child: Center(
-                            child: getText(
-                                title: profileController.model!=null&&profileController.model.value.data!=null&&
-                                    profileController.model.value.data!.user!=null?
-                                profileController.model.value.data!.user!.wallet.toString():"0",
-                                size: 22,
-                                fontFamily: interSemiBold,
-                                color: ColorConstant.blackColor,
-                                fontWeight: FontWeight.w700),
-                          ),
+                        Center(
+                          child: getText(
+                              title: profileController.model!=null&&profileController.model.value.data!=null&&
+                                  profileController.model.value.data!.user!=null?
+                              profileController.model.value.data!.user!.wallet.toString():"0",
+                              size: 22,
+                              fontFamily: interSemiBold,
+                              color: ColorConstant.blackColor,
+                              fontWeight: FontWeight.w700),
                         ),
                       ],
                     ),
@@ -83,7 +76,8 @@ class ExpertWalletScreen extends GetWidget<ExpertWalletController> {
                         behavior: HitTestBehavior.opaque,
                         onTap: ()
                         {
-                          Get.toNamed(AppRoutes.expertQrScreen)!.then((value) {
+                          Get.to(ExpertQrScreen(),transition: Transition.cupertino,
+                          )!.then((value) {
                             controller.callApiFunction();
                             profileController.profileApiFunction();
                           });

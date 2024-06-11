@@ -11,10 +11,12 @@ import '../../ScreenRoutes/routes.dart';
 import '../../api_config/Api_Url.dart';
 import '../../helper/appimage.dart';
 import '../../helper/getText.dart';
+import '../../helper/getText.dart';
 import '../../utils/color_constant.dart';
 import '../../utils/map_utils.dart';
 import '../../utils/stringConstants.dart';
 import '../../utils/toast.dart';
+import '../../widget/no-data_found_image.dart';
 import 'ImgView.dart';
 import 'controller/salon_details_controller.dart';
 
@@ -680,7 +682,7 @@ class SalonDetailScreen extends GetView<SalonDetailController> {
                                 child: menuUi(context, index)),
                           );
                         })
-                    :  noDataFoundWidget(context)
+                    :  noDataFoundImage(context)
               )
             : controller.selectedTabValue == 2
                 ? Padding(
@@ -876,14 +878,14 @@ class SalonDetailScreen extends GetView<SalonDetailController> {
                                   ),
                                 ],
                               )
-                            : noDataFoundWidget(context),
+                            : noDataFoundImage(context),
                            ScreenSize.height(15),
                         writeReviewBtn(context),
                       ],
                     ),
                   )
                 : Obx(() => controller.photosList.isEmpty
-                    ? noDataFoundWidget(context)
+                    ? noDataFoundImage(context)
                     : GridView.builder(
                         padding: EdgeInsets.zero,
                         shrinkWrap: true,
@@ -1346,27 +1348,6 @@ class SalonDetailScreen extends GetView<SalonDetailController> {
         });
   }
 
-  Widget noDataFoundWidget(BuildContext context){
-    return Center(
-      child: Column(
-        children: [
-          Image.asset(
-            width: MediaQuery.of(context).size.width,
-            height: 80,
-            AppImages.noDataFound,
-          ),
-          getText(
-              lineHeight: 1.6,
-              title: "No Data Found",
-              size: 14,
-              fontFamily: interSemiBold,
-              color: ColorConstant.blackColor,
-              fontWeight: FontWeight.w600),
-        ],
-      ),
-    );
-  }
-  
   Widget writeReviewBtn(BuildContext context){
     return GestureDetector(
       onTap: (){

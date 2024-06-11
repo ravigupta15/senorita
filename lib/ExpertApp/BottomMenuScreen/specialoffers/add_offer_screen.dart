@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:senorita/ExpertApp/BottomMenuScreen/expert_profile_screen/controller/expert_profile_controller.dart';
 import 'package:senorita/helper/appbar.dart';
 import 'package:senorita/helper/custombtn.dart';
 import 'package:senorita/helper/getText.dart';
@@ -194,7 +195,7 @@ class AddOfferScreen extends GetView<AddOfferController>{
           getText(title: 'Discount %',
               size: 15, fontFamily: interMedium, color: ColorConstant.blackColor, fontWeight: FontWeight.w500),
           ScreenSize.height(6),
-          customTextField(hintText: '50',
+          customTextField(hintText: 'Enter discount',
             controller: controller.discountController,
             textInputType: TextInputType.number,
             inputFormatters: [FilteringTextInputFormatter.digitsOnly]
@@ -203,7 +204,7 @@ class AddOfferScreen extends GetView<AddOfferController>{
           getText(title: 'Description',
               size: 15, fontFamily: interMedium, color: ColorConstant.blackColor, fontWeight: FontWeight.w500),
           ScreenSize.height(6),
-          customTextField(hintText: '50 % discount',
+          customTextField(hintText: 'Enter description',
             controller: controller.discountDescriptionController,
           ),
           ScreenSize.height(17),
@@ -657,14 +658,14 @@ class AddOfferScreen extends GetView<AddOfferController>{
                     ),
                     width: MediaQuery.of(context).size.width,
                     // color: Colors.white,
-                    child:controller.discountCategoryModel.value!=null&& controller.discountCategoryModel.value!.data!=null?
+                    child:controller.discountCategoryList.isNotEmpty?
                     ListView.builder(
                         physics: const ScrollPhysics(),
                         shrinkWrap: true,
                         scrollDirection: Axis.vertical,
                         padding: const EdgeInsets.only(
                             left: 15, right: 10, bottom: 15, top: 4),
-                        itemCount: controller.discountCategoryModel.value!.data!.length,
+                        itemCount: controller.discountCategoryList.length,
                         itemBuilder: (context, index) {
                           return Column(
                             children: [
@@ -676,17 +677,17 @@ class AddOfferScreen extends GetView<AddOfferController>{
                                   behavior: HitTestBehavior.opaque,
                                   onTap: () {
                                     state((){});
-                                    controller.discountCategoryModel.value.selectedIndex=index;
-                                    controller.selectedDiscountCategory.value=controller.discountCategoryModel.value.data![index].name;
-                                    controller.selectedDiscountCategoryId.value = controller.discountCategoryModel.value.data![index].id.toString();
+                                    controller.selectedDiscountCategoryIndex.value=index;
+                                    controller.selectedDiscountCategory.value=controller.discountCategoryList[index].name;
+                                    controller.selectedDiscountCategoryId.value = controller.discountCategoryList[index].id.toString();
                                   },
                                   child: Row(
                                     children: [
                                     Icon(
-                                        color:controller.discountCategoryModel.value.selectedIndex==index?
+                                        color:controller.selectedDiscountCategoryIndex.value==index?
                                         ColorConstant.onBoardingBack: ColorConstant.greyColor,
                                         size: 20,
-                                     controller.discountCategoryModel.value.selectedIndex==index?
+                                     controller.selectedDiscountCategoryIndex.value==index?
                                      Icons.radio_button_checked:
                                         Icons.radio_button_off_outlined,
                                       ),
@@ -694,7 +695,7 @@ class AddOfferScreen extends GetView<AddOfferController>{
                                         width: 10,
                                       ),
                                       Text(
-                                        controller.discountCategoryModel.value.data![index].name.toString(),
+                                        controller.discountCategoryList[index].name.toString(),
                                         style: const TextStyle(
                                           color: ColorConstant.greyColor,
                                           fontSize: 14,
@@ -818,14 +819,14 @@ class AddOfferScreen extends GetView<AddOfferController>{
                     ),
                     width: MediaQuery.of(context).size.width,
                     // color: Colors.white,
-                    child:controller.buyCategoryModel.value!=null&& controller.buyCategoryModel.value!.data!=null?
+                    child:controller.buyCategoryList.isNotEmpty?
                     ListView.builder(
                         physics: const ScrollPhysics(),
                         shrinkWrap: true,
                         scrollDirection: Axis.vertical,
                         padding: const EdgeInsets.only(
                             left: 15, right: 10, bottom: 15, top: 4),
-                        itemCount: controller.buyCategoryModel.value!.data!.length,
+                        itemCount: controller.buyCategoryList.length,
                         itemBuilder: (context, index) {
                           return Column(
                             children: [
@@ -837,17 +838,17 @@ class AddOfferScreen extends GetView<AddOfferController>{
                                   behavior: HitTestBehavior.opaque,
                                   onTap: () {
                                     state((){});
-                                    controller.buyCategoryModel.value.selectedIndex=index;
-                                    controller.selectedBuyCategory.value=controller.buyCategoryModel.value.data![index].name;
-                                    controller.selectedBuyCategoryId.value = controller.buyCategoryModel.value.data![index].id.toString();
+                                    controller.selectedBuyCategoryIndex.value=index;
+                                    controller.selectedBuyCategory.value=controller.buyCategoryList[index].name;
+                                    controller.selectedBuyCategoryId.value = controller.buyCategoryList[index].id.toString();
                                   },
                                   child: Row(
                                     children: [
                                       Icon(
-                                        color:controller.buyCategoryModel.value.selectedIndex==index?
+                                        color:controller.selectedBuyCategoryIndex.value==index?
                                         ColorConstant.onBoardingBack: ColorConstant.greyColor,
                                         size: 20,
-                                        controller.buyCategoryModel.value.selectedIndex==index?
+                                        controller.selectedBuyCategoryIndex.value==index?
                                         Icons.radio_button_checked:
                                         Icons.radio_button_off_outlined,
                                       ),
@@ -855,7 +856,7 @@ class AddOfferScreen extends GetView<AddOfferController>{
                                         width: 10,
                                       ),
                                       Text(
-                                        controller.buyCategoryModel.value.data![index].name.toString(),
+                                        controller.buyCategoryList[index].name.toString(),
                                         style: const TextStyle(
                                           color: ColorConstant.greyColor,
                                           fontSize: 14,
@@ -992,7 +993,7 @@ class AddOfferScreen extends GetView<AddOfferController>{
                                 if(controller.discountSubCatModel.value.isAllSelected){
                                   controller.discountSubCatModel.value.isAllSelected=false;
                                   for(int i=0;i<controller.discountSubCatModel.value!.data!.length;i++){
-                                    controller.discountSubCatModel.value.data![i].isSelected=false;
+                                    controller.discountSubCatModel.value.data![i].isSelected.value=false;
                                     controller.discountSubCatModel.value.selectedList.clear();
                                   }
                                 }
@@ -1000,7 +1001,7 @@ class AddOfferScreen extends GetView<AddOfferController>{
                                   controller.discountSubCatModel.value.selectedList.clear();
                                   controller.discountSubCatModel.value.isAllSelected=true;
                                   for(int i=0;i<controller.discountSubCatModel.value!.data!.length;i++){
-                                    controller.discountSubCatModel.value.data![i].isSelected=true;
+                                    controller.discountSubCatModel.value.data![i].isSelected.value=true;
                                     controller.discountSubCatModel.value.selectedList.add({
                                       "name": controller.discountSubCatModel.value.data![i].name,
                                       "id": controller.discountSubCatModel.value.data![i].id
@@ -1046,8 +1047,8 @@ class AddOfferScreen extends GetView<AddOfferController>{
                                         behavior: HitTestBehavior.opaque,
                                         onTap: () {
                                           state((){});
-                                          if(controller.discountSubCatModel.value.data![index].isSelected==false){
-                                            controller.discountSubCatModel.value.data![index].isSelected=true;
+                                          if(controller.discountSubCatModel.value.data![index].isSelected.value==false){
+                                            controller.discountSubCatModel.value.data![index].isSelected.value=true;
                                             controller.discountSubCatModel.value.selectedList.add({
                                               "name": controller.discountSubCatModel.value.data![index].name,
                                               "id": controller.discountSubCatModel.value.data![index].id
@@ -1058,7 +1059,7 @@ class AddOfferScreen extends GetView<AddOfferController>{
                                             }
                                           }
                                           else{
-                                            controller.discountSubCatModel.value.data![index].isSelected=false;
+                                            controller.discountSubCatModel.value.data![index].isSelected.value=false;
                                             controller.discountSubCatModel.value.isAllSelected=false; /// in case the user unselect any subCat
                                             for(int i=0;i<controller.discountSubCatModel.value.selectedList.length;i++){
                                               if(controller.discountSubCatModel.value.selectedList[i]['id']==controller.discountSubCatModel.value.data![index].id){
@@ -1070,7 +1071,7 @@ class AddOfferScreen extends GetView<AddOfferController>{
                                         },
                                         child: Row(
                                           children: [
-                                            checkBoxWidget(controller.discountSubCatModel.value.data![index].isSelected==true?
+                                            checkBoxWidget(controller.discountSubCatModel.value.data![index].isSelected.value==true?
                                             ColorConstant.onBoardingBack:ColorConstant.white
                                                 ),
                                             const SizedBox(
@@ -1228,7 +1229,7 @@ class AddOfferScreen extends GetView<AddOfferController>{
                                 if(controller.buySubCatModel.value.isAllSelected){
                                   controller.buySubCatModel.value.isAllSelected=false;
                                   for(int i=0;i<controller.buySubCatModel.value!.data!.length;i++){
-                                    controller.buySubCatModel.value.data![i].isSelected=false;
+                                    controller.buySubCatModel.value.data![i].isSelected.value=false;
                                     controller.buySubCatModel.value.selectedList.clear();
                                   }
                                 }
@@ -1236,7 +1237,7 @@ class AddOfferScreen extends GetView<AddOfferController>{
                                   controller.buySubCatModel.value.selectedList.clear();
                                   controller.buySubCatModel.value.isAllSelected=true;
                                   for(int i=0;i<controller.buySubCatModel.value!.data!.length;i++){
-                                    controller.buySubCatModel.value.data![i].isSelected=true;
+                                    controller.buySubCatModel.value.data![i].isSelected.value=true;
                                     controller.buySubCatModel.value.selectedList.add({
                                       "name": controller.buySubCatModel.value.data![i].name,
                                       "id": controller.buySubCatModel.value.data![i].id
@@ -1282,8 +1283,8 @@ class AddOfferScreen extends GetView<AddOfferController>{
                                         behavior: HitTestBehavior.opaque,
                                         onTap: () {
                                           state((){});
-                                          if(controller.buySubCatModel.value.data![index].isSelected==false){
-                                            controller.buySubCatModel.value.data![index].isSelected=true;
+                                          if(controller.buySubCatModel.value.data![index].isSelected.value==false){
+                                            controller.buySubCatModel.value.data![index].isSelected.value=true;
                                             controller.buySubCatModel.value.selectedList.add(
                                                 {
                                                   "name": controller.buySubCatModel.value.data![index].name,
@@ -1295,7 +1296,7 @@ class AddOfferScreen extends GetView<AddOfferController>{
                                             }
                                           }
                                           else{
-                                            controller.buySubCatModel.value.data![index].isSelected=false;
+                                            controller.buySubCatModel.value.data![index].isSelected.value=false;
                                             controller.buySubCatModel.value.isAllSelected=false; /// in case the user unselect any subCat
                                             for(int i=0;i<controller.buySubCatModel.value.selectedList.length;i++){
                                               if(controller.buySubCatModel.value.selectedList[i]['id']==controller.buySubCatModel.value.data![index].id){
@@ -1306,7 +1307,7 @@ class AddOfferScreen extends GetView<AddOfferController>{
                                         },
                                         child: Row(
                                           children: [
-                                            checkBoxWidget(controller.buySubCatModel.value.data![index].isSelected==true?
+                                            checkBoxWidget(controller.buySubCatModel.value.data![index].isSelected.value==true?
                                             ColorConstant.onBoardingBack:ColorConstant.white
                                             ),
                                             const SizedBox(
@@ -1462,7 +1463,7 @@ class AddOfferScreen extends GetView<AddOfferController>{
                                 if(controller.getSubCatModel.value.isAllSelected){
                                   controller.getSubCatModel.value.isAllSelected=false;
                                   for(int i=0;i<controller.getSubCatModel.value!.data!.length;i++){
-                                    controller.getSubCatModel.value.data![i].isSelected=false;
+                                    controller.getSubCatModel.value.data![i].isSelected.value=false;
                                     controller.getSubCatModel.value.selectedList.clear();
                                   }
                                 }
@@ -1470,7 +1471,7 @@ class AddOfferScreen extends GetView<AddOfferController>{
                                   controller.getSubCatModel.value.selectedList.clear();
                                   controller.getSubCatModel.value.isAllSelected=true;
                                   for(int i=0;i<controller.getSubCatModel.value!.data!.length;i++){
-                                    controller.getSubCatModel.value.data![i].isSelected=true;
+                                    controller.getSubCatModel.value.data![i].isSelected.value=true;
                                     controller.getSubCatModel.value.selectedList.add({
                                       "name": controller.getSubCatModel.value.data![i].name,
                                       "id": controller.getSubCatModel.value.data![i].id
@@ -1516,8 +1517,8 @@ class AddOfferScreen extends GetView<AddOfferController>{
                                         behavior: HitTestBehavior.opaque,
                                         onTap: () {
                                           state((){});
-                                          if(controller.getSubCatModel.value.data![index].isSelected==false){
-                                            controller.getSubCatModel.value.data![index].isSelected=true;
+                                          if(controller.getSubCatModel.value.data![index].isSelected.value==false){
+                                            controller.getSubCatModel.value.data![index].isSelected.value=true;
                                             controller.getSubCatModel.value.selectedList.add({
                                               "name": controller.getSubCatModel.value.data![index].name,
                                               "id": controller.getSubCatModel.value.data![index].id
@@ -1528,7 +1529,7 @@ class AddOfferScreen extends GetView<AddOfferController>{
                                             }
                                           }
                                           else{
-                                            controller.getSubCatModel.value.data![index].isSelected=false;
+                                            controller.getSubCatModel.value.data![index].isSelected.value=false;
                                             controller.getSubCatModel.value.isAllSelected=false; /// in case the user unselect any subCat
                                             for(int i=0;i<controller.getSubCatModel.value.selectedList.length;i++){
                                               if(controller.getSubCatModel.value.selectedList[i]['id']==controller.getSubCatModel.value.data![index].id){
@@ -1540,7 +1541,7 @@ class AddOfferScreen extends GetView<AddOfferController>{
                                         },
                                         child: Row(
                                           children: [
-                                            checkBoxWidget(controller.getSubCatModel.value.data![index].isSelected==true?
+                                            checkBoxWidget(controller.getSubCatModel.value.data![index].isSelected.value==true?
                                             ColorConstant.onBoardingBack:ColorConstant.white
                                                ),
                                             const SizedBox(

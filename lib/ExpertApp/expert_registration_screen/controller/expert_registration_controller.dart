@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../ScreenRoutes/routes.dart';
 import '../../../api_config/ApiConstant.dart';
 import '../../../api_config/Api_Url.dart';
@@ -22,6 +23,7 @@ import '../../../widget/success_box.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 
+import '../../BottomMenuScreen/specialoffers/model/expert_subcategory_model.dart';
 import '../../searchLocationMap/searchLocationScreen.dart';
 import '../googleMap/controller/googleMapController.dart';
 
@@ -55,16 +57,10 @@ class ExpertRegistrationController extends GetxController {
   final categoryId = "".obs;
   final allCategoryList = [].obs;
 
-  ///SubCategory data
-  RxInt selectedSubCategoryType = (-1).obs;
-  final subCategoryString = "".obs;
-  final subCategoryId =  "".obs;
-  final subCategoryList = [].obs;
-  final stringList = [].obs;
-  final subCategoryIdList = [].obs;
-
+  var subCatModel = ExpertSubCategoryModel().obs;
+  List selectedSubCatList = [].obs;
   final ne = [].obs;
-  final subCategoryName = "".obs;
+
 
   ///Image Picker
   File? imgFile;
@@ -98,40 +94,6 @@ class ExpertRegistrationController extends GetxController {
   void onInit() {
     SizeConfig().init();
     getCategoryApiFunction();
-    /*if(Get.arguments[0]!=null)
-      {
-        showToast(Get.arguments[0].toString());
-      }
-    else
-      {
-
-      }*/
-
-   /* print(Get.arguments[0] ?? "");
-     showToast(Get.arguments[0].toString());
-*/
-    /*addressString.value = Get.parameters['address'] ?? 'Current Address';
-    cityString.value = Get.parameters['city'].toString() ?? '';
-    stateString.value = Get.parameters['state'].toString() ?? '';
-    latString.value = Get.parameters['currentLat'].toString() ?? "";
-    lngString.value = Get.parameters['currentLong'].toString() ?? "";*/
-
-   /* if(latString.value!="null" || lngString.value!="null")
-      {
-         latDouble =double.parse(latString.value);
-         lngDouble =double.parse(lngString.value);
-      }
-    else
-      {
-
-      }*/
-   // getCategoryApiFunction();
-
-
-  //  getCategoryApiFunction();
-   // var futureData = Get.to(SearchLocationScreen());
-  //  showToast(futureData.toString());
-
     super.onInit();
   }
   @override
@@ -291,9 +253,9 @@ class ExpertRegistrationController extends GetxController {
 
 
   submitProfileImageApi(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     showCircleProgressDialog(context);
     var request = http.MultipartRequest('POST', Uri.parse(ApiUrls.registerExpert));
-    var stringSubCategory=subCategoryIdList.join(",");
     request.fields.addAll({
       'name': fullNameController.text.toString(),
       'mobile': numberController.text.toString(),
@@ -304,13 +266,14 @@ class ExpertRegistrationController extends GetxController {
       'lat': latString.toString(),
       'lng': lngString.toString(),
       'category_id': categoryId.toString(),
-      'sub_categories': stringSubCategory.toString(),
+      'sub_categories': selectedSubCatList.isNotEmpty? selectedSubCatList.map((e) => e['id']).join(','):'',
       'experience': expController.text.toString(),
       'kodago_card_url': kodagoCardController.text.toString(),
       'about': aboutUsController.text.toString(),
-      'device_token': "dJuWepgXRnK-orOuvSS0Be:APA91bEW6fLfWOAaOu8bqRekvCjEfgjGHL0xffPpZSSQSNfZD5"
-          "HfV_4KHzJdIss6dy0UAtdjD-N8_MlhmZcFMJNbdVjrOtxbZWTi47ig3To0nA0NpQfmSnPwQlmP64xNpNklyWRSmPCB",
+      'device_token': prefs.getString('fcmToken').toString(),
     });
+
+
     if (imgUrl.value != "") {
       final file = await http.MultipartFile.fromPath('profile_picture', imgUrl.value);
       request.files.add(file);
@@ -370,8 +333,8 @@ class ExpertRegistrationController extends GetxController {
       Navigator.of(context).pop();
       final result = jsonDecode(response.body) as Map<String, dynamic>;
       if (result["success"] == true) {
-
-        subCategoryList.value = result['data'];
+        subCatModel.value = ExpertSubCategoryModel.fromJson(result);
+        // subCategoryList.value = result['data'];
       }
       else
       {

@@ -34,56 +34,7 @@ class ExpertQRScannerController extends GetxController {
     expertQrCode.value= prefs.getString('expert_qr_code')??"";
     super.onInit();
   }
-  @override
-  void dispose() {
-    controller?.dispose();
-    IsolateNameServer.removePortNameMapping('downloader_send_port');
-    super.dispose();
-  }
 
-  callDownloaderFunction() {
-    IsolateNameServer.registerPortWithName(
-        port.sendPort, 'downloader_send_port');
-    port.listen((dynamic data) {
-      int progress = data[2];
-      print("progress...$progress");
-      if (progress < 99 && progress > 1) {
-        downloadStatus.value = 'running';
-      } else if (progress > 99) {
-        downloadStatus.value = 'completed';
-        // Platform.isAndroid?
-        FlutterDownloader.open(taskId: taskId!);
-        // launchURL(pdfUrl.value);
-      } else {
-        downloadStatus.value = '';
-      }
-    });
-    FlutterDownloader.registerCallback(downloadCallback);
-  }
-
-  @pragma('vm:entry-point')
-  static void downloadCallback(String id, int status, int progress) {
-    final SendPort? send = IsolateNameServer.lookupPortByName('downloader_send_port');
-    send!.send([id, status, progress]);
-  }
-
-
-  downloadFile(String url)async{
-    String dir = (await getApplicationDocumentsDirectory()).path;
-    print("dir...$dir");
-    // currentDownloadIndex.value = index;
-    pdfUrl.value = url;
-    taskId = await FlutterDownloader.enqueue(
-    url: url,
-    headers: {}, // optional: header send with url (auth token etc)
-    savedDir:  Platform.isAndroid?
-    '/storage/emulated/0/Download/':
-    "$dir/",
-    showNotification: true,
-    openFileFromNotification: true,
-    saveInPublicStorage: true,
-    );
-  }
 
   convertImageToUrlApiFunction(var img)async{
    try{

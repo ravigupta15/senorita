@@ -7,23 +7,12 @@ import 'package:get/get.dart';
 import 'package:senorita/helper/getText.dart';
 import 'package:senorita/model/user_special_offer_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../../ExpertApp/expert_registration_screen/models/category_model.dart';
-import '../../../../api_config/ApiConstant.dart';
 import '../../../../api_config/Api_Url.dart';
-import '../../../../helper/appimage.dart';
-import '../../../../utils/color_constant.dart';
-import '../../../../utils/showcircledialogbox.dart';
-import '../../../../utils/stringConstants.dart';
 import 'package:http/http.dart' as http;
-
-import '../../../../utils/toast.dart';
-import '../../home_screen/model/home_model.dart';
 
 class SingleCategoryListController extends GetxController {
   final categoryName = "".obs;
   final shortByList = [].obs;
-  RxInt selectedCategoryType = (-1).obs;
-  final categoryString = "".obs;
   final allCategoryList = [].obs;
 
   final startPointPrice = 0.0.obs;
@@ -62,6 +51,7 @@ class SingleCategoryListController extends GetxController {
   final longitude = "".obs;
 
   ///
+  var savedFilterValues;
   final hasOffer ='2'.obs;
   final category = ''.obs;
   final subCategory = ''.obs;
@@ -72,7 +62,6 @@ class SingleCategoryListController extends GetxController {
   final distance = ''.obs;
   clearValues(){
     hasOffer.value ='2';
-    category.value = '';
     subCategory.value = '';
     rating.value = '';
     newArrivals.value = '';
@@ -81,6 +70,7 @@ class SingleCategoryListController extends GetxController {
     distance.value = '';
 
   }
+
 
 
   @override
@@ -105,10 +95,6 @@ class SingleCategoryListController extends GetxController {
     super.onInit();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   allCategoryApiFunction() async {
     page.value = 1;
@@ -125,6 +111,7 @@ class SingleCategoryListController extends GetxController {
       'category_id': category.value,
       'distance_val':distance.value,
       'rating_val':rating.value,
+      'discount':discount.value,
       'search_val':'',
       'new_arivals':newArrivals.value,
       'sub_category_id':subCategory.value
@@ -136,6 +123,7 @@ class SingleCategoryListController extends GetxController {
       'lng': longitude.value.toString(),
       'category_id': category.value,
       'distance_val':distance.value,
+      'discount':discount.value,
       'rating_val':rating.value,
       'search_val':'',
       'new_arivals':newArrivals.value,
@@ -181,6 +169,7 @@ class SingleCategoryListController extends GetxController {
             'lng': longitude.value.toString(),
             'category_id': category.value,
             'distance_val':distance.value,
+            'discount':discount.value,
             'rating_val':rating.value,
             'search_val':'',
             'new_arivals':newArrivals.value,

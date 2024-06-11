@@ -15,6 +15,8 @@ import '../../../../api_config/Api_Url.dart';
 import '../../../../utils/showcircledialogbox.dart';
 import '../../../../utils/utils.dart';
 import '../../../../widget/error_box.dart';
+import '../../expert_profile_screen/controller/expert_profile_controller.dart';
+import '../../specialoffers/controller/add_offer_controller.dart';
 import '../../specialoffers/model/expert_category_model.dart';
 import '../../specialoffers/model/expert_category_subcat_model.dart';
 import '../../specialoffers/model/expert_subcat_cat_subcat_model.dart';
@@ -27,6 +29,8 @@ class PriceListController extends GetxController {
   final addButton = false.obs;
   String token = "";
   ///Category data
+  final selectedCategoryIndex = (-1).obs;
+  final categoryList = [].obs;
   final categoryString = "".obs;
   final sendDataList = [].obs;
   var categoryModel = ExpertCategorySubCatModel().obs;
@@ -52,14 +56,22 @@ class PriceListController extends GetxController {
 
   @override
   void onInit() async {
-    getCategoryApiFunction();
+    getUserSelectedSubCategory();
+    // getCategoryApiFunction();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     token = prefs.getString("token").toString();
     update();
     super.onInit();
   }
 
-
+  getUserSelectedSubCategory(){
+    for(int i=0;i<Get.find<ExpertProfileController>().model.value.data!.expertSubcats!.length;i++){
+      ExpertCategoryModel model =ExpertCategoryModel(id: Get.find<ExpertProfileController>().model.value.data!.expertSubcats![i].subCatId.toString(),
+          name: Get.find<ExpertProfileController>().model.value.data!.expertSubcats![i].name
+      );
+      categoryList.add(model);
+    }
+  }
 
   getCategoryApiFunction() async {
     var body = {

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:senorita/ExpertApp/BottomMenuScreen/expert_home_screen/controller/expert_home_controller.dart';
+import 'package:senorita/ExpertApp/BottomMenuScreen/expert_qr_screen/expertQrScreen.dart';
 import 'package:senorita/ScreenRoutes/routes.dart';
 import 'package:senorita/api_config/Api_Url.dart';
 import 'package:senorita/helper/network_image_helper.dart';
@@ -37,477 +38,461 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
           padding:const EdgeInsets.only(bottom: 30,top: 15),
           child: Column(
             children: [
-              Obx(() => GestureDetector(
-                onTap: () {
-                  // Get.to(ImgView(controller.photosList,0),
-                  //     transition: Transition.cupertino);
-                },
-                child: CachedNetworkImage(
+              Obx(() => CachedNetworkImage(
+                fit: BoxFit.cover,
+                width: MediaQuery.of(context).size.width,
+                height: 250,
+                imageUrl: controller.image.value.toString(),
+                errorWidget: (context, url, error) => Image.network(
+                  "https://raysensenbach.com/wp-content/uploads/2013/04/default.jpg",
                   fit: BoxFit.cover,
-                  width: MediaQuery.of(context).size.width,
                   height: 250,
-                  imageUrl: controller.image.value.toString(),
-                  errorWidget: (context, url, error) => Image.network(
-                    "https://raysensenbach.com/wp-content/uploads/2013/04/default.jpg",
-                    fit: BoxFit.cover,
-                    height: 250,
-                    width: MediaQuery.of(context).size.width,
-                  ),
+                  width: MediaQuery.of(context).size.width,
                 ),
               )),
-              Card(
-                margin: EdgeInsets.zero,
-                // elevation: 3,
-                elevation: 0,
-                // shadowColor: Colors.black87,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(0),
-                  //set border radius more than 50% of height and width to make circle
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 10, bottom: 0),
-                  child: Obx(
-                        () => Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 10, right: 10, top: 10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width / 1,
-                                padding: const EdgeInsets.only(right: 12.0),
-                                child: Text(
-                                  softWrap: true,
-                                  controller.name.value.toString(),
-                                  style: const TextStyle(
-                                    fontSize: 19.0,
-                                    letterSpacing: 0.6,
-                                    fontFamily: interSemiBold,
-                                    color: ColorConstant.blackColorDark,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+              Padding(
+                padding: const EdgeInsets.only(top: 10, bottom: 0),
+                child: Obx(
+                      () => Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 10, right: 10, top: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: MediaQuery.of(context).size.width / 1,
+                              padding: const EdgeInsets.only(right: 12.0),
+                              child: Text(
+                                softWrap: true,
+                                controller.name.value.toString(),
+                                style: const TextStyle(
+                                  fontSize: 19.0,
+                                  letterSpacing: 0.6,
+                                  fontFamily: interSemiBold,
+                                  color: ColorConstant.blackColorDark,
+                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
-                              Obx(
-                                    () => controller.subCategory.isNotEmpty
-                                    ? Padding(
-                                  padding: const EdgeInsets.only(top: 5),
-                                  child: getText(
-                                      title: controller.subCategory
-                                          .map((subcat) =>
-                                      subcat.subCategoryName)
-                                          .join(', ') ??
-                                          '',
-                                      size: 13.5,
+                            ),
+                            Obx(
+                                  () => controller.subCategory.isNotEmpty
+                                  ? Padding(
+                                padding: const EdgeInsets.only(top: 5),
+                                child: getText(
+                                    title: controller.subCategory
+                                        .map((subcat) =>
+                                    subcat.subCategoryName)
+                                        .join(', ') ??
+                                        '',
+                                    size: 13.5,
+                                    fontFamily: interMedium,
+                                    color: ColorConstant.blackLight,
+                                    fontWeight: FontWeight.w500),
+                              )
+                                  : const SizedBox(),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8),
+                              child: Row(
+                                children: [
+                                  const Text(
+                                    "Exp. ",
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontSize: 13.0,
                                       fontFamily: interMedium,
-                                      color: ColorConstant.blackLight,
-                                      fontWeight: FontWeight.w500),
-                                )
-                                    : const SizedBox(),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 8),
-                                child: Row(
-                                  children: [
-                                    const Text(
-                                      "Exp. ",
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        fontSize: 13.0,
-                                        fontFamily: interMedium,
-                                        color: ColorConstant.pointBg,
-                                        fontWeight: FontWeight.w500,
-                                      ),
+                                      color: ColorConstant.pointBg,
+                                      fontWeight: FontWeight.w500,
                                     ),
-                                    Text(
-                                      "- ${controller.experience.value.toString()} year in Business",
-                                      overflow: TextOverflow.ellipsis,
+                                  ),
+                                  Text(
+                                    "- ${controller.experience.value.toString()} year in Business",
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontSize: 13.0,
+                                      fontFamily: interRegular,
+                                      color: ColorConstant.blackLight,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            controller.status.value != ""
+                                ?  Text(
+                              controller.status.value == "1"
+                                  ?   "Open Now":"Close Now",
+                              overflow:
+                              TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 14,
+                                letterSpacing: .6,
+                                fontFamily: interMedium,
+                                color:controller.status.value == "1"? ColorConstant
+                                    .greenColor:ColorConstant.redColor,
+                                fontWeight:
+                                FontWeight.w500,
+                              ),
+                            )
+                                : SizedBox(),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 6, right: 10),
+                        child: GestureDetector(
+                          onTap: () {
+                            controller.salonLat.value.isNotEmpty &&
+                                controller.salonLng.value.isNotEmpty
+                                ? MapUtils.openMap(
+                                double.parse(
+                                    controller.salonLat.value.toString()),
+                                double.parse(
+                                    controller.salonLng.value.toString()))
+                                : null;
+                          },
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 3),
+                                    child: Image.asset(
+                                      width: 16,
+                                      height: 16,
+                                      AppImages.location,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 2,
+                                  ),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width -
+                                        50,
+                                    padding:
+                                    const EdgeInsets.only(right: 13.0),
+                                    child: Text(
+                                      softWrap: true,
+                                      controller.location.value != 'null'
+                                          ? controller.location.value
+                                          : '',
+                                      // overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(
-                                        fontSize: 13.0,
-                                        fontFamily: interRegular,
+                                        fontSize: 12.5,
+                                        fontFamily: interMedium,
                                         color: ColorConstant.blackLight,
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                               const SizedBox(
                                 height: 10,
                               ),
-                              controller.status.value != ""
-                                  ?  Text(
-                                controller.status.value == "1"
-                                    ?   "Open Now":"Close Now",
-                                overflow:
-                                TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  letterSpacing: .6,
-                                  fontFamily: interMedium,
-                                  color:controller.status.value == "1"? ColorConstant
-                                      .greenColor:ColorConstant.redColor,
-                                  fontWeight:
-                                  FontWeight.w500,
-                                ),
-                              )
-                                  : SizedBox(),
                             ],
                           ),
                         ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 6, right: 10),
-                          child: GestureDetector(
-                            onTap: () {
-                              controller.salonLat.value.isNotEmpty &&
-                                  controller.salonLng.value.isNotEmpty
-                                  ? MapUtils.openMap(
-                                  double.parse(
-                                      controller.salonLat.value.toString()),
-                                  double.parse(
-                                      controller.salonLng.value.toString()))
-                                  : null;
-                            },
-                            child: Column(
+                      ),
+                      controller.distance.value.toString() != ""
+                          ? Padding(
+                        padding:
+                        const EdgeInsets.only(left: 10, top: 2),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.start,
                               children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 3),
-                                      child: Image.asset(
-                                        width: 16,
-                                        height: 16,
-                                        AppImages.location,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 2,
-                                    ),
-                                    Container(
-                                      width: MediaQuery.of(context).size.width -
-                                          50,
-                                      padding:
-                                      const EdgeInsets.only(right: 13.0),
-                                      child: Text(
-                                        softWrap: true,
-                                        controller.location.value != 'null'
-                                            ? controller.location.value
-                                            : '',
-                                        // overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                          fontSize: 12.5,
-                                          fontFamily: interMedium,
-                                          color: ColorConstant.blackLight,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                                Image.asset(
+                                  width: 15,
+                                  color: ColorConstant.greyColor,
+                                  height: 15,
+                                  AppImages.distance,
                                 ),
                                 const SizedBox(
-                                  height: 10,
+                                  width: 3,
+                                ),
+                                Container(
+                                  width: MediaQuery.of(context)
+                                      .size
+                                      .width /
+                                      1.2,
+                                  padding: const EdgeInsets.only(
+                                      right: 13.0),
+                                  child: Text(
+                                    " " +
+                                        controller.distance.toString() +
+                                        " km",
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontSize: 13.0,
+                                      fontFamily: interMedium,
+                                      color: ColorConstant.blackLight,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                      )
+                          : SizedBox(),
+                      controller.kodagoCard.value != ""
+                          ? Padding(
+                        padding: const EdgeInsets.only(
+                            left: 10, right: 10, bottom: 1, top: 22),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Get.toNamed(AppRoutes.helpSupportScreen,
+                                    arguments: [
+                                      'detail',
+                                      controller.kodagoCard.value
+                                    ]);
+                              },
+                              child: SizedBox(
+                                width:
+                                MediaQuery.of(context).size.width,
+                                child: Column(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.start,
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: [
+                                    const getText(
+                                        title: "Kodago Card",
+                                        size: 15,
+                                        fontFamily: interSemiBold,
+                                        color: ColorConstant
+                                            .blackColorDark,
+                                        fontWeight: FontWeight.w600),
+                                    const SizedBox(
+                                      height: 7,
+                                    ),
+                                    getText(
+                                        title:
+                                        controller.kodagoCard.value,
+                                        size: 13,
+                                        fontFamily: interMedium,
+                                        color:
+                                        ColorConstant.darkBlueColor,
+                                        fontWeight: FontWeight.w500),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                          : SizedBox(),
+                      controller.spacialOffer.isNotEmpty
+                          ? Padding(
+                        padding:
+                        const EdgeInsets.only(top: 15,left: 10,right: 10),
+                        child: Column(
+                          crossAxisAlignment:
+                          CrossAxisAlignment.start,
+                          children: [
+                            const getText(
+                                title: "Special offers",
+                                size: 15,
+                                fontFamily: interSemiBold,
+                                color: ColorConstant
+                                    .blackColorDark,
+                                fontWeight:
+                                FontWeight.w600),
+                            ScreenSize.height(20),
+                            specialOffers(context)
+                          ],
+                        ),
+                      )
+                          : SizedBox(),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 30),
+                        child: SizedBox(
+                          height: 40,
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 5, right: 5, bottom: 5),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.only(
+                                      top: 2, bottom: 0),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: Obx(
+                                              () => GestureDetector(
+                                            onTap: () {
+                                              controller
+                                                  .selectedTabValue.value = 0;
+                                            },
+                                            child: Padding(
+                                              padding:
+                                              const EdgeInsets.all(8.0),
+                                              child: getText(
+                                                  title: "About Us",
+                                                  size: 14,
+                                                  fontFamily: interMedium,
+                                                  color: controller
+                                                      .selectedTabValue
+                                                      .value ==
+                                                      0
+                                                      ? ColorConstant
+                                                      .onBoardingBack
+                                                      : ColorConstant
+                                                      .qrViewText,
+                                                  fontWeight:
+                                                  FontWeight.w600),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Obx(
+                                              () => GestureDetector(
+                                            onTap: () {
+                                              controller
+                                                  .selectedTabValue.value = 1;
+                                            },
+                                            child: Column(
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                  const EdgeInsets.all(
+                                                      8.0),
+                                                  child: getText(
+                                                      title: "Menu",
+                                                      size: 14,
+                                                      fontFamily: interMedium,
+                                                      color: controller
+                                                          .selectedTabValue
+                                                          .value ==
+                                                          1
+                                                          ? ColorConstant
+                                                          .onBoardingBack
+                                                          : ColorConstant
+                                                          .qrViewText,
+                                                      fontWeight:
+                                                      FontWeight.w600),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Obx(
+                                              () => GestureDetector(
+                                            onTap: () {
+                                              controller
+                                                  .selectedTabValue.value = 2;
+                                            },
+                                            child: Column(
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                  const EdgeInsets.all(
+                                                      8.0),
+                                                  child: getText(
+                                                      title: "Review",
+                                                      size: 14,
+                                                      fontFamily: interMedium,
+                                                      color: controller
+                                                          .selectedTabValue
+                                                          .value ==
+                                                          2
+                                                          ? ColorConstant
+                                                          .onBoardingBack
+                                                          : ColorConstant
+                                                          .qrViewText,
+                                                      fontWeight:
+                                                      FontWeight.w600),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Obx(
+                                              () => GestureDetector(
+                                            onTap: () {
+                                              controller
+                                                  .selectedTabValue.value = 3;
+                                            },
+                                            child: Column(
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                  const EdgeInsets.all(
+                                                      8.0),
+                                                  child: getText(
+                                                      title: "Photos",
+                                                      size: 14,
+                                                      fontFamily: interMedium,
+                                                      color: controller
+                                                          .selectedTabValue
+                                                          .value ==
+                                                          3
+                                                          ? ColorConstant
+                                                          .onBoardingBack
+                                                          : ColorConstant
+                                                          .qrViewText,
+                                                      fontWeight:
+                                                      FontWeight.w600),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
                           ),
                         ),
-                        controller.distance.value.toString() != ""
-                            ? Padding(
-                          padding:
-                          const EdgeInsets.only(left: 10, top: 2),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.start,
-                                children: [
-                                  Image.asset(
-                                    width: 15,
-                                    color: ColorConstant.greyColor,
-                                    height: 15,
-                                    AppImages.distance,
-                                  ),
-                                  const SizedBox(
-                                    width: 3,
-                                  ),
-                                  Container(
-                                    width: MediaQuery.of(context)
-                                        .size
-                                        .width /
-                                        1.2,
-                                    padding: const EdgeInsets.only(
-                                        right: 13.0),
-                                    child: Text(
-                                      " " +
-                                          controller.distance.toString() +
-                                          " km",
-                                      overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(
-                                        fontSize: 13.0,
-                                        fontFamily: interMedium,
-                                        color: ColorConstant.blackLight,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-                        )
-                            : SizedBox(),
-                        controller.kodagoCard.value != ""
-                            ? Padding(
-                          padding: const EdgeInsets.only(
-                              left: 10, right: 10, bottom: 1, top: 22),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  Get.toNamed(AppRoutes.helpSupportScreen,
-                                      arguments: [
-                                        'detail',
-                                        controller.kodagoCard.value
-                                      ]);
-                                },
-                                child: SizedBox(
-                                  width:
-                                  MediaQuery.of(context).size.width,
-                                  child: Column(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                    children: [
-                                      const getText(
-                                          title: "Kodago Card",
-                                          size: 15,
-                                          fontFamily: interSemiBold,
-                                          color: ColorConstant
-                                              .blackColorDark,
-                                          fontWeight: FontWeight.w600),
-                                      const SizedBox(
-                                        height: 7,
-                                      ),
-                                      getText(
-                                          title:
-                                          controller.kodagoCard.value,
-                                          size: 13,
-                                          fontFamily: interMedium,
-                                          color:
-                                          ColorConstant.darkBlueColor,
-                                          fontWeight: FontWeight.w500),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                            : SizedBox(),
-                        controller.spacialOffer.isNotEmpty
-                            ? Padding(
-                          padding:
-                          const EdgeInsets.only(top: 15,left: 10,right: 10),
-                          child: Column(
-                            crossAxisAlignment:
-                            CrossAxisAlignment.start,
-                            children: [
-                              const getText(
-                                  title: "Special offers",
-                                  size: 15,
-                                  fontFamily: interSemiBold,
-                                  color: ColorConstant
-                                      .blackColorDark,
-                                  fontWeight:
-                                  FontWeight.w600),
-                              ScreenSize.height(20),
-                              specialOffers(context)
-                            ],
-                          ),
-                        )
-                            : SizedBox(),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 30),
-                          child: SizedBox(
-                            height: 40,
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 5, right: 5, bottom: 5),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.only(
-                                        top: 2, bottom: 0),
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          child: Obx(
-                                                () => GestureDetector(
-                                              onTap: () {
-                                                controller
-                                                    .selectedTabValue.value = 0;
-                                              },
-                                              child: Padding(
-                                                padding:
-                                                const EdgeInsets.all(8.0),
-                                                child: getText(
-                                                    title: "About Us",
-                                                    size: 14,
-                                                    fontFamily: interMedium,
-                                                    color: controller
-                                                        .selectedTabValue
-                                                        .value ==
-                                                        0
-                                                        ? ColorConstant
-                                                        .onBoardingBack
-                                                        : ColorConstant
-                                                        .qrViewText,
-                                                    fontWeight:
-                                                    FontWeight.w600),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Obx(
-                                                () => GestureDetector(
-                                              onTap: () {
-                                                controller
-                                                    .selectedTabValue.value = 1;
-                                              },
-                                              child: Column(
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                    const EdgeInsets.all(
-                                                        8.0),
-                                                    child: getText(
-                                                        title: "Menu",
-                                                        size: 14,
-                                                        fontFamily: interMedium,
-                                                        color: controller
-                                                            .selectedTabValue
-                                                            .value ==
-                                                            1
-                                                            ? ColorConstant
-                                                            .onBoardingBack
-                                                            : ColorConstant
-                                                            .qrViewText,
-                                                        fontWeight:
-                                                        FontWeight.w600),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Obx(
-                                                () => GestureDetector(
-                                              onTap: () {
-                                                controller
-                                                    .selectedTabValue.value = 2;
-                                              },
-                                              child: Column(
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                    const EdgeInsets.all(
-                                                        8.0),
-                                                    child: getText(
-                                                        title: "Review",
-                                                        size: 14,
-                                                        fontFamily: interMedium,
-                                                        color: controller
-                                                            .selectedTabValue
-                                                            .value ==
-                                                            2
-                                                            ? ColorConstant
-                                                            .onBoardingBack
-                                                            : ColorConstant
-                                                            .qrViewText,
-                                                        fontWeight:
-                                                        FontWeight.w600),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Obx(
-                                                () => GestureDetector(
-                                              onTap: () {
-                                                controller
-                                                    .selectedTabValue.value = 3;
-                                              },
-                                              child: Column(
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                    const EdgeInsets.all(
-                                                        8.0),
-                                                    child: getText(
-                                                        title: "Photos",
-                                                        size: 14,
-                                                        fontFamily: interMedium,
-                                                        color: controller
-                                                            .selectedTabValue
-                                                            .value ==
-                                                            3
-                                                            ? ColorConstant
-                                                            .onBoardingBack
-                                                            : ColorConstant
-                                                            .qrViewText,
-                                                        fontWeight:
-                                                        FontWeight.w600),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          height: 1,
-                          decoration: BoxDecoration(
-                              borderRadius:
-                              BorderRadius.all(Radius.circular(10)),
-                              color: Colors.black12),
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left: 10, right: 10, bottom: 15),
-                              child: tabViewData(context),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
+                      ),
+                      Container(
+                        height: 1,
+                        decoration: BoxDecoration(
+                            borderRadius:
+                            BorderRadius.all(Radius.circular(10)),
+                            color: Colors.black12),
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Column(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: 10, right: 10, bottom: 15),
+                            child: tabViewData(context),
+                          )
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -1256,7 +1241,7 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
                 ),
                 GestureDetector(
                     onTap: (){
-                      Get.toNamed(AppRoutes.expertQrScreen);
+                      Get.to(ExpertQrScreen(),transition: Transition.cupertino);
                     },
                     child: Image.asset(AppImages.qrExpert,height: 30,width: 30,))
               ],

@@ -78,7 +78,7 @@ class ReferEarnScreen extends GetView<ReferEarnController>{
                     GestureDetector(
                         onTap: (){
                           if(Get.find<ProfileController>().model!=null&& Get.find<ProfileController>().model.value.data!=null&&Get.find<ProfileController>().model.value.data!.referralCode!=null){
-                            Clipboard.setData(ClipboardData(text: Get.find<ProfileController>().model.value.data!.referralCode.value));
+                            Clipboard.setData(ClipboardData(text: Get.find<ProfileController>().model.value.data!.referralCode));
                             Fluttertoast.showToast(msg: 'Copied',gravity:ToastGravity.CENTER );
                           }},
                         child: Image.asset(AppImages.copyIcon,height: 24,width: 24,))
@@ -91,7 +91,7 @@ class ReferEarnScreen extends GetView<ReferEarnController>{
           ScreenSize.width(26),
           GestureDetector(
             onTap: (){
-              Share.share('Download only using my referral link to get coins\n ${Get.find<ProfileController>().model.value.data!.referralCode.value}\n\n https://play.google.com/store/apps/details?id=com.app.senoritaApp&pcampaignid=web_share', subject: 'Senorita');
+              Share.share('Download only using my referral link to get coins\n ${Get.find<ProfileController>().model.value.data!.referralCode}\n\n https://play.google.com/store/apps/details?id=com.app.senoritaApp&pcampaignid=web_share', subject: 'Senorita');
             },
             child: Container(
               height: 48,

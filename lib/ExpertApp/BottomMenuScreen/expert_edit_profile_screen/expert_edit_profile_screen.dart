@@ -208,14 +208,14 @@ class ExpertEditProfileScreen extends GetView<ExpertEditProfileController> {
           padding: const EdgeInsets.all(3.0),
           child: CustomTextField(
             hintText: "",
-            labelText: registerFullName,
+            labelText: "Business Name",
             auto: AutovalidateMode.onUserInteraction,
             textInputType: TextInputType.name,
             textInputAction: TextInputAction.next,
             controller: controller.fullNameController,
             validator: (value) {
               if (value == null || value == "") {
-                return "Please enter FullName";
+                return "Please Enter Business Name";
               }
               return null;
             },

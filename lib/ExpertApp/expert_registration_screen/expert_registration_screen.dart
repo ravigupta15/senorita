@@ -2,6 +2,7 @@ import 'dart:ffi';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -19,7 +20,9 @@ import '../../utils/screensize.dart';
 import '../../utils/size_config.dart';
 import '../../utils/toast.dart';
 import '../../utils/validation.dart';
+import '../../widget/checkbox_widget.dart';
 import '../../widget/customTextField.dart';
+import '../../widget/no_data_found.dart';
 import 'controller/expert_registration_controller.dart';
 import 'models/category_model.dart';
 import 'models/city_model.dart';
@@ -37,7 +40,7 @@ class ExpertRegistrationScreen extends GetView<ExpertRegistrationController> {
         return true;
       },
       child: Scaffold(
-        appBar: appBar(context, "Create Account to Expert", () {
+        appBar: appBar(context, "Create Account to Salon", () {
           Get.back();
         }),
         body: SingleChildScrollView(
@@ -156,14 +159,14 @@ class ExpertRegistrationScreen extends GetView<ExpertRegistrationController> {
                               padding: const EdgeInsets.all(3.0),
                               child: CustomTextField(
                                 hintText: "",
-                                labelText: registerFullName,
+                                labelText: 'Business Name',
                                 auto: AutovalidateMode.onUserInteraction,
                                 textInputType: TextInputType.name,
                                 textInputAction: TextInputAction.next,
                                 controller: controller.fullNameController,
                                 validator: (value) {
                                   if (value == null || value == "") {
-                                    return "Please enter FullName";
+                                    return "Please Enter Business Name";
                                   }
                                   return null;
                                 },
@@ -373,8 +376,25 @@ class ExpertRegistrationScreen extends GetView<ExpertRegistrationController> {
                             GestureDetector(
                               behavior: HitTestBehavior.opaque,
                               onTap: () {
-                                controller.categoryString.value == ""?showToast("Select Category First")
-                                :subCategory(context);
+                                if(controller.categoryString.value.isEmpty){
+                                  showToast("Select Category First");
+                                }
+                                else{
+                                  controller.subCatModel.value.selectedList.clear();
+                                  for(int i=0;i<controller.subCatModel.value.data!.length;i++){
+                                    for(int j=0;j<controller.selectedSubCatList.length;j++){
+                                      if(controller.subCatModel.value.data![i].id.toString()==controller.selectedSubCatList[j]['id'].toString()){
+                                        controller.subCatModel.value.data![i].isSelected=true;
+                                        controller.subCatModel.value.selectedList.add({
+                                          'name':controller.selectedSubCatList[j]['name'],
+                                          'id':controller.selectedSubCatList[j]['id']
+                                        }
+                                        );
+                                      }
+                                    }
+                                  }
+                                  subCategory(context);
+                                }
                               },
                               child: Container(
                                 decoration: BoxDecoration(
@@ -392,10 +412,10 @@ class ExpertRegistrationScreen extends GetView<ExpertRegistrationController> {
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Expanded(
+                                          const  Expanded(
                                               flex: 4,
                                               child: Padding(
-                                                padding: const EdgeInsets.only(
+                                                padding:  EdgeInsets.only(
                                                     left: 15, top: 10, bottom: 10),
                                                 child: getText(
                                                     title: registerSubCategory,
@@ -418,38 +438,50 @@ class ExpertRegistrationScreen extends GetView<ExpertRegistrationController> {
                                       Padding(
                                         padding: const EdgeInsets.only(left: 10),
                                         child: Obx(
-                                              () => ListView.builder(
-                                                shrinkWrap: true,
-                                            itemCount: controller.stringList.length,
+                                              () =>controller.selectedSubCatList.isNotEmpty? ListView.builder(
+                                            physics:const NeverScrollableScrollPhysics(),
+                                            shrinkWrap: true,
+                                            itemCount: controller.selectedSubCatList.length,
                                             itemBuilder: (context, index) {
                                               return GestureDetector(
-                                                onTap: () {},
+                                                onTap: () {
+                                                },
                                                 child: Padding(
-                                                  padding: const EdgeInsets.only(left: 5,right: 20,top: 5),
+                                                  padding: const EdgeInsets.only(
+                                                      left: 5, right: 20, top: 5),
                                                   child: Row(
                                                     children: [
                                                       getText(
-                                                          title: controller.stringList[index],
+                                                          title:
+                                                          controller.selectedSubCatList[index]['name']??'',
                                                           size: 13,
                                                           fontFamily: interRegular,
                                                           color: ColorConstant.qrViewText,
-                                                          fontWeight:
-                                                          FontWeight.w400),
-                                                      Spacer(),
+                                                          fontWeight: FontWeight.w400),
+                                                      const Spacer(),
                                                       GestureDetector(
-                                                        onTap: () {
-                                                           controller.stringList.removeAt(index);
-                                                          // controller.deleteImage(context,model.id.toString(),model.expert_id.toString());
+                                                        onTap: ()
+                                                        {
+                                                          // controller.subCatModel.value.selectedList.removeAt(index);
+                                                          for(int i=0;i<controller.subCatModel.value.data!.length;i++){
+                                                            if(controller.subCatModel.value.data![i].id.toString()==controller.selectedSubCatList[index]['id']){
+                                                              controller.subCatModel.value.data![i].isSelected=false;
+                                                            }
+                                                          }
+                                                          for(int j=0;j<controller.subCatModel.value.selectedList.length;j++){
+                                                            if(controller.subCatModel.value.selectedList[j]['id']==controller.selectedSubCatList[index]['id']){
+                                                              controller.subCatModel.value.selectedList.removeAt(j);
+                                                            }
+                                                          }
+                                                          controller.selectedSubCatList.removeAt(index);
                                                         },
                                                         child: Container(
-                                                          decoration:
-                                                          const BoxDecoration(
+                                                          decoration: const BoxDecoration(
                                                             color: Colors.red,
                                                             shape: BoxShape.circle,
                                                           ),
                                                           child: const Icon(
-                                                            Icons
-                                                                .highlight_remove_outlined,
+                                                            Icons.highlight_remove_outlined,
                                                             size: 20,
                                                             color: Colors.white,
                                                           ),
@@ -460,7 +492,7 @@ class ExpertRegistrationScreen extends GetView<ExpertRegistrationController> {
                                                 ),
                                               );
                                             },
-                                          ),
+                                          ):Container(),
                                         ),
                                       )
                                     ],
@@ -752,7 +784,7 @@ class ExpertRegistrationScreen extends GetView<ExpertRegistrationController> {
                                     controller.categoryString.value = model.name.toString();
                                     controller.categoryId.value = model.id.toString();
                                     controller.getSubCategoryApiFunction(context, model.id.toString());
-                                    controller.stringList.clear();
+                                    // controller.stringList.clear();
                                     // Navigator.pop(context);
                                   },
                                   child: Row(
@@ -860,7 +892,7 @@ class ExpertRegistrationScreen extends GetView<ExpertRegistrationController> {
                           onTap: () {
                             Navigator.pop(context);
                           },
-                          child: Icon(
+                          child:const Icon(
                             Icons.close,
                             size: 20,
                             color: ColorConstant.onBoardingBack,
@@ -869,114 +901,73 @@ class ExpertRegistrationScreen extends GetView<ExpertRegistrationController> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 5,),
+                  const  SizedBox(height: 5,),
                   Container(
                     width: MediaQuery.of(context).size.width,
                     color: ColorConstant.dividerColor,
                     height: 1,
                   ),
                   Obx(
-                    () => Container(
-                      // width: double.maxFinite,
+                        () => Container(
+                      width: double.maxFinite,
                       height: 300,
-                      child: ListView.builder(
+                      child:controller.subCatModel.value!=null&& controller.subCatModel.value!.data!=null?
+                      ListView.separated(
+                          separatorBuilder: (context,sp){
+                            return const SizedBox(height: 12,);
+                          },
                           physics: const ScrollPhysics(),
                           shrinkWrap: true,
-                          padding: EdgeInsets.zero,
-                          itemCount: controller.subCategoryList.length,
+                          padding: const EdgeInsets.only(
+                              left: 15, right: 10, bottom: 15, top: 4),
+                          itemCount: controller.subCatModel.value.data!.length,
                           itemBuilder: (context, index) {
-                            SubCategoryModel model = SubCategoryModel.fromJson(controller.subCategoryList[index]);
                             return Column(
                               children: [
-                                Obx(
-                                  () => GestureDetector(
-                                      behavior: HitTestBehavior.opaque,
-                                      onTap: () {
-                                        if (controller.stringList.contains(model.name.toString())) {
-                                          controller.stringList.removeAt(index);
-                                          controller.stringList.remove(controller.subCategoryList[index].toString());
-                                          print(controller.stringList[index].toString());
-                                        } else {
-                                          controller.stringList.add(model.name.toString());
-                                          controller.subCategoryIdList.add(model.id.toString());
+                                Obx(() => GestureDetector(
+                                  behavior: HitTestBehavior.opaque,
+                                  onTap: () {
+                                    state((){});
+                                    if(controller.subCatModel.value.data![index].isSelected==false){
+                                      controller.subCatModel.value.data![index].isSelected=true;
+                                      controller.subCatModel.value.selectedList.add({
+                                        "name": controller.subCatModel.value.data![index].name,
+                                        "id": controller.subCatModel.value.data![index].id.toString()
+                                      }
+                                      );
+                                    }
+                                    else{
+                                      controller.subCatModel.value.data![index].isSelected=false;
+                                      for(int i=0;i<controller.subCatModel.value.selectedList.length;i++){
+                                        if(controller.subCatModel.value.selectedList[i]['id'].toString()==controller.subCatModel.value.data![index].id.toString()){
+                                          print('object');
+                                          controller.subCatModel.value.selectedList.removeAt(i);
                                         }
-                                      },
-                                      child: /*ListTile(
-
-                                        title: Text(model.name.toString(),
-                                          style: const TextStyle(
-                                            color: ColorConstant.greyColor,
-                                            fontSize: 14,
-                                            fontFamily: interRegular,
-                                          ),
-                                        ),
-                                        trailing: Container(
-                                          height: 20,
-                                          width: 20,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(2),
-                                            border: Border.all(
-                                              color: controller.stringList.contains(model.name.toString())
-                                                  ? Colors.blue
-                                                  : Colors.grey.shade500,
-                                            ),
-                                              color: controller.stringList.contains(model.name.toString())
-                                                  ? Colors.blue
-                                                  : Colors.white,
-                                          ),
-                                          child: controller.stringList.contains(model.name.toString())
-                                              ? const Icon(
-                                                  Icons.check,
-                                                  color: Colors.white,
-                                                  size: 13,
-                                                )
-                                              : null,
-                                        ),
-                                      )*/
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 15,right: 15,top: 10,bottom: 10),
-                                      child: Row(
-                                        children: [
-                                          Text(model.name.toString(),
-                                            style: const TextStyle(
-                                              color: ColorConstant.greyColor,
-                                              fontSize: 13,
-                                              fontFamily: interRegular,
-                                            ),
-                                          ),
-                                          Spacer(),
-                                          Container(
-                                            height: 20,
-                                            width: 20,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                              BorderRadius.circular(2),
-                                              border: Border.all(
-                                                color: controller.stringList.contains(model.name.toString())
-                                                    ? Colors.blue
-                                                    : Colors.grey.shade500,
-                                              ),
-                                              color: controller.stringList.contains(model.name.toString())
-                                                  ? Colors.blue
-                                                  : Colors.white,
-                                            ),
-                                            child: controller.stringList.contains(model.name.toString())
-                                                ? const Icon(
-                                              Icons.check,
-                                              color: Colors.white,
-                                              size: 13,
-                                            )
-                                                : null,
-                                          ),
-                                        ],
+                                      }
+                                    }
+                                  },
+                                  child: Row(
+                                    children: [
+                                      checkBoxWidget(controller.subCatModel.value.data![index].isSelected==true?
+                                      ColorConstant.onBoardingBack:ColorConstant.white
                                       ),
-                                    )
-
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        controller.subCatModel.value.data![index].name.toString(),
+                                        style: const TextStyle(
+                                          color: ColorConstant.greyColor,
+                                          fontSize: 14,
+                                          fontFamily: interRegular,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
+                                ),
                                 Padding(
-                                  padding:  EdgeInsets.only(left:15,right:10),
+                                  padding:const  EdgeInsets.only(left:15,right:10),
                                   child: Container(
                                     width: MediaQuery.of(context).size.width,
                                     color: ColorConstant.dividerColor,
@@ -985,7 +976,10 @@ class ExpertRegistrationScreen extends GetView<ExpertRegistrationController> {
                                 ),
                               ],
                             );
-                          }),
+                          }) :Align(
+                        alignment: Alignment.center,
+                        child: noDataFound(),
+                      ),
                     ),
                   ),
                   Container(
@@ -999,24 +993,40 @@ class ExpertRegistrationScreen extends GetView<ExpertRegistrationController> {
                           onTap: () {
                             Navigator.pop(context);
                           },
-                          child: getText(
+                          child:const getText(
                               title: "Cancel",
                               size: 14,
                               fontFamily: interRegular,
                               color: ColorConstant.onBoardingBack,
                               fontWeight: FontWeight.w100),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 25,
                         ),
                         GestureDetector(
                           behavior: HitTestBehavior.opaque,
                           onTap: () {
-                            controller.selectedSubCategoryType.value == ""
-                                ? showToast("Please Select Category")
-                                : Navigator.pop(context);
+                            print(controller.subCatModel.value.selectedList.length);
+                            if(controller.subCatModel.value.selectedList.isNotEmpty) {
+                              controller.selectedSubCatList.clear();
+                              for (int i = 0; i <
+                                  controller.subCatModel.value
+                                      .selectedList.length; i++) {
+                                controller.selectedSubCatList.add(
+                                    {
+                                      "name": controller.subCatModel.value.selectedList[i]['name'],
+                                      "id": controller.subCatModel.value.selectedList[i]['id']
+                                    }
+                                );
+                                state(() {});
+                              }
+                              Navigator.pop(context);
+                            }
+                            else{
+                              Fluttertoast.showToast(msg: "Please Select Sub Category");
+                            }
                           },
-                          child: getText(
+                          child:const getText(
                               title: "Ok",
                               size: 14,
                               fontFamily: interRegular,

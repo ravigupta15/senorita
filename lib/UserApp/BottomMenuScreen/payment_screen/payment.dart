@@ -27,7 +27,7 @@ class PaymentScreen extends GetView<PaymentController> {
   Widget build(BuildContext context) {
 
     return Obx(()=>Scaffold(
-        appBar: appBar(context, controller.scannerCode.value, () {
+        appBar: appBar(context, controller.salonName.value, () {
           Get.back();
         }),
         body: Obx(
@@ -41,7 +41,7 @@ class PaymentScreen extends GetView<PaymentController> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     mainScreen(context),
-                    SizedBox(
+                   const SizedBox(
                       height: 50,
                     ),
                     Padding(

@@ -2,7 +2,9 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:senorita/UserApp/BottomMenuScreen/home_screen/shimmer/all_expert_shimmer.dart';
+import 'package:senorita/helper/custombtn.dart';
 import 'package:senorita/helper/network_image_helper.dart';
+import 'package:senorita/widget/no_data_found.dart';
 import 'package:senorita/widget/view_salon_widget.dart';
 import '../../../ScreenRoutes/routes.dart';
 import '../../../helper/appimage.dart';
@@ -39,8 +41,9 @@ class HomeScreen extends GetView<DashboardController> {
                 children: [
                   //Slider
                   Obx(
-                        () => controller.homeModel!=null&&controller.homeModel.value.data!=null&&
-                        controller.homeModel.value.data!.getFeatureOffer!=null
+                        () => controller.homeModel.value!=null&&controller.homeModel.value.data!=null&&
+                        controller.homeModel.value.data!.getFeatureOffer!=null&&
+                            controller.homeModel.value.data!.getFeatureOffer!.isNotEmpty
                         ? Padding(
                         padding:
                         const EdgeInsets.only(left: 9, right: 9, top: 20),
@@ -111,7 +114,6 @@ class HomeScreen extends GetView<DashboardController> {
                         : Container(),
                   ),
                   //All Expertise
-
                   // all category
                   categoryWidget(),
                   Padding(
@@ -153,10 +155,24 @@ class HomeScreen extends GetView<DashboardController> {
                                       ]);
                                 }),
                             controller.homeModel.value.data!.topRatedListing!.length-1 ==index?
-                            seeMoreBtn(context):Container()
+                            Padding(
+                              padding: const EdgeInsets.only(top: 20),
+                              child: CustomBtn(title: 'Show more salons',
+                                  height: 40, width: double.infinity, onTap: (){
+                                    Get.toNamed(AppRoutes.singleCategoryListScreen,
+                                        arguments: [
+                                          '',
+                                          ''
+                                        ]);
+                                  }, color: ColorConstant.appColor),
+                            )
+                                :Container()
                           ],
                         );
-                      }):Container(),
+                      }):Container(
+                    height: 200,
+                    alignment: Alignment.center,
+                    child: noDataFound(),),
                 ],
               ),
             ))

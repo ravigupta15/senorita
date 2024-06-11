@@ -36,8 +36,8 @@ class OffersController extends GetxController {
   final isSearch = false.obs;
 
   final isCategoryLoading = false.obs;
-
-  final hasOffer =''.obs;
+  var savedFilterValues;
+  final hasOffer ='1'.obs;
   final latitude = "".obs;
   final longitude = "".obs;
   final category = ''.obs;
@@ -49,7 +49,7 @@ class OffersController extends GetxController {
   final distance = ''.obs;
 
   clearValues(){
-     hasOffer.value ='';
+     hasOffer.value ='1';
      category.value = '';
      subCategory.value = '';
      rating.value = '';
@@ -86,6 +86,7 @@ class OffersController extends GetxController {
       'lng': longitude.value.toString(),
       'category_id': category.value,
       'distance_val':distance.value,
+        'discount':discount.value,
       'rating_val':rating.value,
       'search_val':'',
       'new_arivals':newArrivals.value,
@@ -97,6 +98,7 @@ class OffersController extends GetxController {
         'has_offer': hasOffer.value,
         'lat': latitude.value.toString(),
         'lng': longitude.value.toString(),
+        'discount':discount.value,
         'category_id': category.value,
         'distance_val':distance.value,
         'rating_val':rating.value,
@@ -145,20 +147,13 @@ class OffersController extends GetxController {
               'lat': latitude.value.toString(),
               'lng': longitude.value.toString(),
               'category_id': category.value,
+              'discount':discount.value,
               'distance_val':distance.value,
               'rating_val':rating.value,
               'search_val':'',
               'new_arivals':newArrivals.value,
               'sub_category_id':subCategory.value
             });
-          // } else {
-          //   request.fields.addAll({
-          //     'page_numbar': page.value.toString(),
-          //     'has_offer': "1",
-          //     'lat': latitude.value.toString(),
-          //     'lng': longitude.value.toString(),
-          //   });
-          // }
           request.headers.addAll(headers);
           var streamedResponse = await request.send();
           var response = await http.Response.fromStream(streamedResponse);
@@ -178,5 +173,4 @@ class OffersController extends GetxController {
       }
     }
   }
-
 }

@@ -41,17 +41,17 @@ class SelectCreateAccountScreen extends GetView<CreateAccountTypeController> {
                       letterSpacing: 0.6,
                       color: ColorConstant.blackColor,
                       fontWeight: FontWeight.w500),
-                  SizedBox(
+                 const SizedBox(
                     height: 10,
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width / 1.3,
                     child: RichText(
                       textAlign: TextAlign.center,
-                      text: new TextSpan(
+                      text: const TextSpan(
                         text:
                             "If you're searching for nearby salons MUA's or beauty store select",
-                        style: new TextStyle(
+                        style:  TextStyle(
                           color: ColorConstant.darkGray,
                           fontWeight: FontWeight.w500,
                           fontSize: 12,
@@ -59,9 +59,9 @@ class SelectCreateAccountScreen extends GetView<CreateAccountTypeController> {
                           fontFamily: interRegular,
                         ),
                         children: <TextSpan>[
-                          new TextSpan(
+                           TextSpan(
                               text: ' "User"',
-                              style: new TextStyle(
+                              style:  TextStyle(
                                 color: ColorConstant.darkGray,
                                 fontSize: 13,
                                 fontWeight: FontWeight.w600,
@@ -71,7 +71,7 @@ class SelectCreateAccountScreen extends GetView<CreateAccountTypeController> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                 const SizedBox(
                     height: 40,
                   ),
                   Padding(

@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+
 class ExpertSubCatCatSubCatModel {
   dynamic success;
   dynamic message;
@@ -33,7 +35,7 @@ class Data {
   dynamic id;
   dynamic categoryId;
   dynamic subCategoryId;
-  dynamic isSelected = false;
+  dynamic isSelected = false.obs;
   dynamic name;
   dynamic iconImage;
   dynamic createdAt;

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:senorita/ExpertApp/BottomMenuScreen/expert_profile_screen/controller/expert_profile_controller.dart';
 import 'package:senorita/ExpertApp/BottomMenuScreen/specialoffers/model/expert_category_model.dart';
 import 'package:senorita/ExpertApp/BottomMenuScreen/specialoffers/model/expert_category_subcat_model.dart';
 import 'package:senorita/ExpertApp/BottomMenuScreen/specialoffers/model/expert_subcategory_model.dart';
@@ -40,7 +41,8 @@ final buyStartTimeController =TextEditingController();
 final buyEndDateController =TextEditingController();
 final buyEndTimeController =TextEditingController();
 
-
+final selectedDiscountCategoryIndex = (-1).obs;
+final selectedBuyCategoryIndex = (-1).obs;
 final selectedDiscountCategoryId = ''.obs;
 final selectedDiscountCategory = ''.obs;
 final selectedBuyCategory = ''.obs;
@@ -66,20 +68,33 @@ TimeOfDay buyStartTime= const TimeOfDay(hour: 12, minute: 00);
 TimeOfDay buyEndTime =const TimeOfDay(hour: 12, minute: 00);
 
 
+final discountCategoryList = [].obs;
+final buyCategoryList = [].obs;
 var discountCategoryModel = ExpertCategorySubCatModel().obs;
 var buyCategoryModel = ExpertCategorySubCatModel().obs;
 var discountSubCatModel = ExpertSubCatCatSubCatModel().obs;
 var buySubCatModel =  ExpertSubCatCatSubCatModel().obs;
 var getSubCatModel =  ExpertSubCatCatSubCatModel().obs;
 
+
 @override
 void onInit() async {
-  getCategoryApiFunction();
-
+  // getCategoryApiFunction();
+  getUserSelectedSubCategory();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   token.value = prefs.getString("token").toString();
   update();
   super.onInit();
+}
+
+getUserSelectedSubCategory(){
+  for(int i=0;i<Get.find<ExpertProfileController>().model.value.data!.expertSubcats!.length;i++){
+    ExpertCategoryModel model =ExpertCategoryModel(id: Get.find<ExpertProfileController>().model.value.data!.expertSubcats![i].subCatId.toString(),
+    name: Get.find<ExpertProfileController>().model.value.data!.expertSubcats![i].name
+    );
+    buyCategoryList.add(model);
+    discountCategoryList.add(model);
+  }
 }
 
 
@@ -206,6 +221,17 @@ callSubmitApiFunction(BuildContext context) async {
   if(selectedOfferType.value==0){
     var subCatId = selectedDiscountSubCat.map((element) => element['id']).join(',');
     request.fields.addAll({
+      "type":'discount',
+      "start_date": discountStartDateController.text,
+      "start_time":discountStartTimeController.text,
+      "end_date":discountEndDateController.text,
+      "end_time":discountEndTimeController.text,
+      "description":discountDescriptionController.text,
+      "category_id":selectedDiscountCategoryId.value,
+      "sub_category_id":discountSubCatModel.value.isAllSelected?'all': subCatId,
+      "discount_pecent":discountController.text
+    });
+    print({
       "type":'discount',
       "start_date": discountStartDateController.text,
       "start_time":discountStartTimeController.text,
@@ -400,5 +426,13 @@ Future pickImage(ImageSource source, BuildContext context) async {
     //   showToast("Error" "No image selected");
   }
 }
+}
 
+class ExpertCategoryModel{
+  dynamic name = ''.obs;
+  dynamic id = ''.obs;
+  ExpertCategoryModel({
+   required this.id,
+    required this.name
+});
 }

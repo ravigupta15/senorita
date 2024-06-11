@@ -37,7 +37,8 @@ class FilterScreen extends GetView<FilterController>{
         child: Obx(() => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            categoryWidget(),
+            controller.route.value=='offer'?
+            categoryWidget():selectedCategoryFromSingleScreenWidget(),
             priceFilterWidget(),
             discountFilterWidget(),
             ratingFilterWidget(),
@@ -62,35 +63,44 @@ class FilterScreen extends GetView<FilterController>{
           children: [
             CustomBtn(title: 'Apply', height: 50, width: double.infinity,
                 onTap: (){
-              List subCat =[];
-              String subCatId='';
-              String catId = controller.mergeCategoryModel.value.selectedCategory.value.map((e)=>e['id']).join(',');
-              for(int i=0;i<controller.mergeCategoryModel.value.data!.length;i++){
-                for(int j=0;j<controller.mergeCategoryModel.value.data![i].baseCategoryArray!.length;j++){
-                  if(controller.mergeCategoryModel.value.data![i].baseCategoryArray![j].selectedSubCategory.isNotEmpty){
-                    print(controller.mergeCategoryModel.value.data![i].baseCategoryArray![j].selectedSubCategory);
-                  subCat =subCat+ controller.mergeCategoryModel.value.data![i].baseCategoryArray![j].selectedSubCategory;
-                }
-              }}
-              subCatId = subCat.map((e) => e).join(',');
-              print(subCatId);
-              Get.back(result:
-              {'category':catId,'subcat':subCatId,'price':controller.selectedPriceValue.value,'discount':controller.selectedDiscountValue.value,
-              'rating':controller.selectedRating.value,'distance':"0-${controller.currentRangeValues.value.round()}",
-                'offer':controller.selectedSort.value==0?1:controller.route.value=='offer'?'': '2',
-                'topRated':controller.selectedSort.value==1?5:'',
-                'arrivals':controller.selectedSort.value==2?1:''
-              },);
+             callBack();
                 }, color: ColorConstant.appColor),
             // ScreenSize.height(6),
            InkWell(
              onTap: (){
-               Get.back(result: {'category':'','subcat':'','price':'','discount':'',
-                 'rating':controller.selectedRating.value,'distance':"0-0",
-                 'offer':controller.route.value=='offer'?'':'2',
-                 'topRated':'',
-                 'arrivals':''
-               },);
+               if(controller.route.value=='offer') {
+                 controller.mergeCategoryModel.value.selectedCategory.clear();
+                 for (int i = 0; i <
+                     controller.mergeCategoryModel.value.data!.length; i++) {
+                   controller.mergeCategoryModel.value.data![i].isSelectedCat
+                       .value = false;
+                   for (int j = 0; j <
+                       controller.mergeCategoryModel.value.data![i]
+                           .baseCategoryArray!.length; j++) {
+                     controller.mergeCategoryModel.value.data![i]
+                         .baseCategoryArray![j].isSelectedSubCat.value = false;
+                     controller.mergeCategoryModel.value.data![i]
+                         .baseCategoryArray![j].selectedSubCategory.clear();
+                   }
+                 }
+               }
+               else{
+                 controller.subCatModel.value.selectedList.clear();
+                 for(int i=0;i<controller.subCatModel.value.data!.length;i++){
+                   controller.subCatModel.value.data![i].isSelected.value= false;
+                 }
+               }
+               controller.selectedPriceValue.value = '';
+               controller.selectedSort.value = 10;
+               controller.selectedDiscountValue.value='';
+               controller.selectedRating.value = 0.0;
+               controller.currentRangeValues.value=0.0;
+               // Get.back(result: {'category':'','subcat':'','price':'','discount':'',
+               //   'rating':controller.selectedRating.value,'distance':"0-0",
+               //   'offer':controller.route.value=='offer'?'':'2',
+               //   'topRated':'',
+               //   'arrivals':''
+               // },);
              },
              child: Container(
                height: 25,
@@ -107,6 +117,141 @@ class FilterScreen extends GetView<FilterController>{
     );
   }
 
+  callBack(){
+    if(controller.route.value=='offer') {
+      List subCat = [];
+      String subCatId = '';
+      String catId = controller.mergeCategoryModel.value.selectedCategory.value
+          .map((e) => e['id']).join(',');
+      for (int i = 0; i <
+          controller.mergeCategoryModel.value.data!.length; i++) {
+        for (int j = 0; j <
+            controller.mergeCategoryModel.value.data![i].baseCategoryArray!
+                .length; j++) {
+          if (controller.mergeCategoryModel.value.data![i].baseCategoryArray![j]
+              .selectedSubCategory.isNotEmpty) {
+            print(controller.mergeCategoryModel.value.data![i]
+                .baseCategoryArray![j].selectedSubCategory);
+            subCat = subCat + controller.mergeCategoryModel.value.data![i]
+                .baseCategoryArray![j].selectedSubCategory;
+          }
+        }
+      }
+      subCatId = subCat.map((e) => e).join(',');
+      print(subCatId);
+      Get.back(result:
+      {
+        'category': catId,
+        'subcat': subCatId,
+        'price': controller.selectedPriceValue.value,
+        'discount': controller.selectedDiscountValue.value,
+        'rating': controller.selectedRating.value == 0.0 ? '' : controller.selectedRating.value.toInt().toString(),
+        'distance': controller.currentRangeValues.value.round() >= 1
+            ? controller.currentRangeValues.value.round().toString()
+            : "",
+        'offer': '1',
+        'topRated': controller.selectedSort.value == 0 ? '5' : '',
+        'arrivals': controller.selectedSort.value == 1 ? '1': ''
+      },);
+    }
+    else{
+     String subCatId = controller.subCatModel.value.selectedList.map((e) => e).join(',');
+      print(subCatId);
+      Get.back(result:
+      {
+        'category': controller.selectedCategoryIdBySingleScreen.value,
+        'subcat': subCatId,
+        'price': controller.selectedPriceValue.value,
+        'discount': controller.selectedDiscountValue.value,
+        'rating': controller.selectedRating.value == 0.0 ? '' : controller.selectedRating.value.toInt().toString(),
+        'distance': controller.currentRangeValues.value.round() >= 1
+            ? controller.currentRangeValues.value.round().toString()
+            : "",
+        'offer': controller
+            .selectedSort.value == 0 ? '1' : '2',
+        'topRated': controller.selectedSort.value == 1 ? '5' : '',
+        'arrivals': controller.selectedSort
+            .value == 2 ? '1' : ''
+      },);
+
+    }
+  }
+
+  selectedCategoryFromSingleScreenWidget(){
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        headingWidget('Categories'),
+        ScreenSize.height(15),
+        Row(
+          children: [
+             checkBoxWidget(ColorConstant.appColor),
+            ScreenSize.width(6),
+            Expanded(
+              child: getText(title: controller.selectedCategoryNameBySingleScreen.value,
+                  size: 12, fontFamily: interRegular,
+                  color: ColorConstant.qrViewText, fontWeight: FontWeight.w400),
+            ),
+            ScreenSize.width(2),
+            GestureDetector(
+              onTap: (){
+               if(controller.isShowSubCat.value){
+                 controller.isShowSubCat.value=false;
+               }
+               else{
+                 controller.isShowSubCat.value =true;
+               }
+              },
+              child: Icon(
+                controller.isShowSubCat.value? Icons.minimize:
+                Icons.add,color:controller.isShowSubCat.value?ColorConstant.appColor:ColorConstant.qrViewText,size: 17,),
+            )
+          ],
+        ),
+        controller.subCatModel!=null&&controller.subCatModel.value.data!=null&&
+            controller.isShowSubCat.value==true?
+        ListView.separated(
+            separatorBuilder: (context,sp1){
+              return ScreenSize.height(11);
+            },
+            shrinkWrap: true,
+            padding:const EdgeInsets.only(top: 11,left: 25),
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: controller.subCatModel.value.data!.length,
+            itemBuilder: (context,index){
+              return GestureDetector(
+                onTap: (){
+                  if(controller.subCatModel.value.data![index].isSelected.value){
+                    controller.subCatModel.value.data![index].isSelected.value=false;
+                    for(int i=0;i<controller.subCatModel.value.selectedList.length;i++){
+                      if(controller.subCatModel.value.selectedList[i]==controller.subCatModel.value.data![index].id.toString()){
+                        controller.subCatModel.value.selectedList.removeAt(i);
+                      }
+                    }
+                  }
+                  else{
+                    controller.subCatModel.value.data![index].isSelected.value=true;
+                    controller.subCatModel.value.selectedList.add(controller.subCatModel.value.data![index].id.toString());
+                  }
+                },
+                child: Row(
+                  children: [
+                    Obx(() =>  checkBoxWidget(controller.subCatModel.value.data![index].isSelected.value?
+                    ColorConstant.appColor:ColorConstant.white),
+                    ),
+                    ScreenSize.width(6),
+                    Expanded(
+                      child: getText(title: controller.subCatModel.value.data![index].name,
+                          size: 11, fontFamily: interRegular,
+                          color: ColorConstant.qrViewText, fontWeight: FontWeight.w400),
+                    ),
+                  ],
+                ),
+              );
+            }):Container()
+      ],
+    );
+  }
   categoryWidget(){
     return  Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -124,7 +269,7 @@ class FilterScreen extends GetView<FilterController>{
             itemBuilder: (context,index){
           return Obx(()=>Column(
               children: [
-            GestureDetector(
+            InkWell(
               onTap: (){
                 print(controller.mergeCategoryModel.value.data![index].id);
 
@@ -159,7 +304,7 @@ class FilterScreen extends GetView<FilterController>{
                     color: ColorConstant.qrViewText, fontWeight: FontWeight.w400),
                     ),
                     ScreenSize.width(2),
-                     GestureDetector(
+                  InkWell(
                        onTap: (){
                          if(controller.mergeCategoryModel.value.isOpenSubCategory.value==index){
                            controller.mergeCategoryModel.value.isOpenSubCategory.value=1000;
@@ -188,7 +333,7 @@ class FilterScreen extends GetView<FilterController>{
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: controller.mergeCategoryModel.value.data![index].baseCategoryArray!.length,
                     itemBuilder: (context,sbIndex){
-                  return GestureDetector(
+                  return InkWell(
                     onTap: (){
                       if(controller.mergeCategoryModel.value.data![index].baseCategoryArray![sbIndex].isSelectedSubCat.value){
                         controller.mergeCategoryModel.value.data![index].baseCategoryArray![sbIndex].isSelectedSubCat.value=false;
@@ -296,7 +441,7 @@ class FilterScreen extends GetView<FilterController>{
                           controller.selectedDiscountValue.value==controller.discountList[index]?
                           ColorConstant.appColor:ColorConstant.white)),
                       ScreenSize.width(10),
-                      getText(title: "${controller.discountList[index]}${controller.discountList.length-1==index?'':"%"}",
+                      getText(title: "${controller.discountList[index]}${controller.discountList.length-1==index?'':"% Off"}",
                           size: 13, fontFamily: interMedium, color:
                           ColorConstant.blackColor,
                           fontWeight: FontWeight.w400)
@@ -402,7 +547,7 @@ class FilterScreen extends GetView<FilterController>{
                   separatorBuilder: (context,sp){
                     return ScreenSize.height(5);
                   },
-                    itemCount: controller.sortByList.length,
+                    itemCount:controller.route.value=='offer'?controller.offerSortByList.length: controller.sortByList.length,
                     shrinkWrap: true,
                     itemBuilder: (context,index){
                   return Obx(()=>Container(
@@ -413,12 +558,14 @@ class FilterScreen extends GetView<FilterController>{
                       child: InkWell(
                         onTap: (){
                           controller.selectedSort.value = index;
+                          Get.back();
+                          callBack();
                           state((){});
                         },
                         child:Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              getText(title: controller.sortByList[index],
+                              getText(title:controller.route.value=='offer'?controller.offerSortByList[index]: controller.sortByList[index],
                                   size: 14, fontFamily: interMedium, color: ColorConstant.black3333,
                                   fontWeight: FontWeight.w400),
                               customRadioButton(index)

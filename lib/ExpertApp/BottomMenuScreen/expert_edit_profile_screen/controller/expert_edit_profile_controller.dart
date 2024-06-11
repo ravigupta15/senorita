@@ -323,6 +323,23 @@ getCategoryApiFunction();
       'about': aboutUsController.text.toString(),
       'device_token': prefs.getString('fcmToken').toString(),
     });
+    print({
+      'name': fullNameController.text.toString(),
+      'mobile': numberController.text.toString(),
+      'email': emailController.text.toString(),
+      'address': addressString.toString(),
+      // 'city': cityString.toString(),
+      // 'state': stateString.toString(),
+      'lat': latString.toString(),
+      'lng': lngString.toString(),
+      'category_id': categoryId.toString(),
+      'sub_categories': selectedSubCatList.isNotEmpty? selectedSubCatList.map((e) => e['id']).join(','):'',
+      'experience': expController.text.toString(),
+      'kodago_card_url': kodagoCardController.text.toString(),
+      'about': aboutUsController.text.toString(),
+      'device_token': prefs.getString('fcmToken').toString(),
+    });
+
     request.headers.addAll(headers);
 
     if (imgFile.value==null) {
@@ -340,6 +357,7 @@ getCategoryApiFunction();
       isLoading.value = false;
       final result = jsonDecode(response.body) as Map<String, dynamic>;
       if (result["success"] == true) {
+        Get.back();
         showToast(result["message"].toString());
         // Get.offAllNamed(AppRoutes.expertDashboardScreen);
       }

@@ -52,7 +52,6 @@ class AppRoutes {
 
   ///Expert All Routes
   static var expertDashboardScreen = '/expertDashboardScreen';
-  static var expertQrScreen = '/expertQrScreen';
   static var expertEditProfileScreen = '/expertEditProfileScreen';
   static var addOfferScreen = '/addOfferScreen';
   static var specialOfferScreen = '/specialOfferScreen';

@@ -40,7 +40,6 @@ class SearchSalonController extends GetxController{
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse).timeout(const Duration(seconds: 60));
     log(response.body);
-
     searchList.clear();
     if (response.statusCode == 200) {
       log(response.body);
@@ -56,7 +55,6 @@ class SearchSalonController extends GetxController{
     }
     else
     {
-      Get.back();
     }
   }
 

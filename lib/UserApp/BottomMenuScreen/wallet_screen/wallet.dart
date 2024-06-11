@@ -71,7 +71,7 @@ class Wallet extends GetWidget<WalletController> {
                             child: Center(
                               child: getText(
                                   title: profileController.model!=null&&profileController.model.value.data!=null?
-                                  profileController.model.value.data!.wallet??"":"",
+                                  profileController.model.value.data!.wallet??"0":"0",
                                   size: 22,
                                   fontFamily: interSemiBold,
                                   color: ColorConstant.blackColor,

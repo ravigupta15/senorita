@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:senorita/ExpertApp/BottomMenuScreen/menu_priceList/controller/menuPriceListcontroller.dart';
+import 'package:senorita/ExpertApp/BottomMenuScreen/specialoffers/controller/special_offer_controller.dart';
 import 'package:senorita/api_config/Api_Url.dart';
 import '../../../ScreenRoutes/routes.dart';
 import '../../../UserApp/BottomMenuScreen/dashboard_screen/controller/dashboard_controller.dart';
@@ -236,6 +237,7 @@ class ExpertProfile extends GetWidget<ExpertProfileController> {
               behavior: HitTestBehavior.opaque,
               onTap: () {
                 Get.toNamed(AppRoutes.specialOfferScreen);
+                Get.find<SpecialOfferController>().onInit();
               },
               child: Padding(
                 padding: const EdgeInsets.only(left: 12, right: 12, top: 15),

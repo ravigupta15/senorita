@@ -65,9 +65,9 @@ import '../UserApp/BottomMenuScreen/notification_screen/notification_screen.dart
 import '../UserApp/BottomMenuScreen/payment_screen/payment.dart';
 import '../UserApp/BottomMenuScreen/profile_screen/binding/profile_binding.dart';
 import '../UserApp/BottomMenuScreen/profile_screen/profile.dart';
-import '../UserApp/BottomMenuScreen/qr_screen_expert/QrCodeScreen.dart';
-import '../UserApp/BottomMenuScreen/qr_screen_expert/binding/qrCode_binding.dart';
 import '../UserApp/BottomMenuScreen/refer_earn/referearn_screen.dart';
+import '../UserApp/BottomMenuScreen/scan_qr_code/binding/scan_qr_code_binding.dart';
+import '../UserApp/BottomMenuScreen/scan_qr_code/scan_qr_code_screen.dart';
 import '../UserApp/BottomMenuScreen/single_category_list_screen/binding/single_category_list_binding.dart';
 import '../UserApp/BottomMenuScreen/single_category_list_screen/single_category_list_screen.dart';
 import '../UserApp/change_password_screen/binding/changePassword_binding.dart';
@@ -272,9 +272,9 @@ class AppPages {
 
     GetPage(
         name: AppRoutes.qrCodeScreen,
-        page: () =>  QrCodeScreen(),
-        binding: QrCodeBinding(),
-        
+        page: () =>  ScanQrCodeScreen(),
+        binding: ScanQrCodeBinding(),
+
         transitionDuration:  Duration(milliseconds: 50),
         transition: Transition.rightToLeft),
 
@@ -306,15 +306,6 @@ class AppPages {
         
         transitionDuration:  Duration(milliseconds: 50),
         transition: Transition.rightToLeft),
-
-    GetPage(
-        name: AppRoutes.expertQrScreen,
-        page: () =>  ExpertQrCodeScreen(),
-        binding: ExpertQrCodeBinding(),
-        
-        transitionDuration:  Duration(milliseconds: 50),
-        transition: Transition.cupertino),
-
 
     GetPage(
         name: AppRoutes.referEarnScreen,

@@ -27,6 +27,7 @@ class PaymentController extends GetxController {
   final selectedAmount = 0.obs;
  final token = ''.obs;
  final scannerCode = ''.obs;
+ final salonName = ''.obs;
   @override
   Future<void> onInit() async {
     SizeConfig().init();
@@ -34,6 +35,7 @@ class PaymentController extends GetxController {
     id=prefs.getString("id").toString();
     token.value = prefs.getString("token").toString();
     scannerCode.value = Get.arguments['scannerCode'];
+    salonName.value = Get.arguments['name'];
     print("test..${scannerCode.value}");
     super.onInit();
   }

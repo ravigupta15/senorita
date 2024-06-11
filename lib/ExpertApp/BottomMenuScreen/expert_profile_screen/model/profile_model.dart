@@ -168,6 +168,7 @@ class User {
   dynamic isAdmin;
   dynamic email;
   dynamic phonecode;
+  dynamic qrCodeImage;
   dynamic wallet;
   dynamic mobile;
   dynamic mobileApi;
@@ -187,6 +188,7 @@ class User {
         this.userType,
         this.isAdmin,
         this.email,
+        this.qrCodeImage,
         this.phonecode,
         this.wallet,
         this.mobile,
@@ -206,6 +208,7 @@ class User {
     address = json['address'];
     userType = json['user_type'];
     isAdmin = json['is_admin'];
+    qrCodeImage = json['qr_code_image'];
     email = json['email'];
     phonecode = json['phonecode'];
     wallet = json['wallet'];
@@ -230,6 +233,7 @@ class User {
     data['is_admin'] = isAdmin;
     data['email'] = email;
     data['phonecode'] = phonecode;
+    data['qr_code_image'] = qrCodeImage;
     data['wallet'] = wallet;
     data['mobile'] = mobile;
     data['mobile_api'] = mobileApi;

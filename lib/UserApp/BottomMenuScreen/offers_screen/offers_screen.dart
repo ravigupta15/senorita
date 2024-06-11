@@ -54,7 +54,9 @@ class OffersScreen extends GetView<OffersController> {
                             ScreenSize.width(10),
                             GestureDetector(
                               onTap: (){
-                                Get.toNamed(AppRoutes.filterScreen,parameters: {'route':"offer"})?.then((value) {
+                                Get.toNamed(AppRoutes.filterScreen,arguments: ["offer",
+                                  '','',controller.savedFilterValues
+                                ])?.then((value) {
                                   print(value);
                                   if(value!=null){
                                     controller.hasOffer.value = value['offer'].toString();
@@ -62,10 +64,23 @@ class OffersScreen extends GetView<OffersController> {
                                     controller.subCategory.value= value['subcat'].toString();
                                     controller.price.value = value['price'].toString();
                                     controller.discount.value= value['discount'].toString();
-                                    controller.rating.value = value['topRated'].isNotEmpty?
-                                    value['topRated'].toString(): value['rating']==0.0?'':value['rating'].toString();
-                                    controller.distance.value = value['distance']=='0-0'?'':value['distance'].toString();
+                                    controller.rating.value = value['topRated'].toString().isNotEmpty?
+                                    value['topRated'].toString(): value['rating']==0?'':value['rating'].toString();
+                                    controller.distance.value = value['distance'].isEmpty?'':"0-${value['distance'].toString()}";
                                     controller.newArrivals.value = value['arrivals'].toString();
+                                    controller.savedFilterValues = {
+                                      'hasOffer':controller.hasOffer.value,
+                                      'category':controller.category.value,
+                                      'subcat':controller.subCategory.value,
+                                      'price':controller.price.value,
+                                      'discount':controller.discount.value,
+                                      'topRated':value['topRated'],
+                                      'rating':value['rating'],
+                                      'distance':value['distance'],
+                                      'arrivals':value['arrivals']
+                                    };
+
+                                    print("vbbb..${controller.savedFilterValues}");
                                     controller.allOffersApiFunction(true);
                                   }
                                 });

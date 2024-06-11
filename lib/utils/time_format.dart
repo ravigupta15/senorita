@@ -18,6 +18,6 @@ class TimeFormat{
   static String convertInTime(timeString){
     DateTime time = DateFormat('HH:mm:ss').parse(timeString);
     // Format the date
-    return DateFormat('ha').format(time);
+    return DateFormat('h:mm a').format(time);
   }
 }

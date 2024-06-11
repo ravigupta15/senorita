@@ -63,7 +63,6 @@ class ExpertWalletController extends GetxController {
     }
     else
     {
-      Get.back();
     }
 
   }

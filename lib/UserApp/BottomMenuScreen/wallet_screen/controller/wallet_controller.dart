@@ -48,8 +48,6 @@ class WalletController extends GetxController {
     if(Get.find<DashboardController>().selectedIndex.value==2&&model==null){
       Get.back();
     }
-    // Get.back();
-    // allOffersList.clear();
     var dataAll = json.decode(response.body);
     if (response.statusCode == 200) {
       model.value = WalletModel.fromJson(dataAll);
@@ -57,7 +55,6 @@ class WalletController extends GetxController {
 
     else
     {
-      Get.back();
     }
 
   }

@@ -47,8 +47,9 @@ class AddPriceListScreen extends GetView<PriceListController> {
                   children: [
                     Obx(
                       () => customDropDown(context, () {
-                        controller.categoryModel!=null?
-                 categoryDialogBox(context):showToast("Data Loading Please Wait");
+                        // controller.categoryModel!=null?
+                 categoryDialogBox(context);
+                        // :showToast("Data Loading Please Wait");
                 },
                           controller.categoryString.value == ""
                               ? registerCategory
@@ -122,7 +123,7 @@ class AddPriceListScreen extends GetView<PriceListController> {
                               ),
 
                               Expanded(
-                                child: Container(
+                                child: SizedBox(
                                   width: 100,
                                   height: 45,
                                   child: Row(
@@ -196,43 +197,79 @@ class AddPriceListScreen extends GetView<PriceListController> {
                                           ),
                                         ),
                                       ),
-                                      SizedBox(
+                                    const SizedBox(
                                         width: 10,
                                       ),
                                       GestureDetector(
                                         onTap: () {
-                                          if (model.status.value) {
-                                            print('if${model.status.value}');
+                                          if(index==0){
+                                            for(int i=0;i<controller.addTopicList.length;i++){
+                                              var model1= controller.addTopicList[i];
+                                              if(controller.addTopicList.length==i+1){
+                                                if(model1.title.value.isNotEmpty&&model1.priceController.text.isNotEmpty){
+                                                  controller.updateItems();
+                                                  break;
+                                                }else{
+                                                  showToast("Enter title and price");
+                                                }
+                                              }
+                                              else{
+                                              }
+                                            }}
+                                          else{
                                             controller.removeItems(index);
-                                          } else {
-                                            if (model.title.value
-                                                    .isNotEmpty &&
-                                                model.priceController.text
-                                                    .isNotEmpty) {
-                                              model.status.value = true;
-                                              print(
-                                                  'else${model.status.value}');
-                                              controller.sendDataList.add({
-                                                'item_name': model
-                                                    .title.value,
-                                                'price':
-                                                    model.priceController.text
-                                              });
-                                              controller.updateItems();
-                                            } else {
-                                              showToast(
-                                                  "Enter title and price");
-                                            }
                                           }
-                                          // controller.addTopicList.removeAt(index);
-                                          // controller.addTopicList.remove(model1);
+                                          // if(model.title.value
+                                          //     .isNotEmpty &&
+                                          //     model.priceController.text
+                                          //         .isNotEmpty){
+                                          //       controller.sendDataList.add({
+                                          //         'item_name': model
+                                          //             .title.value,
+                                          //         'price':
+                                          //             model.priceController.text
+                                          //       });
+                                          //       controller.updateItems();
+                                          // }
+                                          // else{
+                                          //   showToast(
+                                          //       "Enter title and price");
+                                          // }}
+                                          // else{
+                                          //   controller.removeItems(index);
+                                          // }
+                                          // if (model.status.value) {
+                                          //   controller.removeItems(index);
+                                          // } else {
+                                          //   if (model.title.value
+                                          //           .isNotEmpty &&
+                                          //       model.priceController.text
+                                          //           .isNotEmpty) {
+                                          //     model.status.value = true;
+                                          //     print(
+                                          //         'else${model.status.value}');
+                                          //     controller.sendDataList.add({
+                                          //       'item_name': model
+                                          //           .title.value,
+                                          //       'price':
+                                          //           model.priceController.text
+                                          //     });
+                                          //     controller.updateItems();
+                                          //   } else {
+                                          //     showToast(
+                                          //         "Enter title and price");
+                                          //   }
+                                          // }
                                         },
                                         child: Image.asset(
                                           height: 23,
                                           width: 23,
-                                          model.status.value
-                                              ? AppImages.removePrice
-                                              : AppImages.addPrice,
+                                          index==0?
+                                          AppImages.addPrice: AppImages.removePrice
+                                          // model.status.value
+                                          //     ? AppImages.removePrice
+                                          //     : AppImages.addPrice
+                                          ,
 
                                         ),
                                       ),
@@ -300,7 +337,7 @@ class AddPriceListScreen extends GetView<PriceListController> {
                                   context, controller.sendDataList);
                             }
                             else{
-                              EasyLoading.showToast('Add Price and title');
+                              showToast('Add Price and title');
                             }
 
                           },
@@ -407,14 +444,14 @@ class AddPriceListScreen extends GetView<PriceListController> {
                     ),
                     width: MediaQuery.of(context).size.width,
                     // color: Colors.white,
-                    child:controller.categoryModel.value!=null&& controller.categoryModel.value!.data!=null?
+                    child:controller.categoryList.isNotEmpty?
                     ListView.builder(
                         physics: const ScrollPhysics(),
                         shrinkWrap: true,
                         scrollDirection: Axis.vertical,
                         padding: const EdgeInsets.only(
                             left: 15, right: 10, bottom: 15, top: 4),
-                        itemCount: controller.categoryModel.value!.data!.length,
+                        itemCount: controller.categoryList.length,
                         itemBuilder: (context, index) {
                           return Column(
                             children: [
@@ -426,17 +463,17 @@ class AddPriceListScreen extends GetView<PriceListController> {
                                   behavior: HitTestBehavior.opaque,
                                   onTap: () {
                                     state((){});
-                                    controller.categoryModel.value.selectedIndex=index;
-                                    controller.selectedCategory.value=controller.categoryModel.value.data![index].name;
-                                    controller.selectedCategoryId.value = controller.categoryModel.value.data![index].id.toString();
+                                    controller.selectedCategoryIndex.value=index;
+                                    controller.selectedCategory.value=controller.categoryList[index].name;
+                                    controller.selectedCategoryId.value = controller.categoryList[index].id.toString();
                                   },
                                   child: Row(
                                     children: [
                                       Icon(
-                                        color:controller.categoryModel.value.selectedIndex==index?
+                                        color:controller.selectedCategoryIndex.value==index?
                                         ColorConstant.onBoardingBack: ColorConstant.greyColor,
                                         size: 20,
-                                        controller.categoryModel.value.selectedIndex==index?
+                                        controller.selectedCategoryIndex.value==index?
                                         Icons.radio_button_checked:
                                         Icons.radio_button_off_outlined,
                                       ),
@@ -444,7 +481,7 @@ class AddPriceListScreen extends GetView<PriceListController> {
                                         width: 10,
                                       ),
                                       Text(
-                                        controller.categoryModel.value.data![index].name.toString(),
+                                        controller.categoryList[index].name.toString(),
                                         style: const TextStyle(
                                           color: ColorConstant.greyColor,
                                           fontSize: 14,

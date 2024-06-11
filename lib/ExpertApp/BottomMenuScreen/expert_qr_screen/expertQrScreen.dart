@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:isolate';
 import 'dart:ui';
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -8,6 +9,10 @@ import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:senorita/ExpertApp/BottomMenuScreen/expert_profile_screen/controller/expert_profile_controller.dart';
+import 'package:senorita/api_config/Api_Url.dart';
+import 'package:senorita/helper/network_image_helper.dart';
+import 'package:senorita/utils/toast.dart';
 import 'package:share_plus/share_plus.dart';
 import '../../../helper/appbar.dart';
 import '../../../helper/appimage.dart';
@@ -15,14 +20,88 @@ import '../../../helper/getText.dart';
 import '../../../utils/color_constant.dart';
 import '../../../utils/stringConstants.dart';
 import 'controller/expert_qr_controller.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 
-class ExpertQrCodeScreen extends GetWidget<ExpertQRScannerController> {
-  final ExpertQRScannerController qrScannerController =
-  Get.put(ExpertQRScannerController());
-  GlobalKey globalKey = GlobalKey();
+class ExpertQrScreen extends StatefulWidget {
+  const ExpertQrScreen({super.key});
 
   @override
+  State<ExpertQrScreen> createState() => _ExpertQrScreenState();
+}
+
+class _ExpertQrScreenState extends State<ExpertQrScreen> {
+
+  ReceivePort port = ReceivePort();
+  String downloadStatus ='';
+  int downloadProgress = 0;
+  final currentDownloadIndex = 0;
+  final pdfUrl = ''.obs;
+  String? taskId;
+
+  @override
+  void dispose() {
+    IsolateNameServer.removePortNameMapping('downloader_send_port');
+    super.dispose();
+  }
+
+  callDownloaderFunction() {
+    IsolateNameServer.registerPortWithName(
+        port.sendPort, 'downloader_send_port');
+    port.listen((dynamic data) {
+      int progress = data[2];
+      print("progress...$progress");
+      downloadProgress = progress;
+      if (progress < 99 && progress > 1) {
+        downloadStatus = 'running';
+      } else if (progress > 99) {
+        downloadStatus = 'completed';
+        // Platform.isAndroid?
+        FlutterDownloader.open(taskId: taskId!);
+        showToast('Successfully Saved');
+        // launchURL(pdfUrl.value);
+      } else {
+        downloadStatus = '';
+      }
+    });
+    FlutterDownloader.registerCallback(downloadCallback);
+  }
+
+  @pragma('vm:entry-point')
+  static void downloadCallback(String id, int status, int progress) {
+    final SendPort? send = IsolateNameServer.lookupPortByName('downloader_send_port');
+    send!.send([id, status, progress]);
+  }
+
+
+  downloadFile(String url)async{
+    String dir = (await getApplicationDocumentsDirectory()).path;
+    print("dir...$dir");
+    // currentDownloadIndex.value = index;
+    pdfUrl.value = url;
+    taskId = await FlutterDownloader.enqueue(
+      url: url,
+      headers: {}, // optional: header send with url (auth token etc)
+      savedDir:  Platform.isAndroid?
+      '/storage/emulated/0/Download/':
+      "$dir/",
+      showNotification: true,
+      openFileFromNotification: true,
+      saveInPublicStorage: true,
+    );
+  }
+
+
+  @override
+  void initState() {
+    callDownloaderFunction();
+    // TODO: implement initState
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
+    final controller = Get.put(ExpertQRScannerController());
+    print(downloadProgress.toString());
+    print(downloadStatus);
     return Scaffold(
       appBar: appBar(context, "QR code", () {
         Get.back();
@@ -76,24 +155,11 @@ class ExpertQrCodeScreen extends GetWidget<ExpertQRScannerController> {
                     ),
                   ),
                   const SizedBox(height: 31),
-                  RepaintBoundary(
-                    key: globalKey,
-                    child: QrImageView(
-                      data: controller.expertQrCode.value,
-                      version: QrVersions.auto,
-                      gapless: false,
-                      size: 200,
-                      embeddedImage: const AssetImage(AppImages.splashCenter),
-                      embeddedImageStyle: const QrEmbeddedImageStyle(
-                        size: Size(60, 60),
-                      ),
-                    ),
+                  NetworkImageHelper(
+                    img: "${ApiUrls.qrCodeBaseUrl}${Get.find<ExpertProfileController>().model.value.data!.user!.qrCodeImage.toString()}",
+                    height: 200.0,
+                    width: 200.0,
                   ),
-                  // Image.asset(
-                  //   scale: 1,
-                  //   AppImages.imgQrView,
-                  //   fit: BoxFit.contain,
-                  // ),
                   const SizedBox(height: 37),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -102,32 +168,32 @@ class ExpertQrCodeScreen extends GetWidget<ExpertQRScannerController> {
                       children: [
                         GestureDetector(
                           onTap:(){
-                            capturePng(context,'share');
+                            Share.shareUri(Uri.parse("${ApiUrls.qrCodeBaseUrl}${Get.find<ExpertProfileController>().model.value.data!.user!.qrCodeImage.toString()}"),);
                           },
                           child: Container(
                             color: Colors.white,
-                           child: Row(
-                             children: [Image.asset(
-                               height: 17,
-                               width: 17,
-                               AppImages.imgShareQr,
-                               fit: BoxFit.contain,
-                             ),
-                               const Padding(
-                                   padding: EdgeInsets.only(
-                                     left: 7,
-                                     top: 3,
-                                     bottom: 3,
-                                   ),
-                                   child: getText(
-                                       title: "Share QR",
-                                       size: 15,
-                                       fontFamily: interMedium,
-                                       color: ColorConstant.onBoardingBack,
-                                       fontWeight: FontWeight.w600)
-                               ),
-                             ],
-                           ),
+                            child: Row(
+                              children: [Image.asset(
+                                height: 17,
+                                width: 17,
+                                AppImages.imgShareQr,
+                                fit: BoxFit.contain,
+                              ),
+                                const Padding(
+                                    padding: EdgeInsets.only(
+                                      left: 7,
+                                      top: 3,
+                                      bottom: 3,
+                                    ),
+                                    child: getText(
+                                        title: "Share QR",
+                                        size: 15,
+                                        fontFamily: interMedium,
+                                        color: ColorConstant.onBoardingBack,
+                                        fontWeight: FontWeight.w600)
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                         const Padding(
@@ -140,37 +206,50 @@ class ExpertQrCodeScreen extends GetWidget<ExpertQRScannerController> {
                             ),
                           ),
                         ),
-                      GestureDetector(
-                        onTap: (){
-                          capturePng(context, 'download');
-                        },
-                        child: Container(
-                          color: Colors.white,
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                height: 17,
-                                width: 17,
-                                AppImages.imgDownloadQr,
-                                fit: BoxFit.contain,
-                              ),
-                              const Padding(
-                                  padding: EdgeInsets.only(
-                                    left: 9,
-                                    top: 3,
-                                    bottom: 3,
-                                  ),
-                                  child: getText(
-                                      title: "Download QR",
-                                      size: 15,
-                                      fontFamily: interMedium,
-                                      color: ColorConstant.onBoardingBack,
-                                      fontWeight: FontWeight.w600)
-                              )
-                            ],
+                        GestureDetector(
+                          onTap: ()async{
+                            String dir = (await getApplicationDocumentsDirectory()).path;
+                            showToast('Downloading...');
+                            taskId=  await FlutterDownloader.enqueue(
+                              url: "${ApiUrls.qrCodeBaseUrl}${Get.find<ExpertProfileController>().model.value.data!.user!.qrCodeImage.toString()}",
+                              headers: {}, // optional: header send with url (auth token etc)
+                              savedDir:  Platform.isAndroid?
+                              '/storage/emulated/0/Download/':
+                              "$dir/",
+                              showNotification: true,
+                              openFileFromNotification: true,
+                              saveInPublicStorage: true,
+                            );
+
+                            // capturePng(context, 'download');
+                          },
+                          child: Container(
+                            color: Colors.white,
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  height: 17,
+                                  width: 17,
+                                  AppImages.imgDownloadQr,
+                                  fit: BoxFit.contain,
+                                ),
+                                const Padding(
+                                    padding: EdgeInsets.only(
+                                      left: 9,
+                                      top: 3,
+                                      bottom: 3,
+                                    ),
+                                    child: getText(
+                                        title: "Download QR",
+                                        size: 15,
+                                        fontFamily: interMedium,
+                                        color: ColorConstant.onBoardingBack,
+                                        fontWeight: FontWeight.w600)
+                                )
+                              ],
+                            ),
                           ),
                         ),
-                      ),
                       ],
                     ),
                   ),
@@ -182,32 +261,6 @@ class ExpertQrCodeScreen extends GetWidget<ExpertQRScannerController> {
       ),
     );
   }
-  Future<void> capturePng(BuildContext context, String route) async {
-    try {
-      RenderRepaintBoundary boundary =
-      globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
-      var image = await boundary.toImage();
-      ByteData? byteData = await image.toByteData(format: ImageByteFormat.png);
-      Uint8List pngBytes = byteData!.buffer.asUint8List();
-
-      // Get the directory to save the image
-      final directory = await getApplicationDocumentsDirectory();
-      final path = directory.path;
-      File imgFile = File('$path/qr_code.png');
-      final box = context.findRenderObject() as RenderBox?;
-      imgFile.writeAsBytes(pngBytes);
-     if(route=='share'){
-       Share.shareFiles([imgFile.path],
-           sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
-           text: 'Check out this QR code!',subject: 'Qr Code');
-     }
-     else{
-       controller.convertImageToUrlApiFunction(imgFile);
-     }
-      print('QR Code saved to $path');
-    } catch (e) {
-      print(e);
-    }
-  }
 
 }
+

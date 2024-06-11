@@ -148,75 +148,75 @@ class LoginScreen extends GetWidget<LoginController> {
                           ),
                         ),
                       ),
-                      ScreenSize.height(15),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: 140,
-                            color: ColorConstant.dividerColor,
-                            height: 1,
-                          ),
-                          SizedBox(width: 10,),
-                          getText(
-                              title: or,
-                              textAlign: TextAlign.start,
-                              size: 13,
-                              fontFamily: interMedium,
-                              color: ColorConstant.lightGray,
-                              fontWeight: FontWeight.w400),
-                          SizedBox(width: 10,),
-                          Container(
-                            width: 150,
-                            color: ColorConstant.dividerColor,
-                            height: 1,
-                          ),
-                        ],
-                      ),
-                      ScreenSize.height(6),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          GestureDetector(
-                            onTap: ()
-                            {
-                             // controller.signup(context);
-                            },
-                            child: Container(
-                              width: 45,
-                              height: 45,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                    width: 1,
-                                    color: ColorConstant.cardBack,),
-                                  borderRadius: BorderRadius.all(Radius.circular(100))),
-                              child: Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Image.asset(AppImages.google,),
-                              ),
-                            ),
-                          ),
-                          ScreenSize.width(30),
-                          Container(
-                            width: 45,
-                            height: 45,
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                  width: 1,
-                                  color: ColorConstant.cardBack,),
-                                borderRadius: BorderRadius.all(Radius.circular(100))),
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Image.asset(AppImages.facebook,),
-                            ),
-                          ),
-                        ],
-                      )
+                      // ScreenSize.height(15),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.center,
+                      //   children: [
+                      //     Container(
+                      //       width: 140,
+                      //       color: ColorConstant.dividerColor,
+                      //       height: 1,
+                      //     ),
+                      //     const SizedBox(width: 10,),
+                      //    const getText(
+                      //         title: or,
+                      //         textAlign: TextAlign.start,
+                      //         size: 13,
+                      //         fontFamily: interMedium,
+                      //         color: ColorConstant.lightGray,
+                      //         fontWeight: FontWeight.w400),
+                      //     SizedBox(width: 10,),
+                      //     Container(
+                      //       width: 150,
+                      //       color: ColorConstant.dividerColor,
+                      //       height: 1,
+                      //     ),
+                      //   ],
+                      // ),
+                      // ScreenSize.height(6),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.center,
+                      //   children: [
+                      //     GestureDetector(
+                      //       onTap: ()
+                      //       {
+                      //        // controller.signup(context);
+                      //       },
+                      //       child: Container(
+                      //         width: 45,
+                      //         height: 45,
+                      //         decoration: BoxDecoration(
+                      //             border: Border.all(
+                      //               width: 1,
+                      //               color: ColorConstant.cardBack,),
+                      //             borderRadius: BorderRadius.all(Radius.circular(100))),
+                      //         child: Padding(
+                      //           padding: const EdgeInsets.all(10.0),
+                      //           child: Image.asset(AppImages.google,),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //     ScreenSize.width(30),
+                      //     Container(
+                      //       width: 45,
+                      //       height: 45,
+                      //       decoration: BoxDecoration(
+                      //           border: Border.all(
+                      //             width: 1,
+                      //             color: ColorConstant.cardBack,),
+                      //           borderRadius: BorderRadius.all(Radius.circular(100))),
+                      //       child: Padding(
+                      //         padding: const EdgeInsets.all(10.0),
+                      //         child: Image.asset(AppImages.facebook,),
+                      //       ),
+                      //     ),
+                      //   ],
+                      // )
                     ],
                   ),
                 ),
                 ScreenSize.height(15),
-                getText(
+                const getText(
                     title: termsText1,
                     textAlign: TextAlign.center,
                     size: 12,

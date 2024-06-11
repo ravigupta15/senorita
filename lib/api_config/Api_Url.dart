@@ -7,6 +7,7 @@ class ApiUrls {
   ///Live Url
   static const String apiBaseUrlTesting = "https://senoritaapp.com/backend/public/api/";
   static const String imgBaseUrl = "https://senoritaapp.com/backend/public/";
+  static const String qrCodeBaseUrl = 'https://senoritaapp.com/backend/public/upload/qrcode-images/';
   static const String offerImageBase = "https://senoritaapp.com/backend/public/upload/offers/";
 
   ///Common Screen
