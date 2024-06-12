@@ -1,5 +1,6 @@
 class ProfileModel {
   dynamic success;
+  List<ExpertImages>? expertImages;
   Data? data;
 
   ProfileModel({this.success, this.data});
@@ -18,7 +19,34 @@ class ProfileModel {
     return data;
   }
 }
+class ExpertImages {
+  dynamic id;
+  dynamic userId;
+  dynamic image;
+  dynamic createdAt;
+  dynamic updatedAt;
 
+  ExpertImages(
+      {this.id, this.userId, this.image, this.createdAt, this.updatedAt});
+
+  ExpertImages.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    userId = json['user_id'];
+    image = json['image'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data =  Map<String, dynamic>();
+    data['id'] = id;
+    data['user_id'] = userId;
+    data['image'] = image;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    return data;
+  }
+}
 class Data {
   dynamic id;
   dynamic categoryId;

@@ -151,6 +151,7 @@ class AppImages {
   static String imgQrView = '$imagePath/qr_view_expert.png';
   static String imgShareQr = '$imagePath/share_qr_expert.png';
   static String imgDownloadQr = '$imagePath/download_qr_expert.png';
+  static String galleryIcon = 'assets/icons/gallery_icon.png';
 
 
   //Profile Screen
@@ -193,44 +194,6 @@ class AppImages {
   static String comingSoon = '$imagePath/coming_png.png';
 
   static String priceListEmpty= '$imagePath/price_empty.png';
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+static String currentLocationIcon = '$iconPath/currentLocation.png';
+static String recentLocationIcon = '$iconPath/recentLocation.png';
 }

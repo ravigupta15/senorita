@@ -7,6 +7,7 @@ class ExpertProfileController extends GetxController {
   // final expertId = ''.obs;
   // String id="";// Initialize with your desired upper value
  var model = ProfileModel().obs;
+ final expertPhotoList = [].obs;
   @override
   onInit() async {
     profileApiFunction();
@@ -16,7 +17,7 @@ class ExpertProfileController extends GetxController {
   Future profileApiFunction() async {
     final response = await ApiConstants.getWithToken(url: ApiUrls.getExpertProfileDetail, useAuthToken: true);
     if (response != null && response['success'] == true) {
-      print(response['data']);
+      expertPhotoList.value =response['expert_images']??[];
       model.value = ProfileModel.fromJson(response);
       return response;
       }

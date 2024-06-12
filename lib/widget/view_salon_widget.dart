@@ -33,19 +33,42 @@ salonWidget(BuildContext context, model,String route, Function()onTap) {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ClipRRect(
-            borderRadius:const BorderRadius.only(
-                topRight: Radius.circular(18),
-                topLeft: Radius.circular(18)),
-            child:
-            model.user!=null?  NetworkImageHelper(
-              img:route=='offer'?
-              model.imageUrl:
-              ApiUrls.imgBaseUrl+
-                  model.user!.profilePicture.toString(),
-              height: 200.0,width: double.infinity,
-            )
-          : Container(),
+          Stack(
+            children: [
+              ClipRRect(
+                borderRadius:const BorderRadius.only(
+                    topRight: Radius.circular(18),
+                    topLeft: Radius.circular(18)),
+                child:
+                model.user!=null?  NetworkImageHelper(
+                  img:route=='offer'?
+                  model.imageUrl:
+                  ApiUrls.imgBaseUrl+
+                      model.user!.profilePicture.toString(),
+                  height: 200.0,width: double.infinity,
+                )
+              : Container(),
+              ),
+              route=='offer'?
+              Positioned(
+                bottom: 0,
+                right: 0+15,
+                child: Container(
+                  height: 32,
+                  width: 35,decoration: BoxDecoration(
+                  color: ColorConstant.blackColor,
+                  borderRadius:const BorderRadius.only(
+                    topLeft: Radius.circular(4),
+                    bottomLeft: Radius.circular(4),
+                  )
+                ),
+                  alignment: Alignment.center,
+                  child: getText(title: "+${model.offerCount.toString()}",
+                      size: 15, fontFamily: interMedium, color: ColorConstant.whiteColor,
+                      fontWeight: FontWeight.w400),
+                ),
+              ):Container()
+            ],
           ),
           Padding(
             padding: const EdgeInsets.only(left: 11,right: 12,top: 18),

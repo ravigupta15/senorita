@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:senorita/ExpertApp/BottomMenuScreen/expert_profile_screen/controller/expert_profile_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
@@ -33,12 +34,13 @@ class AddPhotosController extends GetxController {
   final percentage = 0.0.obs;
   final imgSize = "".obs;
 
+  final photosList = [].obs;
   @override
   void onInit() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     token = prefs.getString("token").toString();
     expertId = prefs.getString("expertId").toString();
-    allOffersApiFunction();
+    photosList.value = Get.arguments[0]??[];
     super.onInit();
   }
 
@@ -144,14 +146,14 @@ class AddPhotosController extends GetxController {
   ///LoadData file Api
   addImage(filename, BuildContext context) async {
     imgUploaded.value = true;
-    var headers = {'Authorization': 'Bearer' + token};
-    var request = http.MultipartRequest('POST', Uri.parse(ApiUrls.addOffer));
+    var headers = {'Authorization': 'Bearer $token'};
+    var request = http.MultipartRequest('POST', Uri.parse(ApiUrls.addPhotoUrl));
     request.fields.addAll({
-      'type': "price",
+      'user_id': Get.find<ExpertProfileController>().model.value.data!.user!.id.toString(),
     });
     request.headers.addAll(headers);
     final file =
-        await http.MultipartFile.fromPath('image', filename.toString());
+        await http.MultipartFile.fromPath('expert_image', filename.toString());
     request.files.add(file);
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse);
@@ -164,7 +166,12 @@ class AddPhotosController extends GetxController {
           imgUploaded.value = false;
         });
         percentage.value = 1.0 ;
-        allOffersApiFunction();
+        Get.find<ExpertProfileController>().profileApiFunction().then((value) {
+          if(value!=null){
+            photosList.value = value['expert_images']??[];
+          }
+        });
+        // allOffersApiFunction();
         print(pathList.toString());
       } else {
         return null;

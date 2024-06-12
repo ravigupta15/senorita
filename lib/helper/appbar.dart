@@ -11,13 +11,13 @@ AppBar appBar(BuildContext context, String title,  Function() onTap,{isShowLeadi
     backgroundColor: Colors.white,
     elevation: 0,
     scrolledUnderElevation: 0.0,
-    leadingWidth: 28,
+    // leadingWidth: 28,
     leading:isShowLeading? Padding(
-      padding: const EdgeInsets.only(left: 10),
+      padding: const EdgeInsets.only(left: 0),
       child: Container(
           height: 25,
           width: 25,
-          alignment: Alignment.centerRight,
+          alignment: Alignment.center,
           child: GestureDetector(
               onTap: onTap,
               child: Image.asset(
@@ -30,7 +30,6 @@ AppBar appBar(BuildContext context, String title,  Function() onTap,{isShowLeadi
         title: title,
         size: 17,
         fontFamily: interSemiBold,
-        letterSpacing: 0.7,
         color: ColorConstant.blackColor,
         fontWeight: FontWeight.w400),
     centerTitle: true,

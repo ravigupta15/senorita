@@ -37,7 +37,7 @@ class FilterScreen extends GetView<FilterController>{
         child: Obx(() => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            controller.route.value=='offer'?
+            controller.route.value=='offer'||controller.selectedCategoryIdBySingleScreen.isEmpty?
             categoryWidget():selectedCategoryFromSingleScreenWidget(),
             priceFilterWidget(),
             discountFilterWidget(),
@@ -68,7 +68,7 @@ class FilterScreen extends GetView<FilterController>{
             // ScreenSize.height(6),
            InkWell(
              onTap: (){
-               if(controller.route.value=='offer') {
+               if(controller.route.value=='offer'||controller.selectedCategoryIdBySingleScreen.isEmpty) {
                  controller.mergeCategoryModel.value.selectedCategory.clear();
                  for (int i = 0; i <
                      controller.mergeCategoryModel.value.data!.length; i++) {
@@ -118,7 +118,7 @@ class FilterScreen extends GetView<FilterController>{
   }
 
   callBack(){
-    if(controller.route.value=='offer') {
+    if(controller.route.value=='offer'||controller.selectedCategoryIdBySingleScreen.isEmpty) {
       List subCat = [];
       String subCatId = '';
       String catId = controller.mergeCategoryModel.value.selectedCategory.value
@@ -185,7 +185,7 @@ class FilterScreen extends GetView<FilterController>{
         ScreenSize.height(15),
         Row(
           children: [
-             checkBoxWidget(ColorConstant.appColor),
+             checkBoxWidget(ColorConstant.appColor,size: 20),
             ScreenSize.width(6),
             Expanded(
               child: getText(title: controller.selectedCategoryNameBySingleScreen.value,
@@ -237,7 +237,10 @@ class FilterScreen extends GetView<FilterController>{
                 child: Row(
                   children: [
                     Obx(() =>  checkBoxWidget(controller.subCatModel.value.data![index].isSelected.value?
-                    ColorConstant.appColor:ColorConstant.white),
+                    ColorConstant.appColor:ColorConstant.white,size: 18,
+                    borderColor: controller.subCatModel.value.data![index].isSelected.value?
+                    ColorConstant.appColor:ColorConstant.blackLight
+                    ),
                     ),
                     ScreenSize.width(6),
                     Expanded(
@@ -261,7 +264,7 @@ class FilterScreen extends GetView<FilterController>{
         controller.mergeCategoryModel!=null&& controller.mergeCategoryModel.value.data!=null?
         ListView.separated(
           separatorBuilder: (context,sp){
-            return ScreenSize.height(20);
+            return ScreenSize.height(18);
           },
             itemCount: controller.mergeCategoryModel.value.data!.length,
             shrinkWrap: true,
@@ -296,7 +299,10 @@ class FilterScreen extends GetView<FilterController>{
               child: Row(
                 children: [
                Obx(() => checkBoxWidget(controller.mergeCategoryModel.value.data![index].isSelectedCat.value?
-               ColorConstant.appColor:ColorConstant.white)),
+               ColorConstant.appColor:ColorConstant.white,size: 20,
+               borderColor: controller.mergeCategoryModel.value.data![index].isSelectedCat.value?
+               ColorConstant.appColor:ColorConstant.blackLight
+               )),
                     ScreenSize.width(6),
                     Expanded(
                     child: getText(title: controller.mergeCategoryModel.value.data![index].name,
@@ -351,9 +357,12 @@ class FilterScreen extends GetView<FilterController>{
                     child: Row(
                       children: [
                        Obx(() =>  checkBoxWidget(controller.mergeCategoryModel.value.data![index].baseCategoryArray![sbIndex].isSelectedSubCat.value?
-                       ColorConstant.appColor:ColorConstant.white),
+                       ColorConstant.appColor:ColorConstant.white,size: 18,
+                       borderColor: controller.mergeCategoryModel.value.data![index].baseCategoryArray![sbIndex].isSelectedSubCat.value?
+                       ColorConstant.appColor:ColorConstant.blackLight
                        ),
-                        ScreenSize.width(6),
+                       ),
+                        ScreenSize.width  (6),
                         Expanded(
                           child: getText(title: controller.mergeCategoryModel.value.data![index].baseCategoryArray![sbIndex].name,
                               size: 11, fontFamily: interRegular,
@@ -397,7 +406,10 @@ class FilterScreen extends GetView<FilterController>{
                   children: [
                     Obx(() => checkBoxWidget(
                         controller.selectedPriceValue.value==controller.priceList[index]?
-                        ColorConstant.appColor:ColorConstant.white)),
+                        ColorConstant.appColor:ColorConstant.white,size: 20,
+                    borderColor: controller.selectedPriceValue.value==controller.priceList[index]?
+                    ColorConstant.appColor:ColorConstant.blackLight
+                    )),
                     ScreenSize.width(10),
                     getText(title: "Rs. ${controller.priceList[index]}",
                         size: 13, fontFamily: interMedium, color:
@@ -439,7 +451,9 @@ class FilterScreen extends GetView<FilterController>{
                     children: [
                       Obx(() => checkBoxWidget(
                           controller.selectedDiscountValue.value==controller.discountList[index]?
-                          ColorConstant.appColor:ColorConstant.white)),
+                          ColorConstant.appColor:ColorConstant.white,size: 20,
+                      borderColor: controller.selectedDiscountValue.value==controller.discountList[index]?
+                      ColorConstant.appColor:ColorConstant.blackLight)),
                       ScreenSize.width(10),
                       getText(title: "${controller.discountList[index]}${controller.discountList.length-1==index?'':"% Off"}",
                           size: 13, fontFamily: interMedium, color:

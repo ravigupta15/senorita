@@ -56,6 +56,7 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
                     GestureDetector(
                       onTap: (){
                         Get.toNamed(AppRoutes.filterScreen,arguments: ['single',
+                          controller.categoryName.value.isEmpty?'':
                           controller.category.value,controller.categoryName.value,
                           controller.savedFilterValues
                         ])?.then((value) {
@@ -72,7 +73,7 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
 
                             controller.savedFilterValues = {
                               'hasOffer':controller.hasOffer.value,
-                              'category':controller.category.value,
+                              'category': controller.category.value,
                               'subcat':controller.subCategory.value,
                               'price':controller.price.value,
                               'discount':controller.discount.value,

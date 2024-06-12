@@ -1,10 +1,13 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:senorita/ScreenRoutes/routes.dart';
 import 'package:http/http.dart'as http;
@@ -69,4 +72,17 @@ class ScanQrCodeController extends GetxController {
 
     }
   }
+
+  final imgFile = Rx<File?>(null);
+  Future pickImage() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if(image == null) return;
+      final imageTemp = File(image.path);
+       imgFile.value = imageTemp;
+    } on PlatformException catch(e) {
+      print('Failed to pick image: $e');
+    }
+  }
+
 }

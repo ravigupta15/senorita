@@ -421,7 +421,7 @@ class AddOfferScreen extends GetView<AddOfferController>{
           getText(title: 'Description',
               size: 15, fontFamily: interMedium, color: ColorConstant.blackColor, fontWeight: FontWeight.w500),
           ScreenSize.height(6),
-          customTextField(hintText: '50 % discount',
+          customTextField(hintText: 'Enter description',
             controller: controller.buyDescriptionController,
           ),
           ScreenSize.height(17),

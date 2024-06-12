@@ -18,7 +18,7 @@ popularCategoryShimmer() {
         shrinkWrap: true,
         itemBuilder: (context, index) {
           return Card(
-            shape: RoundedRectangleBorder(
+            shape:const RoundedRectangleBorder(
               side: BorderSide(color: Colors.white70, width: 1),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(5),

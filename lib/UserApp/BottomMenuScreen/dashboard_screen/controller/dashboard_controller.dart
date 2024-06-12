@@ -168,7 +168,7 @@ final bannerIndex =0.obs;
     super.onInit();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     Id=prefs.getString("id").toString();
-    getUserLocation();
+    getUserLocation(true);
     profileApiFunction();
     categoryApiFunction();
     ///Home Screen
@@ -181,9 +181,10 @@ final bannerIndex =0.obs;
     super.dispose();
   }
 
-  void getUserLocation() async {  
+  void getUserLocation(bool isCallApi) async {
    SharedPreferences prefs = await SharedPreferences.getInstance();
-  allHomeScreenApiFunction(prefs.getString('lat').toString(),prefs.getString('long').toString(),'',true);
+   isCallApi?
+   allHomeScreenApiFunction(prefs.getString('lat').toString(),prefs.getString('long').toString(),'',true):null;
     if (!(await Geolocator.isLocationServiceEnabled())) {
      activegps.value = false;
    } else {
@@ -217,16 +218,16 @@ final bannerIndex =0.obs;
      prefs.setString('lat', position.latitude.toString());
      prefs.setString('long', position.longitude.toString());
      subLocality.value = placemark[0].subLocality.toString();
-     address.value =
-         placemark[0].street.toString()+","+
-             placemark[0].thoroughfare.toString()+","+
-             placemark[0].subLocality.toString()+","+
-             placemark[0].locality.toString()+","+
-             placemark[0].administrativeArea.toString()+","+
-             placemark[0].country.toString();
+     address.value ="${placemark[0].street.toString()}${placemark[0].thoroughfare.toString().isNotEmpty?", ${placemark[0].thoroughfare.toString()}":''}${placemark[0].subLocality.toString().isNotEmpty?", ${placemark[0].subLocality.toString()}":""}${placemark[0].locality.toString().isNotEmpty?", ${placemark[0].locality.toString()}":""}${placemark[0].administrativeArea.toString().isNotEmpty?", ${placemark[0].administrativeArea.toString()}":""}${placemark[0].country.toString().isNotEmpty?", ${placemark[0].country.toString()}":''}";
+         // placemark[0].street.toString()+","+
+         //     placemark[0].thoroughfare.toString()+","+
+         //     placemark[0].subLocality.toString()+","+
+         //     placemark[0].locality.toString()+","+
+         //     placemark[0].administrativeArea.toString()+","+
+         //     placemark[0].country.toString();
      city.value=placemark[0].locality.toString();
      state.value=placemark[0].administrativeArea.toString();
-     allHomeScreenApiFunction(currentLat.value.toString(),currentLong.value.toString(),'',false);
+     isCallApi?allHomeScreenApiFunction(currentLat.value.toString(),currentLong.value.toString(),'',false):null;
     // _mapController.moveCamera(CameraUpdate.newLatLng(initialposition));
    }
  }

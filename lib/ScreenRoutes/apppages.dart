@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:senorita/CommonScreens/notification/notification_binding.dart';
+import 'package:senorita/CommonScreens/notification/notification_screen.dart';
 import 'package:senorita/ExpertApp/BottomMenuScreen/addPhotos/addPhotosScreen.dart';
 import 'package:senorita/ExpertApp/BottomMenuScreen/addPhotos/binding/addPhotosBinding.dart';
 import 'package:senorita/ExpertApp/BottomMenuScreen/expert_edit_profile_screen/binding/expert_edit_profile_binding.dart';
@@ -16,6 +18,8 @@ import 'package:senorita/ExpertApp/expert_registration_screen/googleMapAnimation
 import 'package:senorita/ExpertApp/expert_registration_screen/googleMapAnimation/googleMapAnimation.dart';
 import 'package:senorita/ExpertApp/searchLocationMap/searchLocationScreen.dart';
 import 'package:senorita/ScreenRoutes/routes.dart';
+import 'package:senorita/UserApp/BottomMenuScreen/change_location/change_location_binding.dart';
+import 'package:senorita/UserApp/BottomMenuScreen/change_location/change_location_screen.dart';
 import 'package:senorita/UserApp/BottomMenuScreen/editProfile/binding/editProfile_binding.dart';
 import 'package:senorita/UserApp/BottomMenuScreen/editProfile/editProfile_screen.dart';
 import 'package:senorita/UserApp/BottomMenuScreen/filter/filter_binding.dart';
@@ -60,8 +64,6 @@ import '../UserApp/BottomMenuScreen/dashboard_screen/binding/dashboard_binding.d
 import '../UserApp/BottomMenuScreen/dashboard_screen/dashboard_screen.dart';
 import '../UserApp/BottomMenuScreen/home_screen/binding/home_binding.dart';
 import '../UserApp/BottomMenuScreen/home_screen/homescreen.dart';
-import '../UserApp/BottomMenuScreen/notification_screen/binding/notification_binding.dart';
-import '../UserApp/BottomMenuScreen/notification_screen/notification_screen.dart';
 import '../UserApp/BottomMenuScreen/payment_screen/payment.dart';
 import '../UserApp/BottomMenuScreen/profile_screen/binding/profile_binding.dart';
 import '../UserApp/BottomMenuScreen/profile_screen/profile.dart';
@@ -181,9 +183,15 @@ class AppPages {
         name: AppRoutes.homeScreen,
         page: () =>  helpScreen(),
         binding: helpBinding(),
-        
         transitionDuration:  Duration(milliseconds: 50),
         transition: Transition.rightToLeft),
+
+
+    GetPage(
+        name: AppRoutes.changeLocationScreen,
+        page: () => const ChangeLocationScreen(),
+        binding: ChangeLocationBinding(),
+        transition: Transition.cupertino),
 
     GetPage(
         name: AppRoutes.categoryListScreen,
@@ -405,9 +413,9 @@ class AppPages {
       name: AppRoutes.notificationScreen,
       page: () => NotificationScreen(),
       binding: NotificationBinding(),
-      transitionDuration:  Duration(milliseconds: 50),
-      
-      transition: Transition.rightToLeftWithFade,
+      // transitionDuration:  Duration(milliseconds: 50),
+
+      transition: Transition.cupertino,
       // transition: Transition.rightToLeftWithFade
     ),
 

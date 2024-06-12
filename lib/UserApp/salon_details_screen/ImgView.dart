@@ -63,7 +63,7 @@ class _ImgViewState extends State<ImgView> {
                 scrollPhysics: const BouncingScrollPhysics(),
                 builder: (BuildContext context, int index) {
                   return PhotoViewGalleryPageOptions(
-                    imageProvider: NetworkImage(ApiUrls.offerImageBase + widget.imgList[index].banner.toString()),
+                    imageProvider: NetworkImage(ApiUrls.expertImageBase + widget.imgList[index].toString()),
                     initialScale: PhotoViewComputedScale.contained * .97,
                     minScale: PhotoViewComputedScale.contained*.9,
                   );

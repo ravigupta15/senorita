@@ -16,11 +16,11 @@ class helpController extends GetxController {
     kodagoCardUrl=Get.arguments[1];
     if(helpAndTermsString=="termsCondition")
     {
-      url.value="https://senoritaapp.com/terms-conditions.php".toString();
+      url.value="https://senoritaapp.com/backend/senorita-terms-conditions";
     }
     else if(helpAndTermsString=="helpSupport")
     {
-      url.value="https://senoritaapp.com/help-support.php".toString();
+      url.value="https://senoritaapp.com/backend/senorita-help-support";
     }
     else if(helpAndTermsString=="detail")
     {

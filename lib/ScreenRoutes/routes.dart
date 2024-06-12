@@ -8,6 +8,7 @@ class AppRoutes {
   static var helpScreen = '/helpScreen';
   static var categoryListScreen = '/categoryListScreen';
   static var categoryDetailsScreen = '/categoryDetailsScreen';
+  static var changeLocationScreen = '/changeLocationScreen';
   ///Expert Screen
   static var expertRegistrationScreen = '/expertRegistrationScreen';
   static var expertHomeScreen = '/expertHomeScreen';

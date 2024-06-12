@@ -147,7 +147,7 @@ class ExpertProfile extends GetWidget<ExpertProfileController> {
   Widget _buildOtherMenuOption(BuildContext context) {
     DashboardController dashboardController = DashboardController();
     return SizedBox(
-      height: MediaQuery.of(context).size.height/2,
+      // height: MediaQuery.of(context).size.height/2,
       child: Container(
         decoration: BoxDecoration(
             color: ColorConstant.white,
@@ -233,6 +233,77 @@ class ExpertProfile extends GetWidget<ExpertProfileController> {
                 ),
               ),
             ),
+            GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () {
+                print(controller.expertPhotoList);
+                Get.toNamed(AppRoutes.addPhotos,arguments: [
+                  controller.expertPhotoList
+                ]);
+                // Get.find<SpecialOfferController>().onInit();
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(left: 12, right: 12, top: 15),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 5),
+                              child: Center(
+                                child: Image.asset(
+                                  height: 20,
+                                  width: 20,
+                                  AppImages.profilePhotos,
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 14,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 5),
+                              child: Center(
+                                child: getText(
+                                    title: "Photos",
+                                    size: 13,
+                                    fontFamily: interSemiBold,
+                                    color: ColorConstant.blackColor,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 5),
+                          child: Center(
+                            child: Image.asset(
+                              height: 20,
+                              width: 20,
+                              AppImages.arrow,
+                              fit: BoxFit.contain,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width - 30,
+                      color: ColorConstant.dividerColor,
+                      height: 1,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
             GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () {

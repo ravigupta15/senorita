@@ -898,7 +898,7 @@ class SalonDetailScreen extends GetView<SalonDetailController> {
                                 mainAxisSpacing: 0),
                         itemCount: controller.photosList.length,
                         itemBuilder: (context, index) {
-                          var model = controller.photosList[index];
+                          // var model = controller.photosList[index];
                           return GestureDetector(
                             onTap: () {},
                             child: Container(
@@ -927,8 +927,8 @@ class SalonDetailScreen extends GetView<SalonDetailController> {
                                               color: ColorConstant.addMoney),
                                           image: DecorationImage(
                                             image: NetworkImage(
-                                              ApiUrls.offerImageBase +
-                                                  model.banner,
+                                              ApiUrls.expertImageBase +
+                                                  controller.photosList[index],
                                             ),
                                             fit: BoxFit.cover,
                                           ),

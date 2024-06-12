@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:senorita/utils/toast.dart';
 import '../../../api_config/Api_Url.dart';
 import '../../../helper/appbar.dart';
 import '../../../helper/appimage.dart';
@@ -45,79 +46,73 @@ class AddPhotosScreen extends GetView<AddPhotosController> {
                     height: 10,
                   ),
                   Obx(
-                    () => Container(
-                      child: GridView.builder(
-                        physics: const ClampingScrollPhysics(),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 4,
-                                crossAxisSpacing: 1,
-                                mainAxisSpacing: 1),
-                        itemCount: controller.fileNameList.length,
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          var model = controller.fileNameList[index];
-                          return GestureDetector(
-                            onTap: () {},
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 1,
-                              ),
-                              child: Stack(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 12, left: 5, right: 5),
-                                    child: Container(
-                                      decoration: const BoxDecoration(
-                                          color: ColorConstant.cardBack,
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10))),
-                                      child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.all(Radius.circular(5)),
-                                        child: Image.network(
-                                          height: 80,
-                                          width: 89,
-                                          ApiUrls.offerImageBase + model.banner.toString(),
-                                          fit: BoxFit.cover,
-                                        ),
-                                        /*Image.network(
-                                              ApiUrls.offerImageBase+model.banner,
-                                              height: 200,
-                                              fit: BoxFit.contain,
-                                              width: 200,
-                                            ),*/
-                                      ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    right: 0,
-                                    top: 4,
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        controller.fileNameList.removeAt(index);
-                                        controller.deleteImage(
-                                            context,
-                                            model.id.toString(),
-                                            model.expert_id.toString());
-                                      },
-                                      child: ClipRRect(
-                                        child: Image.asset(
-                                          height: 20,
-                                          width: 20,
-                                          AppImages.imgRemoveOffer,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
+                    () => controller.photosList.isEmpty?
+                    Container():
+                    GridView.builder(
+                      physics: const ClampingScrollPhysics(),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 4,
+                              crossAxisSpacing: 1,
+                              mainAxisSpacing: 1),
+                      itemCount: controller.photosList.length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        // var model = controller.fileNameList[index];
+                        return GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 1,
                             ),
-                          );
-                        },
-                      ),
+                            child: Stack(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 12, left: 5, right: 5),
+                                  child: Container(
+                                    decoration: const BoxDecoration(
+                                        color: ColorConstant.cardBack,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10))),
+                                    child: ClipRRect(
+                                      borderRadius:
+                                         const BorderRadius.all(Radius.circular(5)),
+                                      child: Image.network(
+                                        height: 80,
+                                        width: 89,
+                                        ApiUrls.expertImageBase+ controller.photosList[index]['image'],
+                                        fit: BoxFit.cover,
+                                      ),
+                                       ),
+                                  ),
+                                ),
+                                // Positioned(
+                                //   right: 0,
+                                //   top: 4,
+                                //   child: GestureDetector(
+                                //     onTap: () {
+                                //       controller.fileNameList.removeAt(index);
+                                //       controller.deleteImage(
+                                //           context,
+                                //           model.id.toString(),
+                                //           model.expert_id.toString());
+                                //     },
+                                //     child: ClipRRect(
+                                //       child: Image.asset(
+                                //         height: 20,
+                                //         width: 20,
+                                //         AppImages.imgRemoveOffer,
+                                //         fit: BoxFit.cover,
+                                //       ),
+                                //     ),
+                                //   ),
+                                // ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ),
                   const SizedBox(
@@ -135,7 +130,12 @@ class AddPhotosScreen extends GetView<AddPhotosController> {
                   GestureDetector(
                     behavior: HitTestBehavior.opaque,
                     onTap: () {
-                      controller.showImagePicker(context);
+                      if(controller.imgUploaded.value==false){
+                        controller.showImagePicker(context);
+                      }
+                      else{
+                        showToast('uploading...');
+                      }
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(left: 8, right: 8),

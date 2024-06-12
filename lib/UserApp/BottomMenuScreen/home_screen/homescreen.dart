@@ -236,7 +236,9 @@ class HomeScreen extends GetView<DashboardController> {
           child: Padding(
             padding: const EdgeInsets.only(left: 10, right: 15),
             child: GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Get.toNamed(AppRoutes.changeLocationScreen);
+              },
               child: Row(
                 children: [
                   Image.asset(
@@ -249,54 +251,49 @@ class HomeScreen extends GetView<DashboardController> {
                     width: 4,
                   ),
                   Flexible(
-                    child: GestureDetector(
-                      onTap: () {
-                        // controller.categoryApiFunction();
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 7),
-                        child: Obx(
-                          () => Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Flexible(
-                                    child: Text(
-                                      controller.subLocality.value.toString(),
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontFamily: interBold,
-                                          color: ColorConstant.blackColor,
-                                          fontWeight: FontWeight.w500),
-                                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 7),
+                      child: Obx(
+                        () => Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Flexible(
+                                  child: Text(
+                                    controller.subLocality.value.toString(),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontFamily: interBold,
+                                        color: ColorConstant.blackColor,
+                                        fontWeight: FontWeight.w500),
                                   ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  Image.asset(
-                                    AppImages.dropdown,
-                                    width: 11,
-                                    height: 6,
-                                  )
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 2,
-                              ),
-                              getText(
-                                  title: controller.address.value.toString(),
-                                  size: 10,
-                                  fontFamily: interLight,
-                                  letterSpacing: .3,
-                                  lineHeight: 1.4,
-                                  textOverflow: TextOverflow.ellipsis,
-                                  color: ColorConstant.black3333,
-                                  fontWeight: FontWeight.w600),
-                            ],
-                          ),
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Image.asset(
+                                  AppImages.dropdown,
+                                  width: 11,
+                                  height: 6,
+                                )
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 2,
+                            ),
+                            getText(
+                                title: controller.address.value.toString(),
+                                size: 10,
+                                fontFamily: interLight,
+                                letterSpacing: .3,
+                                lineHeight: 1.4,
+                                textOverflow: TextOverflow.ellipsis,
+                                color: ColorConstant.black3333,
+                                fontWeight: FontWeight.w600),
+                          ],
                         ),
                       ),
                     ),
@@ -312,26 +309,25 @@ class HomeScreen extends GetView<DashboardController> {
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // GestureDetector(
-              //   onTap: () {
-              //     Get.toNamed(
-              //         AppRoutes.notificationScreen);
-              //   },
-              //   child: Padding(
-              //     padding: const EdgeInsets.only(top: 0),
-              //     child: Center(
-              //       child: Image.asset(
-              //         height: 17,
-              //         width: 17,
-              //         color: Colors.black87,
-              //         AppImages.notificationHome,
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              // SizedBox(
-              //   width: 10,
-              // ),
+              GestureDetector(
+                onTap: () {
+                  Get.toNamed(
+                      AppRoutes.notificationScreen,parameters: {
+                        'userId':controller.profileController.model.value.data!.id.toString()
+                  });
+                },
+                child: Center(
+                  child: Image.asset(
+                    height: 23,
+                    width: 23,
+                    // color: Colors.black87,
+                    AppImages.notificationHome,
+                  ),
+                ),
+              ),
+             const SizedBox(
+                width: 10,
+              ),
               GestureDetector(
                 onTap: () {
                   Get.toNamed(AppRoutes.walletScreen);
@@ -340,7 +336,7 @@ class HomeScreen extends GetView<DashboardController> {
                   height: 22,
                   width: 22,
                   AppImages.walletIcon,
-                  color: Colors.black87,
+                  // color: Colors.black87,
                 ),
               ),
             ],

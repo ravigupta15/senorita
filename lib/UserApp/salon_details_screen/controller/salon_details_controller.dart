@@ -39,7 +39,7 @@ class SalonDetailController extends GetxController  {
   final isDetailsLoading = false.obs;
   final selectedTitle = ''.obs;
   final selectedDes = ''.obs;
-  final selectedSliderValue = 0.obs;
+  // final selectedSliderValue = 0.obs;
   CarouselController carouselController = CarouselController();
   dynamic offerList = [].obs;
   dynamic priceMenuList = [].obs;
@@ -180,16 +180,20 @@ class SalonDetailController extends GetxController  {
         offersUrl.value=result['offer_base_url'];
 
         //photosList.value =result['data']['prices'];
-        for (int i = 0; i < result['data']['prices'].length; i++) {
-          selectedSliderValue.value = i;
-          OfferList model = OfferList(
-            result['data']['prices'][i]['id'],
-            result['data']['prices'][i]['expert_id'],
-            result['data']['prices'][i]['banner'].toString(),
-
-          );
-          photosList.add(model);
+        for(int i=0;i<result['expert_images'].length;i++){
+          photosList.add(result['expert_images'][i]['image']);
         }
+
+        // for (int i = 0; i < result['data']['prices'].length; i++) {
+        //   selectedSliderValue.value = i;
+        //   OfferList model = OfferList(
+        //     result['data']['prices'][i]['id'],
+        //     result['data']['prices'][i]['expert_id'],
+        //     result['data']['prices'][i]['banner'].toString(),
+        //
+        //   );
+        //   photosList.add(model);
+        // }
 
         for (int j = 0; j < result['data']['expert_subcats'].length; j++) {
           SubCategory model = SubCategory(

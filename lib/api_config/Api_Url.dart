@@ -9,6 +9,7 @@ class ApiUrls {
   static const String imgBaseUrl = "https://senoritaapp.com/backend/public/";
   static const String qrCodeBaseUrl = 'https://senoritaapp.com/backend/public/upload/qrcode-images/';
   static const String offerImageBase = "https://senoritaapp.com/backend/public/upload/offers/";
+  static const String expertImageBase = "https://senoritaapp.com//backend//public//upload//expert_image//";
 
   ///Common Screen
   static const String login = "${apiBaseUrlTesting}login";
@@ -54,9 +55,11 @@ class ApiUrls {
   static const String removePriceList = "${apiBaseUrlTesting}delete_item";
   static const String storeScanImageUrl = '${apiBaseUrlTesting}storeScanImage';
   static const String getSubCategoryListUrl = '${apiBaseUrlTesting}get-category-list';
+  static const String notificationUrl = '${apiBaseUrlTesting}notificaion-list';
 
   //offer Api Url
   static const String expertAllOffer = "${apiBaseUrlTesting}list_offer";
   static const String deleteOffer = "${apiBaseUrlTesting}delete_offer";
   static const String addOffer = "${apiBaseUrlTesting}add_offer";
+  static const String addPhotoUrl = '${apiBaseUrlTesting}storeExpertImage';
 }

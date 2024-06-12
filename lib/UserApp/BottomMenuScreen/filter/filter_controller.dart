@@ -39,10 +39,9 @@ final route = ''.obs;
  route.value = Get.arguments[0]!;
 selectedCategoryNameBySingleScreen.value = Get.arguments[2]!??"";
 selectedCategoryIdBySingleScreen.value = Get.arguments[1]!??"";
-print("odvdvd...${Get.arguments[3]}");
 
   Future.delayed(Duration.zero,(){
-    if(route.value=='offer') {
+    if(route.value=='offer'||selectedCategoryIdBySingleScreen.isEmpty) {
       getCategoryApiFunction(Get.arguments[3]);
     }
     else{
@@ -56,7 +55,7 @@ print("odvdvd...${Get.arguments[3]}");
   List catList =[];
   List subCatList = [];
   if(body!=null){
-    if(route.value=='offer'){
+    if(route.value=='offer'||selectedCategoryIdBySingleScreen.isEmpty){
       selectedPriceValue.value= body['price'];
       selectedDiscountValue.value = body['discount'];
       selectedSort.value = body['arrivals'].isNotEmpty?1:body['topRated'].isNotEmpty?0:10;

@@ -155,17 +155,9 @@ class ExpertHomeController extends GetxController  {
         offersUrl.value=result['offer_base_url'];
 
         //photosList.value =result['data']['prices'];
-        for (int i = 0; i < result['data']['prices'].length; i++) {
-          selectedSliderValue.value = i;
-          OfferList model = OfferList(
-            result['data']['prices'][i]['id'],
-            result['data']['prices'][i]['expert_id'],
-            result['data']['prices'][i]['banner'].toString(),
-
-          );
-          photosList.add(model);
+        for(int i=0;i<result['expert_images'].length;i++){
+          photosList.add(result['expert_images'][i]['image']);
         }
-
         for (int j = 0; j < result['data']['expert_subcats'].length; j++) {
           SubCategory model = SubCategory(
             result['data']['expert_subcats'][j]['name'],

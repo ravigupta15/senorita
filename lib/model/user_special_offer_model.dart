@@ -1,12 +1,12 @@
 class UserSpecialOfferModel {
-  int? id;
-  String? categoryId;
-  String? userId;
-  String? status;
-  String? experience;
-  String? offerCount;
-  String? avgRating;
-  String? imageUrl;
+  dynamic id;
+  dynamic categoryId;
+  dynamic userId;
+  dynamic status;
+  dynamic experience;
+  dynamic offerCount;
+  dynamic avgRating;
+  dynamic imageUrl;
   Category? category;
   List<ExpertSubcats>? expertSubcats;
   List<Offers>? offers;
@@ -36,7 +36,7 @@ class UserSpecialOfferModel {
     avgRating = json['avg_rating'];
     imageUrl = json['image_url'];
     category = json['category'] != null
-        ? new Category.fromJson(json['category'])
+        ?  Category.fromJson(json['category'])
         : null;
     if (json['expert_subcats'] != null) {
       expertSubcats = <ExpertSubcats>[];
@@ -81,8 +81,8 @@ class UserSpecialOfferModel {
 }
 
 class Category {
-  int? id;
-  String? name;
+  dynamic id;
+  dynamic name;
 
   Category({this.id, this.name});
 
@@ -192,22 +192,22 @@ class Offers {
 }
 
 class User {
-  int? id;
-  String? name;
-  String? status;
-  String? address;
-  String? userType;
-  String? isAdmin;
-  String? email;
-  String? phonecode;
-  String? mobile;
-  String? mobileApi;
-  String? profilePicture;
-  String? isVerified;
-  String? accountStatus;
-  String? distance;
-  String? lat;
-  String? lng;
+  dynamic id;
+  dynamic name;
+  dynamic status;
+  dynamic address;
+  dynamic userType;
+  dynamic isAdmin;
+  dynamic email;
+  dynamic phonecode;
+  dynamic mobile;
+  dynamic mobileApi;
+  dynamic profilePicture;
+  dynamic isVerified;
+  dynamic distance;
+  dynamic lat;
+  dynamic accountStatus;
+  dynamic lng;
 
   User(
       {this.id,

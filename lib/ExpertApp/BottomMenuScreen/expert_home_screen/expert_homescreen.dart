@@ -21,6 +21,7 @@ import '../../../utils/stringConstants.dart';
 import 'package:intl/intl.dart';
 import '../../../utils/time_format.dart';
 import '../expert_dashboard_screen/controller/dashboard_controller.dart';
+import '../expert_profile_screen/controller/expert_profile_controller.dart';
 
 class ExpertHomeScreen extends GetView<ExpertHomeController> {
   const ExpertHomeScreen({key});
@@ -503,7 +504,6 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
     );
   }
   Widget tabViewData(BuildContext context) {
-    print(controller.getPriceList.length);
     return Obx(() => controller.selectedTabValue == 0
         ? Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -761,7 +761,6 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
           mainAxisSpacing: 0),
       itemCount: controller.photosList.length,
       itemBuilder: (context, index) {
-        var model = controller.photosList[index];
         return GestureDetector(
           onTap: () {},
           child: Container(
@@ -790,8 +789,8 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
                             color: ColorConstant.addMoney),
                         image: DecorationImage(
                           image: NetworkImage(
-                            ApiUrls.offerImageBase +
-                                model.banner,
+                            ApiUrls.expertImageBase +
+                                controller.photosList[index],
                           ),
                           fit: BoxFit.cover,
                         ),
@@ -1240,10 +1239,28 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
                   ),
                 ),
                 GestureDetector(
+                  onTap: () {
+                    Get.toNamed(
+                        AppRoutes.notificationScreen,parameters: {
+                      'userId':Get.find<ExpertProfileController>().model.value.data!.user!.id.toString()
+                    });
+                  },
+                  child: Center(
+                    child: Image.asset(
+                      height: 23,
+                      width: 23,
+                      // color: Colors.black87,
+                      AppImages.notificationHome,
+                    ),
+                  ),
+                ),
+                ScreenSize.width(10),
+                GestureDetector(
                     onTap: (){
                       Get.to(ExpertQrScreen(),transition: Transition.cupertino);
                     },
-                    child: Image.asset(AppImages.qrExpert,height: 30,width: 30,))
+                    child: Image.asset(AppImages.qrExpert,
+                      height: 30,width: 30,))
               ],
              ),
            ),

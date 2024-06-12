@@ -6,7 +6,7 @@ import '../utils/stringConstants.dart';
 import 'appimage.dart';
 
 searchBar({required bool readOnly,bool showPrefix = false,
-  TextEditingController? controller,
+  TextEditingController? controller, String hintText ='Search on senoritaapp...',
   Function()?clearSearchTap, Function()?onTap,ValueChanged<String>? onChanged}) {
   return Container(
     height: 49,
@@ -22,7 +22,7 @@ searchBar({required bool readOnly,bool showPrefix = false,
     child: TextFormField(
       readOnly: readOnly,
       controller: controller,
-      autofocus: true,
+      autofocus: false,
       style: TextStyle(
           color: ColorConstant.blackColor,
           fontSize: 14,
@@ -49,7 +49,7 @@ searchBar({required bool readOnly,bool showPrefix = false,
               child:const Icon(Icons.clear,size: 20,)
             ),
           ):Container(height: 0,width: 0,),
-          hintText: 'Search on senoritaapp...',
+          hintText: hintText,
           hintStyle:const TextStyle(
               color: ColorConstant.qrViewText,
               fontSize: 14,
