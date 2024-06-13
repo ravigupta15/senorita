@@ -15,9 +15,17 @@ class TimeFormat{
     return DateFormat('yyyy MMMM dd').format(dateTime);
   }
 
-  static String convertInTime(timeString){
+  static String convertInTimeWithAMPM(timeString){
     DateTime time = DateFormat('HH:mm:ss').parse(timeString);
     // Format the date
     return DateFormat('h:mm a').format(time);
+  }
+
+  static String convertInTime(timeString){
+    var dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+    var utcDate   = dateFormat.format(DateTime.parse(timeString));
+    DateTime dateTime= dateFormat.parse(utcDate,true);
+    // Format the date
+    return DateFormat('h:mm').format(dateTime);
   }
 }

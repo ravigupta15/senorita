@@ -4,7 +4,7 @@ import 'package:senorita/CommonScreens/notification/notification_controller.dart
 class NotificationBinding extends Bindings{
   @override
   void dependencies() {
-    Get.lazyPut(() => NotificationController());
+    Get.put(NotificationController());
     // TODO: implement dependencies
   }
 

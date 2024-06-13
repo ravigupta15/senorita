@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-
+import 'package:scan/scan.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,9 +11,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:senorita/ScreenRoutes/routes.dart';
 import 'package:http/http.dart'as http;
-import 'package:senorita/utils/toast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../../../api_config/Api_Url.dart';
 import '../../../../utils/color_constant.dart';
 
@@ -53,6 +51,9 @@ class ScanQrCodeController extends GetxController {
     request.fields.addAll({
       'scaner_code': qrCode,
     });
+    print({
+      'scaner_code': qrCode,
+    });
     request.headers.addAll(headers);
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse);
@@ -80,9 +81,19 @@ class ScanQrCodeController extends GetxController {
       if(image == null) return;
       final imageTemp = File(image.path);
        imgFile.value = imageTemp;
+       // scanQRCode(imageTemp);
+      getQrCode(imageTemp.path);
     } on PlatformException catch(e) {
       print('Failed to pick image: $e');
     }
   }
 
+  getQrCode(imagePath)async{
+    await Scan.parse(imagePath).then((value) {
+      print("value....${value}");
+      if(value!=null){
+        callVerifyScanCodeApiFunction(value) ;
+      }
+    });
+  }
 }

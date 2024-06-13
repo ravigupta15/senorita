@@ -52,7 +52,7 @@ salonWidget(BuildContext context, model,String route, Function()onTap) {
               route=='offer'?
               Positioned(
                 bottom: 0,
-                right: 0+15,
+                right: 0,
                 child: Container(
                   height: 32,
                   width: 35,decoration: BoxDecoration(

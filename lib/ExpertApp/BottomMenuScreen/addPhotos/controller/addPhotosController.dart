@@ -182,22 +182,22 @@ class AddPhotosController extends GetxController {
   }
 
   ///LoadData file Api
-  deleteImage(BuildContext context, String id, expert_id) async {
+ Future deleteImageApiFunction(BuildContext context, String id,) async {
     showCircleProgressDialog(context);
-    var headers = {'Authorization': 'Bearer' + token};
-    var request = http.MultipartRequest('POST', Uri.parse(ApiUrls.deleteOffer));
+    var headers = {'Authorization': 'Bearer $token'};
+    var request = http.MultipartRequest('POST', Uri.parse(ApiUrls.deletePhotoUrl));
     request.fields.addAll({
-      "offer_id": id
+      "image_id": id
     });
     request.headers.addAll(headers);
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse);
     print(response.body);
     var result = json.decode(response.body);
-
+    Get.back();
     if (response.statusCode == 200) {
-      Navigator.of(context).pop();
       if (result['success'] == true) {
+        return result;
       } else {
         showToast(result['message']);
         return null;
@@ -205,7 +205,7 @@ class AddPhotosController extends GetxController {
     }
     else
       {
-        Navigator.of(context).pop();
+        showToast(result['message']);
 
       }
   }

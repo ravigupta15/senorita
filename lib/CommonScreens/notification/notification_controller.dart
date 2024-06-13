@@ -1,30 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:senorita/CommonScreens/notification/notification_model.dart';
 import 'package:senorita/UserApp/BottomMenuScreen/profile_screen/controller/profile_controller.dart';
+import 'package:senorita/utils/showcircledialogbox.dart';
+import 'package:senorita/utils/utils.dart';
 
 import '../../api_config/ApiConstant.dart';
 import '../../api_config/Api_Url.dart';
 
 class NotificationController extends GetxController{
 
+  var model = NotificationModel().obs;
+
   @override
   void onInit() {
     print(Get.parameters['userId']);
+    Future.delayed(Duration.zero,(){
+      callNotificationApiFunction(Get.parameters['userId'].toString());
+    });
     super.onInit();
   }
 
-  callNotificationApiFunction()async{
+  callNotificationApiFunction(String id)async{
+    showCircleProgressDialog(navigatorKey.currentContext!);
     print('object');
     var body = {
-      'user_id':Get.find<ProfileController>().model.value.data!.id.toString()
+      'user_id':id
     };
     print(body);
     final response = await ApiConstants.post(url: ApiUrls.notificationUrl,body: body);
-
+    Get.back();
     if (response != null && response['success'] == true) {
-      if (response!=null&& response['success']!=false&& response['data'] != null) {
-        // categoryModel.value = ExpertCategorySubCatModel.fromJson(response);
-      }
+      model.value = NotificationModel.fromJson(response);
     }
 
   }

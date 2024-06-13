@@ -62,4 +62,5 @@ class ApiUrls {
   static const String deleteOffer = "${apiBaseUrlTesting}delete_offer";
   static const String addOffer = "${apiBaseUrlTesting}add_offer";
   static const String addPhotoUrl = '${apiBaseUrlTesting}storeExpertImage';
+  static const String deletePhotoUrl = '${apiBaseUrlTesting}deleteImage';
 }

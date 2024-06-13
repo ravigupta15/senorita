@@ -87,27 +87,29 @@ class AddPhotosScreen extends GetView<AddPhotosController> {
                                        ),
                                   ),
                                 ),
-                                // Positioned(
-                                //   right: 0,
-                                //   top: 4,
-                                //   child: GestureDetector(
-                                //     onTap: () {
-                                //       controller.fileNameList.removeAt(index);
-                                //       controller.deleteImage(
-                                //           context,
-                                //           model.id.toString(),
-                                //           model.expert_id.toString());
-                                //     },
-                                //     child: ClipRRect(
-                                //       child: Image.asset(
-                                //         height: 20,
-                                //         width: 20,
-                                //         AppImages.imgRemoveOffer,
-                                //         fit: BoxFit.cover,
-                                //       ),
-                                //     ),
-                                //   ),
-                                // ),
+                                Positioned(
+                                  right: 0,
+                                  top: 4,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      controller.deleteImageApiFunction(
+                                          context,
+                                          controller.photosList[index]['id']).then((value) {
+                                            if(value!=null){
+                                              controller.photosList.removeAt(index);
+                                            }
+                                      }) ;
+                                    },
+                                    child: ClipRRect(
+                                      child: Image.asset(
+                                        height: 20,
+                                        width: 20,
+                                        AppImages.imgRemoveOffer,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                           ),

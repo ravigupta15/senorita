@@ -317,6 +317,7 @@ class AddPriceListScreen extends GetView<PriceListController> {
                             for (int i = 0;
                                 i < controller.addTopicList.length;
                                 i++) {
+                              print(controller.addTopicList[i].subCatId.value);
                               if(controller.addTopicList[controller.addTopicList.length-1].title.value.isNotEmpty&&
                                   controller.addTopicList[controller.addTopicList.length-1].priceController.text.isNotEmpty){
                                 checkValidation=true;
@@ -328,7 +329,9 @@ class AddPriceListScreen extends GetView<PriceListController> {
                                 'item_name': controller
                                     .addTopicList[i].title.value,
                                 'price': controller
-                                    .addTopicList[i].priceController.text
+                                    .addTopicList[i].priceController.text,
+                                'base_sub_category_id':controller.addTopicList[i].subCatId.value.toString()
+
                               });
                             }
                             // print(sendDataList);

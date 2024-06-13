@@ -154,7 +154,7 @@ class SpecialOfferScreen extends GetView<SpecialOfferController>{
                         getText(
                             title:
                             controller.specialOfferModel.value.offersList![index].endDate!=null?
-                            '${TimeFormat.convertInDate(controller.specialOfferModel.value.offersList![index].endDate)} at ${TimeFormat.convertInTime(controller.specialOfferModel.value.offersList![index].endTime)}':"",
+                            '${TimeFormat.convertInDate(controller.specialOfferModel.value.offersList![index].endDate)} at ${TimeFormat.convertInTimeWithAMPM(controller.specialOfferModel.value.offersList![index].endTime)}':"",
                             size: 12,
                             fontFamily: interMedium,
                             color: const Color(0xff707070),

@@ -69,7 +69,14 @@ class ChangeLocationScreen extends GetView<ChangeLocationController>{
   currentLocationWidget(DashboardController dashboardController){
     return Obx(()=>InkWell(
         onTap: (){
-          dashboardController.getUserLocation(false);
+          controller.getCurrentLocation(dashboardController).then((value) {
+            if(value!=null){
+             Get.back(result: [
+               {"lat":controller.lat.value,"lng":controller.lng.value}
+
+             ]);
+            }
+          });
         },
         child: Container(
           // height: 81,
@@ -144,14 +151,14 @@ class ChangeLocationScreen extends GetView<ChangeLocationController>{
               onTap: ()async{
                 controller.isShowAddressDropDownItem.value=false;
                 controller.searchController.clear();
-                Get.back();
                 dashboardController.address.value = controller.suggestionList[index]['description'];
                 dashboardController.subLocality.value =controller.suggestionList[index]['terms'].length>1?
                 controller.suggestionList[index]['terms'][1]['value']:controller.suggestionList[index]['terms'][0]['value'];
               SharedPreferences prefs= await SharedPreferences.getInstance();
                 prefs.setString('recentAddress', controller.suggestionList[index]['description']);
                 prefs.setString('recentSubLocality', dashboardController.subLocality.value);
-                },
+                controller.getLatLng(controller.suggestionList[index]['description']);
+              },
               child: Row(
                 children: [
                   // Image.asset(AppImages.location,height: 14,),
@@ -175,11 +182,10 @@ class ChangeLocationScreen extends GetView<ChangeLocationController>{
         GestureDetector(
           onTap: (){
             controller.isShowAddressDropDownItem.value=false;
+            controller.getLatLng(controller.recentAddress.value);
             controller.searchController.clear();
-            Get.back();
             dashboardController.address.value = controller.recentAddress.value;
             dashboardController.subLocality.value =controller.recentSubLocality.value;
-
           },
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,

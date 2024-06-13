@@ -168,11 +168,14 @@ final bannerIndex =0.obs;
     super.onInit();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     Id=prefs.getString("id").toString();
+    token = prefs.getString("token").toString();
+    subLocality.value = prefs.getString('subLocality')??'';
+    address.value = prefs.getString('address')??'';
+    allHomeScreenApiFunction(prefs.getString('lat').toString(),prefs.getString('long').toString(),'',true);
     getUserLocation(true);
-    profileApiFunction();
+   profileApiFunction();
     categoryApiFunction();
     ///Home Screen
-    token = prefs.getString("token").toString();
     super.onInit();
   }
 
@@ -183,8 +186,6 @@ final bannerIndex =0.obs;
 
   void getUserLocation(bool isCallApi) async {
    SharedPreferences prefs = await SharedPreferences.getInstance();
-   isCallApi?
-   allHomeScreenApiFunction(prefs.getString('lat').toString(),prefs.getString('long').toString(),'',true):null;
     if (!(await Geolocator.isLocationServiceEnabled())) {
      activegps.value = false;
    } else {
@@ -212,23 +213,15 @@ final bannerIndex =0.obs;
          "the latitude is: ${position.longitude} and th longitude is: ${position.longitude} ");
      lat.add(position.longitude);
      long.add(position.longitude);
-
      currentLat.value = position.latitude;
      currentLong.value = position.longitude;
      prefs.setString('lat', position.latitude.toString());
      prefs.setString('long', position.longitude.toString());
      subLocality.value = placemark[0].subLocality.toString();
      address.value ="${placemark[0].street.toString()}${placemark[0].thoroughfare.toString().isNotEmpty?", ${placemark[0].thoroughfare.toString()}":''}${placemark[0].subLocality.toString().isNotEmpty?", ${placemark[0].subLocality.toString()}":""}${placemark[0].locality.toString().isNotEmpty?", ${placemark[0].locality.toString()}":""}${placemark[0].administrativeArea.toString().isNotEmpty?", ${placemark[0].administrativeArea.toString()}":""}${placemark[0].country.toString().isNotEmpty?", ${placemark[0].country.toString()}":''}";
-         // placemark[0].street.toString()+","+
-         //     placemark[0].thoroughfare.toString()+","+
-         //     placemark[0].subLocality.toString()+","+
-         //     placemark[0].locality.toString()+","+
-         //     placemark[0].administrativeArea.toString()+","+
-         //     placemark[0].country.toString();
-     city.value=placemark[0].locality.toString();
+      city.value=placemark[0].locality.toString();
      state.value=placemark[0].administrativeArea.toString();
      isCallApi?allHomeScreenApiFunction(currentLat.value.toString(),currentLong.value.toString(),'',false):null;
-    // _mapController.moveCamera(CameraUpdate.newLatLng(initialposition));
    }
  }
 
@@ -244,14 +237,19 @@ final bannerIndex =0.obs;
       'lng': long.toString(),
       'type':"load"
     });
+    print({
+      'search': searchValue,
+      'lat':lat.toString(),
+      'lng': long.toString(),
+      'type':"load"
+    });
     request.headers.addAll(headers);
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse).timeout(const Duration(seconds: 60));
-    log(response.body);
+    log("homescreenrepsonse...${response.body}");
     isShowLoad&&homeModel==null? Get.back():null;
     isLoading.value=false;
     if (response.statusCode == 200) {
-      log(response.body);
       final result = json.decode(response.body);
       if (result['success'] == true && result['success'] != null) {
         homeModel.value = HomeUserScreenModel.fromJson(result);
@@ -279,6 +277,7 @@ final bannerIndex =0.obs;
       }
     }
   }
+
   profileApiFunction() async {
     final response = await ApiConstants.getWithToken(url: ApiUrls.getProfile+"/"+Id, useAuthToken: true);
     if (response != null && response['success'] == true) {

@@ -8,14 +8,13 @@ class SplashController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    getUserLocation();
     callToNavigate();
   }
 
   void getUserLocation() async {
     if (!(await Geolocator.isLocationServiceEnabled())) {
-      // activegps.value = false;
     } else {
-      // activegps.value = true;
       LocationPermission permission;
       permission = await Geolocator.checkPermission();
       if (permission == LocationPermission.denied) {
@@ -32,29 +31,19 @@ class SplashController extends GetxController {
           desiredAccuracy: LocationAccuracy.high);
       List<Placemark> placemark =
       await placemarkFromCoordinates(position.latitude, position.longitude);
-      // initialposition = LatLng(position.latitude, position.longitude);
-      print(
-          "the latitude is: ${position.longitude} and th longitude is: ${position.longitude} ");
-      // lat.add(position.longitude);
-      // long.add(position.longitude);
-
-      // currentLat.value = position.latitude;
-      // currentLong.value = position.longitude;
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('lat', position.latitude.toString());
       prefs.setString('long', position.longitude.toString());
-      // subLocality.value = placemark[0].subLocality.toString();
-      // address.value =
-      //     placemark[0].street.toString()+","+
-      //         placemark[0].thoroughfare.toString()+","+
-      //         placemark[0].subLocality.toString()+","+
-      //         placemark[0].locality.toString()+","+
-      //         placemark[0].administrativeArea.toString()+","+
-      //         placemark[0].country.toString();
-      // city.value=placemark[0].locality.toString();
-      // state.value=placemark[0].administrativeArea.toString();
-      // _mapController.moveCamera(CameraUpdate.newLatLng(initialposition));
+      prefs.setString('subLocality', placemark[0].subLocality.toString());
+      prefs.setString('address',
+          placemark[0].street.toString()+","+
+              placemark[0].thoroughfare.toString()+","+
+              placemark[0].subLocality.toString()+","+
+              placemark[0].locality.toString()+","+
+              placemark[0].administrativeArea.toString()+","+
+              placemark[0].country.toString());
     }
+
   }
 
   callToNavigate() async {

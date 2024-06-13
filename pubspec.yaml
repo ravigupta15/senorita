@@ -97,8 +97,7 @@ dependencies:
   qr_flutter: ^4.1.0
   share_plus:
   flutter_downloader: ^1.11.7
-
-
+  scan: ^1.6.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

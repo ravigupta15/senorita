@@ -237,7 +237,13 @@ class HomeScreen extends GetView<DashboardController> {
             padding: const EdgeInsets.only(left: 10, right: 15),
             child: GestureDetector(
               onTap: () {
-                Get.toNamed(AppRoutes.changeLocationScreen);
+                Get.toNamed(AppRoutes.changeLocationScreen)?.then((value) {
+                  print("value...$value");
+                  if(value!=null){
+                    controller.allHomeScreenApiFunction(value[0]['lat'], value[0]['lng'],
+                        '', true);
+                  }
+                });
               },
               child: Row(
                 children: [

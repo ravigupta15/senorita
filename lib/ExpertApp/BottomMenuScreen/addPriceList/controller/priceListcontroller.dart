@@ -113,7 +113,7 @@ class PriceListController extends GetxController {
     var request = http.Request('POST', Uri.parse('https://senoritaapp.com/backend/public/api/add_multiple_items'));
     request.body = json.encode({
       "sub_category_id": selectedCategoryId.value.toString(),
-      "items": dataList
+      "items": dataList,
     });
     print(request.body);
     request.headers.addAll(headers);

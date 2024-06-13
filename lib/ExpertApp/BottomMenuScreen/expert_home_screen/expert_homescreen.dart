@@ -1118,7 +1118,7 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
                           getText(
                               title:
                               controller.spacialOffer[index]['end_date']!=null?
-                              '${TimeFormat.convertInDate(controller.spacialOffer[index]['end_date'])} at ${TimeFormat.convertInTime(controller.spacialOffer[index]['end_time'])}':"",
+                              '${TimeFormat.convertInDate(controller.spacialOffer[index]['end_date'])} at ${TimeFormat.convertInTimeWithAMPM(controller.spacialOffer[index]['end_time'])}':"",
                               size: 12,
                               fontFamily: interMedium,
                               color: const Color(0xff707070),
