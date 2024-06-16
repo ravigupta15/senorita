@@ -143,7 +143,7 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
                                         var model = controller
                                             .allCategoryList[index];
                                         return salonWidget(context, model, 'single', () {
-                                          Get.toNamed(AppRoutes.categoryDetailsScreen, arguments: [
+                                          Get.toNamed(AppRoutes.salonDetailsScreen, arguments: [
                                             model.userId,
                                             controller.latitude.toString(),
                                             controller.longitude.toString()

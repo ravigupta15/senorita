@@ -10,12 +10,14 @@ import 'package:http/http.dart'as http;
 import 'package:senorita/UserApp/BottomMenuScreen/dashboard_screen/controller/dashboard_controller.dart';
 import 'package:senorita/utils/showcircledialogbox.dart';
 import 'package:senorita/utils/utils.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ChangeLocationController extends GetxController{
 
   final isShowAddressDropDownItem = false.obs;
   final searchController = TextEditingController();
+  final dashboardController = Get.put(DashboardController());
 
   final recentAddress = ''.obs;
   final recentSubLocality = ''.obs;
@@ -26,6 +28,7 @@ final lat = ''.obs;
     SharedPreferences prefs= await SharedPreferences.getInstance();
     recentAddress.value= prefs.getString('recentAddress')??'';
     recentSubLocality.value = prefs.getString('recentSubLocality')??'';
+    getCurrentLocation(dashboardController);
     // TODO: implement onInit
     super.onInit();
   }
@@ -51,13 +54,13 @@ final lat = ''.obs;
     }
   }
 
+
+
  Future getCurrentLocation(DashboardController dashboardController)async {
-    showCircleProgressDialog(navigatorKey.currentContext!);
+    // showCircleProgressDialog(navigatorKey.currentContext!);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (!(await Geolocator.isLocationServiceEnabled())) {
-      // activegps.value = false;
     } else {
-      // activegps.value = true;
       LocationPermission permission;
       permission = await Geolocator.checkPermission();
       if (permission == LocationPermission.denied) {
@@ -75,22 +78,13 @@ final lat = ''.obs;
           desiredAccuracy: LocationAccuracy.high);
       List<Placemark> placemark =
       await placemarkFromCoordinates(position.latitude, position.longitude);
-      dashboardController.initialposition =
-          LatLng(position.latitude, position.longitude);
-      print(
-          "the latitude is: ${position
-              .longitude} and th longitude is: ${position.longitude} ");
+      prefs.setString('lat',position.latitude.toString());
+      prefs.setString('long',position.longitude.toString());
       lat.value = position.latitude.toString();
       lng.value =position.longitude.toString();
-      dashboardController.lat.add(position.longitude);
-      dashboardController.long.add(position.longitude);
-      dashboardController.currentLat.value = position.latitude;
-      dashboardController.currentLong.value = position.longitude;
-      prefs.setString('lat', position.latitude.toString());
-      prefs.setString('long', position.longitude.toString());
-      dashboardController.subLocality.value =
+      dashboardController.currentSubLocality.value =
           placemark[0].subLocality.toString();
-      dashboardController.address.value =
+      dashboardController.currentAddress.value =
       "${placemark[0].street.toString()}${placemark[0].thoroughfare
           .toString()
           .isNotEmpty
@@ -113,17 +107,22 @@ final lat = ''.obs;
       dashboardController.city.value = placemark[0].locality.toString();
       dashboardController.state.value =
           placemark[0].administrativeArea.toString();
-      Get.back();
+      print(lng.value);
+      // Get.back();
       return position.latitude;
     }
   }
   Future<void> getLatLng(String address) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
       showCircleProgressDialog(navigatorKey.currentContext!);
       List<Location> locations = await locationFromAddress(address);
       Get.back();
       if (locations.isNotEmpty) {
         final location = locations.first;
+        prefs.setString('lat',location.latitude.toString());
+        prefs.setString('long',location.longitude.toString());
+
         Get.back(result: [
           {"lat":location.latitude.toString(),"lng":location.longitude.toString()}
         ]);

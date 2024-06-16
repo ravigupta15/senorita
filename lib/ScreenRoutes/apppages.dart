@@ -220,7 +220,7 @@ class AppPages {
         transition: Transition.leftToRight),*/
 
     GetPage(
-        name: AppRoutes.categoryDetailsScreen,
+        name: AppRoutes.salonDetailsScreen,
         page: () => SalonDetailScreen(),
         binding: SalonDetailBinding (),
         transition: Transition.rightToLeft

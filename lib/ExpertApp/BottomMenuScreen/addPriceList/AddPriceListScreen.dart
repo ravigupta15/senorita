@@ -145,17 +145,18 @@ class AddPriceListScreen extends GetView<PriceListController> {
                                           child: TextFormField(
                                             controller: model.priceController,
                                             keyboardType: TextInputType.number,
-                                            inputFormatters: [
-                                              LengthLimitingTextInputFormatter(4)
-                                            ],
+                                            // inputFormatters: [
+                                            //   LengthLimitingTextInputFormatter(14)
+                                            // ],
                                             decoration: InputDecoration(
                                               filled: true,
                                               fillColor: Colors.transparent,
-                                              isDense: true,
+                                              // isDense: true,
                                               contentPadding:
                                                   const EdgeInsets.symmetric(
                                                       horizontal: 10.0,
-                                                      vertical: 15),
+                                                      // vertical: 15
+                                                  ),
                                               hintText: "Price",
                                               hintStyle: const TextStyle(
                                                   fontSize: 13,

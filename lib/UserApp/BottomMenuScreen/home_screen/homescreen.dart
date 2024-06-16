@@ -147,7 +147,7 @@ class HomeScreen extends GetView<DashboardController> {
                             salonWidget(
                                 context, model,'home',
                                     () {
-                                  Get.toNamed(AppRoutes.categoryDetailsScreen,
+                                  Get.toNamed(AppRoutes.salonDetailsScreen,
                                       arguments: [
                                         model.user!.id.toString(),
                                         controller.lat.toString(),

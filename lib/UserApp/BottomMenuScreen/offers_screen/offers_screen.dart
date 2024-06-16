@@ -125,7 +125,7 @@ class OffersScreen extends GetView<OffersController> {
                                                   var model = controller
                                                       .allOffersList[index];
                                                   return salonWidget(context, model,'offer', () {
-                                                    Get.toNamed(AppRoutes.categoryDetailsScreen, arguments: [
+                                                    Get.toNamed(AppRoutes.salonDetailsScreen, arguments: [
                                                       model.userId,
                                                       controller.latitude.toString(),
                                                       controller.longitude.toString()

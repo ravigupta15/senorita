@@ -2,9 +2,11 @@ import 'dart:ui';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:senorita/ScreenRoutes/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:get/get.dart';
 class NotificationService {
+
   FirebaseMessaging fcm = FirebaseMessaging.instance;
   AndroidNotificationChannel channel = const AndroidNotificationChannel(
       'high_importance_channel', //id
@@ -28,6 +30,7 @@ class NotificationService {
   }
 
   Future initialize() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     FirebaseMessaging.onBackgroundMessage(
       _firebaseMessagingBackgroundHandler,
     );
@@ -46,6 +49,14 @@ class NotificationService {
       AndroidNotification? androidNotification = message.notification?.android;
       AppleNotification? appleNotification = message.notification?.apple;
       if (androidNotification != null) {
+        print("notification.....${message.data}");
+        // if(message.data!=null&&message.data['expert_id']!=null){
+        //   Get.toNamed(AppRoutes.salonDetailsScreen,arguments:  [
+        //     message.data['expert_id'].toString(),
+        //     prefs.getString('lat').toString(),
+        //     prefs.getString('long').toString(),
+        //   ]);
+        // }
         flutterLocalNotificationsPlugin.show(
             notification.hashCode,
             notification!.title,
@@ -92,7 +103,15 @@ class NotificationService {
         android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
     flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
-
+   onDidReceiveNotificationResponse: (details) {
+  print("paylod...${details.payload}");
+  print("paylod...${details.actionId}");
+  print("paylod...${details.id}");
+  print("paylod...${details.input}");
+  },
+      onDidReceiveBackgroundNotificationResponse: (details) {
+        print("background....${details.payload}");
+      },
       // onSelectNotification:   ((payload){
       //   // Get.toNamed(AppRoutes.notification);
       // })

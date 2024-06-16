@@ -7,7 +7,7 @@ class AppRoutes {
   static var changePasswordScreen = '/changePassword';
   static var helpScreen = '/helpScreen';
   static var categoryListScreen = '/categoryListScreen';
-  static var categoryDetailsScreen = '/categoryDetailsScreen';
+  static var salonDetailsScreen = '/salonDetailsScreen';
   static var changeLocationScreen = '/changeLocationScreen';
   ///Expert Screen
   static var expertRegistrationScreen = '/expertRegistrationScreen';

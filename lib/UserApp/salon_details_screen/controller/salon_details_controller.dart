@@ -84,7 +84,6 @@ class SalonDetailController extends GetxController  {
   Future<void> onInit() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     token = prefs.getString("token").toString();
-
     //rating = double.parse(_stringValue);
     categoryId.value=Get.arguments[0].toString();
     lat.value=Get.arguments[1].toString();
@@ -102,8 +101,6 @@ class SalonDetailController extends GetxController  {
     // allOffersApiFunction();
     latitude.value = prefs.getString("lat").toString();
     longitude.value = prefs.getString("long").toString();
-    print("cuttentlatitudeOffer"+latitude.value.toString());
-    print("cuttentlongitudeOffer"+longitude.value.toString());
     categoryDetailsFunction(latitude.value.toString(),longitude.value.toString(),Get.context!);
 
     super.onInit();

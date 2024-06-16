@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../ScreenRoutes/routes.dart';
 import '../../../api_config/ApiConstant.dart';
 import '../../../api_config/Api_Url.dart';
@@ -41,6 +42,7 @@ class UserRegistrationController extends GetxController {
 
 
   signUpApiFunction(BuildContext context) async {
+    SharedPreferences prefs =await SharedPreferences.getInstance();
     showCircleProgressDialog(context);
     var body = {
       'name': fullNameController.text,
@@ -51,7 +53,7 @@ class UserRegistrationController extends GetxController {
       'mobile': numberController.text,
       'phonecode': '',
       'terms&conditions': termsConditionValue.toString(),
-      'device_token': 'dJuWepgXRnK-orOuvSS0Be:APA91bEW6fLfWOAaOu8bqRekvCjEfgjGHL0xffPpZSSQSNfZD5HfV_4KHzJdIss6dy0UAtdjD-N8_MlhmZcFMJNbdVjrOtxbZWTi47ig3To0nA0NpQfmSnPwQlmP64xNpNklyWRSmPCB'
+      'device_token': prefs.getString('fcmToken').toString()
     };
     final response = await ApiConstants.post(body: body, url: ApiUrls.userRegistration);
     if (response != null) {

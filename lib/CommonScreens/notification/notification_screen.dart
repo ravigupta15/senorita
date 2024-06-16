@@ -74,7 +74,9 @@ class NotificationScreen extends GetView<NotificationController>{
                    getText(title: controller.model.value!.data![index].name.toString(),
                       size: 16, fontFamily: interMedium, color: ColorConstant.black3333,
                       fontWeight: FontWeight.w500),
-                   getText(title: TimeFormat.convertInTime(controller.model.value!.data![index].createdAt.toString()),
+                   getText(title: TimeFormat.convertInTime(
+                       controller.model.value!.data![index].createdAt.toString()
+                   ),
                       size: 14, fontFamily: interMedium, color: ColorConstant.black3333,
                       fontWeight: FontWeight.w500),
 

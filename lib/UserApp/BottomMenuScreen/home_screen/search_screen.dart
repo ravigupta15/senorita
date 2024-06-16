@@ -75,7 +75,7 @@ class SearchScreen extends GetView<SearchSalonController>{
   searchSalonWidget(var model){
     return GestureDetector(
       onTap: (){
-        Get.toNamed(AppRoutes.categoryDetailsScreen, arguments: [
+        Get.toNamed(AppRoutes.salonDetailsScreen, arguments: [
           model['user']['id'].toString(),
           controller.lat.toString(),
           controller.long.toString(),

@@ -69,14 +69,24 @@ class ChangeLocationScreen extends GetView<ChangeLocationController>{
   currentLocationWidget(DashboardController dashboardController){
     return Obx(()=>InkWell(
         onTap: (){
-          controller.getCurrentLocation(dashboardController).then((value) {
-            if(value!=null){
+          dashboardController.address.value = dashboardController.currentAddress.value;
+          dashboardController.subLocality.value = dashboardController.currentSubLocality.value;
+          dashboardController.currentLat.value = double.parse(controller.lat.value.toString());
+          dashboardController.currentLong.value = double.parse(controller.lng.value.toString());
+          dashboardController.lat.add(double.parse(controller.lat.value.toString()));
+          dashboardController.long.add(double.parse(controller.lng.value.toString()));
              Get.back(result: [
                {"lat":controller.lat.value,"lng":controller.lng.value}
-
              ]);
-            }
-          });
+
+          // controller.getCurrentLocation(dashboardController).then((value) {
+          //   if(value!=null){
+          //    Get.back(result: [
+          //      {"lat":controller.lat.value,"lng":controller.lng.value}
+          //
+          //    ]);
+          //   }
+          // });
         },
         child: Container(
           // height: 81,
@@ -100,7 +110,7 @@ class ChangeLocationScreen extends GetView<ChangeLocationController>{
                           size: 14, fontFamily: interMedium,
                           color: ColorConstant.appColor, fontWeight: FontWeight.w500),
                     ScreenSize.height(5),
-                    Text( dashboardController.address.value,
+                    Text( dashboardController.currentAddress.value,
                         style:const TextStyle(
                             fontSize: 14, fontFamily: interMedium,
                             color: ColorConstant.qrViewText,

@@ -142,19 +142,19 @@ var homeModel = HomeUserScreenModel().obs;
 
 
   }
- LatLng initialposition = LatLng(-0, -0);
  List<double> lat = []; // Creating an empty list for latitude values
  List<double> long = []; // Creating an empty list for longitude values
  late GoogleMapController _mapController;
  GoogleMapController get mapController => _mapController;
  final activegps = true.obs;
- LatLng get initialPos => initialposition;
  final markerList = [].obs;
  final markerIdList = [].obs;
  final currentLat = 0.0.obs;
  final currentLong = 0.0.obs;
  final subLocality = "".obs;
  final address = "".obs;
+ final currentAddress = ''.obs;
+ final currentSubLocality = ''.obs;
  final city = "".obs;
  final state = "".obs;
 
@@ -208,7 +208,6 @@ final bannerIndex =0.obs;
          desiredAccuracy: LocationAccuracy.high);
      List<Placemark> placemark =
      await placemarkFromCoordinates(position.latitude, position.longitude);
-     initialposition = LatLng(position.latitude, position.longitude);
      print(
          "the latitude is: ${position.longitude} and th longitude is: ${position.longitude} ");
      lat.add(position.longitude);
@@ -220,6 +219,10 @@ final bannerIndex =0.obs;
      subLocality.value = placemark[0].subLocality.toString();
      address.value ="${placemark[0].street.toString()}${placemark[0].thoroughfare.toString().isNotEmpty?", ${placemark[0].thoroughfare.toString()}":''}${placemark[0].subLocality.toString().isNotEmpty?", ${placemark[0].subLocality.toString()}":""}${placemark[0].locality.toString().isNotEmpty?", ${placemark[0].locality.toString()}":""}${placemark[0].administrativeArea.toString().isNotEmpty?", ${placemark[0].administrativeArea.toString()}":""}${placemark[0].country.toString().isNotEmpty?", ${placemark[0].country.toString()}":''}";
       city.value=placemark[0].locality.toString();
+     state.value=placemark[0].administrativeArea.toString();
+     currentSubLocality.value = placemark[0].subLocality.toString();
+     currentAddress.value = "${placemark[0].street.toString()}${placemark[0].thoroughfare.toString().isNotEmpty?", ${placemark[0].thoroughfare.toString()}":''}${placemark[0].subLocality.toString().isNotEmpty?", ${placemark[0].subLocality.toString()}":""}${placemark[0].locality.toString().isNotEmpty?", ${placemark[0].locality.toString()}":""}${placemark[0].administrativeArea.toString().isNotEmpty?", ${placemark[0].administrativeArea.toString()}":""}${placemark[0].country.toString().isNotEmpty?", ${placemark[0].country.toString()}":''}";
+     city.value=placemark[0].locality.toString();
      state.value=placemark[0].administrativeArea.toString();
      isCallApi?allHomeScreenApiFunction(currentLat.value.toString(),currentLong.value.toString(),'',false):null;
    }
