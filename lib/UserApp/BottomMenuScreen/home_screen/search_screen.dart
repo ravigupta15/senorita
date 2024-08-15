@@ -12,11 +12,9 @@ import '../../../utils/stringConstants.dart';
 import '../../../widget/view_salon_widget.dart';
 import 'controller/search_controller.dart';
 
-class SearchScreen extends GetView<SearchSalonController>{
-
-
+class SearchScreen extends GetView<SearchSalonController> {
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar(context, 'Search', () {
         Get.back();
@@ -24,57 +22,63 @@ class SearchScreen extends GetView<SearchSalonController>{
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Obx(() =>Padding(padding:const EdgeInsets.only(left: 15,right: 15,top: 10),child:  searchBar(readOnly: false,
-            showPrefix: controller.showPrefix.value,
-            clearSearchTap: (){
-              controller.showPrefix.value=false;
-              controller.searchList.clear();
-              controller.isSearch.value=true;
-              controller.searchController.clear();
-            },
-            controller: controller.searchController,
-            onChanged: (val){
-              if(val.isEmpty){
-                controller.isSearch.value = true;
-                controller.showPrefix.value=false;
-                controller.searchList.clear();
-              }
-              else{
-                controller.allHomeScreenApiFunction(val);
-                controller.showPrefix.value=true;
-                controller.isSearch.value = false;
-              }
-            },
-          ),)),
+          Obx(() => Padding(
+                padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
+                child: searchBar(
+                  readOnly: false,
+                  showPrefix: controller.showPrefix.value,
+                  clearSearchTap: () {
+                    controller.showPrefix.value = false;
+                    controller.searchList.clear();
+                    controller.isSearch.value = true;
+                    controller.searchController.clear();
+                  },
+                  controller: controller.searchController,
+                  onChanged: (val) {
+                    if (val.isEmpty) {
+                      controller.isSearch.value = true;
+                      controller.showPrefix.value = false;
+                      controller.searchList.clear();
+                    } else {
+                      controller.allHomeScreenApiFunction(val);
+                      controller.showPrefix.value = true;
+                      controller.isSearch.value = false;
+                    }
+                  },
+                ),
+              )),
           ScreenSize.height(5),
-          Expanded(child: Obx(()=>
-          controller.isSearch.value?
-          noDataFound():
-     controller.searchList.isEmpty&&controller.showPrefix.value?
-              noDataFound():
-              ListView.separated(
-                separatorBuilder: (context,sp){
-                  return const SizedBox(height: 23,);
-                },
-                padding:const EdgeInsets.only(left: 15,right: 14,top: 20,bottom: 40),
-                shrinkWrap: true,
-                itemCount: controller.searchList.length,
-                physics:const ScrollPhysics(),
-                itemBuilder: (BuildContext context, int index) {
-                  var model = controller.searchList[index];
-                  return searchSalonWidget(model);
-                }
+          Expanded(
+            child: Obx(
+              () => controller.isSearch.value
+                  ? noDataFound("No Salons Available")
+                  : controller.searchList.isEmpty && controller.showPrefix.value
+                      ? noDataFound("No Salons Available")
+                      : ListView.separated(
+                          separatorBuilder: (context, sp) {
+                            return const SizedBox(
+                              height: 23,
+                            );
+                          },
+                          padding: const EdgeInsets.only(
+                              left: 15, right: 14, top: 20, bottom: 40),
+                          shrinkWrap: true,
+                          itemCount: controller.searchList.length,
+                          physics: const ScrollPhysics(),
+                          itemBuilder: (BuildContext context, int index) {
+                            var model = controller.searchList[index];
+                            return searchSalonWidget(model);
+                          }),
             ),
-          ),
           )
         ],
       ),
     );
   }
 
-  searchSalonWidget(var model){
+  searchSalonWidget(var model) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         Get.toNamed(AppRoutes.salonDetailsScreen, arguments: [
           model['user']['id'].toString(),
           controller.lat.toString(),
@@ -87,9 +91,10 @@ class SearchScreen extends GetView<SearchSalonController>{
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: NetworkImageHelper(
-              img: controller.imgBaseUrl.value+
+              img: controller.imgBaseUrl.value +
                   model['user']['profile_picture'].toString(),
-              width: 75.0,height: 72.0,
+              width: 75.0,
+              height: 72.0,
             ),
           ),
           ScreenSize.width(16),
@@ -98,8 +103,7 @@ class SearchScreen extends GetView<SearchSalonController>{
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  model['user']!=null?
-                  model['user']['name'].toString():"",
+                  model['user'] != null ? model['user']['name'].toString() : "",
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
@@ -111,7 +115,7 @@ class SearchScreen extends GetView<SearchSalonController>{
                 ),
                 ScreenSize.height(4),
                 Text(
-                      "${model['user']['distance'].toString()} km Away",
+                  "${model['user']['distance'].toString()} km Away",
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   style: const TextStyle(

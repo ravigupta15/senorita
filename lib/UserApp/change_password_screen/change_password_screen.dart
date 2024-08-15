@@ -1,5 +1,3 @@
-
-import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
@@ -34,8 +32,7 @@ class ChangePasswordScreen extends GetView<ChangePasswordController> {
               width: 28,
               alignment: Alignment.center,
               child: GestureDetector(
-                  onTap: ()
-                  {
+                  onTap: () {
                     Get.back();
                   },
                   child: Image.asset(
@@ -56,7 +53,6 @@ class ChangePasswordScreen extends GetView<ChangePasswordController> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
-
           children: [
             Form(
               key: controller.changePasswordFormKey,
@@ -67,7 +63,6 @@ class ChangePasswordScreen extends GetView<ChangePasswordController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ScreenSize.height(10),
-
                     Padding(
                       padding: const EdgeInsets.only(top: 10),
                       child: Column(
@@ -87,8 +82,9 @@ class ChangePasswordScreen extends GetView<ChangePasswordController> {
                               },
                             ),
                           ),
-
-                         SizedBox(height: 10,),
+                          SizedBox(
+                            height: 10,
+                          ),
                           Padding(
                             padding: const EdgeInsets.all(3.0),
                             child: CustomTextField(
@@ -104,7 +100,9 @@ class ChangePasswordScreen extends GetView<ChangePasswordController> {
                               },
                             ),
                           ),
-                          SizedBox(height: 10,),
+                          SizedBox(
+                            height: 10,
+                          ),
                           Padding(
                             padding: const EdgeInsets.all(3.0),
                             child: CustomTextField(
@@ -120,8 +118,6 @@ class ChangePasswordScreen extends GetView<ChangePasswordController> {
                               },
                             ),
                           ),
-
-
                         ],
                       ),
                     ),

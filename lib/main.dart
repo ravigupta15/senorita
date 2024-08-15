@@ -1,4 +1,3 @@
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -11,29 +10,28 @@ import 'package:senorita/utils/theme.dart';
 import 'package:senorita/utils/utils.dart';
 import 'ScreenRoutes/apppages.dart';
 import 'ScreenRoutes/routes.dart';
-import 'api_config/dependency_injection.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown
-  ]);
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   FirebaseMessaging.onBackgroundMessage(backgroundHandler);
   await FlutterDownloader.initialize(
-      debug: true, // optional: set to false to disable printing logs to console (default: true)
-      ignoreSsl: true // option: set to false to disable working with http links (default: false)
-  );
+      debug:
+          true, // optional: set to false to disable printing logs to console (default: true)
+      ignoreSsl:
+          true // option: set to false to disable working with http links (default: false)
+      );
   runApp(const MyApp());
   //DependencyInjection.init();
   configLoading();
-
 }
 
 Future<void> backgroundHandler(RemoteMessage message) async {
   print('Handling a background message ${message.messageId}');
 }
+
 @override
 class MyApp extends StatefulWidget {
   const MyApp({key});
@@ -52,7 +50,7 @@ class _MyAppState extends State<MyApp> {
       onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());
       },
-      child:  GetMaterialApp(
+      child: GetMaterialApp(
         title: 'Senorita',
         navigatorKey: navigatorKey,
         theme: lightThemeData(context),
@@ -67,6 +65,7 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
+
 void configLoading() {
   EasyLoading.instance
     ..displayDuration = const Duration(milliseconds: 2000)

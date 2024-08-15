@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinput/pinput.dart';
-import 'package:http/http.dart' as http;
-import 'package:sms_autofill/sms_autofill.dart';
 import '../../helper/custombtn.dart';
 import '../../helper/getText.dart';
 import '../../utils/color_constant.dart';
@@ -15,8 +13,7 @@ class OtpScreenProfile extends GetView<OtpProfileController> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async
-      {
+      onWillPop: () async {
         Get.back();
         return false;
       },
@@ -52,7 +49,7 @@ class OtpScreenProfile extends GetView<OtpProfileController> {
                       fontWeight: FontWeight.w400),
                   ScreenSize.height(24),
                   Padding(
-                    padding: const EdgeInsets.only(left: 15,right: 15),
+                    padding: const EdgeInsets.only(left: 15, right: 15),
                     child: Pinput(
                       length: 6,
 
@@ -63,12 +60,13 @@ class OtpScreenProfile extends GetView<OtpProfileController> {
                         } else if (val.length < 6) {
                           return 'Incorrect otp';
                         }
+                        // return null;
                       },
                       // pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
                       showCursor: true,
                       onCompleted: (pin) => print(pin),
                     ),
-                   /* Obx(
+                    /* Obx(
                           () => PinFieldAutoFill(
                         textInputAction: TextInputAction.done,
                         controller: controller.otpController,
@@ -91,7 +89,6 @@ class OtpScreenProfile extends GetView<OtpProfileController> {
                         },
                       ),
                     ),*/
-
                   ),
                   ScreenSize.height(14),
                   Obx(
@@ -157,7 +154,8 @@ class OtpScreenProfile extends GetView<OtpProfileController> {
                                             TextSpan(
                                               text: otpResend2,
                                               style: TextStyle(
-                                                color: ColorConstant.onBoardingBack,
+                                                color: ColorConstant
+                                                    .onBoardingBack,
                                                 fontSize: 14,
                                                 fontFamily: celiaRegular,
                                               ),
@@ -167,21 +165,21 @@ class OtpScreenProfile extends GetView<OtpProfileController> {
                                       )))),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 25, right: 25, top: 20),
+                    padding:
+                        const EdgeInsets.only(left: 25, right: 25, top: 20),
                     child: CustomBtn(
-                          title: verification,
-                          height: 50,
-                          width: double.infinity,
-                          color: ColorConstant.onBoardingBack,
-                          onTap: () {
-                            if (controller.otpProfileFormKey.currentState!.validate()) {
-                              controller.verifyOtpApiFunction(context);
-
-                            } else {
-                              print(" not validate");
-                            }
-
-                          },
+                      title: verification,
+                      height: 50,
+                      width: double.infinity,
+                      color: ColorConstant.onBoardingBack,
+                      onTap: () {
+                        if (controller.otpProfileFormKey.currentState!
+                            .validate()) {
+                          controller.verifyOtpApiFunction(context);
+                        } else {
+                          print(" not validate");
+                        }
+                      },
                     ),
                   ),
                 ],

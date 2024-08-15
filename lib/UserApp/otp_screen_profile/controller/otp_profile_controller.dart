@@ -6,12 +6,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import '../../../ScreenRoutes/routes.dart';
 import '../../../api_config/Api_Url.dart';
-import '../../../api_config/preferencestorage.dart';
 import '../../../utils/showcircledialogbox.dart';
 import 'package:http/http.dart' as http;
 import '../../../utils/toast.dart';
 import '../../../widget/error_box.dart';
-import '../../../widget/success_box.dart';
 
 class OtpProfileController extends GetxController {
   final isLoading = false.obs;
@@ -66,7 +64,7 @@ class OtpProfileController extends GetxController {
     var request = http.MultipartRequest('POST', Uri.parse(ApiUrls.submitOtp));
     request.fields.addAll({
       "mobile": mobileNumber,
-      "device_token":prefs.getString('fcmToken').toString(),
+      "device_token": prefs.getString('fcmToken').toString(),
       'otp': otpController.text,
       'ref_type': refType,
       'user_id': id,
@@ -92,8 +90,7 @@ class OtpProfileController extends GetxController {
 
   resendOtpApiFunction(BuildContext context) async {
     showCircleProgressDialog(context);
-    var request =
-        http.MultipartRequest('POST', Uri.parse(ApiUrls.resendOtp));
+    var request = http.MultipartRequest('POST', Uri.parse(ApiUrls.resendOtp));
     request.fields.addAll({
       'mobile': mobileNumber,
       'ref_type': refType,

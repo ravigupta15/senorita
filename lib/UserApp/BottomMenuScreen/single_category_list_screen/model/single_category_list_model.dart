@@ -1,7 +1,6 @@
 // To parse this JSON data, do
 //
 //     final welcome = welcomeFromJson(jsonString);
-import 'dart:convert';
 
 class SingleCategoryListModel {
   dynamic experience;
@@ -33,7 +32,7 @@ class SingleCategoryListModel {
     this.secondaryLanguage,
     this.expertise,
     this.onlineStatus,
-      this.categoryId,
+    this.categoryId,
   );
 }
 

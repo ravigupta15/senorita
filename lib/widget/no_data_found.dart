@@ -4,10 +4,10 @@ import 'package:senorita/utils/color_constant.dart';
 import '../helper/getText.dart';
 import '../utils/stringConstants.dart';
 
-Widget noDataFound(){
-  return  Center(
+Widget noDataFound(String title) {
+  return Center(
     child: getText(
-        title: 'No data found',
+        title: title,
         textAlign: TextAlign.center,
         size: 14,
         fontFamily: celiaMedium,

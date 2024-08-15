@@ -32,8 +32,7 @@ class AddPriceListScreen extends GetView<PriceListController> {
       appBar: appBar(context, "Menu & Price List", () {
         Get.back();
       }),
-      body:
-          Container(
+      body: Container(
         padding: const EdgeInsets.symmetric(
           horizontal: 15.0,
         ),
@@ -45,17 +44,16 @@ class AddPriceListScreen extends GetView<PriceListController> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    Obx(
-                      () => customDropDown(context, () {
-                        // controller.categoryModel!=null?
-                 categoryDialogBox(context);
-                        // :showToast("Data Loading Please Wait");
-                },
-                          controller.categoryString.value == ""
-                              ? registerCategory
-                              : controller.categoryString.value, ColorConstant.black2)
-                    ),
-                  const  SizedBox(height: 10),
+                    Obx(() => customDropDown(context, () {
+                          // controller.categoryModel!=null?
+                          categoryDialogBox(context);
+                          // :showToast("Data Loading Please Wait");
+                        },
+                            controller.categoryString.value == ""
+                                ? registerCategory
+                                : controller.categoryString.value,
+                            ColorConstant.black2)),
+                    const SizedBox(height: 10),
                     Obx(
                       () => controller.categoryString.value.isNotEmpty
                           ? Column(
@@ -72,7 +70,7 @@ class AddPriceListScreen extends GetView<PriceListController> {
                                           fontFamily: interMedium,
                                           color: ColorConstant.blackColor,
                                           fontWeight: FontWeight.w600),
-                                    const  Spacer(),
+                                      const Spacer(),
                                       getText(
                                           title: "Price",
                                           textAlign: TextAlign.center,
@@ -85,7 +83,7 @@ class AddPriceListScreen extends GetView<PriceListController> {
                                 ),
                               ],
                             )
-                          :const SizedBox(),
+                          : const SizedBox(),
                     ),
                   ],
                 ),
@@ -113,11 +111,17 @@ class AddPriceListScreen extends GetView<PriceListController> {
                           padding: const EdgeInsets.all(8.0),
                           child: Row(
                             children: [
-                              Expanded(child: Obx(() => customDropDown(context, () {
-                                subCategoryDialogBox(context,model);
-                              }, model.title.value.isEmpty?"title":model.title.value,
-                                  model.title.value.isEmpty? ColorConstant.addPriceListText:ColorConstant.redeemTextDark))),
-                             // const Spacer(),
+                              Expanded(
+                                  child: Obx(() => customDropDown(context, () {
+                                        subCategoryDialogBox(context, model);
+                                      },
+                                          model.title.value.isEmpty
+                                              ? "title"
+                                              : model.title.value,
+                                          model.title.value.isEmpty
+                                              ? ColorConstant.addPriceListText
+                                              : ColorConstant.redeemTextDark))),
+                              // const Spacer(),
                               const SizedBox(
                                 width: 10,
                               ),
@@ -135,7 +139,7 @@ class AddPriceListScreen extends GetView<PriceListController> {
                                           fontFamily: celiaRegular,
                                           color: ColorConstant.blackColor,
                                           fontWeight: FontWeight.w400),
-                                    const  SizedBox(
+                                      const SizedBox(
                                         width: 10,
                                       ),
                                       Expanded(
@@ -154,13 +158,12 @@ class AddPriceListScreen extends GetView<PriceListController> {
                                               // isDense: true,
                                               contentPadding:
                                                   const EdgeInsets.symmetric(
-                                                      horizontal: 10.0,
-                                                      // vertical: 15
-                                                  ),
+                                                horizontal: 10.0,
+                                                // vertical: 15
+                                              ),
                                               hintText: "Price",
                                               hintStyle: const TextStyle(
                                                   fontSize: 13,
-
                                                   fontFamily: interRegular,
                                                   color: ColorConstant
                                                       .addPriceListText),
@@ -198,26 +201,35 @@ class AddPriceListScreen extends GetView<PriceListController> {
                                           ),
                                         ),
                                       ),
-                                    const SizedBox(
+                                      const SizedBox(
                                         width: 10,
                                       ),
                                       GestureDetector(
                                         onTap: () {
-                                          if(index==0){
-                                            for(int i=0;i<controller.addTopicList.length;i++){
-                                              var model1= controller.addTopicList[i];
-                                              if(controller.addTopicList.length==i+1){
-                                                if(model1.title.value.isNotEmpty&&model1.priceController.text.isNotEmpty){
+                                          if (index == 0) {
+                                            for (int i = 0;
+                                                i <
+                                                    controller
+                                                        .addTopicList.length;
+                                                i++) {
+                                              var model1 =
+                                                  controller.addTopicList[i];
+                                              if (controller
+                                                      .addTopicList.length ==
+                                                  i + 1) {
+                                                if (model1.title.value
+                                                        .isNotEmpty &&
+                                                    model1.priceController.text
+                                                        .isNotEmpty) {
                                                   controller.updateItems();
                                                   break;
-                                                }else{
-                                                  showToast("Enter title and price");
+                                                } else {
+                                                  showToast(
+                                                      "Enter title and price");
                                                 }
-                                              }
-                                              else{
-                                              }
-                                            }}
-                                          else{
+                                              } else {}
+                                            }
+                                          } else {
                                             controller.removeItems(index);
                                           }
                                           // if(model.title.value
@@ -265,13 +277,13 @@ class AddPriceListScreen extends GetView<PriceListController> {
                                         child: Image.asset(
                                           height: 23,
                                           width: 23,
-                                          index==0?
-                                          AppImages.addPrice: AppImages.removePrice
+                                          index == 0
+                                              ? AppImages.addPrice
+                                              : AppImages.removePrice
                                           // model.status.value
                                           //     ? AppImages.removePrice
                                           //     : AppImages.addPrice
                                           ,
-
                                         ),
                                       ),
                                     ],
@@ -306,7 +318,7 @@ class AddPriceListScreen extends GetView<PriceListController> {
                           height: 46,
                           width: double.infinity,
                           rectangleBorder: RoundedRectangleBorder(
-                            side:const BorderSide(
+                            side: const BorderSide(
                                 color: Colors.transparent, width: 1.3),
                             borderRadius: BorderRadius.circular(5),
                           ),
@@ -319,31 +331,39 @@ class AddPriceListScreen extends GetView<PriceListController> {
                                 i < controller.addTopicList.length;
                                 i++) {
                               print(controller.addTopicList[i].subCatId.value);
-                              if(controller.addTopicList[controller.addTopicList.length-1].title.value.isNotEmpty&&
-                                  controller.addTopicList[controller.addTopicList.length-1].priceController.text.isNotEmpty){
-                                checkValidation=true;
-                              }
-                              else{
-                                checkValidation=false;
+                              if (controller
+                                      .addTopicList[
+                                          controller.addTopicList.length - 1]
+                                      .title
+                                      .value
+                                      .isNotEmpty &&
+                                  controller
+                                      .addTopicList[
+                                          controller.addTopicList.length - 1]
+                                      .priceController
+                                      .text
+                                      .isNotEmpty) {
+                                checkValidation = true;
+                              } else {
+                                checkValidation = false;
                               }
                               controller.sendDataList.add({
-                                'item_name': controller
-                                    .addTopicList[i].title.value,
+                                'item_name':
+                                    controller.addTopicList[i].title.value,
                                 'price': controller
                                     .addTopicList[i].priceController.text,
-                                'base_sub_category_id':controller.addTopicList[i].subCatId.value.toString()
-
+                                'base_sub_category_id': controller
+                                    .addTopicList[i].subCatId.value
+                                    .toString()
                               });
                             }
                             // print(sendDataList);
-                            if(checkValidation){
+                            if (checkValidation) {
                               controller.submitMultipleItems(
                                   context, controller.sendDataList);
-                            }
-                            else{
+                            } else {
                               showToast('Add Price and title');
                             }
-
                           },
                           textColor: ColorConstant.whiteColor)
                       : SizedBox(),
@@ -354,13 +374,14 @@ class AddPriceListScreen extends GetView<PriceListController> {
     );
   }
 
-  customDropDown(BuildContext context, Function()onTap,String title, Color color){
-    return  GestureDetector(
+  customDropDown(
+      BuildContext context, Function() onTap, String title, Color color) {
+    return GestureDetector(
       onTap: onTap,
       child: Container(
         height: 48,
         width: double.infinity,
-        padding:const EdgeInsets.only(left: 15,right: 15),
+        padding: const EdgeInsets.only(left: 15, right: 15),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
@@ -371,15 +392,15 @@ class AddPriceListScreen extends GetView<PriceListController> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Flexible(
-              child: Text(  title,
+              child: Text(
+                title,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontSize: 13,
                     fontFamily: interRegular,
-                    color:color,
-                    fontWeight: FontWeight.w500
-                ),
+                    color: color,
+                    fontWeight: FontWeight.w500),
               ),
             ),
             ScreenSize.width(3),
@@ -395,7 +416,9 @@ class AddPriceListScreen extends GetView<PriceListController> {
     ;
   }
 
-  categoryDialogBox(BuildContext context,) {
+  categoryDialogBox(
+    BuildContext context,
+  ) {
     showDialog(
         context: context,
         builder: (context) {
@@ -424,7 +447,7 @@ class AddPriceListScreen extends GetView<PriceListController> {
                           onTap: () {
                             Navigator.pop(context);
                           },
-                          child:const Icon(
+                          child: const Icon(
                             Icons.close,
                             size: 20,
                             color: ColorConstant.onBoardingBack,
@@ -442,67 +465,77 @@ class AddPriceListScreen extends GetView<PriceListController> {
                     height: 1,
                   ),
                   Container(
-                    constraints:const BoxConstraints(
-                        maxHeight: 300,
-                        minHeight: 100
-                    ),
+                    constraints:
+                        const BoxConstraints(maxHeight: 300, minHeight: 100),
                     width: MediaQuery.of(context).size.width,
                     // color: Colors.white,
-                    child:controller.categoryList.isNotEmpty?
-                    ListView.builder(
-                        physics: const ScrollPhysics(),
-                        shrinkWrap: true,
-                        scrollDirection: Axis.vertical,
-                        padding: const EdgeInsets.only(
-                            left: 15, right: 10, bottom: 15, top: 4),
-                        itemCount: controller.categoryList.length,
-                        itemBuilder: (context, index) {
-                          return Column(
-                            children: [
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Obx(
-                                    () => GestureDetector(
-                                  behavior: HitTestBehavior.opaque,
-                                  onTap: () {
-                                    state((){});
-                                    controller.selectedCategoryIndex.value=index;
-                                    controller.selectedCategory.value=controller.categoryList[index].name;
-                                    controller.selectedCategoryId.value = controller.categoryList[index].id.toString();
-                                  },
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        color:controller.selectedCategoryIndex.value==index?
-                                        ColorConstant.onBoardingBack: ColorConstant.greyColor,
-                                        size: 20,
-                                        controller.selectedCategoryIndex.value==index?
-                                        Icons.radio_button_checked:
-                                        Icons.radio_button_off_outlined,
-                                      ),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text(
-                                        controller.categoryList[index].name.toString(),
-                                        style: const TextStyle(
-                                          color: ColorConstant.greyColor,
-                                          fontSize: 14,
-                                          fontFamily: interRegular,
-                                        ),
-                                      ),
-                                    ],
+                    child: controller.categoryList.isNotEmpty
+                        ? ListView.builder(
+                            physics: const ScrollPhysics(),
+                            shrinkWrap: true,
+                            scrollDirection: Axis.vertical,
+                            padding: const EdgeInsets.only(
+                                left: 15, right: 10, bottom: 15, top: 4),
+                            itemCount: controller.categoryList.length,
+                            itemBuilder: (context, index) {
+                              return Column(
+                                children: [
+                                  const SizedBox(
+                                    height: 10,
                                   ),
-                                ),
-                              ),
-                            ],
-                          );
-                        }):
-                    Align(
-                      alignment: Alignment.center,
-                      child: noDataFound(),
-                    ),
+                                  Obx(
+                                    () => GestureDetector(
+                                      behavior: HitTestBehavior.opaque,
+                                      onTap: () {
+                                        state(() {});
+                                        controller.selectedCategoryIndex.value =
+                                            index;
+                                        controller.selectedCategory.value =
+                                            controller.categoryList[index].name;
+                                        controller.selectedCategoryId.value =
+                                            controller.categoryList[index].id
+                                                .toString();
+                                      },
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                            color: controller
+                                                        .selectedCategoryIndex
+                                                        .value ==
+                                                    index
+                                                ? ColorConstant.onBoardingBack
+                                                : ColorConstant.greyColor,
+                                            size: 20,
+                                            controller.selectedCategoryIndex
+                                                        .value ==
+                                                    index
+                                                ? Icons.radio_button_checked
+                                                : Icons
+                                                    .radio_button_off_outlined,
+                                          ),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text(
+                                            controller.categoryList[index].name
+                                                .toString(),
+                                            style: const TextStyle(
+                                              color: ColorConstant.greyColor,
+                                              fontSize: 14,
+                                              fontFamily: interRegular,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            })
+                        : Align(
+                            alignment: Alignment.center,
+                            child: noDataFound("No Categories Found"),
+                          ),
                   ),
                   Container(
                     padding: const EdgeInsets.only(
@@ -522,23 +555,25 @@ class AddPriceListScreen extends GetView<PriceListController> {
                               color: ColorConstant.onBoardingBack,
                               fontWeight: FontWeight.w100),
                         ),
-                        const  SizedBox(
+                        const SizedBox(
                           width: 25,
                         ),
                         GestureDetector(
                           behavior: HitTestBehavior.opaque,
                           onTap: () {
-                            state((){});
+                            state(() {});
                             controller.addTopicList.clear();
-                            if(controller.selectedCategory.value.isNotEmpty){
+                            if (controller.selectedCategory.value.isNotEmpty) {
                               Navigator.pop(context);
-                              controller.categoryString.value = controller.selectedCategory.value;
-                              controller.getSubCategoryApiFunction(controller.selectedCategoryId.value);
-                             controller.updateItems();
+                              controller.categoryString.value =
+                                  controller.selectedCategory.value;
+                              controller.getSubCategoryApiFunction(
+                                  controller.selectedCategoryId.value);
+                              controller.updateItems();
                               // controller.selectedDiscountSubCat.clear();
-                            }
-                            else{
-                              Fluttertoast.showToast(msg: "Please Select Category");
+                            } else {
+                              Fluttertoast.showToast(
+                                  msg: "Please Select Category");
                             }
                           },
                           child: const getText(
@@ -558,8 +593,7 @@ class AddPriceListScreen extends GetView<PriceListController> {
         });
   }
 
-
-  subCategoryDialogBox(BuildContext context,var model) {
+  subCategoryDialogBox(BuildContext context, var model) {
     String value = '';
     showDialog(
         context: context,
@@ -589,7 +623,7 @@ class AddPriceListScreen extends GetView<PriceListController> {
                           onTap: () {
                             Navigator.pop(context);
                           },
-                          child:const Icon(
+                          child: const Icon(
                             Icons.close,
                             size: 20,
                             color: ColorConstant.onBoardingBack,
@@ -607,65 +641,74 @@ class AddPriceListScreen extends GetView<PriceListController> {
                     height: 1,
                   ),
                   Container(
-                    constraints:const BoxConstraints(
-                        maxHeight: 300,
-                        minHeight: 100
-                    ),
+                    constraints:
+                        const BoxConstraints(maxHeight: 300, minHeight: 100),
                     width: MediaQuery.of(context).size.width,
                     // color: Colors.white,
-                    child:controller.subCatModel.value!=null&& controller.subCatModel.value!.data!=null?
-                    ListView.builder(
-                        physics: const ScrollPhysics(),
-                        shrinkWrap: true,
-                        scrollDirection: Axis.vertical,
-                        padding: const EdgeInsets.only(
-                            left: 15, right: 10, bottom: 15, top: 4),
-                        itemCount: controller.subCatModel.value!.data!.length,
-                        itemBuilder: (context, index) {
-                          return Column(
-                            children: [
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Obx(
-                                    () => GestureDetector(
-                                  behavior: HitTestBehavior.opaque,
-                                  onTap: () {
-                                    state((){});
-                                    model.subCatId.value = controller.subCatModel.value.data![index].id.toString();
-                                   value = controller.subCatModel.value.data![index].name.toString();
-                                  },
-                                  child: Row(
-                                    children: [
-                                      checkBoxWidget(controller.subCatModel.value.data![index].id.toString()==model.subCatId.value?
-                                      ColorConstant.onBoardingBack:ColorConstant.white
-                                      ),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      Flexible(
-                                        child: Text(
-                                          controller.subCatModel.value.data![index].name.toString(),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(
-                                            color: ColorConstant.greyColor,
-                                            fontSize: 14,
-                                            fontFamily: interRegular,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                    child: controller.subCatModel.value != null &&
+                            controller.subCatModel.value!.data != null
+                        ? ListView.builder(
+                            physics: const ScrollPhysics(),
+                            shrinkWrap: true,
+                            scrollDirection: Axis.vertical,
+                            padding: const EdgeInsets.only(
+                                left: 15, right: 10, bottom: 15, top: 4),
+                            itemCount:
+                                controller.subCatModel.value!.data!.length,
+                            itemBuilder: (context, index) {
+                              return Column(
+                                children: [
+                                  const SizedBox(
+                                    height: 10,
                                   ),
-                                ),
-                              ),
-                            ],
-                          );
-                        }):
-                    Align(
-                      alignment: Alignment.center,
-                      child: noDataFound(),
-                    ),
+                                  Obx(
+                                    () => GestureDetector(
+                                      behavior: HitTestBehavior.opaque,
+                                      onTap: () {
+                                        state(() {});
+                                        model.subCatId.value = controller
+                                            .subCatModel.value.data![index].id
+                                            .toString();
+                                        value = controller
+                                            .subCatModel.value.data![index].name
+                                            .toString();
+                                      },
+                                      child: Row(
+                                        children: [
+                                          checkBoxWidget(controller.subCatModel
+                                                      .value.data![index].id
+                                                      .toString() ==
+                                                  model.subCatId.value
+                                              ? ColorConstant.onBoardingBack
+                                              : ColorConstant.white),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          Flexible(
+                                            child: Text(
+                                              controller.subCatModel.value
+                                                  .data![index].name
+                                                  .toString(),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: const TextStyle(
+                                                color: ColorConstant.greyColor,
+                                                fontSize: 14,
+                                                fontFamily: interRegular,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            })
+                        : Align(
+                            alignment: Alignment.center,
+                            child: noDataFound("No SubCategories Found"),
+                          ),
                   ),
                   Container(
                     padding: const EdgeInsets.only(
@@ -685,19 +728,19 @@ class AddPriceListScreen extends GetView<PriceListController> {
                               color: ColorConstant.onBoardingBack,
                               fontWeight: FontWeight.w100),
                         ),
-                        const  SizedBox(
+                        const SizedBox(
                           width: 25,
                         ),
                         GestureDetector(
                           behavior: HitTestBehavior.opaque,
                           onTap: () {
-                            if(value.isNotEmpty){
-                              model.title.value=value;
-                            state((){});
+                            if (value.isNotEmpty) {
+                              model.title.value = value;
+                              state(() {});
                               Navigator.pop(context);
-                            }
-                            else{
-                              Fluttertoast.showToast(msg: "Please Select Sub Category");
+                            } else {
+                              Fluttertoast.showToast(
+                                  msg: "Please Select Sub Category");
                             }
                           },
                           child: const getText(
@@ -716,5 +759,4 @@ class AddPriceListScreen extends GetView<PriceListController> {
           );
         });
   }
-
 }

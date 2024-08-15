@@ -2,11 +2,9 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:senorita/UserApp/BottomMenuScreen/wallet_screen/controller/wallet_controller.dart';
 import '../../../helper/appimage.dart';
 import '../../../utils/color_constant.dart';
 import '../../../utils/stringConstants.dart';
-import '../../../utils/user_exit_dialogbox.dart';
 import 'controller/dashboard_controller.dart';
 
 class DashboardScreen extends GetView<DashboardController> {
@@ -25,7 +23,7 @@ class DashboardScreen extends GetView<DashboardController> {
           desc: 'Are you sure that want to Log out?',
 
           body: Container(
-            padding:const EdgeInsets.only(top: 5),
+            padding: const EdgeInsets.only(top: 5),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -38,7 +36,7 @@ class DashboardScreen extends GetView<DashboardController> {
                   ),
                 ),
                 const SizedBox(height: 15),
-                const  Text(
+                const Text(
                   'Do you want to exit an App',
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -62,13 +60,12 @@ class DashboardScreen extends GetView<DashboardController> {
                         onPressed: () {
                           AwesomeDialog(context: context).dismiss();
                         },
-                        child:const Text(
+                        child: const Text(
                           'No',
                           style: TextStyle(
                             fontSize: 16,
                             color: ColorConstant.greyColor,
                             fontFamily: 'Poppins Medium',
-
                           ),
                         ),
                       ),
@@ -108,106 +105,126 @@ class DashboardScreen extends GetView<DashboardController> {
         return false;
       },
       child: Scaffold(
-        body: Obx(()=>
-           IndexedStack(
+        body: Obx(
+          () => IndexedStack(
             index: controller.selectedIndex.value,
             children: controller.screens,
           ),
         ),
-        bottomNavigationBar:
-        Obx(()=>
-           Container(
-             padding:const EdgeInsets.only(bottom: 4,left: 5,right: 5,top: 2),
-             color:  ColorConstant.homeBackground,
-             child: ClipRRect(
-               borderRadius: const BorderRadius.only(
-                 topRight: Radius.circular(10),
-                 topLeft: Radius.circular(10),
-                 bottomRight: Radius.circular(10),
-                 bottomLeft: Radius.circular(10),
-               ),
-               child: BottomNavigationBar(
-
+        bottomNavigationBar: Obx(
+          () => Container(
+            padding:
+                const EdgeInsets.only(bottom: 4, left: 5, right: 5, top: 2),
+            color: ColorConstant.homeBackground,
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topRight: Radius.circular(10),
+                topLeft: Radius.circular(10),
+                bottomRight: Radius.circular(10),
+                bottomLeft: Radius.circular(10),
+              ),
+              child: BottomNavigationBar(
                 type: BottomNavigationBarType.fixed,
                 backgroundColor: ColorConstant.bottomNavigationBack,
                 selectedItemColor: ColorConstant.onBoardingBack,
                 unselectedItemColor: Colors.white,
                 showSelectedLabels: true,
                 showUnselectedLabels: true,
-
-                selectedLabelStyle:const TextStyle(
+                selectedLabelStyle: const TextStyle(
                     fontSize: 12,
                     fontFamily: interRegular,
                     color: ColorConstant.onBoardingBack,
-                    fontWeight: FontWeight.w400
-                ),
-
+                    fontWeight: FontWeight.w400),
                 unselectedLabelStyle: TextStyle(
                     fontSize: 12,
                     fontFamily: interRegular,
                     color: ColorConstant.white,
-                    fontWeight: FontWeight.w400
-                ),
-
-
-                onTap: (index){
+                    fontWeight: FontWeight.w400),
+                onTap: (index) {
                   controller.changeIndex(index);
-                 },
+                },
                 currentIndex: controller.selectedIndex.value,
-                items:const [
-                  BottomNavigationBarItem(icon: Padding(
-                    padding: const EdgeInsets.only(top: 5),
-                    child: Icon(Icons.home_filled,),
-                  ),
-                      label: "Home",
+                items: const [
+                  BottomNavigationBarItem(
+                    icon: Padding(
+                      padding: const EdgeInsets.only(top: 5),
+                      child: Icon(
+                        Icons.home_filled,
+                      ),
+                    ),
+                    label: "Home",
                     activeIcon: Padding(
                       padding: const EdgeInsets.only(top: 5),
-                      child: Icon(Icons.home_filled,color: ColorConstant.onBoardingBack,size: 18),
+                      child: Icon(Icons.home_filled,
+                          color: ColorConstant.onBoardingBack, size: 18),
                     ),
-
-
                   ),
-                  BottomNavigationBarItem(icon: Padding(
-                    padding:  EdgeInsets.only(top: 5,bottom: 4),
-                    child: Image(image: AssetImage(AppImages.offer),height: 18,width: 18,color: Colors.white,),
-                  ),
-                      label: "Offers",
-                    activeIcon: Padding(
-                      padding:  EdgeInsets.only(top: 5,bottom: 4),
-                      child: Image(image: AssetImage(AppImages.offer),height: 18,width: 18,color: ColorConstant.onBoardingBack),
-                    ),
-
-
-                  ),
-                  BottomNavigationBarItem(icon:Padding(
-                    padding:  EdgeInsets.only(top: 5,bottom: 4),
-                    child: Image(image: AssetImage(AppImages.walletIcon),height: 18,width: 18,color: Colors.white,),
-                  ),
-                      label: "Wallet",
-                    activeIcon: Padding(
-                      padding:  EdgeInsets.only(top: 5,bottom: 4),
-                      child: Image(image: AssetImage(AppImages.walletIcon),height: 18,width: 18,color: ColorConstant.onBoardingBack),
-                    ),
-
-
-                  ),
-                  BottomNavigationBarItem(icon:Padding(
-                    padding:  EdgeInsets.only(top: 5,bottom: 4),
-                    child: Image(image: AssetImage(AppImages.profile),height: 18,width: 18,color: Colors.white,),
-                  ),
-                      label: "Profile",
-                      activeIcon:Padding(
-                        padding:  EdgeInsets.only(top: 5,bottom: 4),
-                        child: Image(image: AssetImage(AppImages.profile),height: 18,width: 18,color: ColorConstant.onBoardingBack),
+                  BottomNavigationBarItem(
+                    icon: Padding(
+                      padding: EdgeInsets.only(top: 5, bottom: 4),
+                      child: Image(
+                        image: AssetImage(AppImages.offer),
+                        height: 18,
+                        width: 18,
+                        color: Colors.white,
                       ),
+                    ),
+                    label: "Offers",
+                    activeIcon: Padding(
+                      padding: EdgeInsets.only(top: 5, bottom: 4),
+                      child: Image(
+                          image: AssetImage(AppImages.offer),
+                          height: 18,
+                          width: 18,
+                          color: ColorConstant.onBoardingBack),
+                    ),
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Padding(
+                      padding: EdgeInsets.only(top: 5, bottom: 4),
+                      child: Image(
+                        image: AssetImage(AppImages.walletIcon),
+                        height: 18,
+                        width: 18,
+                        color: Colors.white,
+                      ),
+                    ),
+                    label: "Wallet",
+                    activeIcon: Padding(
+                      padding: EdgeInsets.only(top: 5, bottom: 4),
+                      child: Image(
+                          image: AssetImage(AppImages.walletIcon),
+                          height: 18,
+                          width: 18,
+                          color: ColorConstant.onBoardingBack),
+                    ),
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Padding(
+                      padding: EdgeInsets.only(top: 5, bottom: 4),
+                      child: Image(
+                        image: AssetImage(AppImages.profile),
+                        height: 18,
+                        width: 18,
+                        color: Colors.white,
+                      ),
+                    ),
+                    label: "Profile",
+                    activeIcon: Padding(
+                      padding: EdgeInsets.only(top: 5, bottom: 4),
+                      child: Image(
+                          image: AssetImage(AppImages.profile),
+                          height: 18,
+                          width: 18,
+                          color: ColorConstant.onBoardingBack),
+                    ),
                   ),
                 ],
+              ),
+            ),
           ),
-             ),
-           ),
         ),
       ),
     );
   }
-
 }

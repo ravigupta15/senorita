@@ -1,10 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
-import 'package:flutter/material.dart';
-import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:get/get.dart';
-import 'package:senorita/helper/getText.dart';
 import 'package:senorita/model/user_special_offer_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../api_config/Api_Url.dart';
@@ -36,7 +33,6 @@ class SingleCategoryListController extends GetxController {
   final isLoading = false.obs;
   String token = "";
 
-
   final filterUiChange = "0".obs;
   RxInt selectedFilterType = (0).obs;
 
@@ -52,7 +48,7 @@ class SingleCategoryListController extends GetxController {
 
   ///
   var savedFilterValues;
-  final hasOffer ='2'.obs;
+  final hasOffer = '2'.obs;
   final category = ''.obs;
   final subCategory = ''.obs;
   final rating = ''.obs;
@@ -60,18 +56,15 @@ class SingleCategoryListController extends GetxController {
   final discount = ''.obs;
   final price = ''.obs;
   final distance = ''.obs;
-  clearValues(){
-    hasOffer.value ='2';
+  clearValues() {
+    hasOffer.value = '2';
     subCategory.value = '';
     rating.value = '';
     newArrivals.value = '';
     discount.value = '';
     price.value = '';
     distance.value = '';
-
   }
-
-
 
   @override
   Future<void> onInit() async {
@@ -95,7 +88,6 @@ class SingleCategoryListController extends GetxController {
     super.onInit();
   }
 
-
   allCategoryApiFunction() async {
     page.value = 1;
     // showCircleProgressDialog(Get.context!);
@@ -109,12 +101,12 @@ class SingleCategoryListController extends GetxController {
       'lat': latitude.value.toString(),
       'lng': longitude.value.toString(),
       'category_id': category.value,
-      'distance_val':distance.value,
-      'rating_val':rating.value,
-      'discount':discount.value,
-      'search_val':'',
-      'new_arivals':newArrivals.value,
-      'sub_category_id':subCategory.value
+      'distance_val': distance.value,
+      'rating_val': rating.value,
+      'discount': discount.value,
+      'search_val': '',
+      'new_arivals': newArrivals.value,
+      'sub_category_id': subCategory.value
     });
     print({
       'page_numbar': page.value.toString(),
@@ -122,12 +114,12 @@ class SingleCategoryListController extends GetxController {
       'lat': latitude.value.toString(),
       'lng': longitude.value.toString(),
       'category_id': category.value,
-      'distance_val':distance.value,
-      'discount':discount.value,
-      'rating_val':rating.value,
-      'search_val':'',
-      'new_arivals':newArrivals.value,
-      'sub_category_id':subCategory.value
+      'distance_val': distance.value,
+      'discount': discount.value,
+      'rating_val': rating.value,
+      'search_val': '',
+      'new_arivals': newArrivals.value,
+      'sub_category_id': subCategory.value
     });
     request.headers.addAll(headers);
     var streamedResponse = await request.send();
@@ -142,13 +134,13 @@ class SingleCategoryListController extends GetxController {
       final result = jsonDecode(response.body) as Map<String, dynamic>;
       if (result['success'] == true && result['success'] != null) {
         for (int i = 0; i < result['data'].length; i++) {
-          UserSpecialOfferModel model = UserSpecialOfferModel.fromJson(result['data'][i]);
+          UserSpecialOfferModel model =
+              UserSpecialOfferModel.fromJson(result['data'][i]);
           allCategoryList.add(model);
         }
         count.value = result['total_count'];
       }
-    } else {
-    }
+    } else {}
   }
 
   allCategoryPaginationApiFunction() async {
@@ -168,12 +160,12 @@ class SingleCategoryListController extends GetxController {
             'lat': latitude.value.toString(),
             'lng': longitude.value.toString(),
             'category_id': category.value,
-            'distance_val':distance.value,
-            'discount':discount.value,
-            'rating_val':rating.value,
-            'search_val':'',
-            'new_arivals':newArrivals.value,
-            'sub_category_id':subCategory.value
+            'distance_val': distance.value,
+            'discount': discount.value,
+            'rating_val': rating.value,
+            'search_val': '',
+            'new_arivals': newArrivals.value,
+            'sub_category_id': subCategory.value
           });
           request.headers.addAll(headers);
           var streamedResponse = await request.send();
@@ -184,10 +176,11 @@ class SingleCategoryListController extends GetxController {
             if (result['success'] == true && result['success'] != null) {
               List list = [];
               for (int i = 0; i < result['data'].length; i++) {
-                UserSpecialOfferModel model = UserSpecialOfferModel.fromJson(result['data'][i]);
+                UserSpecialOfferModel model =
+                    UserSpecialOfferModel.fromJson(result['data'][i]);
                 list.add(model);
               }
-              allCategoryList.value = allCategoryList.value+list;
+              allCategoryList.value = allCategoryList.value + list;
               isLoadMoreRunning.value = false;
             }
           }

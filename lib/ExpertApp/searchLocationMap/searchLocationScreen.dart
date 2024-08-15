@@ -92,7 +92,7 @@ class SearchLocationScreen extends GetView<SearchLocationController> {
                                       border: InputBorder.none,
                                       hintStyle: Theme.of(context)
                                           .textTheme
-                                          .headline2
+                                          .headlineMedium
                                           ?.copyWith(
                                             fontSize: 15,
                                             color:
@@ -102,11 +102,11 @@ class SearchLocationScreen extends GetView<SearchLocationController> {
                                     ),
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline2
+                                        .headlineMedium
                                         ?.copyWith(
                                           color: Theme.of(context)
                                               .textTheme
-                                              .bodyText1
+                                              .bodySmall
                                               ?.color,
                                           fontSize: 15,
                                         ),
@@ -134,7 +134,7 @@ class SearchLocationScreen extends GetView<SearchLocationController> {
                                                       TextOverflow.ellipsis,
                                                   style: Theme.of(context)
                                                       .textTheme
-                                                      .headline2
+                                                      .headlineMedium
                                                       ?.copyWith(
                                                         color: Colors.black87,
                                                         fontSize: 20,
@@ -226,10 +226,10 @@ class SearchLocationScreen extends GetView<SearchLocationController> {
                           SizedBox(
                             width: 5,
                           ),
-                          *//*Image.asset(AppImages.location,
+                          */ /*Image.asset(AppImages.location,
                                   color: ColorConstant.onBoardingBack,
                                   height: SizeConfig.heightMultiplier * 3,
-                                  width: SizeConfig.widthMultiplier * 3)),*//*
+                                  width: SizeConfig.widthMultiplier * 3)),*/ /*
                           GestureDetector(
                             behavior: HitTestBehavior.opaque,
                             onTap: () async {
@@ -328,7 +328,7 @@ class SearchLocationScreen extends GetView<SearchLocationController> {
                     )),
               ),
             ),*/
-           /* SizedBox(
+            /* SizedBox(
               height: 2,
             ),
             Container(

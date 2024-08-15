@@ -87,7 +87,7 @@ class SearchEditLocationScreen extends GetView<SearchEditLocationController> {
                                       border: InputBorder.none,
                                       hintStyle: Theme.of(context)
                                           .textTheme
-                                          .headline2
+                                          .headlineMedium
                                           ?.copyWith(
                                             fontSize: 15,
                                             color:
@@ -97,18 +97,18 @@ class SearchEditLocationScreen extends GetView<SearchEditLocationController> {
                                     ),
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline2
+                                        .headlineMedium
                                         ?.copyWith(
                                           color: Theme.of(context)
                                               .textTheme
-                                              .bodyText1
+                                              .headlineMedium
                                               ?.color,
                                           fontSize: 15,
                                         ),
                                   ),
                                   suggestionsCallback: (pattern) async {
                                     return await Get.find<
-                                        SearchEditLocationController>()
+                                            SearchEditLocationController>()
                                         .searchLocation(context, pattern);
                                   },
                                   itemBuilder:
@@ -129,7 +129,7 @@ class SearchEditLocationScreen extends GetView<SearchEditLocationController> {
                                                       TextOverflow.ellipsis,
                                                   style: Theme.of(context)
                                                       .textTheme
-                                                      .headline2
+                                                      .headlineMedium
                                                       ?.copyWith(
                                                         color: Colors.black87,
                                                         fontSize: 20,
@@ -221,10 +221,10 @@ class SearchEditLocationScreen extends GetView<SearchEditLocationController> {
                           SizedBox(
                             width: 5,
                           ),
-                          *//*Image.asset(AppImages.location,
+                          */ /*Image.asset(AppImages.location,
                                   color: ColorConstant.onBoardingBack,
                                   height: SizeConfig.heightMultiplier * 3,
-                                  width: SizeConfig.widthMultiplier * 3)),*//*
+                                  width: SizeConfig.widthMultiplier * 3)),*/ /*
                           GestureDetector(
                             behavior: HitTestBehavior.opaque,
                             onTap: () async {
@@ -323,7 +323,7 @@ class SearchEditLocationScreen extends GetView<SearchEditLocationController> {
                     )),
               ),
             ),*/
-           /* SizedBox(
+            /* SizedBox(
               height: 2,
             ),
             Container(
