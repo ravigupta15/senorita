@@ -97,29 +97,31 @@ class SingleCategoryListController extends GetxController {
 
     request.fields.addAll({
       'page_numbar': page.value.toString(),
-      'has_offer': hasOffer.value,
+      'has_offer': '2',
       'lat': latitude.value.toString(),
       'lng': longitude.value.toString(),
       'category_id': category.value,
+      'include_item_prices': price.value,
+      'sub_category_id': subCategory.value,
+      'new_arivals': newArrivals.value,
       'distance_val': distance.value,
       'rating_val': rating.value,
       'discount': discount.value,
       'search_val': '',
-      'new_arivals': newArrivals.value,
-      'sub_category_id': subCategory.value
     });
     print({
       'page_numbar': page.value.toString(),
-      'has_offer': hasOffer.value,
+      'has_offer': '2',
       'lat': latitude.value.toString(),
       'lng': longitude.value.toString(),
       'category_id': category.value,
-      'distance_val': distance.value,
-      'discount': discount.value,
-      'rating_val': rating.value,
-      'search_val': '',
+      'include_item_prices': price.value,
+      'sub_category_id': subCategory.value,
       'new_arivals': newArrivals.value,
-      'sub_category_id': subCategory.value
+      'distance_val': distance.value,
+      'rating_val': rating.value,
+      'discount': discount.value,
+      'search_val': '',
     });
     request.headers.addAll(headers);
     var streamedResponse = await request.send();
@@ -156,16 +158,17 @@ class SingleCategoryListController extends GetxController {
               http.MultipartRequest('POST', Uri.parse(ApiUrls.getExperts));
           request.fields.addAll({
             'page_numbar': page.value.toString(),
-            'has_offer': hasOffer.value,
+            'has_offer': '2',
             'lat': latitude.value.toString(),
             'lng': longitude.value.toString(),
             'category_id': category.value,
-            'distance_val': distance.value,
-            'discount': discount.value,
-            'rating_val': rating.value,
-            'search_val': '',
+            'include_item_prices': price.value,
+            'sub_category_id': subCategory.value,
             'new_arivals': newArrivals.value,
-            'sub_category_id': subCategory.value
+            'distance_val': distance.value,
+            'rating_val': rating.value,
+            'discount': discount.value,
+            'search_val': '',
           });
           request.headers.addAll(headers);
           var streamedResponse = await request.send();

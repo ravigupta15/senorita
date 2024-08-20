@@ -170,7 +170,13 @@ class FilterScreen extends GetView<FilterController> {
         result: {
           'category': catId,
           'subcat': subCatId,
-          'price': controller.selectedPriceValue.value,
+          'price':
+              controller.selectedPriceValue.value.toLowerCase() == "low to high"
+                  ? "desc"
+                  : controller.selectedPriceValue.value.toLowerCase() ==
+                          "high to low"
+                      ? 'asc'
+                      : "",
           'discount': controller.selectedDiscountValue.value,
           'rating': controller.selectedRating.value == 0.0
               ? ''
@@ -191,7 +197,13 @@ class FilterScreen extends GetView<FilterController> {
         result: {
           'category': controller.selectedCategoryIdBySingleScreen.value,
           'subcat': subCatId,
-          'price': controller.selectedPriceValue.value,
+          'price':
+              controller.selectedPriceValue.value.toLowerCase() == "low to high"
+                  ? "desc"
+                  : controller.selectedPriceValue.value.toLowerCase() ==
+                          "high to low"
+                      ? 'asc'
+                      : "",
           'discount': controller.selectedDiscountValue.value,
           'rating': controller.selectedRating.value == 0.0
               ? ''
@@ -200,8 +212,8 @@ class FilterScreen extends GetView<FilterController> {
               ? controller.currentRangeValues.value.round().toString()
               : "",
           'offer': controller.selectedSort.value == 0 ? '1' : '2',
-          'topRated': controller.selectedSort.value == 1 ? '5' : '',
-          'arrivals': controller.selectedSort.value == 2 ? '1' : ''
+          'topRated': controller.selectedSort.value == 0 ? '5' : '',
+          'arrivals': controller.selectedSort.value == 1 ? '1' : ''
         },
       );
     }
@@ -450,6 +462,47 @@ class FilterScreen extends GetView<FilterController> {
                                       .mergeCategoryModel.value.data![index].id
                                       .toString()
                                 });
+
+                                if (controller.mergeCategoryModel != null &&
+                                    controller.mergeCategoryModel.value.data !=
+                                        null &&
+                                    controller.mergeCategoryModel.value
+                                            .data![index].baseCategoryArray !=
+                                        null &&
+                                    controller.mergeCategoryModel.value
+                                            .isOpenSubCategory.value ==
+                                        index) {
+                                  for (int i = 0;
+                                      i <
+                                          controller
+                                              .mergeCategoryModel
+                                              .value
+                                              .data![index]
+                                              .baseCategoryArray!
+                                              .length;
+                                      i++) {
+                                    controller
+                                        .mergeCategoryModel
+                                        .value
+                                        .data![index]
+                                        .baseCategoryArray![i]
+                                        .isSelectedSubCat
+                                        .value = true;
+                                    controller
+                                        .mergeCategoryModel
+                                        .value
+                                        .data![index]
+                                        .baseCategoryArray![i]
+                                        .selectedSubCategory
+                                        .add(controller
+                                            .mergeCategoryModel
+                                            .value
+                                            .data![index]
+                                            .baseCategoryArray![i]
+                                            .id
+                                            .toString());
+                                  }
+                                }
                               }
                             },
                             child: Row(
@@ -844,7 +897,7 @@ class FilterScreen extends GetView<FilterController> {
             children: [
               headingWidget("Distance"),
               headingWidget(
-                  "${controller.currentRangeValues.value.round().toString()} Km"),
+                  "${controller.currentRangeValues.value == 0.0 && !controller.isChangeDistanceValue.value ? "30" : controller.currentRangeValues.value.round().toString()} Km"),
             ],
           ),
           ScreenSize.height(20),
@@ -855,8 +908,12 @@ class FilterScreen extends GetView<FilterController> {
                 max: 100,
                 min: 0,
                 inactiveColor: ColorConstant.appColor.withOpacity(.5),
-                value: controller.currentRangeValues.value,
+                value: controller.currentRangeValues.value == 0.0 &&
+                        !controller.isChangeDistanceValue.value
+                    ? 30.0
+                    : controller.currentRangeValues.value,
                 onChanged: (val) {
+                  controller.isChangeDistanceValue.value = true;
                   controller.currentRangeValues.value = val;
                 }),
           )
