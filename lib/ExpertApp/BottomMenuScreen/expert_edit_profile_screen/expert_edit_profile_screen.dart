@@ -913,7 +913,7 @@ class ExpertEditProfileScreen extends GetView<ExpertEditProfileController> {
                               })
                           : Align(
                               alignment: Alignment.center,
-                              child: noDataFound("No Categories"),
+                              child: noDataFound(),
                             ),
                     ),
                   ),

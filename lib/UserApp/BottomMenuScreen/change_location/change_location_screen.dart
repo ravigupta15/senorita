@@ -168,7 +168,7 @@ class ChangeLocationScreen extends GetView<ChangeLocationController> {
           ]),
       child: controller.searchController.text.isEmpty
           ? Container(
-              child: noDataFound('No Location Found'),
+              child: noDataFound(),
             )
           : ListView.separated(
               separatorBuilder: (context, sp) {

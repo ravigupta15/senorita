@@ -25,7 +25,7 @@ class SpecialOfferScreen extends GetView<SpecialOfferController> {
                   controller.specialOfferModel.value.offersList != null &&
                   controller.specialOfferModel.value.offersList!.isNotEmpty
               ? specialOfferWidget()
-              : noDataFoundImage(context))),
+              : noDataFound())),
     );
   }
 

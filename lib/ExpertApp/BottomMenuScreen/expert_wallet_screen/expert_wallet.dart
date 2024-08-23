@@ -153,7 +153,7 @@ class ExpertWalletScreen extends GetWidget<ExpertWalletController> {
                         : Container(
                             height: 200,
                             alignment: Alignment.center,
-                            child: noDataFound("No Transcations Available")),
+                            child: noDataFound()),
                   ),
                 ],
               ),

@@ -157,7 +157,7 @@ class Wallet extends GetWidget<WalletController> {
                           : Container(
                               height: 200,
                               alignment: Alignment.center,
-                              child: noDataFound('No Transcations')),
+                              child: noDataFound()),
                     ),
                   ],
                 ),

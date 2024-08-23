@@ -211,7 +211,7 @@ class HomeScreen extends GetView<DashboardController> {
                       : Container(
                           height: 200,
                           alignment: Alignment.center,
-                          child: noDataFound("No Salons Available"),
+                          child: noDataFound(),
                         ),
                 ],
               ),

@@ -165,7 +165,7 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
                                     }),
                               ),
                             )
-                          : noDataFound("No Salons Available")),
+                          : noDataFound()),
                 ),
               ),
               const SizedBox(

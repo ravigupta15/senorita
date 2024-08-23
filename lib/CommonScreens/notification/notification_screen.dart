@@ -41,7 +41,7 @@ class NotificationScreen extends GetView<NotificationController> {
                 itemBuilder: (context, index) {
                   return notificationWidget(index);
                 })
-            : noDataFound("No notifications"),
+            : noDataFound(),
       ),
     );
   }

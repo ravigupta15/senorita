@@ -534,7 +534,7 @@ class AddPriceListScreen extends GetView<PriceListController> {
                             })
                         : Align(
                             alignment: Alignment.center,
-                            child: noDataFound("No Categories Found"),
+                            child: noDataFound(),
                           ),
                   ),
                   Container(
@@ -707,7 +707,7 @@ class AddPriceListScreen extends GetView<PriceListController> {
                             })
                         : Align(
                             alignment: Alignment.center,
-                            child: noDataFound("No SubCategories Found"),
+                            child: noDataFound(),
                           ),
                   ),
                   Container(

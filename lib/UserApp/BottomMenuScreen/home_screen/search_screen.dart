@@ -51,9 +51,9 @@ class SearchScreen extends GetView<SearchSalonController> {
           Expanded(
             child: Obx(
               () => controller.isSearch.value
-                  ? noDataFound("No Salons Available")
+                  ? noDataFound()
                   : controller.searchList.isEmpty && controller.showPrefix.value
-                      ? noDataFound("No Salons Available")
+                      ? noDataFound()
                       : ListView.separated(
                           separatorBuilder: (context, sp) {
                             return const SizedBox(

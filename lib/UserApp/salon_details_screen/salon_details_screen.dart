@@ -7,6 +7,7 @@ import 'package:senorita/helper/custombtn.dart';
 import 'package:senorita/utils/extension.dart';
 import 'package:senorita/utils/screensize.dart';
 import 'package:senorita/utils/time_format.dart';
+import 'package:senorita/widget/no_data_found.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../ScreenRoutes/routes.dart';
 import '../../api_config/Api_Url.dart';
@@ -769,7 +770,7 @@ class SalonDetailScreen extends GetView<SalonDetailController> {
                             child: menuUi(context, index)),
                       );
                     })
-                : noDataFoundImage(context))
+                : noDataFound())
             : controller.selectedTabValue == 2
                 ? Padding(
                     padding: const EdgeInsets.only(left: 0, right: 0),
@@ -966,23 +967,14 @@ class SalonDetailScreen extends GetView<SalonDetailController> {
                               )
                             : Padding(
                                 padding: const EdgeInsets.only(top: 40),
-                                child: Center(
-                                  child: getText(
-                                      lineHeight: 1.6,
-                                      title: "No Reviews",
-                                      size: 14,
-                                      fontFamily: interSemiBold,
-                                      color: ColorConstant.blackColor,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ),
+                                child: noDataFound(title: "No Reviews")),
                         ScreenSize.height(15),
                         writeReviewBtn(context),
                       ],
                     ),
                   )
                 : Obx(() => controller.photosList.isEmpty
-                    ? noDataFoundImage(context)
+                    ? noDataFound()
                     : GridView.builder(
                         padding: EdgeInsets.zero,
                         shrinkWrap: true,

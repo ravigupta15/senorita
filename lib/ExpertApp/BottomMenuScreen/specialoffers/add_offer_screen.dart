@@ -859,7 +859,7 @@ class AddOfferScreen extends GetView<AddOfferController> {
                             })
                         : Align(
                             alignment: Alignment.center,
-                            child: noDataFound("No Offers Available"),
+                            child: noDataFound(),
                           ),
                   ),
                   Container(
@@ -1037,7 +1037,7 @@ class AddOfferScreen extends GetView<AddOfferController> {
                             })
                         : Align(
                             alignment: Alignment.center,
-                            child: noDataFound("No Categories Found"),
+                            child: noDataFound(),
                           ),
                   ),
                   Container(
@@ -1383,7 +1383,7 @@ class AddOfferScreen extends GetView<AddOfferController> {
                           )
                         : Align(
                             alignment: Alignment.center,
-                            child: noDataFound("No Subcategories Found"),
+                            child: noDataFound(),
                           ),
                   ),
                   Container(
@@ -1729,7 +1729,7 @@ class AddOfferScreen extends GetView<AddOfferController> {
                           )
                         : Align(
                             alignment: Alignment.center,
-                            child: noDataFound("No Subcategories Found"),
+                            child: noDataFound(),
                           ),
                   ),
                   Container(
@@ -2075,7 +2075,7 @@ class AddOfferScreen extends GetView<AddOfferController> {
                           )
                         : Align(
                             alignment: Alignment.center,
-                            child: noDataFound("No Subcategories Found"),
+                            child: noDataFound(),
                           ),
                   ),
                   Container(

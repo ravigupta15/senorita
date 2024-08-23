@@ -1123,7 +1123,7 @@ class ExpertRegistrationScreen extends GetView<ExpertRegistrationController> {
                               })
                           : Align(
                               alignment: Alignment.center,
-                              child: noDataFound("No Subcategories Found"),
+                              child: noDataFound(),
                             ),
                     ),
                   ),
