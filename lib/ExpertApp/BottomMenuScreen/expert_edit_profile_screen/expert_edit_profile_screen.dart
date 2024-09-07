@@ -234,7 +234,7 @@ class ExpertEditProfileScreen extends GetView<ExpertEditProfileController> {
             auto: AutovalidateMode.onUserInteraction,
             textInputAction: TextInputAction.next,
             textInputType: TextInputType.number,
-            isReadOnly: true,
+            isReadOnly: false,
             inputFormatters: [
               new LengthLimitingTextInputFormatter(10),
             ],
@@ -261,12 +261,12 @@ class ExpertEditProfileScreen extends GetView<ExpertEditProfileController> {
             textInputAction: TextInputAction.next,
             isReadOnly: true,
             controller: controller.emailController,
-            validator: (value) {
-              if (value == null || (!isValidEmail(value, isRequired: true))) {
-                return "Please enter valid email";
-              }
-              return null;
-            },
+            // validator: (value) {
+            //   if (value == null || (!isValidEmail(value, isRequired: true))) {
+            //     return "Please enter valid email";
+            //   }
+            //   return null;
+            // },
           ),
         ),
         SizedBox(height: 10),
@@ -286,7 +286,7 @@ class ExpertEditProfileScreen extends GetView<ExpertEditProfileController> {
               }*/
             },
             child: Container(
-              padding: EdgeInsets.only(top: 5, bottom: 5),
+              padding: const EdgeInsets.only(top: 5, bottom: 5),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(
@@ -294,39 +294,25 @@ class ExpertEditProfileScreen extends GetView<ExpertEditProfileController> {
                 ),
               ),
               child: Padding(
-                padding:
-                    EdgeInsets.only(left: 10, right: 10, top: 0, bottom: 3),
+                padding: const EdgeInsets.only(
+                    left: 10, right: 10, top: 0, bottom: 3),
                 child: Row(
                   children: [
-                    /*Container(
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 15, top: 10, bottom: 10),
-                        child: getText(
-                            title: controller.addressString.value == ""
-                                ? "Select Location"
-                                : controller.addressString.value,
-                            textAlign: TextAlign.start,
-                            size: 15,
-                            fontFamily: interRegular,
-                            color: ColorConstant.black2,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),*/
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 1.4,
                       child: Text(
                         controller.addressString.value == ""
                             ? "Select Location"
                             : controller.addressString.value,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 13,
                             fontFamily: interRegular,
                             color: ColorConstant.qrViewText,
                             fontWeight: FontWeight.w500),
                       ),
                     ),
-                    Spacer(),
-                    Icon(
+                    const Spacer(),
+                    const Icon(
                         size: 20,
                         color: ColorConstant.blackLight,
                         Icons.my_location)
@@ -336,6 +322,43 @@ class ExpertEditProfileScreen extends GetView<ExpertEditProfileController> {
             ),
           ),
         ),
+        SizedBox(height: 10),
+        Padding(
+          padding: const EdgeInsets.all(3.0),
+          child: CustomTextField(
+            hintText: "",
+            labelText: city,
+            auto: AutovalidateMode.onUserInteraction,
+            textInputAction: TextInputAction.next,
+            isReadOnly: true,
+            controller: controller.cityController,
+            // validator: (value) {
+            //   if (value.isEmpty) {
+            //     return 'Enter your city';
+            //   }
+            //   return null;
+            // },
+          ),
+        ),
+        const SizedBox(height: 10),
+        Padding(
+          padding: const EdgeInsets.all(3.0),
+          child: CustomTextField(
+            hintText: "",
+            isReadOnly: true,
+            labelText: state,
+            auto: AutovalidateMode.onUserInteraction,
+            textInputAction: TextInputAction.next,
+            controller: controller.stateController,
+            // validator: (value) {
+            //   if (value.isEmpty) {
+            //     return 'Enter your state';
+            //   }
+            //   return null;
+            // },
+          ),
+        ),
+
         SizedBox(height: 10),
         //Category
         Obx(

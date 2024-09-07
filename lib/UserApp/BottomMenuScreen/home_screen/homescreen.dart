@@ -407,7 +407,8 @@ class HomeScreen extends GetView<DashboardController> {
                 onTap: () {
                   Get.toNamed(AppRoutes.notificationScreen, parameters: {
                     'userId': controller.profileController.model.value.data!.id
-                        .toString()
+                        .toString(),
+                    'route': 'user'
                   });
                 },
                 child: Center(

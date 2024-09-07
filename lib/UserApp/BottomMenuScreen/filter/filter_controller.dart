@@ -112,9 +112,30 @@ class FilterController extends GetxController {
                   subCatList[m].toString()) {
                 mergeCategoryModel.value.data![i].baseCategoryArray![k]
                     .isSelectedSubCat.value = true;
-                mergeCategoryModel
-                    .value.data![i].baseCategoryArray![k].selectedSubCategory
-                    .add(subCatList[m].toString());
+                for (var category in body['catList']) {
+                  String catName = category['name'];
+                  int catId = int.parse(category['id']);
+                  // Iterate through each subcategory and create the reverted structure
+                  for (var subCat in category['subCat']) {
+                    if (mergeCategoryModel
+                            .value.data![i].baseCategoryArray![k].id
+                            .toString() ==
+                        subCat['id'].toString()) {
+                      mergeCategoryModel.value.data![i].baseCategoryArray![k]
+                          .selectedSubCategory
+                          .add({
+                        "id": subCat['id'],
+                        "name": subCat['name'],
+                        "catName": catName,
+                        "catId": catId
+                      });
+                    }
+                  }
+                }
+
+                // mergeCategoryModel
+                //     .value.data![i].baseCategoryArray![k].selectedSubCategory
+                //     .add(subCatList[m].toString());
               }
             }
           }
@@ -125,15 +146,13 @@ class FilterController extends GetxController {
             : body['price'] == 'asc'
                 ? priceList[1]
                 : '';
-        ;
+
         selectedDiscountValue.value = body['discount'];
         selectedSort.value = body['arrivals'].isNotEmpty
-            ? 2
+            ? 1
             : body['topRated'].isNotEmpty
-                ? 1
-                : body['hasOffer'].isNotEmpty
-                    ? 0
-                    : 10;
+                ? 0
+                : 10;
         selectedRating.value =
             body['rating'].isNotEmpty ? double.parse(body['rating']) : 0.0;
         currentRangeValues.value =

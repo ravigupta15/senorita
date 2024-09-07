@@ -3,7 +3,9 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:senorita/UserApp/BottomMenuScreen/home_screen/shimmer/all_expert_shimmer.dart';
 import 'package:senorita/UserApp/BottomMenuScreen/single_category_list_screen/controller/single_category_list_controller.dart';
+import 'package:senorita/helper/getText.dart';
 import 'package:senorita/utils/screensize.dart';
+import 'package:senorita/utils/stringConstants.dart';
 import 'package:senorita/widget/no_data_found.dart';
 import 'package:senorita/widget/view_salon_widget.dart';
 import '../../../ScreenRoutes/routes.dart';
@@ -26,19 +28,20 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
         onRefresh: () => controller.allCategoryApiFunction(),
         child: NotificationListener<ScrollNotification>(
           onNotification: (scrollNotification) {
-            if (scrollNotification is ScrollStartNotification) {
-            } else if (scrollNotification is ScrollUpdateNotification) {
-            } else if (scrollNotification is ScrollEndNotification) {
-              if (scrollNotification.metrics.pixels >=
-                  scrollNotification.metrics.maxScrollExtent - 40) {
-                controller.allCategoryPaginationApiFunction();
-                // controller.selectedTabBar.value ==0?
-                // productPaginApiFunction():servicePaginApiFunction();
+            if (scrollNotification.metrics.axis == Axis.vertical) {
+              if (scrollNotification is ScrollStartNotification) {
+              } else if (scrollNotification is ScrollUpdateNotification) {
+              } else if (scrollNotification is ScrollEndNotification) {
+                if (scrollNotification.metrics.pixels >=
+                    scrollNotification.metrics.maxScrollExtent - 40) {
+                  controller.allCategoryPaginationApiFunction();
+                }
               }
             }
             return true;
           },
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
@@ -84,7 +87,7 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
                             controller.newArrivals.value =
                                 value['arrivals'].toString();
 
-                            controller.savedFilterValues = {
+                            controller.savedFilterValues.value = {
                               'hasOffer': controller.hasOffer.value,
                               'category': controller.category.value,
                               'subcat': controller.subCategory.value,
@@ -121,6 +124,104 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
                 ),
               ),
               ScreenSize.height(5),
+              Obx(
+                () => SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  padding: const EdgeInsets.only(
+                      left: 15, right: 15, top: 8, bottom: 6),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      controller.selectedCatList.isNotEmpty
+                          ? selectedCategoryWidget()
+                          : Container(),
+                      controller.savedFilterValues.isNotEmpty &&
+                              controller.savedFilterValues
+                                  .containsKey('price') &&
+                              controller.savedFilterValues['price'] != null &&
+                              controller.savedFilterValues['price'].isNotEmpty
+                          ? filtersTypesWidget(
+                              'Price',
+                              controller.savedFilterValues['price'] == 'desc'
+                                  ? '(Low to High)'
+                                  : '(High to Low)', () {
+                              controller.price.value = '';
+                              controller.savedFilterValues['price'] = '';
+                              controller.allCategoryApiFunction();
+                            })
+                          : Container(),
+                      controller.savedFilterValues.isNotEmpty &&
+                              controller.savedFilterValues
+                                  .containsKey('discount') &&
+                              controller.savedFilterValues['discount'] !=
+                                  null &&
+                              controller
+                                  .savedFilterValues['discount'].isNotEmpty
+                          ? filtersTypesWidget(
+                              'Discount', '(${controller.discount.value})', () {
+                              controller.discount.value = '';
+                              controller.savedFilterValues['discount'] = '';
+                              controller.allCategoryApiFunction();
+                            })
+                          : Container(),
+                      controller.savedFilterValues.isNotEmpty &&
+                              controller.savedFilterValues
+                                  .containsKey('topRated') &&
+                              controller.savedFilterValues['topRated'] !=
+                                  null &&
+                              controller
+                                  .savedFilterValues['topRated'].isNotEmpty
+                          ? filtersTypesWidget('Top Rated', '', () {
+                              controller.rating.value = '';
+                              controller.savedFilterValues['topRated'] = '';
+                              controller.allCategoryApiFunction();
+                            })
+                          : Container(),
+                      controller.savedFilterValues.isNotEmpty &&
+                              controller.savedFilterValues
+                                  .containsKey('rating') &&
+                              controller.savedFilterValues['rating'] != null &&
+                              controller.savedFilterValues['rating'].isNotEmpty
+                          ? filtersTypesWidget('Rating',
+                              '(${controller.savedFilterValues['rating']})',
+                              () {
+                              controller.rating.value = '';
+                              controller.savedFilterValues['rating'] = '';
+                              controller.allCategoryApiFunction();
+                            })
+                          : Container(),
+                      controller.savedFilterValues.isNotEmpty &&
+                              controller.savedFilterValues
+                                  .containsKey('distance') &&
+                              controller.savedFilterValues['distance'] !=
+                                  null &&
+                              controller
+                                  .savedFilterValues['distance'].isNotEmpty
+                          ? filtersTypesWidget('Distance',
+                              '(0-${controller.savedFilterValues['distance']})',
+                              () {
+                              controller.distance.value = '';
+                              controller.savedFilterValues['distance'] = '';
+                              controller.allCategoryApiFunction();
+                            })
+                          : Container(),
+                      controller.savedFilterValues.isNotEmpty &&
+                              controller.savedFilterValues
+                                  .containsKey('arrivals') &&
+                              controller.savedFilterValues['arrivals'] !=
+                                  null &&
+                              controller
+                                  .savedFilterValues['arrivals'].isNotEmpty
+                          ? filtersTypesWidget('New Arrivals', '', () {
+                              controller.newArrivals.value = '';
+                              controller.savedFilterValues['arrivals'] = '';
+                              controller.allCategoryApiFunction();
+                            })
+                          : Container(),
+                    ],
+                  ),
+                ),
+              ),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.only(),
@@ -183,6 +284,65 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
                   : Container(),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  selectedCategoryWidget() {
+    print(controller.selectedCatList);
+    return Row(
+      children: List.generate(controller.selectedCatList.length, (i) {
+        return filtersTypesWidget(controller.selectedCatList[i]['name'], '',
+            () {
+          controller.selectedCatList.removeAt(i);
+          controller.subCategory.value = controller.selectedCatList
+              .expand((category) => category['subCat'])
+              .map((subCat) => subCat['id'].toString())
+              .join(', ');
+          controller.category.value = controller.selectedCatList
+              .map((category) => category['id'].toString())
+              .join(', ');
+          controller.savedFilterValues['category'] = controller.category.value;
+          controller.savedFilterValues['subcat'] = controller.subCategory.value;
+          controller.savedFilterValues['catList'] = controller.selectedCatList;
+          controller.allCategoryApiFunction();
+        });
+      }),
+    );
+  }
+
+  filtersTypesWidget(String title, String subTitle, Function() onTap) {
+    return Container(
+      padding: const EdgeInsets.all(8),
+      margin: const EdgeInsets.symmetric(horizontal: 5),
+      decoration: BoxDecoration(
+          color: ColorConstant.white,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: ColorConstant.borderColor)),
+      child: GestureDetector(
+        onTap: onTap,
+        child: Row(
+          children: [
+            getText(
+                title: title,
+                size: 15,
+                fontFamily: interRegular,
+                color: ColorConstant.black3333,
+                fontWeight: FontWeight.w500),
+            ScreenSize.width(5),
+            getText(
+                title: subTitle,
+                size: 11,
+                fontFamily: interRegular,
+                color: ColorConstant.black2,
+                fontWeight: FontWeight.w400),
+            ScreenSize.width(8),
+            const Icon(
+              Icons.close,
+              size: 17,
+            )
+          ],
         ),
       ),
     );

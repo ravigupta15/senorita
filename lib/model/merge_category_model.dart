@@ -16,7 +16,7 @@ class MergeCategoryModel {
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data!.add( Data.fromJson(v));
+        data!.add(Data.fromJson(v));
       });
     }
     baseUrl = json['base_url'];
@@ -24,7 +24,7 @@ class MergeCategoryModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['success'] = success;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
@@ -39,7 +39,7 @@ class Data {
   dynamic id;
   dynamic categoryId;
   dynamic name;
-  dynamic isSelectedCat= false.obs;
+  dynamic isSelectedCat = false.obs;
   // dynamic isShowSubCategory = false.obs;
   dynamic iconImage;
   dynamic createdAt;
@@ -48,12 +48,12 @@ class Data {
 
   Data(
       {this.id,
-        this.categoryId,
-        this.name,
-        this.iconImage,
-        this.createdAt,
-        this.updatedAt,
-        this.baseCategoryArray});
+      this.categoryId,
+      this.name,
+      this.iconImage,
+      this.createdAt,
+      this.updatedAt,
+      this.baseCategoryArray});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -65,13 +65,13 @@ class Data {
     if (json['base_category_array'] != null) {
       baseCategoryArray = <BaseCategoryArray>[];
       json['base_category_array'].forEach((v) {
-        baseCategoryArray!.add( BaseCategoryArray.fromJson(v));
+        baseCategoryArray!.add(BaseCategoryArray.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = id;
     data['category_id'] = categoryId;
     data['name'] = name;
@@ -99,12 +99,12 @@ class BaseCategoryArray {
 
   BaseCategoryArray(
       {this.id,
-        this.categoryId,
-        this.subCategoryId,
-        this.name,
-        this.iconImage,
-        this.createdAt,
-        this.updatedAt});
+      this.categoryId,
+      this.subCategoryId,
+      this.name,
+      this.iconImage,
+      this.createdAt,
+      this.updatedAt});
 
   BaseCategoryArray.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -117,7 +117,7 @@ class BaseCategoryArray {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = id;
     data['category_id'] = categoryId;
     data['sub_category_id'] = subCategoryId;

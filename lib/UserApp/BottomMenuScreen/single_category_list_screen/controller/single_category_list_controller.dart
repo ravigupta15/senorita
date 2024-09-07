@@ -47,7 +47,7 @@ class SingleCategoryListController extends GetxController {
   final longitude = "".obs;
 
   ///
-  var savedFilterValues;
+  var savedFilterValues = {}.obs;
   final hasOffer = '2'.obs;
   final category = ''.obs;
   final subCategory = ''.obs;
@@ -56,6 +56,7 @@ class SingleCategoryListController extends GetxController {
   final discount = ''.obs;
   final price = ''.obs;
   final distance = ''.obs;
+  final selectedCatList = [].obs;
   clearValues() {
     hasOffer.value = '2';
     subCategory.value = '';
@@ -64,6 +65,8 @@ class SingleCategoryListController extends GetxController {
     discount.value = '';
     price.value = '';
     distance.value = '';
+    selectedCatList.clear();
+    savedFilterValues.value = {};
   }
 
   @override

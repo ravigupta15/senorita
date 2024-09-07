@@ -21,17 +21,16 @@ class EditProfileController extends GetxController {
   final emailController = TextEditingController();
   final profileFormKey = GlobalKey<FormState>();
   final isLoading = false.obs;
-  String Id="";
-  String token="";
-  var profileController=Get.find<ProfileController>();
-
+  String Id = "";
+  String token = "";
+  var profileController = Get.find<ProfileController>();
 
   @override
   Future<void> onInit() async {
     SizeConfig().init();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     Id = prefs.getString("id").toString();
-    token=prefs.getString("token").toString();
+    token = prefs.getString("token").toString();
     setValues();
     super.onInit();
   }
@@ -53,19 +52,19 @@ class EditProfileController extends GetxController {
     emailController.text = "";
   }
 
-
-  setValues(){
-    if(profileController.model.value!=null&&profileController.model.value.data!=null){
-      fullNameController.text=profileController.model.value.data!.name??"";
-      numberController.text=profileController.model.value.data!.mobile??"";
-      emailController.text=profileController.model.value.data!.email??'';
+  setValues() {
+    if (profileController.model.value != null &&
+        profileController.model.value.data != null) {
+      fullNameController.text = profileController.model.value.data!.name ?? "";
+      numberController.text = profileController.model.value.data!.mobile ?? "";
+      emailController.text = profileController.model.value.data!.email ?? '';
     }
   }
+
   uploadApiFunction(BuildContext context) async {
+    Utils.hideKeyboard();
     showCircleProgressDialog(context);
-    var headers = {
-      'Authorization': 'Bearer $token'
-    };
+    var headers = {'Authorization': 'Bearer $token'};
     var request = http.MultipartRequest(
         'POST', Uri.parse(ApiUrls.updateUserProfile + "/" + Id));
     request.fields.addAll({
@@ -81,20 +80,14 @@ class EditProfileController extends GetxController {
     Get.back();
     log(response.body);
     if (response.statusCode == 200) {
-      final result = json.decode(response.body) ;
+      final result = json.decode(response.body);
       if (result['success'] == true) {
         // profileController.profileApiFunction();
         Get.back();
         // Get.back();
-
       } else {
         showErrorMessageDialog(context, result["message"].toString());
       }
     }
   }
-
-
-
-
-
 }

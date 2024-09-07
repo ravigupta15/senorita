@@ -1290,7 +1290,8 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
                               .data!
                               .user!
                               .id
-                              .toString()
+                              .toString(),
+                          'route': "expert"
                         });
                       },
                       child: Center(

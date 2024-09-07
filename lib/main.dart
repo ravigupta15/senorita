@@ -48,7 +48,7 @@ class _MyAppState extends State<MyApp> {
     notificationService.initialize();
     return GestureDetector(
       onTap: () {
-        FocusScope.of(context).requestFocus(FocusNode());
+        Utils.hideKeyboard();
       },
       child: GetMaterialApp(
         title: 'Senorita',
