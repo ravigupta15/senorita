@@ -8,15 +8,16 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:senorita/utils/notification_service.dart';
 import 'package:senorita/utils/theme.dart';
 import 'package:senorita/utils/utils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'ScreenRoutes/apppages.dart';
 import 'ScreenRoutes/routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage(backgroundHandler);
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-  FirebaseMessaging.onBackgroundMessage(backgroundHandler);
   await FlutterDownloader.initialize(
       debug:
           true, // optional: set to false to disable printing logs to console (default: true)
@@ -26,6 +27,15 @@ void main() async {
   runApp(const MyApp());
   //DependencyInjection.init();
   configLoading();
+}
+
+getFCMToken() async {
+  FirebaseMessaging.instance.requestPermission();
+  FirebaseMessaging.instance.getAPNSToken();
+  FirebaseMessaging.instance.getToken().then((token) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('fcmToken', token!);
+  });
 }
 
 Future<void> backgroundHandler(RemoteMessage message) async {

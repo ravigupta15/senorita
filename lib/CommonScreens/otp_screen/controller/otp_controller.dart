@@ -16,7 +16,7 @@ import '../../../widget/error_box.dart';
 class OtpController extends GetxController {
   final isLoading = false.obs;
   final otpController = TextEditingController();
-  final otpFormKey = GlobalKey<FormState>();
+  // final otpFormKey = GlobalKey<FormState>();
   final counter = 0.obs;
   Timer? timer;
   String refType = "";
@@ -28,13 +28,15 @@ class OtpController extends GetxController {
   void onInit() async {
     resetValues();
     startTimer();
-    mobileNumber = Get.arguments[1];
-    if (Get.arguments[0] == "login") {
-      refType = "login";
-    } else if (Get.arguments[0] == "update") {
-      refType = "change_mobile";
-    } else {
-      refType = "register";
+    if (Get.arguments != null) {
+      mobileNumber = Get.arguments != null ? Get.arguments[1] : '';
+      if (Get.arguments[0] == "login") {
+        refType = "login";
+      } else if (Get.arguments[0] == "update") {
+        refType = "change_mobile";
+      } else {
+        refType = "register";
+      }
     }
     super.onInit();
   }
@@ -91,37 +93,38 @@ class OtpController extends GetxController {
           resetValues();
           showErrorMessageDialog(context, result["message"].toString());
         }
-      }
-      if (result["success"] == true) {
-        setAuthToken(result['token']);
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString('token', result['token'].toString());
-        prefs.setBool('isLogin', true);
-        if (result["data"]["user_type"].toString() == "2") {
-          prefs.setBool('expertIsLogin', true);
-          prefs.setString('id', result["data"]["id"].toString());
-          prefs.setString(
-              'expert_id', result['data']["expert_details"]["id"].toString());
-          prefs.setString('expert_name', result['data']["name"].toString());
-          prefs.setString(
-              'expert_profile', result['data']["profile_picture"].toString());
-          prefs.setString(
-              'status', result['data']["expert_details"]["status"].toString());
-          prefs.setString('expert_qr_code', result['data']['expert_qr_code']);
-          if (refType == 'change_mobile') {
-            Navigator.pop(context);
-            Navigator.pop(context);
+      } else {
+        if (result["success"] == true) {
+          setAuthToken(result['token']);
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setString('token', result['token'].toString());
+          prefs.setBool('isLogin', true);
+          if (result["data"]["user_type"].toString() == "2") {
+            prefs.setBool('expertIsLogin', true);
+            prefs.setString('id', result["data"]["id"].toString());
+            prefs.setString(
+                'expert_id', result['data']["expert_details"]["id"].toString());
+            prefs.setString('expert_name', result['data']["name"].toString());
+            prefs.setString(
+                'expert_profile', result['data']["profile_picture"].toString());
+            prefs.setString('status',
+                result['data']["expert_details"]["status"].toString());
+            prefs.setString('expert_qr_code', result['data']['expert_qr_code']);
+            if (refType == 'change_mobile') {
+              Navigator.pop(context);
+              Navigator.pop(context);
+            } else {
+              Get.toNamed(AppRoutes.expertDashboardScreen);
+            }
           } else {
-            Get.toNamed(AppRoutes.expertDashboardScreen);
+            prefs.setString('id', result["data"]["id"].toString());
+            prefs.setBool('userIsLogin', true);
+            Get.toNamed(AppRoutes.dashboardScreen);
           }
         } else {
-          prefs.setString('id', result["data"]["id"].toString());
-          prefs.setBool('userIsLogin', true);
-          Get.toNamed(AppRoutes.dashboardScreen);
+          resetValues();
+          showErrorMessageDialog(context, result["message"].toString());
         }
-      } else {
-        resetValues();
-        showErrorMessageDialog(context, result["message"].toString());
       }
     } else {
       print(response.reasonPhrase);
@@ -138,13 +141,11 @@ class OtpController extends GetxController {
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse);
     if (response.statusCode == 200) {
-      otpFormKey.currentState!.reset();
       final result = jsonDecode(response.body) as Map<String, dynamic>;
       if (result["success"] == true) {
         startTimer();
         Navigator.of(context).pop();
         showToast(result["message"].toString());
-        otpFormKey.currentState!.reset();
       } else {
         Navigator.of(context).pop();
         showErrorMessageDialog(context, result["message"].toString());

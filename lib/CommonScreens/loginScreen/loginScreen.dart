@@ -1,4 +1,4 @@
- import 'package:flutter/gestures.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
@@ -14,30 +14,26 @@ import '../../utils/validation.dart';
 import '../../widget/customTextField.dart';
 import 'controller/loginController.dart';
 
-
 class LoginScreen extends GetWidget<LoginController> {
   @override
   Widget build(BuildContext context) {
-
     return WillPopScope(
-      onWillPop: () async
-      {
+      onWillPop: () async {
         SystemNavigator.pop();
         return true;
       },
       child: Scaffold(
-
-       /* appBar: appBar(context, "", () {
+        /* appBar: appBar(context, "", () {
           SystemNavigator.pop();
         }),*/
         body: SingleChildScrollView(
           child: Form(
-           // key: controller.loginFormKey,
+            // key: controller.loginFormKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(
-                    height: MediaQuery.of(context).size.height/2.2,
+                    height: MediaQuery.of(context).size.height / 2.2,
                     width: MediaQuery.of(context).size.width,
                     child: Image.asset(
                       fit: BoxFit.fitWidth,
@@ -61,9 +57,8 @@ class LoginScreen extends GetWidget<LoginController> {
                     color: ColorConstant.loginSubTitle,
                     fontWeight: FontWeight.w500),
                 ScreenSize.height(25),
-
                 Padding(
-                  padding: const EdgeInsets.only(left: 15,right: 15),
+                  padding: const EdgeInsets.only(left: 15, right: 15),
                   child: Column(
                     children: [
                       Padding(
@@ -77,48 +72,47 @@ class LoginScreen extends GetWidget<LoginController> {
                           ],
                           textInputType: TextInputType.phone,
                           textInputAction: TextInputAction.done,
-
                           auto: AutovalidateMode.onUserInteraction,
                           controller: controller.mobileController,
                           validator: (value) {
                             if (value == null ||
                                 value.length != 10 ||
-                                (!isValidPhone(value,
-                                    isRequired: true))) {
+                                (!isValidPhone(value, isRequired: true))) {
                               return loginMobileValidation;
                             }
                             return null;
                           },
                         ),
-
                       ),
                       ScreenSize.height(10),
 
                       Obx(
-                            () => CustomBtnNew(
+                        () => CustomBtnNew(
                             title: loginButton,
                             height: 50,
                             width: double.infinity,
                             rectangleBorder: RoundedRectangleBorder(
-                              side: BorderSide(color: Colors.transparent,width: 1.3),
-                              borderRadius: BorderRadius.circular(10),),
+                              side: BorderSide(
+                                  color: Colors.transparent, width: 1.3),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                             color: ColorConstant.onBoardingBack,
                             isLoading: controller.isLoading.value,
                             onTap: () {
                               controller.selectButton1();
-                              if(controller.mobileController.text.isEmpty || controller.mobileController.text=="")
-                              {
+                              if (controller.mobileController.text.isEmpty ||
+                                  controller.mobileController.text == "") {
                                 showToast(loginMobileToast);
-                              }
-                              else {
+                              } else {
                                 controller.loginApiFunction(context);
                               }
-                            },textColor: ColorConstant.whiteColor),
+                            },
+                            textColor: ColorConstant.whiteColor),
                       ),
                       ScreenSize.height(10),
                       Center(
                         child: Padding(
-                          padding:  const EdgeInsets.only(top: 10),
+                          padding: const EdgeInsets.only(top: 10),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -128,16 +122,17 @@ class LoginScreen extends GetWidget<LoginController> {
                                   fontFamily: interRegular,
                                   color: ColorConstant.lightGray,
                                   fontWeight: FontWeight.w500),
-                              const SizedBox(width: 5,),
+                              const SizedBox(
+                                width: 5,
+                              ),
                               GestureDetector(
                                 behavior: HitTestBehavior.opaque,
-                                onTap: ()
-                                {
+                                onTap: () {
                                   controller.selectButton2();
                                   controller.resetValues();
                                   Get.toNamed(AppRoutes.selectCreateAccount);
                                 },
-                                child: getText(
+                                child: const getText(
                                     title: signUp,
                                     size: 12,
                                     fontFamily: interRegular,
@@ -264,7 +259,7 @@ class LoginScreen extends GetWidget<LoginController> {
                       ),
                     ),),
                 ),*/
-              /*  getText(
+                /*  getText(
                     title: loginTerms,
                     textAlign: TextAlign.center,
                     size: 12,
@@ -272,15 +267,15 @@ class LoginScreen extends GetWidget<LoginController> {
                     color: ColorConstant.lightGray,
                     fontWeight: FontWeight.w400),*/
 
-                Text(loginTerms,
-                style: TextStyle(
-                  decoration: TextDecoration.underline,
-                    fontFamily: interRegular,
-                    fontSize: 12,
-                    color: ColorConstant.lightGray,
-                    fontWeight: FontWeight.w400
-                ),)
-
+                Text(
+                  loginTerms,
+                  style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      fontFamily: interRegular,
+                      fontSize: 12,
+                      color: ColorConstant.lightGray,
+                      fontWeight: FontWeight.w400),
+                )
               ],
             ),
           ),

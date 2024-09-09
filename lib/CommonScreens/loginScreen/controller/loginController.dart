@@ -42,7 +42,6 @@ class LoginController extends GetxController {
     mobileController.text = "";
   }
 
-
   loginApiFunction(BuildContext context) async {
     showCircleProgressDialog(context);
     var request = http.MultipartRequest('POST', Uri.parse(ApiUrls.login));
@@ -55,17 +54,18 @@ class LoginController extends GetxController {
     if (response.statusCode == 200) {
       final result = jsonDecode(response.body) as Map<String, dynamic>;
       if (result["success"] == true) {
-        Get.toNamed(AppRoutes.otpScreen,arguments: ['login', mobileController.text.toString()]);
+        Get.toNamed(AppRoutes.otpScreen,
+            arguments: ['login', mobileController.text.toString()]);
         LoginFormKey.currentState?.reset();
         mobileController.text = "";
         resetValues();
-        checkBoxValue.value=false;
+        checkBoxValue.value = false;
       } else {
         showErrorMessageDialog(context, result["message"].toString());
       }
     } else {
       final result = jsonDecode(response.body) as Map<String, dynamic>;
-    showErrorMessageDialog(context, result["message"].toString());
+      showErrorMessageDialog(context, result["message"].toString());
       print(response.reasonPhrase);
     }
   }

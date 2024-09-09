@@ -259,7 +259,7 @@ class ExpertEditProfileScreen extends GetView<ExpertEditProfileController> {
             labelText: registerEmailAddress,
             auto: AutovalidateMode.onUserInteraction,
             textInputAction: TextInputAction.next,
-            isReadOnly: true,
+            isReadOnly: false,
             controller: controller.emailController,
             // validator: (value) {
             //   if (value == null || (!isValidEmail(value, isRequired: true))) {

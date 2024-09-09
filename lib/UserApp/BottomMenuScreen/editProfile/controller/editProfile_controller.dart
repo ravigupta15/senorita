@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:senorita/CommonScreens/otp_screen/controller/otp_controller.dart';
 import 'package:senorita/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -79,15 +80,33 @@ class EditProfileController extends GetxController {
     var response = await http.Response.fromStream(streamedResponse);
     Get.back();
     log(response.body);
+    final result = json.decode(response.body);
     if (response.statusCode == 200) {
-      final result = json.decode(response.body);
       if (result['success'] == true) {
+        if (result['verify_otp_popup'] != null &&
+            result['verify_otp_popup'].toString() == '1') {
+          Get.toNamed(AppRoutes.otpScreen, arguments: [
+            "update",
+            numberController.text.toString(),
+            profileController.model != null &&
+                    profileController.model.value.data != null
+                ? profileController.model.value.data!.id
+                : ''
+          ])!
+              .then((val) {
+            Get.back();
+          });
+          Get.find<OtpController>().onInit();
+        } else {
+          Get.back();
+        }
         // profileController.profileApiFunction();
-        Get.back();
-        // Get.back();
       } else {
+        print('object');
         showErrorMessageDialog(context, result["message"].toString());
       }
+    } else {
+      showErrorMessageDialog(context, result["message"].toString());
     }
   }
 }

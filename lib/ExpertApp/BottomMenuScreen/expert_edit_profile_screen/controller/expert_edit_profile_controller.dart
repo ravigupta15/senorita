@@ -388,8 +388,8 @@ class ExpertEditProfileController extends GetxController {
             result['data']['id']
           ])!
               .then((val) {
-            // Get.back();
-            // Get.find<ExpertProfileController>().profileApiFunction();
+            Get.back();
+            Get.find<ExpertProfileController>().profileApiFunction();
           });
           Get.find<OtpController>().onInit();
         } else {
